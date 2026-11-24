@@ -73,10 +73,7 @@
   min-width: 0;
   padding: clamp(28px, 4vw, 56px);
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 90% 55% at 50% 108%, color-mix(in srgb, var(--module-eve) 20%, transparent), transparent 70%),
-    radial-gradient(ellipse 80% 45% at 50% -8%, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent 70%),
-    var(--bg-card);
+  background: var(--bg-card);
 }
 
 .auth-split__floor {
@@ -100,18 +97,6 @@
 @keyframes auth-grid-drift {
   from { background-position-y: 0; }
   to { background-position-y: 56px; }
-}
-
-.auth-split__horizon {
-  position: absolute;
-  top: 55%;
-  right: 8%;
-  left: 8%;
-  height: 1px;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
-  opacity: 0.65;
-  filter: blur(0.4px);
 }
 
 .auth-split__brand-row {
@@ -230,8 +215,7 @@
     padding: 20px 20px 18px;
   }
 
-  .auth-split__floor,
-  .auth-split__horizon {
+  .auth-split__floor {
     display: none;
   }
 

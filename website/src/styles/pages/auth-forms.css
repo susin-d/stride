@@ -19,11 +19,7 @@
   align-content: center;
   padding: 48px 20px calc(32px + env(safe-area-inset-bottom));
   overflow-x: clip;
-  background:
-    radial-gradient(ellipse 55% 38% at 50% 0%, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent 70%),
-    radial-gradient(ellipse 40% 32% at 82% 18%, color-mix(in srgb, var(--color-purple) 10%, transparent), transparent 70%),
-    radial-gradient(ellipse 45% 38% at 50% 108%, color-mix(in srgb, var(--module-eve) 10%, transparent), transparent 70%),
-    var(--bg-primary);
+  background: var(--bg-primary);
   color: var(--text-primary);
 }
 

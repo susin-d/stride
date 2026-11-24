@@ -17,7 +17,6 @@ export function AuthShell({ backLabel, onBack, onHome, panel, children }) {
       <div className="auth-split">
         <aside className="auth-split__brand" aria-label="About Stride">
           <span className="auth-split__floor" aria-hidden="true" />
-          <span className="auth-split__horizon" aria-hidden="true" />
           <button type="button" className="auth-split__brand-row" onClick={onHome} aria-label="Stride home">
             <StrideLogo size={22} />
             <span>Stride</span>

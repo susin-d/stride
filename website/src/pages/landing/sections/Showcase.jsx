@@ -45,7 +45,6 @@ export function Showcase({ onNavigate }) {
   return (
     <section id="showcase" ref={outerRef} className="cinema-showcase" aria-labelledby="showcase-title" style={{ height: reduce ? 'auto' : '260vh' }}>
       <div className="cinema-showcase__sticky">
-        <div className="cinema-showcase__bg" aria-hidden="true" />
         <motion.div
           className="cinema-showcase__inner"
           style={reduce ? { '--cinema-scene': scene.color } : { '--cinema-scene': scene.color, scale: dolly }}

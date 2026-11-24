@@ -33,11 +33,6 @@
 /* — Showcase (pinned) — */
 .cinema-showcase { position: relative; border-top: 1px solid var(--cinema-border); border-bottom: 1px solid var(--cinema-border); background: var(--cinema-bg); }
 .cinema-showcase__sticky { position: sticky; top: 56px; min-height: calc(100vh - 56px); display: grid; place-items: center; padding: 28px 24px 32px; overflow: hidden; }
-.cinema-showcase__bg {
-  display: block; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 55% 45% at 50% 30%, color-mix(in srgb, var(--cinema-scene, var(--cinema-primary)) 16%, transparent), transparent 72%);
-  transition: background 300ms ease;
-}
 .cinema-showcase__inner { position: relative; z-index: 1; width: min(1120px, 100%); display: grid; gap: 20px; }
 .cinema-showcase__intro { text-align: center; }
 .cinema-tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
@@ -93,9 +88,7 @@
 .cinema-eve {
   position: relative; overflow: hidden; padding: 64px 24px;
   border-top: 1px solid var(--cinema-border); border-bottom: 1px solid var(--cinema-border);
-  background:
-    radial-gradient(ellipse 55% 40% at 50% 0%, color-mix(in srgb, var(--cinema-eve) 14%, transparent), transparent 72%),
-    var(--cinema-bg);
+  background: var(--cinema-bg);
 }
 .cinema-eve__inner { width: min(1120px, 100%); margin: 0 auto; display: grid; gap: 20px; }
 .cinema-eve__intro { text-align: center; max-width: 760px; margin: 0 auto; }
@@ -143,11 +136,6 @@
   text-align: left; transition: border-color 120ms ease, background 120ms ease;
 }
 .cinema-feat:hover { background: var(--cinema-surface); border-color: var(--cinema-border-strong); }
-.cinema-feat__spot {
-  position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 160ms ease;
-  background: radial-gradient(220px circle at var(--spot-x, 50%) var(--spot-y, 50%), color-mix(in srgb, var(--cinema-feat-color, var(--cinema-primary)) 22%, transparent), transparent 70%);
-}
-.cinema-feat:hover .cinema-feat__spot { opacity: 1; }
 .cinema-feat__icon { position: relative; width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center; color: var(--on-fill); margin-bottom: 12px; background: var(--cinema-feat-color, var(--cinema-primary)); }
 .cinema-feat h3 { position: relative; margin: 0 0 6px; font-size: 13px; font-weight: 800; letter-spacing: -0.01em; color: var(--cinema-text); }
 .cinema-feat p { position: relative; margin: 0; color: var(--cinema-muted); font-size: 12px; line-height: 1.6; }
@@ -206,10 +194,7 @@
 /* — Finale — */
 .cinema-finale {
   position: relative; overflow: hidden; display: grid; place-items: center; padding: 72px 24px 0; text-align: center;
-  background:
-    radial-gradient(ellipse 60% 55% at 50% 110%, color-mix(in srgb, var(--cinema-primary) 20%, transparent), transparent 72%),
-    radial-gradient(ellipse 45% 40% at 50% 110%, color-mix(in srgb, var(--cinema-eve) 14%, transparent), transparent 72%),
-    var(--cinema-bg);
+  background: var(--cinema-bg);
   border-top: 1px solid var(--cinema-border);
 }
 .cinema-finale__rings { position: absolute; left: 50%; bottom: -320px; width: 640px; height: 640px; transform: translateX(-50%); pointer-events: none; }

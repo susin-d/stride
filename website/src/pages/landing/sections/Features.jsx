@@ -4,14 +4,6 @@ import { features } from '../data'
 export function Features() {
   const reduce = useReducedMotion()
 
-  const onSpotlight = (event) => {
-    if (reduce) return
-    const el = event.currentTarget
-    const rect = el.getBoundingClientRect()
-    el.style.setProperty('--spot-x', `${event.clientX - rect.left}px`)
-    el.style.setProperty('--spot-y', `${event.clientY - rect.top}px`)
-  }
-
   return (
     <section id="features" className="cinema-features" aria-labelledby="features-title">
       <div className="cinema-section-head">
@@ -34,9 +26,7 @@ export function Features() {
             viewport={{ once: true, margin: '-60px' }}
             transition={reduce ? {} : { duration: 0.5, delay: (i % 4) * 0.06, ease: [0.16, 1, 0.3, 1] }}
             whileHover={reduce ? undefined : { y: -3 }}
-            onPointerMove={onSpotlight}
           >
-            <span className="cinema-feat__spot" aria-hidden="true" />
             <div className="cinema-feat__icon" aria-hidden="true">
               <f.icon size={18} />
             </div>

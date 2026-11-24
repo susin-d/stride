@@ -25,7 +25,7 @@
   background: var(--color-primary-light);
   color: var(--color-primary);
   border: 1px solid color-mix(in srgb, var(--color-primary) 24%, transparent);
-  box-shadow: 0 2px 10px color-mix(in srgb, var(--color-primary) 18%, transparent);
+
   transition: transform var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
 }
 
@@ -39,7 +39,7 @@
   background: var(--color-accent-light);
   color: var(--color-accent);
   border-color: color-mix(in srgb, var(--color-accent) 24%, transparent);
-  box-shadow: 0 2px 10px color-mix(in srgb, var(--color-accent) 18%, transparent);
+
 }
 
 .metric-card:nth-child(3) > span,
@@ -47,7 +47,7 @@
   background: var(--color-success-light);
   color: var(--color-success);
   border-color: color-mix(in srgb, var(--color-success) 24%, transparent);
-  box-shadow: 0 2px 10px color-mix(in srgb, var(--color-success) 18%, transparent);
+
 }
 
 .metric-card:nth-child(4) > span,
@@ -55,14 +55,14 @@
   background: var(--color-warning-light);
   color: var(--color-warning);
   border-color: color-mix(in srgb, var(--color-warning) 24%, transparent);
-  box-shadow: 0 2px 10px color-mix(in srgb, var(--color-warning) 18%, transparent);
+
 }
 
 .metric-card.metric-purple > span {
   background: var(--color-purple-light);
   color: var(--color-purple);
   border-color: color-mix(in srgb, var(--color-purple) 24%, transparent);
-  box-shadow: 0 2px 10px color-mix(in srgb, var(--color-purple) 18%, transparent);
+
 }
 
 /* Label */

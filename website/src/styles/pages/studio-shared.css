@@ -8,9 +8,7 @@
   gap: var(--space-5, 1.25rem);
   padding: var(--space-6, 1.5rem);
   min-height: 100%;
-  background:
-    radial-gradient(circle at 75% 0%, color-mix(in srgb, var(--module-studio) 10%, transparent), transparent 34rem),
-    var(--bg-primary);
+  background: var(--bg-primary);
 }
 
 .studio-page-builder,

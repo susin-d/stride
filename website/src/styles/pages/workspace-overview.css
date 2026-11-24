@@ -74,7 +74,7 @@
 
 .ws-card.active {
   border-color: var(--module-workspace, var(--color-primary));
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--module-workspace, var(--color-primary)) 20%, transparent);
+  box-shadow: 0 0 0 2px var(--border-heavy);
 }
 
 /* Open button */

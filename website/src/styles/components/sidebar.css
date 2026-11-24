@@ -296,7 +296,7 @@ nav {
 .nav-item.active {
   color: var(--on-fill);
   background: var(--nav-accent);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--nav-accent) 35%, transparent);
+  box-shadow: var(--shadow-sm);
 }
 
 .nav-item.active:hover {

@@ -75,7 +75,7 @@
 
 .studio-prompt-card:focus-within {
   border-color: var(--module-studio, var(--text-primary));
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--module-studio) 10%, transparent), var(--shadow-surface);
+  box-shadow: var(--shadow-surface);
 }
 
 .studio-prompt-card .studio-prompt-input {
@@ -309,11 +309,6 @@
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 0.55rem;
-  }
-
-  .studio-hero-gradient {
-    width: 80vw;
-    height: 70vw;
   }
 }
 

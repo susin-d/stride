@@ -196,7 +196,7 @@
 
 .dashboard-widget:hover {
   border-color: color-mix(in srgb, var(--widget-accent) 35%, var(--border-color));
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--widget-accent) 10%, transparent), var(--shadow-surface);
+  box-shadow: var(--shadow-surface);
 }
 
 .dashboard-widget.is-editing {
@@ -231,7 +231,7 @@
   background: var(--widget-accent);
   color: var(--on-fill);
   border: 1px solid transparent;
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--widget-accent) 35%, transparent);
+  box-shadow: var(--shadow-sm);
   transition: transform var(--transition-fast), background var(--transition-fast);
 }
 

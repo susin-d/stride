@@ -427,7 +427,7 @@ The design system is **strictly monochrome**: no hues, no preset catalog, no col
 
 #### 4.6.1b No Glow / Neon (ADR 0060)
 
-Light emission is **not** a design primitive. Never add a `--glow-*` token, a zero-offset halo `box-shadow` (`0 0 <blur>px`), a blurred radial "bloom" element for ambient light, a `drop-shadow` glow, or a glow `@keyframes`. Express emphasis with `--shadow-*` elevation, solid rings (`box-shadow: 0 0 0 Npx var(--...)`), borders, fill weight, motion, or an icon. Glass `backdrop-filter` blur, surface gradient washes, scrims and the landing scenery/grid are surface texture and stay.
+Light emission is **not** a design primitive. Never add: a `--glow-*` token; an outer `box-shadow` tinted with an accent token (`color-mix(... var(--color-primary|--accent|--module-*|--nav-accent|--widget-accent) ...)`) — use `--shadow-sm|md|lg|surface` (neutral) instead; a zero-offset halo `box-shadow` (`0 0 <blur>px`); a light-wash background (`radial-gradient` of an accent or surface colour fading out, e.g. a "mesh", "bloom" or spotlight); a beam, specular sweep or `drop-shadow` glow; or a glow `@keyframes`. Express emphasis with `--shadow-*` elevation, solid rings (`box-shadow: 0 0 0 Npx var(--border-heavy|--color-primary-light)`), borders, inset accent bars, fill weight, motion, or an icon. Surfaces are flat: a page/section background is one `var(--bg-*)` / `var(--cinema-*)` colour. **Allowed and expected:** glass `backdrop-filter` frosted surfaces, darkening scrims/vignettes and `mask-image` radials, elevation shadows, and the landing grid pattern + SVG scenery.
 
 #### 4.6.2 CSS Architecture
 
