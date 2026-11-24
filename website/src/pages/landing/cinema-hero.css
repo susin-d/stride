@@ -30,21 +30,6 @@
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 38%, black 55%, transparent 82%);
 }
-.cinema-hero__glow {
-  position: absolute; width: 900px; height: 440px; left: 50%; top: 18%; transform: translateX(-50%);
-  background: radial-gradient(ellipse 60% 50% at 50% 50%, color-mix(in srgb, var(--cinema-primary) 26%, transparent), transparent 72%);
-  pointer-events: none; filter: blur(1px);
-}
-.cinema-hero__glow:nth-of-type(3) {
-  display: block;
-  background: radial-gradient(ellipse 50% 45% at 50% 50%, color-mix(in srgb, var(--cinema-eve) 18%, transparent), transparent 72%);
-}
-.cinema-hero__orb {
-  position: absolute; width: 520px; height: 520px; left: 50%; top: 6%;
-  margin-left: -260px; pointer-events: none; opacity: 0.5;
-  background: radial-gradient(circle, color-mix(in srgb, var(--cinema-eve) 22%, transparent), transparent 65%);
-  filter: blur(10px);
-}
 .cinema-hero__inner {
   position: relative; z-index: 1; width: min(1100px, 100%);
   display: grid; gap: 28px; text-align: center; justify-items: center;
@@ -77,15 +62,10 @@
 
 /* centerpiece — sharp window with tilt */
 .cinema-stage { position: relative; width: min(980px, 100%); margin-top: 8px; perspective: 1200px; }
-.cinema-stage__glow {
-  display: block; position: absolute; inset: -24px -32px; z-index: 0; pointer-events: none;
-  background: radial-gradient(ellipse 65% 60% at 50% 45%, color-mix(in srgb, var(--cinema-primary) 20%, transparent), transparent 72%);
-  filter: blur(8px);
-}
 .cinema-frame {
   position: relative; z-index: 1; border-radius: 10px; overflow: hidden;
   background: var(--cinema-bg-2); border: 1px solid var(--cinema-border);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65), var(--cinema-glow-primary);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65);
 }
 .cinema-frame__top {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -150,6 +130,5 @@
       radial-gradient(ellipse 45% 35% at 78% 22%, rgba(0, 0, 0, 0.06), transparent 70%),
       #ffffff;
   }
-  .cinema-frame { box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 0 20px rgba(0, 0, 0, 0.10); }
-  .cinema-stage__glow { background: radial-gradient(ellipse 65% 60% at 50% 45%, rgba(0, 0, 0, 0.10), transparent 72%); }
+  .cinema-frame { box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12); }
 }

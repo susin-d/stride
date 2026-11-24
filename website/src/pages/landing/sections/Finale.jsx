@@ -14,7 +14,6 @@ export function Finale({ onNavigate }) {
         <span />
         <span />
       </div>
-      <div className="cinema-finale__glow" aria-hidden="true" />
       <motion.div
         className="cinema-finale__inner"
         initial={reduce ? false : { opacity: 0, y: 20 }}

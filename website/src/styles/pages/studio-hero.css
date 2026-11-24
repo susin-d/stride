@@ -18,48 +18,6 @@
   border: 0;
 }
 
-/* Ambient glow backdrop */
-.studio-hero-glow {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg,
-    color-mix(in srgb, var(--color-primary) 18%, var(--bg-primary)) 0%,
-    color-mix(in srgb, var(--module-studio) 12%, var(--bg-primary)) 48%,
-    color-mix(in srgb, var(--module-eve) 18%, var(--bg-primary)) 100%);
-  opacity: 0.92;
-  animation: studio-gradient-shift 16s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.studio-hero-gradient {
-  position: absolute;
-  width: 58vw;
-  height: 42vw;
-  max-width: 900px;
-  max-height: 650px;
-  border-radius: 50%;
-  filter: blur(72px);
-  opacity: 0.48;
-  pointer-events: none;
-  z-index: 0;
-  will-change: transform;
-}
-
-.studio-hero-gradient-primary {
-  top: 3%;
-  left: -12%;
-  background: color-mix(in srgb, var(--color-primary) 76%, transparent);
-  animation: studio-gradient-float-primary 18s ease-in-out infinite alternate;
-}
-
-.studio-hero-gradient-secondary {
-  right: -10%;
-  bottom: -12%;
-  background: color-mix(in srgb, var(--module-eve) 72%, transparent);
-  animation: studio-gradient-float-secondary 21s ease-in-out infinite alternate;
-}
-
 .studio-hero-content {
   position: relative;
   z-index: 1;
@@ -162,29 +120,6 @@
   background-size: 72px 72px;
   mask-image: linear-gradient(to bottom, black, transparent 72%);
   opacity: 0.2;
-}
-
-@keyframes studio-gradient-shift {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.08); }
-}
-
-@keyframes studio-gradient-float-primary {
-  0% { transform: translate3d(-3%, -2%, 0) scale(0.95); }
-  100% { transform: translate3d(14%, 12%, 0) scale(1.12); }
-}
-
-@keyframes studio-gradient-float-secondary {
-  0% { transform: translate3d(4%, 2%, 0) scale(0.92); }
-  100% { transform: translate3d(-12%, -10%, 0) scale(1.1); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .studio-hero-glow,
-  .studio-hero-gradient-primary,
-  .studio-hero-gradient-secondary {
-    animation: none;
-  }
 }
 
 .studio-prompt-row {

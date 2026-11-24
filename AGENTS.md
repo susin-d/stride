@@ -425,6 +425,10 @@ The design system is **strictly monochrome**: no hues, no preset catalog, no col
 
 **Do not add themes, presets, or per-user color pickers.** The Themes page offers White/Dark plus geometry controls; adding a color surface requires a new ADR superseding 0057.
 
+#### 4.6.1b No Glow / Neon (ADR 0060)
+
+Light emission is **not** a design primitive. Never add a `--glow-*` token, a zero-offset halo `box-shadow` (`0 0 <blur>px`), a blurred radial "bloom" element for ambient light, a `drop-shadow` glow, or a glow `@keyframes`. Express emphasis with `--shadow-*` elevation, solid rings (`box-shadow: 0 0 0 Npx var(--...)`), borders, fill weight, motion, or an icon. Glass `backdrop-filter` blur, surface gradient washes, scrims and the landing scenery/grid are surface texture and stay.
+
 #### 4.6.2 CSS Architecture
 
 1. **Design Tokens First**: All shared values live in `tokens.css` as CSS custom

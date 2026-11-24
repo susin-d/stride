@@ -71,7 +71,7 @@
 
 .eve-call-status-dot.active {
   background: var(--color-primary);
-  box-shadow: 0 0 0 2px var(--bg-secondary), 0 0 8px var(--color-primary);
+  box-shadow: 0 0 0 2px var(--bg-secondary);
   animation: eve-live-pulse 1.2s infinite ease-in-out;
 }
 
@@ -145,7 +145,7 @@
 
 .eve-call-circle-stage.speaking .eve-call-orb-core {
   animation: eve-orb-speaking-pulse 0.85s ease-in-out infinite alternate;
-  box-shadow: var(--glow-primary), 0 6px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
 }
 
 @keyframes eve-orb-speaking-pulse {
@@ -154,7 +154,7 @@
 }
 
 .eve-call-circle-stage.thinking .eve-call-orb-core {
-  box-shadow: var(--glow-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-light);
 }
 
 .eve-call-spin-icon {

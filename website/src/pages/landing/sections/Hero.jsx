@@ -38,8 +38,6 @@ export function Hero({ onNavigate }) {
 
   const mx = useMotionValue(0)
   const my = useMotionValue(0)
-  const orbX = useSpring(mx, { stiffness: 60, damping: 20 })
-  const orbY = useSpring(my, { stiffness: 60, damping: 20 })
   const tiltX = useSpring(useTransform(my, [-0.5, 0.5], [5, -5]), { stiffness: 120, damping: 16 })
   const tiltY = useSpring(useTransform(mx, [-0.5, 0.5], [-7, 7]), { stiffness: 120, damping: 16 })
 
@@ -58,11 +56,6 @@ export function Hero({ onNavigate }) {
     <section ref={ref} className="cinema-hero" aria-labelledby="hero-title" onPointerMove={onPointerMove}>
       <div className="cinema-hero__grid" aria-hidden="true" />
       <div className="cinema-hero__photo" aria-hidden="true" />
-      <motion.div className="cinema-hero__glow" aria-hidden="true" style={reduce ? undefined : { y: ySlow }} />
-      <motion.div className="cinema-hero__glow" aria-hidden="true" style={reduce ? undefined : { y: yFast, scale: 0.9, left: '72%' }} />
-      {!reduce && (
-        <motion.div className="cinema-hero__orb" aria-hidden="true" style={{ x: orbX, y: orbY }} />
-      )}
       <div className="cinema-hero__vignette" aria-hidden="true" />
       <motion.div className="cinema-scenery" aria-hidden="true" style={reduce ? undefined : { y: yFast }}>
         <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -172,7 +165,6 @@ export function Hero({ onNavigate }) {
           style={reduce ? undefined : { scale: stageScale, rotateX: tiltX, rotateY: tiltY, transformStyle: 'preserve-3d' }}
           aria-hidden="true"
         >
-          <div className="cinema-stage__glow" />
           <div className="cinema-frame">
             <div className="cinema-frame__top">
               <span className="cinema-dots">

@@ -29,7 +29,6 @@
   --cinema-gradient-primary: linear-gradient(135deg, #fafafa 0%, #a3a3a3 100%);
   --cinema-gradient-eve: linear-gradient(135deg, #e5e5e5 0%, #8a8a8a 100%);
   --cinema-gradient-studio: linear-gradient(135deg, #fafafa 0%, #737373 100%);
-  --cinema-glow-primary: 0 0 24px rgba(255, 255, 255, 0.16);
   /* Light ink sits on the pinned light fills of this scope */
   --on-fill: #0a0a0a;
   color: var(--cinema-text);
@@ -58,9 +57,9 @@
   border: 1px solid transparent; font-weight: 650; font-size: 13px; letter-spacing: -0.02em;
   cursor: pointer; transition: background 120ms ease, border-color 120ms ease, color 120ms ease, transform 120ms ease;
 }
-.cinema-cta--primary { background: var(--cinema-primary); color: var(--on-fill); box-shadow: var(--cinema-glow-primary); }
+.cinema-cta--primary { background: var(--cinema-primary); color: var(--on-fill); box-shadow: var(--shadow-sm); }
 .cinema-cta--primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
-.cinema-cta--eve { background: var(--cinema-eve); color: var(--on-fill); box-shadow: var(--cinema-glow-primary); }
+.cinema-cta--eve { background: var(--cinema-eve); color: var(--on-fill); box-shadow: var(--shadow-sm); }
 .cinema-cta--eve:hover { filter: brightness(1.08); transform: translateY(-1px); }
 .cinema-cta--ghost { background: transparent; color: var(--cinema-text); border-color: var(--cinema-border); }
 .cinema-cta--ghost:hover { background: var(--cinema-surface); border-color: var(--cinema-border-strong); }
@@ -83,7 +82,7 @@
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
   border-color: var(--cinema-border);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), var(--cinema-glow-primary);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
 }
 .cinema-nav__brand {
   display: inline-flex; align-items: center; gap: 10px;

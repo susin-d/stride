@@ -88,10 +88,6 @@ export function StudioHero({
 
   return (
     <section className="studio-hero">
-      <div className="studio-hero-glow" aria-hidden="true" />
-      <div className="studio-hero-gradient studio-hero-gradient-primary" aria-hidden="true" />
-      <div className="studio-hero-gradient studio-hero-gradient-secondary" aria-hidden="true" />
-
       <div className="studio-hero-content">
         <h1 className="studio-hero-title">
           What will you build?

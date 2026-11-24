@@ -51,34 +51,6 @@
   mask-image: radial-gradient(ellipse 70% 60% at 50% 38%, black 55%, transparent 82%);
 }
 
-.wave-loader-glow {
-  position: absolute;
-  left: 50%;
-  top: 18%;
-  width: 900px;
-  height: 440px;
-  max-width: 160vw;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.wave-loader-glow--primary {
-  background: radial-gradient(
-    ellipse 60% 50% at 50% 50%,
-    color-mix(in srgb, var(--color-primary) 26%, transparent),
-    transparent 72%
-  );
-}
-
-.wave-loader-glow--eve {
-  top: 24%;
-  background: radial-gradient(
-    ellipse 50% 45% at 50% 50%,
-    color-mix(in srgb, var(--module-eve) 18%, transparent),
-    transparent 72%
-  );
-}
-
 .wave-loader-eq {
   position: relative;
   z-index: 1;
