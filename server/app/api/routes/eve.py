@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-from fastapi import APIRouter, Depends, File, Form, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
 from fastapi.responses import Response, StreamingResponse
 from app.db import SqlClient, get_firestore
 
@@ -31,6 +31,7 @@ from app.schemas.eve_speech import (
     EveTranscribeResponse,
 )
 from app.services.eve import chat_with_eve, delete_workspace_record, restore_workspace_record
+from app.services.eve.chat import EveChatError
 from app.services.speech import (
     SpeechServiceError,
     resolve_stt_engine,
@@ -198,7 +199,7 @@ async def chat(
 ):
     # Offload heavy LLM + tool loop to thread to keep event loop responsive; LLM calls are sync httpx
     messages = [item.model_dump() for item in payload.messages]
-    if payload.provider or payload.model:
+    try:
         result = await asyncio.to_thread(
             chat_with_eve,
             database,
@@ -208,8 +209,8 @@ async def chat(
             payload.provider,
             payload.model,
         )
-    else:
-        result = await asyncio.to_thread(chat_with_eve, database, user, messages, payload.session_id, None, None)
+    except EveChatError as error:
+        raise HTTPException(status_code=error.status_code, detail=str(error), headers=error.headers) from error
     message, changed_resources, actions = result
     return {"message": message, "changed_resources": changed_resources, "actions": actions}
 

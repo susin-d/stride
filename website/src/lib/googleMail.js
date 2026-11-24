@@ -1,26 +1,15 @@
 import { authorizeGmail, clearGmailAuthorization, hasGmailConnection, saveGmailAccountToken } from './firebase'
-import { getStoredAuthToken } from './authApi'
 import { getGmailToken } from './gmailApi'
-import { API_URL as BACKEND_API_URL } from './request'
-import { openOAuthPopup } from '../utils/popupOAuth'
+import { beginOAuthPopupFlow } from '../utils/popupOAuth'
 
 const API = 'https://gmail.googleapis.com/gmail/v1/users/me'
-// NOTE: raw fetch (not apiRequest) is intentional here — the OAuth popup flow
-// needs window.open-friendly authorize handling per AGENTS §4.5-2 (ADR 0046).
-// Direct Google API calls below must also stay on native fetch (external host).
+// Direct Google API calls below must stay on native fetch (external host).
 
-export async function beginGmailOAuth() {
-  const token = getStoredAuthToken()
-  if (!token) throw new Error('Sign in to connect Gmail.')
-  const response = await fetch(`${BACKEND_API_URL}/integrations/gmail/authorize`, {
-    headers: { Authorization: `Bearer ${token}` },
+export function beginGmailOAuth() {
+  return beginOAuthPopupFlow('/integrations/gmail/authorize', 'gmail-oauth', {
+    authMessage: 'Sign in to connect Gmail.',
+    errorMessage: 'Gmail could not be connected.',
   })
-  if (!response.ok) {
-    const failure = await response.json().catch(() => null)
-    throw new Error(failure?.detail || 'Gmail could not be connected.')
-  }
-  const { url } = await response.json()
-  return openOAuthPopup(url, 'gmail-oauth')
 }
 
 function header(message, name) {

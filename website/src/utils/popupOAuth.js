@@ -6,8 +6,28 @@
  * @param {string} title - Title/name for the popup window.
  * @returns {Promise<void>} Resolves when the popup closes or signals success.
  */
+import { getStoredAuthToken } from '../lib/authStorage'
 import { API_URL } from '../lib/request'
 import { OAUTH_EVENT_KEY } from '../lib/storageKeys'
+
+export async function beginOAuthPopupFlow(
+  authorizePath,
+  windowName,
+  { authMessage = 'Sign in to connect this account.', errorMessage = 'OAuth could not be started.' } = {},
+) {
+  const token = getStoredAuthToken()
+  if (!token) throw new Error(authMessage)
+  const response = await fetch(`${API_URL}${authorizePath}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!response.ok) {
+    const failure = await response.json().catch(() => null)
+    throw new Error(failure?.detail || errorMessage)
+  }
+  const { url } = await response.json()
+  return openOAuthPopup(url, windowName)
+}
+
 export function openOAuthPopup(url, title = 'google-oauth-popup') {
   return new Promise((resolve, reject) => {
     const width = 500

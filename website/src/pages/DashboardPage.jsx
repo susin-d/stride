@@ -3,15 +3,10 @@ import "../styles/pages/dashboard-customize.css"
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ResponsiveGridLayout, useContainerWidth } from 'react-grid-layout'
 import {
-  ArrowUpRight,
-  Check,
   ChevronDown,
-  GripHorizontal,
   LayoutGrid,
   Plus,
-  RotateCcw,
   SlidersHorizontal,
-  X,
 } from 'lucide-react'
 import 'react-grid-layout/css/styles.css'
 import {
@@ -25,6 +20,8 @@ import {
   loadDashboardPreferences,
 } from '../dashboard/dashboardConfig'
 import { calendarDateKey } from '../utils/calendarEvents'
+import { RecordList, WidgetCard } from './dashboard/WidgetCard'
+import { DashboardCustomizePanel } from './dashboard/DashboardCustomizePanel'
 
 const formatDate = (value, options = {}) =>
   new Date(value).toLocaleDateString(undefined, {
@@ -41,77 +38,6 @@ const calendarEventDestinations = {
   job: 'jobs',
   'google-calendar': 'calendar',
   'ics-calendar': 'calendar',
-}
-
-function RecordList({ items, empty = 'Nothing to show.', onNavigate, onOpenNotifications }) {
-  if (!items.length) return <p className="dashboard-widget-empty">{empty}</p>
-  return (
-    <div className="dashboard-record-list">
-      {items.map((entry) => {
-        const title = <strong>{entry.title}</strong>
-        const openDestination = () => {
-          if (entry.notification) {
-            onOpenNotifications?.()
-            return
-          }
-          if (entry.destination) onNavigate?.(entry.destination, entry.destinationId)
-        }
-
-        return (
-          <div className="dashboard-record" key={entry.id}>
-            <div>
-              {entry.url ? (
-              <a
-                href={entry.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="dashboard-record-title-link"
-              >
-                {title}
-              </a>
-              ) : entry.destination || entry.notification ? (
-                <button
-                  className="dashboard-record-title-link"
-                  type="button"
-                  onClick={openDestination}
-                >
-                  {title}
-                </button>
-              ) : (
-                title
-              )}
-              {entry.meta && <span>{entry.meta}</span>}
-            </div>
-            {entry.badge && <em>{entry.badge}</em>}
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-function WidgetCard({ definition, editing, children, total, onOpen }) {
-  const Icon = definition.icon
-  return (
-    <article
-      className={`dashboard-widget ${editing ? 'is-editing' : ''}`}
-      data-widget={definition.id}
-      data-module={definition.module || 'work'}
-    >
-      <header className="dashboard-widget-header dashboard-widget-drag-handle">
-        <span className="dashboard-widget-icon"><Icon size={17} /></span>
-        <div>
-          <p>{definition.title}</p>
-          {total != null && <strong>{total}</strong>}
-        </div>
-        {editing && <GripHorizontal className="dashboard-drag-indicator" size={20} />}
-      </header>
-      <div className="dashboard-widget-body">{children}</div>
-      <button className="dashboard-widget-action" type="button" onClick={onOpen}>
-        View details <ArrowUpRight size={15} />
-      </button>
-    </article>
-  )
 }
 
 export function DashboardPage({
@@ -453,40 +379,17 @@ export function DashboardPage({
         )}
       </div>
 
-      {customizeOpen && (
-        <div className="dashboard-panel-backdrop" onMouseDown={() => setCustomizeOpen(false)} role="presentation">
-          <aside className="dashboard-customize-panel" onMouseDown={(event) => event.stopPropagation()}>
-            <header><div><p>Dashboard</p><h2>Customize</h2></div><button className="icon-button" onClick={() => setCustomizeOpen(false)} aria-label="Close customize panel"><X size={19} /></button></header>
-            <section>
-              <h3>Layout editing</h3>
-              <button className={`dashboard-edit-toggle ${editing ? 'active' : ''}`} onClick={() => setEditing((value) => !value)}>
-                <span className="edit-status">
-                  <span className="status-dot" />
-                  {editing ? 'Editing enabled' : 'Editing disabled'}
-                </span>
-                <span className="edit-action">{editing ? 'Done' : 'Edit layout'}</span>
-              </button>
-              <p className="dashboard-help">Drag cards by their headers and resize from the highlighted edges.</p>
-            </section>
-            <section>
-              <h3>Widget visibility</h3>
-              <div className="dashboard-widget-toggles">
-                {dashboardWidgets.map(({ id, title, icon: Icon }) => {
-                  const visible = !hiddenWidgetIds.includes(id)
-                  return <button key={id} onClick={() => toggleWidget(id)} className={visible ? 'visible' : ''}><Icon size={16} /><span>{title}</span><i>{visible && <Check size={14} />}</i></button>
-                })}
-              </div>
-            </section>
-            <section>
-              <h3>Density</h3>
-              <div className="dashboard-density-options">
-                {['compact', 'balanced', 'spacious'].map((option) => <button key={option} className={density === option ? 'active' : ''} onClick={() => setDensity(option)}>{option}</button>)}
-              </div>
-            </section>
-            <button className="dashboard-reset" onClick={resetDashboard}><RotateCcw size={16} /> Reset default layout</button>
-          </aside>
-        </div>
-      )}
+      <DashboardCustomizePanel
+        isOpen={customizeOpen}
+        onClose={() => setCustomizeOpen(false)}
+        editing={editing}
+        onToggleEditing={() => setEditing((value) => !value)}
+        hiddenWidgetIds={hiddenWidgetIds}
+        onToggleWidget={toggleWidget}
+        density={density}
+        onChangeDensity={setDensity}
+        onReset={resetDashboard}
+      />
     </div>
   )
 }

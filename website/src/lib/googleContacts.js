@@ -1,49 +1,29 @@
 import { getStoredAuthToken } from './authApi'
-import { API_URL as BACKEND_API_URL } from './request'
-import { openOAuthPopup } from '../utils/popupOAuth'
+import { apiRequest } from './request'
+import { beginOAuthPopupFlow } from '../utils/popupOAuth'
 
-// NOTE: raw fetch (not apiRequest) is intentional here — the OAuth popup flow
-// needs window.open-friendly authorize handling per AGENTS §4.5-2 (ADR 0046).
-
-export async function beginGoogleContactsOAuth() {
-  const token = getStoredAuthToken()
-  if (!token) throw new Error('Sign in to connect Google Contacts.')
-  const response = await fetch(`${BACKEND_API_URL}/integrations/google-contacts/authorize`, {
-    headers: { Authorization: `Bearer ${token}` },
+export function beginGoogleContactsOAuth() {
+  return beginOAuthPopupFlow('/integrations/google-contacts/authorize', 'google-contacts-oauth', {
+    authMessage: 'Sign in to connect Google Contacts.',
+    errorMessage: 'Google Contacts could not be connected.',
   })
-  if (!response.ok) {
-    const failure = await response.json().catch(() => null)
-    throw new Error(failure?.detail || 'Google Contacts could not be connected.')
-  }
-  const { url } = await response.json()
-  return openOAuthPopup(url, 'google-contacts-oauth')
 }
 
 export async function getGoogleContactsAccounts() {
-  const token = getStoredAuthToken()
-  if (!token) return { accounts: [] }
-  const response = await fetch(`${BACKEND_API_URL}/integrations/google-contacts/accounts`, {
-    headers: { Authorization: `Bearer ${token}` },
-  })
-  if (!response.ok) return { accounts: [] }
-  return response.json()
+  if (!getStoredAuthToken()) return { accounts: [] }
+  try {
+    return await apiRequest('/integrations/google-contacts/accounts', { useCache: false })
+  } catch {
+    return { accounts: [] }
+  }
 }
 
-export async function importGoogleContacts(accountId = null) {
-  const token = getStoredAuthToken()
-  if (!token) throw new Error('Sign in to import Google Contacts.')
-  const url = accountId
-    ? `${BACKEND_API_URL}/integrations/google-contacts/import?account_id=${encodeURIComponent(accountId)}`
-    : `${BACKEND_API_URL}/integrations/google-contacts/import`
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}` },
-  })
-  if (!response.ok) {
-    const failure = await response.json().catch(() => null)
-    throw new Error(failure?.detail || 'Failed to import contacts from Google.')
-  }
-  return response.json()
+export function importGoogleContacts(accountId = null) {
+  if (!getStoredAuthToken()) return Promise.reject(new Error('Sign in to import Google Contacts.'))
+  const path = accountId
+    ? `/integrations/google-contacts/import?account_id=${encodeURIComponent(accountId)}`
+    : '/integrations/google-contacts/import'
+  return apiRequest(path, { method: 'POST', useCache: false })
 }
 
 /**

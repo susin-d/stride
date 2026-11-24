@@ -396,3 +396,50 @@ html:not(.dark-theme) .usage-tooltip {
 .usage-donut-segment.dimmed {
   opacity: 0.35;
 }
+
+.usage-card-title--mb { margin-bottom: 10px; }
+.usage-card-title--mb-lg { margin-bottom: 14px; }
+
+.usage-empty-hint {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.usage-error-hint {
+  color: var(--color-danger);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.usage-trend-wrap,
+.usage-trend-stage {
+  position: relative;
+}
+
+.usage-trend-axis-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.usage-donut-stage {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+}
+
+.usage-tooltip-date {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.usage-tooltip-date--spaced { margin-bottom: 6px; }
+.usage-tooltip-series { font-weight: 600; font-size: 12px; }
+
+.usage-tooltip-total {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}

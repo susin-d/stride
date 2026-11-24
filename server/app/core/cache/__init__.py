@@ -1,0 +1,55 @@
+"""Cache package facade — preserves the public app.core.cache API."""
+
+from app.core.cache.decorator import build_cache_key, cache_invalidate_user_prefix, cached
+from app.core.cache.store import (
+    CACHE_TTL_LONG,
+    CACHE_TTL_MEDIUM,
+    CACHE_TTL_SHORT,
+    _MAX_LOCAL,
+    _get_redis,
+    _local_cache,
+    _time,
+    cache_clear,
+    cache_delete,
+    cache_get,
+    cache_invalidate_prefix,
+    cache_set,
+)
+from app.core.cache.swr import (
+    SnapshotLoaderError,
+    _local_refresh_locks,
+    _refresh_tasks,
+    get_cache_status,
+    get_refresh_status,
+    snapshot_read,
+    snapshot_read_http,
+    stale_cache_get,
+    stale_cache_set,
+)
+
+__all__ = [
+    "CACHE_TTL_LONG",
+    "CACHE_TTL_MEDIUM",
+    "CACHE_TTL_SHORT",
+    "SnapshotLoaderError",
+    "_MAX_LOCAL",
+    "_get_redis",
+    "_local_cache",
+    "_local_refresh_locks",
+    "_refresh_tasks",
+    "_time",
+    "build_cache_key",
+    "cache_clear",
+    "cache_delete",
+    "cache_get",
+    "cache_invalidate_prefix",
+    "cache_invalidate_user_prefix",
+    "cache_set",
+    "cached",
+    "get_cache_status",
+    "get_refresh_status",
+    "snapshot_read",
+    "snapshot_read_http",
+    "stale_cache_get",
+    "stale_cache_set",
+]

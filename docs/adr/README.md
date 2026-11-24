@@ -78,6 +78,7 @@
 | [0064](0064-hard-eve-mention-only-whatsapp-replies.md) | Hard `@eve`-only gate for Eve WhatsApp replies — keywords/aliases cannot authorize outbound AI messages on any path (webhook, send, agent tool) | Accepted | 2026-11-24 |
 | [0065](0065-auto-collapsing-hover-sidebar.md) | Auto-collapsing hover-expandable sidebar rail — fixed-width rail that overlays content, hover-intent timing, pin state | Accepted | 2026-11-24 |
 | [0066](0066-per-file-test-selection.md) | Per-test-file selection in the smart test cache — static import closure per test, guard files invalidate all | Accepted | 2026-11-24 |
+| [0067](0067-codebase-deslop-and-modularization.md) | Codebase deslop & modularization — dead-code removal, backend/frontend/Go package splits, layering fixes | Accepted | 2026-11-24 |
 | [0058](0058-dashboard-overview-aggregate.md) | Dashboard overview aggregate endpoint | Accepted (renumbered from 0053 — duplicate number) | 2026-09-11 |
 
 ## How to add a new ADR
