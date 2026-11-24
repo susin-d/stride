@@ -14,13 +14,15 @@
   transition: padding-left 240ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.app-shell.sidebar-expanded {
+.app-shell.sidebar-expanded,
+.app-shell:has(.sidebar.expanded) {
   padding-left: var(--sidebar-expanded);
 }
 
 @media (max-width: 900px) {
   .app-shell,
-  .app-shell.sidebar-expanded {
+  .app-shell.sidebar-expanded,
+  .app-shell:has(.sidebar.expanded) {
     padding-left: 0;
   }
 }
