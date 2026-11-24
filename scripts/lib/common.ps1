@@ -20,6 +20,24 @@ function Assert-Command {
   }
 }
 
+function Resolve-PythonForServer {
+  # Prefer the project virtualenv (server/.venv) so pytest and app deps resolve,
+  # then fall back to PATH. Returns the executable path, or $null.
+  param([Parameter(Mandatory)][string]$Root)
+  $venv = Join-Path $Root "server/.venv"
+  $candidates = @(
+    (Join-Path $venv "Scripts/python.exe"),
+    (Join-Path $venv "bin/python"),
+    (Join-Path $venv "bin/python3")
+  )
+  foreach ($c in $candidates) {
+    if (Test-Path -LiteralPath $c) { return $c }
+  }
+  $onPath = Get-Command "python" -ErrorAction SilentlyContinue
+  if ($onPath) { return $onPath.Source }
+  return $null
+}
+
 function Get-PackageVersion {
   param([string]$PackageJson = "website/package.json")
   if (-not (Test-Path -LiteralPath $PackageJson)) { throw "package.json not found at $PackageJson" }

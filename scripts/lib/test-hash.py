@@ -197,12 +197,49 @@ def hash_scope(scope: str, root: str = REPO_ROOT) -> str:
     return digest.hexdigest()
 
 
+def _scope_files(scope: str, root: str = REPO_ROOT) -> list[str]:
+    """Every repo-relative file (POSIX) belonging to the scope, minus exclusions."""
+    all_files = _git_files(root)
+    if all_files is None:
+        all_files = _walk_files(root)
+    return sorted(f for f in all_files if _scope_contains(f, SCOPE_INPUTS[scope]))
+
+
+def _read_text(root: str, rel_posix: str) -> str:
+    return _read_canonical(root, rel_posix).decode("utf-8", errors="replace")
+
+
+def affected_json(scope: str, root: str = REPO_ROOT) -> str:
+    """JSON mapping of test file -> dependency SHA, plus the global digest."""
+    import json
+
+    import test_deps
+
+    files = _scope_files(scope, root)
+    describe = test_deps.compute_affected(
+        scope,
+        files,
+        lambda rel: _read_text(root, rel),
+        hash_scope(scope, root),
+    )
+    describe["schema"] = 1
+    describe["scope"] = scope
+    return json.dumps(describe, sort_keys=True)
+
+
 def main(argv: list[str]) -> int:
-    if len(argv) != 2 or argv[1] not in SCOPE_INPUTS:
-        print("usage: test-hash.py <server|website|worker>", file=sys.stderr)
-        return 2
-    print(hash_scope(argv[1]))
-    return 0
+    if len(argv) == 2 and argv[1] in SCOPE_INPUTS:
+        print(hash_scope(argv[1]))
+        return 0
+    if len(argv) == 3 and argv[1] == "affected" and argv[2] in ("server", "website"):
+        print(affected_json(argv[2]))
+        return 0
+    print(
+        "usage: test-hash.py <server|website|worker>\n"
+        "       test-hash.py affected <server|website>",
+        file=sys.stderr,
+    )
+    return 2
 
 
 if __name__ == "__main__":
