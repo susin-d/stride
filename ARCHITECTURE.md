@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — Stride Single Source of Truth
 
-> Companion to `CODEBASE_AUDIT.md` (Phase 1 findings), ADRs `0043–0046` (canonical decisions), and `REFACTOR_REPORT.md` (what changed). `context.md` holds the living snapshot; this file holds the durable rules.
+> Companion to `CODEBASE_AUDIT.md` (archived Phase-1 findings + the refactor it produced) and ADRs `0043–0046` (canonical decisions). `context.md` holds the living snapshot; this file holds the durable rules.
 
 ---
 

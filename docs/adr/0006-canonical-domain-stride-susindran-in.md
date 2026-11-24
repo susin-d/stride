@@ -12,7 +12,7 @@ Accepted
 
 After split deploy (Vercel `website/` + GCP VM `server/postgres/redis/nginx`), the canonical split is `https://stride.susindran.in` (frontend) and `https://api.stride.susindran.in` (backend). Backend already serves `api.stride.susindran.in` in `nginx/conf.d/default.backend.conf` (`server_name api.stride.susindran.in` + 302 `/` → `stride.susindran.in`) and `request.js` warns to set `VITE_API_URL=https://api.stride.susindran.in/api/v1` in Vercel prod.
 
-In production, `server/.env` was still `FRONTEND_URL=https://stride.vercel.app` (from `.env.docker.example:31` and `DEPLOY_GCP_VERCEL.md:45`). All email links (`server/app/services/email.py:132` `send_account_combine_email`, plus `send_verification_email`, `send_password_reset_email`) and OAuth `postMessage` `targetOrigin` (`server/app/api/routes/auth/oauth.py:30,80,157` + `server/app/core/config.py:75`) were therefore generated with the Vercel default host. Screenshot `2026-08-31` shows `https://stride.vercel.app/#combine-account?token=...` flagged as `Dangerous site — phishing` by Chrome Safe Browsing. The shared `*.vercel.app` suffix plus token-in-hash pattern triggered the flag; the custom domain has isolated reputation and avoids this. `*.vercel.app` must remain allowed for preview deploys, but must not be the canonical link host.
+In production, `server/.env` was still `FRONTEND_URL=https://stride.vercel.app` (from `.env.docker.example:31` and the deploy guide, then `DEPLOY_GCP_VERCEL.md:45`, now `docs/DEPLOY.md` §5). All email links (`server/app/services/email.py:132` `send_account_combine_email`, plus `send_verification_email`, `send_password_reset_email`) and OAuth `postMessage` `targetOrigin` (`server/app/api/routes/auth/oauth.py:30,80,157` + `server/app/core/config.py:75`) were therefore generated with the Vercel default host. Screenshot `2026-08-31` shows `https://stride.vercel.app/#combine-account?token=...` flagged as `Dangerous site — phishing` by Chrome Safe Browsing. The shared `*.vercel.app` suffix plus token-in-hash pattern triggered the flag; the custom domain has isolated reputation and avoids this. `*.vercel.app` must remain allowed for preview deploys, but must not be the canonical link host.
 
 ## Decision
 
@@ -20,7 +20,7 @@ Make `stride.susindran.in` the single canonical frontend origin; keep `api.strid
 
 - **Vercel:** Add `vercel.json` `redirects` 308 `stride.vercel.app → stride.susindran.in` (host-conditioned, `permanent:true`) before `rewrites`. Dashboard: add `stride.susindran.in` as Primary domain, keep `*.vercel.app` for previews.
 - **Backend env:** Change `.env.docker.example:31` `FRONTEND_URL` to `https://stride.susindran.in`, comment that `stride.vercel.app` is 308-redirected (see `vercel.json`). Keep `CORS_ORIGINS` with both `susindran.in` + `vercel.app` + `*.vercel.app`.
-- **Docs:** Update `DEPLOY_GCP_VERCEL.md:42-45,63-65,102-112` to reflect canonical `FRONTEND_URL` and new Domains step. Scope: `vercel.json`, `.env.docker.example`, `DEPLOY_GCP_VERCEL.md`.
+- **Docs:** Update the deploy guide (was `DEPLOY_GCP_VERCEL.md:42-45,63-65,102-112`, now `docs/DEPLOY.md` §5–§6) to reflect canonical `FRONTEND_URL` and the new Domains step. Scope: `vercel.json`, `.env.docker.example`, `docs/DEPLOY.md`.
 - **Runtime:** On VM, set `server/.env` `FRONTEND_URL=https://stride.susindran.in` and redeploy server; on Vercel set `VITE_API_URL=https://api.stride.susindran.in/api/v1` and redeploy.
 - **No change:** `nginx/nginx.conf` and `server/app/core/cors.py` already allow both suffixes via regex maps, `server/.env.example:5` already canonical, `request.js` already warns correctly.
 
@@ -43,7 +43,7 @@ Make `stride.susindran.in` the single canonical frontend origin; keep `api.strid
 
 - `vercel.json:8-19` — redirects + rewrites
 - `.env.docker.example:7-9,30-33`
-- `DEPLOY_GCP_VERCEL.md:42-45,63-65,102-112`
+- `docs/DEPLOY.md` §5–§6 (was `DEPLOY_GCP_VERCEL.md:42-45,63-65,102-112`)
 - `server/app/services/email.py:108,120,132`
 - `server/app/api/routes/auth/oauth.py:30,80,157`
 - `server/app/core/config.py:75`

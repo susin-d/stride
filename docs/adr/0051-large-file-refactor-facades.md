@@ -18,7 +18,7 @@ Accepted
 - Completed batch 1 (10 files): `SceneViewport` 586→284 (`viewport/` utils/loaders/actions/loader-hook), `useEveVoice` 551→339 (`eve-voice/` playback/Browser-STT/server-STT), `App.jsx` 538→310 (`app/` publicShell/utils/effects), `EveComposer` 433→274 (`useEveAttachments`/`useEveDictation` + menu removal), `WorkspacePage` 431→293 (`workspace/WorkspaceDialogs`), `Live2DModel` 461→350 (`live2dLoaders`/`live2dFraming`), `VrmModel` 506→400 (`vrmLoaders`/`vrmFraming`/`vrmStage`/`VrmFallback`), `DocumentsPage` 443→390 (canonical `formatFileSize`, `documentConstants`, `useDocumentFilters`), `EveAssistantModal` 462→380 (menu deletion per directive), `EvePage` 471→397 (`useEveViewSync` + menu deletion).
 - Infra in same line: root docs → `docs/`, `updatesApi.js` ADR 0046 exceptions, logging ADR 0050 renumbered, duplicate ADRs resolved.
 - Per user directive (ADR 0049 amendment 2026-09-10): menu-text UI deleted instead of served — preset chips, starter greetings, `/`+`@` autocomplete menus, Studio suggestion cards removed from frontend; `GET /api/v1/prompts`, `schemas/prompts.py`, `lib/promptsApi.js`, UI-list sections of `prompts.py`, and orphaned CSS deleted. `services/prompts.py` stays canonical for backend-consumed prompts only; `website/src` holds zero prompt content (grep-verified).
-- `services/whatsapp.py` (544) stays one class as a deliberate exception: single external-system responsibility per `REFACTOR_REPORT.md`; splitting its cross-called privates would add seams without removing duplication.
+- `services/whatsapp.py` (544) stays one class as a deliberate exception: single external-system responsibility per `CODEBASE_AUDIT.md` Part 2; splitting its cross-called privates would add seams without removing duplication.
 - Follow-up batch 2 (10 files, needs visual QA): `EveVoiceSection:493`, `WhatsAppPage:483`, `DashboardPage:471`, `ThemesPage:458`, `HackathonsPage:449`, `ModelingStudioWorkspace:437`, `Header:433`, `AdvancedSearchModal:431`, `ChatsPage:417`, `ProjectDetailPage:414` (EveAssistantModal + EvePage now under limit after menu deletion + view-sync split).
 
 ## Consequences
@@ -40,4 +40,4 @@ Accepted
 - `website/src/pages/avatar-studio/viewport/`, `website/src/hooks/call/eve-voice/`, `website/src/app/`
 - `website/src/components/eve/avatar/vrm{Loaders,Framing,Stage,Fallback}.js*`, `live2d{Loaders,Framing}.js`
 - `server/app/services/prompts.py` (ADR 0049, backend-only canonical)
-- `REFACTOR_REPORT.md` (deferral rationale + Follow-up 2 removal note), `ARCHITECTURE.md` §5 canonicals
+- `CODEBASE_AUDIT.md` Part 2 (deferral rationale + Follow-up 2 removal note), `ARCHITECTURE.md` §5 canonicals

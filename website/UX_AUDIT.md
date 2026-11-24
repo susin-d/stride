@@ -5,6 +5,11 @@
 **Evidence standard:** Public routes were observed live. Authenticated routes were reviewed through code, state, API, and responsive-style inspection because no audit account or demo bypass exists.  
 **Status:** Baseline audit with remediation status updated after the first implementation pass.
 
+> **Historical (26 July 2026).** Kept as evidence for UX debt. Several findings were
+> addressed by later work (ADRs 0009/0010/0025/0027/0046, and the monochrome design
+> system in ADR 0057); the current UI state lives in `context.md` and `PROJECT_MAP.md`.
+> Read the remediation status below as of its date, not as the present state.
+
 ## 1. Executive summary
 
 Stride is a personal productivity workspace for developers and students. It combines tasks, calendars, coding contests, hackathons, projects, job applications, documents, email, chat, statistics, and external integrations. The core product proposition is consolidation: users should be able to understand and advance their work without moving between many services.

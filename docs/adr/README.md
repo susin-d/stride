@@ -34,32 +34,32 @@
 | [0019](0019-multi-color-redesign-and-module-theming.md) | Multi-color redesign, module accent theming, and monochrome retirement | Superseded by 0057 | 2026-09-06 |
 | [0020](0020-landing-cinematic-module-theming.md) | Landing cinematic module theming — ADR 0019 accents + light variant, full section theming | Superseded by 0057 (palette; structure retained) | 2026-09-06 |
 | [0021](0021-auth-cinematic-centered-card.md) | Auth cinematic centered card — shared AuthShell for login/signup/forgot-password | Superseded by 0025 | 2026-09-06 |
+| [0022](0022-single-source-color-palette.md) | Single-source color palette in tokens.css — var() everywhere, dead legacy landing CSS removed | Accepted (amended by 0057 — monochrome palette) | 2026-09-06 |
+| [0023](0023-crimson-noir-default-dark-theme.md) | Crimson Noir default dark theme + landing planet/mountain SVG scenery | Superseded by 0057 | 2026-09-06 |
+| [0024](0024-landing-bold-experimental-redesign.md) | Landing bold experimental redesign — Code/Create/Evolve arc, rich cinematic motion, CSS split | Superseded by 0057 (palette; redesign retained) | 2026-09-06 |
 | [0025](0025-auth-split-screen-brand-panel.md) | Auth split-screen — minimal brand panel + perspective grid floor, form right, all flows | Accepted | 2026-09-06 |
 | [0026](0026-auth-pinned-landing-theme.md) | Auth pinned to landing Crimson Noir theme in both app themes | Superseded by 0057 (pinned to monochrome ramp) | 2026-09-06 |
 | [0027](0027-app-ia-nav-regroup.md) | App IA regroup — Home/Code/Create/Evolve/Connect/You; Eve tabs, Compete, Studio tabs | Accepted | 2026-09-06 |
 | [0028](0028-crimson-noir-default-and-motion.md) | Crimson Noir default for fresh visitors + CSS page-enter motion language | Superseded by 0057 (palette half) | 2026-09-06 |
 | [0029](0029-shell-mobile-tabbar-ask-eve.md) | Shell: mobile bottom tab bar + sidebar Ask Eve + palette event bridge | Accepted | 2026-09-06 |
-| [0022](0022-single-source-color-palette.md) | Single-source color palette in tokens.css — var() everywhere, dead legacy landing CSS removed | Accepted (amended by 0057 — monochrome palette) | 2026-09-06 |
 | [0030](0030-crimson-primary-light-theme.md) | Crimson primary in light theme — unify with dark/landing, keep Work/Chats indigo | Superseded by 0057 | 2026-09-06 |
 | [0031](0031-home-sidebar-accent-follows-primary.md) | Home sidebar accent follows primary — Dashboard/HOME crimson, Code keeps Work indigo | Superseded by 0057 | 2026-09-06 |
-| [0023](0023-crimson-noir-default-dark-theme.md) | Crimson Noir default dark theme + landing planet/mountain SVG scenery | Superseded by 0057 | 2026-09-06 |
-| [0024](0024-landing-bold-experimental-redesign.md) | Landing bold experimental redesign — Code/Create/Evolve arc, rich cinematic motion, CSS split | Superseded by 0057 (palette; redesign retained) | 2026-09-06 |
 | [0032](0032-eve-desktop-overlay-window.md) | Eve desktop overlay window — transparent Tauri secondary window floating above all apps | Accepted | 2026-09-06 |
-| [0033](0033-avatar-studio-framing-and-pan-zoom.md) | Avatar Studio framing — in-canvas drag-pan, wheel-zoom, dblclick-reset, persisted `userPan`/`userZoom` | Accepted | 2026-09-06 |
-| [0034](0034-avatar-modeling-studio-projects.md) | Avatar modeling studio workspace with versioned scenes and managed binary assets | Accepted | 2026-09-06 |
+| [0033](0033-avatar-studio-framing-and-pan-zoom.md) | Avatar Studio framing — in-canvas drag-pan, wheel-zoom, dblclick-reset, persisted `userPan`/`userZoom` | Removed by 0059 | 2026-09-06 |
+| [0034](0034-avatar-modeling-studio-projects.md) | Avatar modeling studio workspace with versioned scenes and managed binary assets | Removed by 0059 | 2026-09-06 |
 | [0035](0035-studio-product-area-redesign.md) | Unified Studio product-area redesign with real-data presentation metadata | Accepted | 2026-09-06 |
 | [0036](0036-studio-project-uuid-identifiers.md) | UUID identifiers for Studio project routes and full-height detail shell | Accepted | 2026-09-06 |
 | [0037](0037-per-turn-eve-model-selection.md) | Per-turn EVE model selection in the Workspace Agent composer | Accepted | 2026-09-07 |
 | [0038](0038-studio-preview-embedding-policy.md) | Scoped cross-origin embedding policy for signed Studio previews | Accepted | 2026-09-07 |
-| [0039](0039-avatar-studio-editor-state-and-capabilities.md) | Avatar Studio schema v2, normalized formats, animation state, and capability-aware tools | Accepted | 2026-09-07 |
-| [0040](0040-avatar-studio-eve-editor-actions.md) | Validated Eve-to-Avatar-Studio action protocol with frontend confirmation | Accepted | 2026-09-07 |
+| [0039](0039-avatar-studio-editor-state-and-capabilities.md) | Avatar Studio schema v2, normalized formats, animation state, and capability-aware tools | Removed by 0059 | 2026-09-07 |
+| [0040](0040-avatar-studio-eve-editor-actions.md) | Validated Eve-to-Avatar-Studio action protocol with frontend confirmation | Removed by 0059 | 2026-09-07 |
 | [0041](0041-ai-latency-reduction.md) | AI latency reduction & pre-LLM pipeline optimization (async auto-memory, RAG cache, SSE asyncio queue) | Accepted | 2026-09-09 |
 | [0042](0042-whatsapp-chats-pagination-and-background-sync.md) | WhatsApp chats endpoint cursor-based pagination and non-blocking background sync | Accepted | 2026-09-10 |
 | [0043](0043-single-data-access-layer.md) | Single data-access layer: repositories public, db/sql internal | Accepted | 2026-09-10 |
 | [0044](0044-canonical-backend-errors.md) | Canonical backend errors via core/errors | Accepted | 2026-09-10 |
 | [0045](0045-canonical-configuration.md) | Canonical configuration: Settings singleton + one API_URL + storage keys | Accepted | 2026-09-10 |
 | [0046](0046-transport-and-ai-route-ownership.md) | Transport canonicals: apiRequest, shared WS base, updater roles, AI route ownership | Accepted | 2026-09-10 |
-| [0047](0047-avatar-studio-zoom-fix.md) | Avatar Studio unified zoom state & smooth wheel zoom (renumbered from 0034) | Accepted | 2026-09-06 |
+| [0047](0047-avatar-studio-zoom-fix.md) | Avatar Studio unified zoom state & smooth wheel zoom (renumbered from 0034) | Removed by 0059 | 2026-09-06 |
 | [0048](0048-smart-test-cache-skip-on-no-change.md) | Smart test cache: skip suites when content is unchanged | Accepted | 2026-09-10 |
 | [0049](0049-canonical-prompts-file.md) | One canonical prompts file; no prompts in frontend (serving half superseded — menu UI deleted) | Accepted (amended) | 2026-09-10 |
 | [0050](0050-seven-day-file-logging.md) | Seven-day server file logging (rotated app + error logs + request middleware) | Accepted | 2026-09-10 |
@@ -70,6 +70,8 @@
 | [0055](0055-cache-first-read-api-snapshots.md) | Cache-first read API snapshots with stale-while-revalidate refresh | Accepted | 2026-09-11 |
 | [0056](0056-rebrand-starwaves-to-stride.md) | Rebrand Starwaves to Stride across code, storage keys, native IDs and domains | Accepted | 2026-11-24 |
 | [0057](0057-monochrome-white-and-dark-modes.md) | Monochrome design system: only White and Dark modes, every theme preset and color editor removed | Accepted | 2026-11-24 |
+| [0059](0059-remove-avatar-studio.md) | Remove the Avatar Studio modeling workspace — page, /modeling/projects API, avatar_editor_action tool and editor_context channel | Accepted | 2026-11-24 |
+| [0058](0058-dashboard-overview-aggregate.md) | Dashboard overview aggregate endpoint | Accepted (renumbered from 0053 — duplicate number) | 2026-09-11 |
 
 ## How to add a new ADR
 

@@ -1,4 +1,4 @@
-# ADR 0031 — Eve Desktop Overlay Window
+# ADR 0032 — Eve Desktop Overlay Window
 
 **Status:** Accepted  
 **Date:** 2026-09-06  

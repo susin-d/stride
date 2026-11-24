@@ -2,6 +2,13 @@
 
 Historical implementation log extracted from `context.md`. `context.md` now holds the **current snapshot** only; this file preserves the full chronological history for audit.
 
+## 2026-11-24 — Documentation consolidation (docs only)
+- Removed six under-used or stale docs: `website/README.md` (Vite boilerplate), `server/README.md` (Firebase-era setup), `docs/COLORS.md` (superseded by ADR 0057), `docs/DOCKER.md` + `docs/DEPLOY_GCP_VERCEL.md` (merged into `docs/DEPLOY.md`), `REFACTOR_REPORT.md` (folded into `CODEBASE_AUDIT.md` as Part 2). Also removed the gitignored test artifact `server/workspaces/user-1/default/nested/deep/x.md`.
+- `README.md` rewritten for the shipped stack: PostgreSQL + SQLAlchemy 2.0 and `itsdangerous` bearer tokens (not Firebase Auth/Firestore), pytest, Docker/`.env.docker.example`, docs map.
+- Renumbered duplicate ADR `0053-dashboard-overview-aggregate.md` → `0058-*` (it collided with `0053-health-liveness-shared-http-client.md`; both were Accepted and implemented) and added it to the ADR index; fixed ADR 0032's title (it read 0031) and the index's numeric ordering.
+- `PROJECT_MAP.md`: page map rewritten to the real `/app/<page>` router ids, nginx rate limit corrected to 10r/s burst 60, ADR range corrected, duplicated `AGENTS.md` row removed, docs table refreshed.
+- `context.md` trimmed back under 15k (was 15,452); `website/AGENTS.md` mode guidance fixed (White/Dark, Dark default); `CODEBASE_AUDIT.md` and `website/UX_AUDIT.md` marked historical; ADR 0006/0051 file references repointed.
+
 ## 2026-11-24 — Rebrand Starwaves → Stride (ADR 0056)
 - Renamed every tracked occurrence (842 across 255 files): brand text and legal/email copy; `lib/storageKeys.js` keys and window events; Docker container/network/service names, Postgres user/db/password, GHCR image name and the `~/stride` VM deploy path; `stride.log`/`stride-error.log`; native `com.stride.app` (Capacitor/Android) and `app.stride.workspace` (Tauri) IDs plus both OAuth deep-link schemes; canonical `stride.susindran.in` + `api.stride.susindran.in` and `stride.vercel.app` 308 (amends ADR 0006).
 - Paths renamed with `git mv` (history preserved): `website/src/components/StrideLogo.jsx`, `docs/adr/0006-canonical-domain-stride-susindran-in.md`, `website/android/app/src/main/java/com/stride/app/`. Stale `public/*-logo.png` references corrected to the real asset `public/logo.png`.

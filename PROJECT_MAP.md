@@ -9,17 +9,19 @@
 ```text
 stride/
 ├── website/          React 19 + Vite frontend (monochrome design system, White + Dark modes only)
-├── server/           FastAPI Python backend (SQLAlchemy 2.0 + PostgreSQL)
+├── server/           FastAPI Python backend (SQLAlchemy 2.0 + PostgreSQL 16 + pgvector)
 ├── services/         Microservices
 │   └── whatsapp-worker/   Go (WhatsMeow) WhatsApp bridge
-├── nginx/            Reverse proxy config
+├── nginx/            Reverse proxy config (10r/s burst 60, Gzip, 20MB cap)
 ├── sql/              Canonical DB schema + migrations + indexes
-├── docs/adr/         Architecture Decision Records (0001, _template, README)
+├── scripts/          Build (build-*) + test (test-smart) scripts
+├── docs/             Guides: BUILD.md, DEPLOY.md, SPEECH_PROVIDERS.md
+│   └── adr/          Architecture Decision Records (0001–0058 + _template + README)
 ├── AGENTS.md         Permanent agent rules (no sub-agents, context.md, ADRs)
 ├── ARCHITECTURE.md   Durable architecture: layering, truth, ownership, canonicals
-├── CODEBASE_AUDIT.md Phase 1 single-source-of-truth audit (duplicates, debt, order)
-├── REFACTOR_REPORT.md What the 0043–0046 refactor changed + remaining debt
-├── AGENTS.md         Permanent agent rules (no sub-agents, context.md, ADRs)
+├── CODEBASE_AUDIT.md Archived Phase-1 audit + the 0043–0046 refactor outcome
+├── README.md         Human onboarding: stack, local setup, verification
+├── SECURITY.md       Hardening history, required prod env, scan commands
 ├── context.md        Living project snapshot (current state only)
 ├── CHANGELOG.md      History log (moved from context.md)
 ├── PROJECT_MAP.md    This file — agent fast-path index
@@ -56,32 +58,37 @@ stride/
 
 ### Page Map
 
+Routes are `/app/<page>` (router `hooks/useRouter.js`, page ids in `appPages.jsx`); detail routes carry an id segment.
+
 | Route | Page | Notes |
 |-------|------|-------|
-| `/` | Dashboard | Grid layout via dashboardConfig |
-| `/projects` | ProjectsPage | → `projects/` package |
-| `/projects/:id` | ProjectDetail | Lifecycle phases |
-| `/jobs` | JobsPage | Application timeline chart |
-| `/hackathons` | HackathonsPage | Sources + manual entry |
-| `/documents` | DocumentsPage | Monaco editor |
-| `/todos` | TodoPage | Tasks with checkboxes |
-| `/workspace` | WorkspacePage | Code IDE + Eve Agent panel + Browser |
-| `/studio` | StudioProjectsPage | Hero prompt → builder |
-| `/studio-apps` | StudioAppsPage | In-progress + finished apps |
-| `/studio/:id` | StudioBuilderPage | Eve builder IDE |
-| `/studio-templates` | StudioTemplatesPage | Curated templates |
-| `/eve` | EvePage | AI chat + memory + voice + schedules |
-| `/calls` | CallsPage | WebRTC + Twilio PSTN |
-| `/whatsapp` | WhatsApp | Chat list + conversation |
-| `/mails` | MailsPage | Gmail integration |
-| `/calendar` | CalendarPage | Google Calendar |
-| `/contacts` | ContactsPage | → `contacts/` package |
-| `/chats` | ChatsPage | Chat interface |
-| `/competitive-coding` | CompetitiveCoding | Contests + profile |
-| `/stats` | StatsPage | Coding stats |
-| `/settings` | SettingsPage | → `settings/` sections |
-| `/themes` | ThemesPage | White/Dark mode + geometry controls |
-| `/profile` | ProfilePage | User profile |
+| `/` | LandingPage | Public cinematic landing (`.cinema` pinned scope) |
+| `/login` | AuthPage | Login / signup / forgot password |
+| `/onboarding` | OnboardingPage | First-run setup |
+| `/privacy`, `/terms` | Legal pages | Public |
+| `/app/dashboard` | DashboardPage | Grid layout via `dashboardConfig`; one `dashboard-overview` aggregate call |
+| `/app/projects`, `/app/projects/:id` | ProjectsPage → ProjectDetailPage | Lifecycle phases |
+| `/app/jobs` | JobsPage | Application timeline chart |
+| `/app/hackathons`, `/app/hackathons/:id` | HackathonsPage → HackathonDetailPage | Sources + manual entry |
+| `/app/documents`, `/app/documents/:id` | DocumentsPage → DocumentOpenerPage | Monaco editor |
+| `/app/todo` | TodoPage | Tasks with checkboxes |
+| `/app/workspace` | WorkspacePage | Code IDE + Eve Agent panel + Browser |
+| `/app/studio`, `/app/studio/:id` | StudioProjectsPage → StudioBuilderPage | Hero prompt → builder; apps/templates siblings |
+| `/app/studio-apps`, `/app/studio-templates` | StudioAppsPage, StudioTemplatesPage | Gallery + curated templates |
+| `/app/eve` (+ `/sessions`, `/memory`, `/call`, `/schedules`) | EvePage | Chat, sessions, memory, voice, schedules |
+| `/app/compete` | CompetePage | Contests + coding stats (`stats`/`competitive-coding` resolve to its tabs) |
+| `/app/avatar` | AvatarPage | Avatar Studio (lazy chunk) |
+| `/app/calls` | CallsPage | WebRTC + Twilio PSTN |
+| `/app/whatsapp` | WhatsAppPage | Chat list + conversation |
+| `/app/mails` | MailsPage | Gmail integration |
+| `/app/chats` | ChatsPage | Team chats |
+| `/app/contacts` | ContactsPage | → `contacts/` package |
+| `/app/calendar` | CalendarPage | Google Calendar + ICS imports |
+| `/app/usage` | UsagePage | AI usage summary + logs |
+| `/app/setting` | SettingPage | → `settings/` sections |
+| `/app/themes` | ThemesPage | White/Dark mode + geometry controls |
+| `/app/profile` | ProfilePage | User profile |
+| `/app/custom/:slug` | CustomPage | User-defined pages (`custom-<slug>` id) |
 
 ### API Clients (`src/lib/`)
 
@@ -237,7 +244,7 @@ Key tables: `users`, `projects`, `jobs`, `todos`, `documents`, `contacts`, `call
 | Component | Details |
 |-----------|---------|
 | `docker-compose.yml` | pgvector (128M), Redis (96M), server (512M), workspace-data, whatsapp-data |
-| `nginx/` | Reverse proxy: 5r/s rate limit, Gzip, 20MB cap, security headers |
+| `nginx/` | Reverse proxy: 10r/s burst 60, Gzip, 20MB cap, security headers |
 | `website/Dockerfile` | Multi-stage Node.js build + Nginx SPA |
 | `server/Dockerfile` | Python 3.12-slim + Uvicorn |
 | `vercel.json` | SPA rewrites `((?!api/).*)` + cron `*/15 * * * *` → `/api/v1/cron/execute-schedules` |
@@ -275,10 +282,12 @@ curl -i http://localhost/health
 
 | Path | Purpose |
 |------|---------|
+| `docs/BUILD.md` | Android APK/AAB, desktop MSI/NSIS, and OTA bundle builds |
+| `docs/DEPLOY.md` | Docker stack, GCP VM, Vercel, TLS, and deploy troubleshooting |
+| `docs/SPEECH_PROVIDERS.md` | STT/TTS provider comparison behind EVE voice |
 | `docs/adr/README.md` | ADR index + rules (numbering, lifecycle, commit gate) |
 | `docs/adr/_template.md` | ADR template (Status, Context, Decision, Consequences, Alternatives) |
-| `docs/adr/0001-*.md` | ADR 0001 — No sub-agents, context.md first, ADRs required |
-| `docs/adr/0043-*.md` → `0046-*.md` | Single-truth canonicals: data-access layer, backend errors, configuration, transport/AI-route ownership |
+| `docs/adr/0001`–`0058` | Decision records. Canonicals: 0043–0046; monochrome design system: 0057 |
 
 ADRs: `docs/adr/NNNN-kebab-case-title.md` (zero-padded, sequential). Create via `_template.md`; commit with code; update `context.md` `Last updated`.
 

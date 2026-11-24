@@ -1,10 +1,10 @@
-# ADR 0053 — Dashboard overview aggregate endpoint
+# ADR 0058 — Dashboard overview aggregate endpoint
 
 ## Status
 
 Accepted
 
-- Date: 2026-09-11
+- Date: 2026-09-11 (renumbered from 0053 on 2026-11-24 — the number collided with `0053-health-liveness-shared-http-client.md`)
 - Deciders: @stride
 - Tags: `backend`, `performance`, `workspace`, `dashboard`
 
