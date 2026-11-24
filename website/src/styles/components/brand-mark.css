@@ -1,0 +1,35 @@
+/* Stride brand mark — brushstroke "S".
+   The raster master (public/logo-mark.png) paints the glyph through a CSS mask in
+   the surface's ink: #0a0a0a in White mode, #fafafa in Dark mode and inside the
+   pinned dark scopes (.cinema, .auth-cinematic). The ink is a TV
+   (--stride-mark-tv), registered with @property so it re-resolves inside every
+   brand slot instead of freezing at the first computed value. */
+@property --stride-mark-tv {
+  syntax: '*';
+  inherits: true;
+  initial-value: currentcolor;
+}
+
+.stride-logo-icon {
+  --stride-mark-tv: var(--text-primary, var(--cinema-text));
+  --stride-mark-mask: url('/logo-mark.png');
+  display: block;
+  flex: 0 0 auto;
+  background-color: var(--stride-mark-tv);
+  -webkit-mask-image: var(--stride-mark-mask);
+  mask-image: var(--stride-mark-mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Ink for a --color-primary fill (the theme preview card) */
+.stride-logo-icon--on-fill {
+  --stride-mark-tv: var(--on-fill);
+}

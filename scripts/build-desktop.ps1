@@ -5,7 +5,7 @@
 .DESCRIPTION
   1. Checks prereqs (Node, npm, Rust, cargo, WebView2 indirectly).
   2. Injects VITE_API_URL from env file (default website/.env.prod else website/.env).
-  3. Optionally generates Tauri icons from public/logo.png.
+  3. Optionally generates Tauri icons from website/assets/icon.png.
   4. Runs vite build (unless -SkipWebBuild) then `tauri build` (--debug if requested).
   5. Validates Tauri signing key for release (TAURI_SIGNING_PRIVATE_KEY env).
   6. Collects bundle artifacts + .sig + latest.json.
@@ -80,10 +80,10 @@ if ($viteUrl) { $env:VITE_API_URL = $viteUrl }
 
 # --- Icons ---
 if (-not (Test-Path -LiteralPath "website/src-tauri/icons/icon.png") -or -not (Test-Path -LiteralPath "website/src-tauri/icons/icon.ico")) {
-  Write-Step "Generating Tauri icons from public/logo.png"
+  Write-Step "Generating Tauri icons from website/assets/icon.png"
   try {
     Push-Location -LiteralPath "website"
-    & npx tauri icon public/logo.png 2>&1 | Out-String | Write-Host
+    & npx tauri icon assets/icon.png 2>&1 | Out-String | Write-Host
     Pop-Location
   } catch { Write-Warn "Icon generation failed: $_ — using existing icons" }
 }

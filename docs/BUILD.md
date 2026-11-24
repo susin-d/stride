@@ -80,7 +80,7 @@ $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = "optionalIfEncrypted"
 
 - `tauri.conf.json` `bundle.createUpdaterArtifacts=v1Compatible` emits `latest.json` with sigs.
 - If `TAURI_SIGNING_PRIVATE_KEY` missing → build still succeeds but updater disabled (warn).
-- Icons auto-generated from `public/logo.png` via `npx tauri icon` if `src-tauri/icons/icon.png` missing.
+- Icons auto-generated from `website/assets/icon.png` (1024 px white tile, ADR 0061) via `npx tauri icon` if `src-tauri/icons/icon.png` missing. Android launchers regenerate with `npx capacitor-assets generate --android`.
 - `Bundler` `msi|nsis|both` (default `both`).
 
 **Bash:**

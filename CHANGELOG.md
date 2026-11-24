@@ -2,6 +2,12 @@
 
 Historical implementation log extracted from `context.md`. `context.md` now holds the **current snapshot** only; this file preserves the full chronological history for audit.
 
+## 2026-11-24 — Brushstroke "S" brand mark (ADR 0061)
+- Replaced the red "Stride" wordmark with the supplied brushstroke "S". `public/logo-mark.png` (512 px, ink + alpha) is the single master; `components/StrideLogo.jsx` now renders a `role="img"` span painted by `styles/components/brand-mark.css` via `mask-image` + `--stride-mark-tv` (`@property`, so the ink re-resolves per surface: `#0a0a0a` White mode, `#fafafa` Dark mode and the pinned `.cinema`/`.auth-cinematic` scopes). The old `<img>` styling moved out of `header-topbar.css`.
+- Landing `Nav`/`Finale` footer and the Themes preview use `StrideLogo` (the preview passes `--stride-mark-tv: var(--on-fill)`); the boxed `.cinema-nav__mark` styling is gone, and the decorative Onboarding mark is `aria-hidden`.
+- App icons rebuilt as a 1024 px white tile from `website/assets/icon.png`: `public/logo.png`, `favicon.ico` (16/32/48), `apple-touch-icon.png`, `icons/icon-192|512.png`, edge-to-edge `icons/maskable-512.png` + manifest maskable entry, `index.html` favicon/apple links, and the WhatsApp notification icon (`/icons/icon-192.png`).
+- Native: Tauri icons regenerated with `tauri icon website/assets/icon.png` (desktop, Windows store, iOS, Android), Android launchers with `capacitor-assets generate --android` (the tool's cosmetic `AndroidManifest.xml` reformat was reverted). `docs/BUILD.md` and `scripts/build-desktop.ps1` now point at `website/assets/icon.png`; `server/make_ico.py` was deleted because it wrote the upload back over the derived asset.
+
 ## 2026-11-24 — Documentation consolidation (docs only)
 - Removed six under-used or stale docs: `website/README.md` (Vite boilerplate), `server/README.md` (Firebase-era setup), `docs/COLORS.md` (superseded by ADR 0057), `docs/DOCKER.md` + `docs/DEPLOY_GCP_VERCEL.md` (merged into `docs/DEPLOY.md`), `REFACTOR_REPORT.md` (folded into `CODEBASE_AUDIT.md` as Part 2). Also removed the gitignored test artifact `server/workspaces/user-1/default/nested/deep/x.md`.
 - `README.md` rewritten for the shipped stack: PostgreSQL + SQLAlchemy 2.0 and `itsdangerous` bearer tokens (not Firebase Auth/Firestore), pytest, Docker/`.env.docker.example`, docs map.

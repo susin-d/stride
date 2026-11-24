@@ -72,6 +72,7 @@
 | [0057](0057-monochrome-white-and-dark-modes.md) | Monochrome design system: only White and Dark modes, every theme preset and color editor removed | Accepted | 2026-11-24 |
 | [0059](0059-remove-avatar-studio.md) | Remove the Avatar Studio modeling workspace — page, /modeling/projects API, avatar_editor_action tool and editor_context channel | Accepted | 2026-11-24 |
 | [0060](0060-remove-neon-glow-layer.md) | Remove the neon glow layer — glow tokens, halo shadows and ambient bloom elements; elevation + solid rings instead | Accepted | 2026-11-24 |
+| [0061](0061-brushstroke-brand-mark-mask.md) | Brushstroke "S" brand mark — one transparent master masked in `currentColor`, white-tile app icons | Accepted | 2026-11-24 |
 | [0058](0058-dashboard-overview-aggregate.md) | Dashboard overview aggregate endpoint | Accepted (renumbered from 0053 — duplicate number) | 2026-09-11 |
 
 ## How to add a new ADR

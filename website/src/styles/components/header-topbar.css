@@ -120,17 +120,7 @@
   }
 }
 
-.stride-logo-icon {
-  display: block;
-  flex: 0 0 auto;
-  border-radius: var(--radius-sm);
-  border: none !important;
-  box-shadow: none !important;
-  object-fit: cover;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-user-drag: none;
-}
+/* Brand mark styling lives in styles/components/brand-mark.css */
 
 .brand-mark {
   display: grid;

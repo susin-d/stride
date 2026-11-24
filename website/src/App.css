@@ -6,6 +6,7 @@
 @import './styles/responsive.css';
 
 /* Component Styles */
+@import './styles/components/brand-mark.css';
 @import './styles/components/header-topbar.css';
 @import './styles/components/header-eve-shell.css';
 @import './styles/components/header-eve-messages.css';

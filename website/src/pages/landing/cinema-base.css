@@ -90,7 +90,7 @@
   background: none; border: 0; cursor: pointer; min-height: 44px; padding: 0 2px; flex-shrink: 0;
 }
 .cinema-nav__brand:focus-visible, .cinema-nav__links a:focus-visible { outline: 1.5px solid var(--cinema-focus); outline-offset: 2px; }
-.cinema-nav__mark { width: 30px; height: 30px; border-radius: 8px; object-fit: cover; display: block; border: 1px solid var(--cinema-border); }
+.cinema-nav__mark { width: 30px; height: 30px; display: block; color: var(--cinema-text); }
 .cinema-nav__links {
   position: absolute; left: 50%; transform: translateX(-50%);
   display: flex; align-items: center; gap: 2px;

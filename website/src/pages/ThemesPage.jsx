@@ -6,7 +6,6 @@ import {
   Download,
   Upload,
   RotateCcw,
-  Palette,
   Sun,
   Moon,
   CheckCircle2,
@@ -20,6 +19,7 @@ import {
   Zap,
 } from 'lucide-react'
 import { SectionHeading } from '../components/ui'
+import { StrideLogo } from '../components/StrideLogo'
 import {
   useThemeCustomizer,
   THEME_MODES,
@@ -295,7 +295,7 @@ export function ThemesPage() {
           <div className="preview-body">
             <div className="preview-sidebar">
               <div className="preview-logo">
-                <Palette size={16} /> Stride
+                <StrideLogo size={18} className="stride-logo-icon--on-fill" /> Stride
               </div>
               <div className="preview-nav-item active">Dashboard</div>
               <div className="preview-nav-item">Projects</div>

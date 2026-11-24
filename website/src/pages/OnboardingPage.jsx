@@ -31,7 +31,7 @@ export function OnboardingPage({ user, onComplete }) {
   return (
     <main id="main-content" className="onboarding-page" tabIndex={-1}>
       <section className="onboarding-card">
-        <StrideLogo size={36} />
+        <div aria-hidden="true"><StrideLogo size={36} /></div>
         <div className="onboarding-icon"><UserRound size={23} /></div>
         <p className="onboarding-eyebrow">One last step</p>
         <h1 className="onboarding-title">What should we call you?</h1>

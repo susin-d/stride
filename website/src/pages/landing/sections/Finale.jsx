@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, LogIn } from 'lucide-react'
+import { StrideLogo } from '../../../components/StrideLogo'
 import { marqueeModules } from '../data'
 import { useMagnetic } from './useMagnetic'
 
@@ -75,7 +76,7 @@ export function Footer({ onNavigate }) {
       <div className="cinema-footer__inner">
         <div className="cinema-footer__brand-block">
           <div className="cinema-footer__brand">
-            <img src="/logo.png" alt="" aria-hidden="true" className="cinema-nav__mark" />
+            <StrideLogo size={30} className="cinema-nav__mark" />
             <span className="cinema-footer__word">Stride</span>
             <span className="cinema-footer__copy">© {new Date().getFullYear()}</span>
           </div>

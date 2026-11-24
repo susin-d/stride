@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
 import { ArrowRight, Menu, X } from 'lucide-react'
+import { StrideLogo } from '../../../components/StrideLogo'
 import { navLinks } from '../data'
 import { useMagnetic } from './useMagnetic'
 
@@ -61,7 +62,7 @@ export function Nav({ onNavigate }) {
       transition={reduce ? {} : { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
     >
       <button type="button" className="cinema-nav__brand" onClick={() => onNavigate('/')} aria-label="Stride home">
-        <img src="/logo.png" alt="" aria-hidden="true" className="cinema-nav__mark" />
+        <StrideLogo size={30} className="cinema-nav__mark" />
         <span>Stride</span>
       </button>
 

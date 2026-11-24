@@ -191,7 +191,7 @@ export function WhatsAppPage() {
               const body = incomingMsg.content || (incomingMsg.media ? `[${incomingMsg.media.type}]` : 'New message')
               new Notification(`WhatsApp: ${sender}`, {
                 body,
-                icon: '/logo.png',
+                icon: '/icons/icon-192.png',
               })
             }
           }
