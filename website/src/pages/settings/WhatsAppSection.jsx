@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MessageSquare, QrCode, Trash2, Bot, Bell, Key, Plus, X, RotateCcw, Sparkles, Check } from 'lucide-react'
+import { MessageSquare, QrCode, Trash2, Bot, Bell, Key, X, Sparkles, Check } from 'lucide-react'
 import { ConfirmDialog, SectionHeading, SettingsCard } from '../../components/ui'
 import {
   fetchWhatsAppStatus,
@@ -12,20 +12,13 @@ import {
 import { whatsappSocket } from '../../lib/whatsappSocket'
 import { WhatsAppQrModal } from '../../components/whatsapp/WhatsAppQrModal'
 
-const DEFAULT_KEYWORDS = ['@eve', 'eve', '@susindran', '@susin', 'urgent', 'help', 'summary', 'schedule']
-const KEYWORD_PRESETS = ['@eve', 'urgent', 'help', 'summary', 'schedule', 'meeting', 'status']
-
 export function WhatsAppSection() {
   const [status, setStatus] = useState({ connected: false })
   const [settings, setSettings] = useState({
     auto_reply_enabled: false,
     auto_reply_prompt: '',
     notifications_enabled: true,
-    keywords: DEFAULT_KEYWORDS,
-    eve_tag: '@eve',
-    owner_name: 'Susindran',
   })
-  const [keywordInput, setKeywordInput] = useState('')
   const [promptInput, setPromptInput] = useState('')
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('')
@@ -49,28 +42,6 @@ export function WhatsAppSection() {
     } catch {
       // ignore
     }
-  }
-
-  const currentKeywords = settings.keywords?.length ? settings.keywords : DEFAULT_KEYWORDS
-
-  const handleAddKeyword = (kwToAdd) => {
-    const raw = (typeof kwToAdd === 'string' ? kwToAdd : keywordInput).trim()
-    if (!raw) return
-    const clean = raw.toLowerCase()
-    if (!currentKeywords.some((k) => k.toLowerCase() === clean)) {
-      const updated = [...currentKeywords, raw]
-      handleSaveSettings({ keywords: updated })
-    }
-    setKeywordInput('')
-  }
-
-  const handleRemoveKeyword = (kwToRemove) => {
-    const updated = currentKeywords.filter((k) => k.toLowerCase() !== kwToRemove.toLowerCase())
-    handleSaveSettings({ keywords: updated })
-  }
-
-  const handleResetKeywords = () => {
-    handleSaveSettings({ keywords: DEFAULT_KEYWORDS })
   }
 
   const handleSavePrompt = () => {
@@ -266,92 +237,30 @@ export function WhatsAppSection() {
             </label>
           </div>
 
-          {/* Eve Trigger Keywords & Tags Section */}
+          {/* Eve trigger rule — @eve is the only consent signal (ADR 0064) */}
           <div className="whatsapp-keywords-section">
             <div className="whatsapp-keywords-header">
               <div className="whatsapp-keywords-title">
                 <Key size={16} />
-                <span>Eve Trigger Keywords & Tags</span>
+                <span>Eve Trigger Rule</span>
               </div>
-              <button
-                type="button"
-                className="whatsapp-keywords-reset-btn"
-                onClick={handleResetKeywords}
-                title="Reset to default trigger keywords"
-              >
-                <RotateCcw size={12} />
-                <span>Reset Defaults</span>
-              </button>
             </div>
             <p className="whatsapp-keywords-desc">
-              When any of these keywords or tags appear in a WhatsApp message, Eve automatically activates to analyze the context, summarize, draft answers, or assist.
+              Eve only replies in a WhatsApp conversation when the message contains
+              an explicit <code className="whatsapp-trigger-code">@eve</code> mention.
+              Keywords and owner aliases cannot trigger her, so she never messages a
+              contact on your behalf by accident. Eve&apos;s own assistant chat always
+              answers you directly.
             </p>
-
-            {/* Active Keywords Tags List */}
-            <div className="whatsapp-keyword-tags-list">
-              {currentKeywords.map((kw) => (
-                <span key={kw} className="whatsapp-keyword-tag">
-                  <span className="whatsapp-keyword-tag-text">{kw}</span>
-                  <button
-                    type="button"
-                    className="whatsapp-keyword-remove-btn"
-                    onClick={() => handleRemoveKeyword(kw)}
-                    title={`Remove keyword "${kw}"`}
-                    aria-label={`Remove keyword ${kw}`}
-                  >
-                    <X size={12} />
-                  </button>
-                </span>
-              ))}
-            </div>
-
-            {/* Add Keyword Input Row */}
-            <div className="whatsapp-keyword-input-row">
-              <input
-                type="text"
-                className="whatsapp-keyword-text-input"
-                placeholder="Add keyword or trigger tag (e.g. urgent, @eve, help)..."
-                value={keywordInput}
-                onChange={(e) => setKeywordInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault()
-                    handleAddKeyword()
-                  }
-                }}
-              />
-              <button
-                type="button"
-                className="whatsapp-keyword-add-btn"
-                onClick={() => handleAddKeyword()}
-                disabled={!keywordInput.trim()}
-              >
-                <Plus size={14} />
-                <span>Add</span>
-              </button>
-            </div>
-
-            {/* Quick Keyword Presets */}
-            <div className="whatsapp-keyword-presets">
-              <span className="whatsapp-keyword-presets-title">Quick Presets:</span>
-              <div className="whatsapp-keyword-presets-list">
-                {KEYWORD_PRESETS.map((preset) => {
-                  const isAdded = currentKeywords.some((k) => k.toLowerCase() === preset.toLowerCase())
-                  return (
-                    <button
-                      key={preset}
-                      type="button"
-                      className={`whatsapp-keyword-preset-chip ${isAdded ? 'is-added' : ''}`}
-                      onClick={() => !isAdded && handleAddKeyword(preset)}
-                      disabled={isAdded}
-                      title={isAdded ? 'Already added' : `Add "${preset}" to trigger keywords`}
-                    >
-                      {isAdded ? <Check size={11} /> : <Plus size={11} />}
-                      <span>{preset}</span>
-                    </button>
-                  )
-                })}
-              </div>
+            <div className="whatsapp-trigger-examples">
+              <span className="whatsapp-trigger-example is-allowed">
+                <Check size={12} />
+                <span>@eve summarise this thread</span>
+              </span>
+              <span className="whatsapp-trigger-example">
+                <X size={12} />
+                <span>urgent, call me</span>
+              </span>
             </div>
           </div>
 

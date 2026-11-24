@@ -4,7 +4,11 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.services.whatsapp_trigger import mentions_eve, should_eve_reply
+from app.services.whatsapp_trigger import (
+    mentions_eve,
+    should_deliver_to_whatsapp,
+    should_eve_reply,
+)
 
 
 def _settings(**overrides):
@@ -104,3 +108,54 @@ class TestShouldEveReply:
             )
             is False
         )
+
+
+class TestShouldDeliverToWhatsapp:
+    """Gate for the Eve agent's outbound send tool."""
+
+    def test_requires_mention_in_content(self):
+        assert should_deliver_to_whatsapp("a@s.whatsapp.net", "@eve tell them I'll call") is True
+        assert should_deliver_to_whatsapp("a@s.whatsapp.net", "tell them I'll call") is False
+
+    def test_never_delivers_to_in_app_eve_chat(self):
+        assert should_deliver_to_whatsapp("eve", "@eve hello") is False
+
+    def test_empty_content_blocked(self):
+        assert should_deliver_to_whatsapp("a@s.whatsapp.net", "") is False
+
+
+class TestAgentSendToolGate:
+    def test_blocked_without_mention_and_nothing_persisted(self, monkeypatch):
+        from app.services.eve.handlers import whatsapp as handler
+
+        saved = []
+
+        monkeypatch.setattr(
+            "app.repositories.whatsapp.save_whatsapp_message",
+            lambda *a, **k: saved.append(a),
+        )
+
+        result, _, _ = handler.handle_send_whatsapp_message(
+            object(), "user-1", {"chat_id": "a@s.whatsapp.net", "content": "see you at 5"}
+        )
+
+        assert result["sent"] is False
+        assert "Blocked" in result["error"]
+        assert saved == []
+
+    def test_allowed_with_mention(self, monkeypatch):
+        from app.services.eve.handlers import whatsapp as handler
+
+        saved = []
+
+        monkeypatch.setattr(
+            "app.repositories.whatsapp.save_whatsapp_message",
+            lambda *a, **k: saved.append(a),
+        )
+
+        result, _, _ = handler.handle_send_whatsapp_message(
+            object(), "user-1", {"chat_id": "a@s.whatsapp.net", "content": "@eve see you at 5"}
+        )
+
+        assert result["sent"] is True
+        assert len(saved) == 1

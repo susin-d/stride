@@ -26,9 +26,28 @@ def handle_read_whatsapp_messages(database: SqlClient, user_id: str, arguments: 
 def handle_send_whatsapp_message(database: SqlClient, user_id: str, arguments: dict) -> tuple[dict, None, None]:
     from app.repositories import whatsapp as wa_repo
     from app.schemas.whatsapp import WhatsAppMessageResponse
+    from app.services.whatsapp_trigger import should_deliver_to_whatsapp
 
     chat_id = arguments["chat_id"]
     content = arguments["content"]
+
+    # Hard limit (ADR 0064): Eve may only deliver a message to a real WhatsApp
+    # chat when the user's request explicitly mentions her with @eve. Without
+    # this the agent could message an arbitrary contact unprompted.
+    if not should_deliver_to_whatsapp(chat_id, content):
+        return (
+            {
+                "sent": False,
+                "chat_id": chat_id,
+                "error": (
+                    "Blocked: sending to a WhatsApp chat requires an explicit @eve mention "
+                    "in the message. Ask the user to confirm with @eve."
+                ),
+            },
+            None,
+            None,
+        )
+
     msg = WhatsAppMessageResponse(
         id=f"msg-{uuid4().hex[:12]}",
         chat_id=chat_id,

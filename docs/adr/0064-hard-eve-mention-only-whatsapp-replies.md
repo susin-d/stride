@@ -27,12 +27,14 @@ Adopt one canonical gate — `server/app/services/whatsapp_trigger.py` — and m
 - **Exceptions, both bounded:** the dedicated in-app chat `chat_id == "eve"` still answers — but only incoming messages (`is_from_me` is `False`), never its own output (`sender_id == "eve"` / name starting with `Eve`).
 - **Single call site per rail:** `routes/whatsapp/webhook.py` (inbound worker events) and `services/whatsapp.py:send_message` (in-app send) both call the gate. `has_eve_mention` was deleted, so a second heuristic cannot be reintroduced by reuse.
 - **Loop guard:** Eve's own replies are never treated as triggers, preventing reply storms in groups.
+- **Outbound tool gate:** `should_deliver_to_whatsapp` guards the Eve agent tool `handle_send_whatsapp_message` — a send to a real chat needs `@eve` in the message text, otherwise the tool returns `sent: false` with a Blocked error and persists nothing. The in-app `eve` chat never delivers to WhatsApp.
+- **Settings UI:** the inert keyword chips/presets were removed from `WhatsAppSection.jsx` and replaced with a read-only "Eve Trigger Rule" explaining the `@eve` gate; `keywords` stays in the schema, marked deprecated.
 
 ## Consequences
 
-- **Positive:** Eve can no longer message a contact or group without an explicit `@eve`. The rule lives in one function with unit tests, so the two rails cannot drift.
-- **Negative / Cost:** Users who relied on `urgent` / `help` keywords as implicit triggers now get silence until they type `@eve`. Settings UI still lists keyword chips — they are now inert and should be re-labelled or removed in a follow-up.
-- **Follow-up:** Audit `services/eve/handlers/whatsapp.py:handle_send_whatsapp_message` (the Eve agent tool) — it currently writes to the DB without forwarding to the worker, so it is not gated by this ADR.
+- **Positive:** Eve can no longer message a contact or group without an explicit `@eve` — on any path (webhook, in-app send, agent tool). The rule lives in one function with unit tests, so the rails cannot drift.
+- **Negative / Cost:** Users who relied on `urgent` / `help` keywords as implicit triggers now get silence until they type `@eve`. The keyword list is retained in the API but does nothing.
+- **Follow-up:** The Eve agent's send tool persists and reports success but does not call the worker `/session/send`, so it is not yet a real WhatsApp delivery — wiring it belongs to a separate change with its own error/retry contract.
 
 ## Alternatives Considered
 
@@ -48,4 +50,6 @@ Adopt one canonical gate — `server/app/services/whatsapp_trigger.py` — and m
 - `server/app/services/whatsapp_trigger.py`
 - `server/app/api/routes/whatsapp/webhook.py:133`
 - `server/app/services/whatsapp.py:400`
+- `server/app/services/eve/handlers/whatsapp.py`
+- `website/src/pages/settings/WhatsAppSection.jsx`
 - `server/tests/unit/test_whatsapp_trigger.py`, `server/tests/api/test_whatsapp_webhook_routes.py`

@@ -63,3 +63,14 @@ def should_eve_reply(
         return not is_from_me
 
     return mentions_eve(content, user_settings)
+
+
+def should_deliver_to_whatsapp(chat_id: str, content: str) -> bool:
+    """Gate for outbound delivery to a real WhatsApp chat from an assistant action.
+
+    ``@eve`` is the user's explicit consent token to act on WhatsApp on their
+    behalf. The in-app ``eve`` chat never reaches WhatsApp, so it is always False.
+    """
+    if is_eve_chat(chat_id):
+        return False
+    return "@eve" in (content or "").lower()

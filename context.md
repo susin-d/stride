@@ -1,7 +1,7 @@
 # Stride Context
 
 Living snapshot for AI agents. `AGENTS.md` holds permanent rules; this file holds the **current state**. See `CHANGELOG.md` for history and `PROJECT_MAP.md` for the file index.
-Last updated: 2026-11-24 — Eve WhatsApp replies are gated by a hard `@eve`-only rule (ADR 0064): `services/whatsapp_trigger.py` is the single authority, keywords/aliases removed.
+Last updated: 2026-11-24 — Eve WhatsApp replies gated by a hard `@eve`-only rule (ADR 0064) across webhook, in-app send and the agent send tool; Settings keyword chips replaced by a read-only trigger rule.
 
 ## Contents
 1. [Overview](#1-overview) · 2. [Repository structure](#2-repository-structure) · 3. [Backend](#4-backend) · 4. [Frontend](#4-frontend) · 5. [Design system](#5-design-system) · 6. [Current snapshot](#6-current-snapshot) · 7. [Limitations](#7-limitations) · 8. [Verification](#8-verification)
@@ -74,7 +74,7 @@ For full maps see `PROJECT_MAP.md`. Keep this section brief; expand there.
 - **EVE/voice:** multi-provider + live `/v1/models`; SSE `delta`/`thinking`/`tool`/`done` + RAG + auto-remember (capped 3); tools: workspace files, web, WhatsApp, browser, schedule, UI; `ModelSelectorDropdown` + `openrouter/free` default; `voice_fast.py` Groq 8b-instant + `POST /eve/voice/stream` + Twilio `ConversationRelay`; STT browser/Groq/Deepgram, TTS Google/OpenRouter Fish.
 - **Eve voice settings:** `pages/settings/EveVoiceSection.jsx` composes `EveSpeechProviderCard` + `useEveSpeechProviders` (catalog load, saved-preference restore).
 - **Calls/search:** `in_app` WebRTC vs Twilio PSTN + `CallWSManager` + `BroadcastChannel`; `⌘K` palette + Landing cinema (`cinema-{base,hero,sections,motion}.css`, pinned monochrome ramp, ADR 0057).
-- **WhatsApp:** `pages/WhatsAppPage.jsx` + `pages/whatsapp/useWhatsAppSocket.js` (socket event dispatch; `normalizeChatId` in `components/whatsapp/conversation/utils.js` is the canonical JID normalizer). **Eve reply gate (ADR 0064):** `services/whatsapp_trigger.py` `should_eve_reply` is the single authority — a real chat is answered only on a bounded `@eve` token (keywords/owner aliases/bare `eve` no longer authorize); the in-app `eve` chat answers incoming only; Eve never replies to her own messages. Called from `routes/whatsapp/webhook.py` and `services/whatsapp.py:send_message`.
+- **WhatsApp:** `pages/WhatsAppPage.jsx` + `pages/whatsapp/useWhatsAppSocket.js` (socket event dispatch; `normalizeChatId` in `components/whatsapp/conversation/utils.js` is the canonical JID normalizer). **Eve reply gate (ADR 0064):** `services/whatsapp_trigger.py` `should_eve_reply` is the single authority — a real chat is answered only on a bounded `@eve` token (keywords/owner aliases/bare `eve` no longer authorize); the in-app `eve` chat answers incoming only; Eve never replies to her own messages. Called from `routes/whatsapp/webhook.py`, `services/whatsapp.py:send_message`, and `services/eve/handlers/whatsapp.py` (`should_deliver_to_whatsapp` gates the agent send tool). Settings → WhatsApp shows a read-only trigger rule; `keywords` is deprecated in the schema.
 - **Loading:** `WaveLoader` music-bar equalizer (reduced-motion safe) + `LoadingState`.
 - **Branding:** Stride everywhere — storage/event keys, Docker/DB/image names, log files, native IDs, domains (ADR 0056).
 

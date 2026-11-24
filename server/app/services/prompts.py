@@ -304,7 +304,7 @@ WEB_DESCRIPTIONS = {
 WHATSAPP_DESCRIPTIONS = {
     "list_whatsapp_chats": "List the user's recent WhatsApp conversations, active contacts, unread counts, and last messages.",
     "read_whatsapp_messages": "Read recent WhatsApp message history for a specific chat or contact.",
-    "send_whatsapp_message": "Send a WhatsApp message to a specific contact or phone number on behalf of the user.",
+    "send_whatsapp_message": "Send a WhatsApp message to a specific contact or phone number on behalf of the user. Requires an explicit @eve mention: if the user has not asked with @eve, do not call this tool — ask them to confirm with @eve first.",
     "summarize_whatsapp_chat": "Generate a concise summary and action points for a WhatsApp chat.",
     "read_whatsapp_messages.chat_id": "The chat ID, phone number, or 'eve' to read messages from",
     "read_whatsapp_messages.limit": "Number of recent messages to fetch (default 20, max 50)",

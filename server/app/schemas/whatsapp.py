@@ -93,7 +93,10 @@ class WhatsAppSettings(BaseModel):
     eve_tag: Optional[str] = "@eve"
     owner_name: Optional[str] = "Susindran"
     owner_aliases: List[str] = Field(default_factory=lambda: ["@susindran", "@susin", "@susindran_d"])
-    keywords: List[str] = Field(default_factory=lambda: ["@eve", "eve", "@susindran", "@susin", "urgent", "help", "summary", "schedule"])
+    keywords: List[str] = Field(
+        default_factory=lambda: ["@eve", "eve", "@susindran", "@susin", "urgent", "help", "summary", "schedule"],
+        description="Deprecated: keywords no longer authorize an Eve reply (ADR 0064). @eve is the only trigger.",
+    )
     my_number: Optional[str] = None
     my_jid: Optional[str] = None
 
