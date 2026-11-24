@@ -18,6 +18,7 @@ export const CUSTOM_THEME_KEY = 'stride.custom_theme'
 
 export const DASHBOARD_KEY = 'stride.dashboard.preferences'
 export const SIDEBAR_EXPANDED_KEY = 'stride.sidebar-expanded'
+export const EVE_PANEL_WIDTH_KEY = 'stride.eve-panel-width'
 
 export const AVATAR_PREFS_KEY = 'stride:eve-avatar:v1'
 export const UI_CACHE_KEY = 'stride.ui.cache'

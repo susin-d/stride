@@ -111,8 +111,10 @@ export function Sidebar({
   }
 
   const handleBlurCapture = (event) => {
-    // Keyboard users leaving the sidebar should get the collapsed rail back too.
+    // Keyboard users leaving the sidebar should get the collapsed rail back too,
+    // unless the pointer is still hovering inside the sidebar.
     if (sidebarRef.current?.contains(event.relatedTarget)) return
+    if (hoverIntentRef.current) return
     if (!isHoverExpanded) return
     clearCollapseTimer()
     collapseTimerRef.current = window.setTimeout(() => {
@@ -124,7 +126,7 @@ export function Sidebar({
   const handleNavigate = (page) => {
     onNavigate(page)
     onClose()
-    collapseNow()
+    setHoveredItem(null)
   }
 
   const handleToggleExpand = () => {

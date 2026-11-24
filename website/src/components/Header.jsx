@@ -10,7 +10,6 @@ import { ProfileMenu } from './header/ProfileMenu'
 
 // Interaction-only modals — fetched on first open so the search index,
 // Eve modal, and Markdown renderer stay out of the initial shell.
-const EveAssistantModal = lazy(() => import('./EveAssistantModal').then((m) => ({ default: m.EveAssistantModal })))
 const AdvancedSearchModal = lazy(() => import('./search/AdvancedSearchModal').then((m) => ({ default: m.AdvancedSearchModal })))
 
 export function Header({
@@ -26,14 +25,13 @@ export function Header({
   notificationsCanLoadMore,
   notificationsLoading,
   onLoadMoreNotifications,
-  onWorkspaceChanged,
+  onEveOpen,
   onEveNewChat,
   onSignOut,
   workspaceData,
 }) {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
-  const [eveOpen, setEveOpen] = useState(false)
   const [permissionStatus, setPermissionStatus] = useState(() => getNotificationPermission())
 
   const handleSignOut = () => {
@@ -92,15 +90,12 @@ export function Header({
       if (event.key === 'Escape') setNotificationsOpen(false)
     }
     const handleOpenSearchEvent = () => setSearchOpen(true)
-    const handleOpenEve = () => setEveOpen(true)
 
     document.addEventListener('keydown', handleShortcut)
     window.addEventListener('stride:open-search', handleOpenSearchEvent)
-    window.addEventListener('stride:open-eve', handleOpenEve)
     return () => {
       document.removeEventListener('keydown', handleShortcut)
       window.removeEventListener('stride:open-search', handleOpenSearchEvent)
-      window.removeEventListener('stride:open-eve', handleOpenEve)
     }
   }, [setNotificationsOpen])
 
@@ -136,7 +131,7 @@ export function Header({
           <button
             className="eve-button"
             type="button"
-            onClick={() => setEveOpen(true)}
+            onClick={() => onEveOpen?.()}
             aria-label="Open Eve AI assistant"
           >
             <Bot size={17} />
@@ -176,16 +171,6 @@ export function Header({
         onLoadMore={onLoadMoreNotifications}
       />
 
-      {eveOpen && (
-        <Suspense fallback={null}>
-          <EveAssistantModal
-            isOpen={eveOpen}
-            onClose={() => setEveOpen(false)}
-            onNavigate={onNavigate}
-            onWorkspaceChanged={onWorkspaceChanged}
-          />
-        </Suspense>
-      )}
       {searchOpen && (
         <Suspense fallback={null}>
           <AdvancedSearchModal
@@ -196,7 +181,7 @@ export function Header({
             callCenter={callCenter}
             toggleTheme={handleToggleTheme}
             setDarkTheme={handleToggleTheme}
-            setEveOpen={setEveOpen}
+            setEveOpen={onEveOpen}
             setNotificationsOpen={setNotificationsOpen}
             onEveNewChat={onEveNewChat}
             onSignOut={handleSignOut}

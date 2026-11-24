@@ -1,10 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Header } from '../components/Header'
 import { Sidebar } from '../components/Sidebar'
 import { MobileTabBar } from '../components/MobileTabBar'
 import { NetworkStatus } from '../components/NetworkStatus'
 import '../App.css'
-import { SIDEBAR_EXPANDED_KEY } from '../lib/storageKeys'
+import { EVE_PANEL_WIDTH_KEY, SIDEBAR_EXPANDED_KEY } from '../lib/storageKeys'
+
+const EveAssistantPanel = lazy(() =>
+  import('../components/EveAssistantPanel').then((m) => ({ default: m.EveAssistantPanel })),
+)
+
+const EVE_PANEL_DEFAULT_WIDTH = 480
+const EVE_PANEL_MIN_WIDTH = 300
+const EVE_PANEL_MAX_WIDTH = 760
 
 export function AppLayout({
   activePage,
@@ -31,6 +39,11 @@ export function AppLayout({
   const [sidebarExpanded, setSidebarExpanded] = useState(
     () => localStorage.getItem(SIDEBAR_EXPANDED_KEY) === 'true',
   )
+  const [eveOpen, setEveOpen] = useState(false)
+  const [evePanelWidth, setEvePanelWidth] = useState(() => {
+    const saved = parseInt(localStorage.getItem(EVE_PANEL_WIDTH_KEY), 10)
+    return saved >= EVE_PANEL_MIN_WIDTH && saved <= EVE_PANEL_MAX_WIDTH ? saved : EVE_PANEL_DEFAULT_WIDTH
+  })
   const contentRef = useRef(null)
   const isSidebarExpanded = sidebarExpanded
 
@@ -42,8 +55,24 @@ export function AppLayout({
     localStorage.setItem(SIDEBAR_EXPANDED_KEY, String(sidebarExpanded))
   }, [sidebarExpanded])
 
+  useEffect(() => {
+    localStorage.setItem(EVE_PANEL_WIDTH_KEY, String(evePanelWidth))
+  }, [evePanelWidth])
+
+  // Listen for the global eve open event (from search palette etc.)
+  useEffect(() => {
+    const handleOpenEve = () => setEveOpen(true)
+    window.addEventListener('stride:open-eve', handleOpenEve)
+    return () => window.removeEventListener('stride:open-eve', handleOpenEve)
+  }, [])
+
+  const handleEveResize = useCallback((newWidth) => {
+    const clamped = Math.min(EVE_PANEL_MAX_WIDTH, Math.max(EVE_PANEL_MIN_WIDTH, newWidth))
+    setEvePanelWidth(clamped)
+  }, [])
+
   return (
-    <div className={`app-shell ${isSidebarExpanded ? 'sidebar-expanded' : ''}`}>
+    <div className={`app-shell ${isSidebarExpanded ? 'sidebar-expanded' : ''} ${eveOpen ? 'eve-panel-open' : ''}`}>
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <NetworkStatus />
       <Sidebar
@@ -70,6 +99,7 @@ export function AppLayout({
           notificationsLoading={notificationsLoading}
           onLoadMoreNotifications={onLoadMoreNotifications}
           onWorkspaceChanged={onWorkspaceChanged}
+          onEveOpen={() => setEveOpen(true)}
           onEveNewChat={onEveNewChat}
           onSignOut={onSignOut}
           workspaceData={workspaceData}
@@ -84,6 +114,19 @@ export function AppLayout({
         </main>
         <MobileTabBar activePage={activePage} onNavigate={onNavigate} />
       </div>
+      {eveOpen && (
+        <Suspense fallback={null}>
+          <EveAssistantPanel
+            onClose={() => setEveOpen(false)}
+            onNavigate={onNavigate}
+            onWorkspaceChanged={onWorkspaceChanged}
+            width={evePanelWidth}
+            onResize={handleEveResize}
+            minWidth={EVE_PANEL_MIN_WIDTH}
+            maxWidth={EVE_PANEL_MAX_WIDTH}
+          />
+        </Suspense>
+      )}
     </div>
   )
 }
