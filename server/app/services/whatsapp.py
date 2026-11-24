@@ -14,6 +14,7 @@ from app.core.http import create_async_client
 from app.core.whatsapp_ws_manager import whatsapp_ws_manager
 from app.repositories import whatsapp as whatsapp_repo
 from app.services.prompts import whatsapp_draft_prompt, whatsapp_summary_prompt
+from app.services.whatsapp_trigger import should_eve_reply
 from app.schemas.whatsapp import (
     WhatsAppChatListResponse,
     WhatsAppChatResponse,
@@ -391,24 +392,16 @@ class WhatsAppService:
             },
         )
 
-        # Handle Eve interaction if messaging Eve or mentioning Eve / owner aliases / custom keywords
+        # Handle Eve interaction only on an explicit @eve mention (hard limit) or
+        # in Eve's own assistant chat — keywords must never widen this.
         user_settings = whatsapp_repo.get_whatsapp_settings(database, user_id)
-        eve_tag = (user_settings.eve_tag or "@eve").lower()
-        owner_aliases = [a.lower().strip() for a in (user_settings.owner_aliases or ["@susindran", "@susin"]) if a.strip()]
-        keywords = [k.lower().strip() for k in (user_settings.keywords or ["@eve", "eve"]) if k.strip()]
-        text_lower = content.lower()
-
-        has_mention = (
-            chat_id == "eve"
-            or eve_tag in text_lower
-            or "@eve" in text_lower
-            or any(alias in text_lower for alias in owner_aliases)
-            or any(kw in text_lower for kw in keywords)
-            or text_lower.startswith("eve ")
-            or text_lower == "eve"
-        )
-
-        if has_mention:
+        if should_eve_reply(
+            chat_id,
+            content,
+            user_settings,
+            sender_id="me",
+            sender_name="Me",
+        ):
             await WhatsAppService._handle_eve_response(database, user_id, chat_id, content)
 
         return msg

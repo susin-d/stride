@@ -152,6 +152,39 @@ class TestWhatsAppWebhook:
         )
         assert called["n"] == 0
 
+    @pytest.mark.parametrize(
+        "content",
+        ["urgent: call me back", "help me please", "summary of the meeting", "@susindran ping"],
+    )
+    def test_trigger_keyword_without_mention_does_not_trigger_eve(
+        self, client, db, monkeypatch, content
+    ):
+        """Hard limit: keywords/aliases alone must never make Eve message a chat."""
+        called = {"n": 0}
+
+        async def fake_eve_response(*args, **kwargs):
+            called["n"] += 1
+
+        from app.services.whatsapp import WhatsAppService
+
+        monkeypatch.setattr(
+            WhatsAppService, "_handle_eve_response", staticmethod(fake_eve_response)
+        )
+
+        client.post(
+            "/api/v1/whatsapp/webhook",
+            json={
+                "type": "message",
+                "userId": "user-1",
+                "chatId": "trigger@s.whatsapp.net",
+                "content": content,
+                "senderId": "t@s.whatsapp.net",
+                "senderName": "Them",
+            },
+        )
+        assert called["n"] == 0
+
+
 
 class TestCronSecurity:
     def test_execute_schedules_requires_secret(self, client, db, monkeypatch):

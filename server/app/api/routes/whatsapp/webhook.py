@@ -12,12 +12,13 @@ from app.db import SqlClient, get_firestore
 
 from app.core.config import settings
 
-from app.api.routes.whatsapp._shared import has_eve_mention, resolve_chat_name
+from app.api.routes.whatsapp._shared import resolve_chat_name
 from app.core.whatsapp_ws_manager import whatsapp_ws_manager
 from app.core.errors import bad_request, unauthorized
 from app.repositories import whatsapp as whatsapp_repo
 from app.schemas.whatsapp import WhatsAppMediaAttachment, WhatsAppMessageResponse
 from app.services.whatsapp import WhatsAppService
+from app.services.whatsapp_trigger import should_eve_reply
 
 logger = logging.getLogger(__name__)
 
@@ -130,9 +131,17 @@ async def whatsapp_incoming_webhook(request: Request, database: SqlClient = Depe
     whatsapp_repo.upsert_whatsapp_chat(database, user_id, chat_id=chat_id, name=resolved_name, is_group=is_group, last_message=incoming.model_dump(mode="json"))
     await whatsapp_ws_manager.broadcast_to_user(user_id, {"type": "new_message", "message": incoming.model_dump(mode="json")})
 
-    is_eve_chat = chat_id == "eve"
     user_settings = whatsapp_repo.get_whatsapp_settings(database, user_id)
-    should = (sender_id != "eve" and not sender_name.lower().startswith("eve")) and (has_eve_mention(content, user_settings) or (is_eve_chat and not is_from_me))
+    # Hard limit: Eve replies only when explicitly mentioned with @eve
+    # (or in her own assistant chat). Keywords must never widen this.
+    should = should_eve_reply(
+        chat_id,
+        content,
+        user_settings,
+        sender_id=sender_id,
+        sender_name=sender_name or "",
+        is_from_me=is_from_me,
+    )
     if should:
         logger.info(f"Eve triggered for WhatsApp message from {sender_name} (from_me={is_from_me}) in {chat_id}")
         await WhatsAppService._handle_eve_response(database, user_id, chat_id, content)
