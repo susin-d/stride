@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { TransformControls } from 'three/addons/controls/TransformControls.js'
 import { canvasForTexture, themeColor, toArray } from './viewport/viewportUtils'
+import { AVATAR_DEFAULT_PAINT_COLOR } from '../../components/eve/avatar/avatarConstants'
 import { useModelLoader } from './viewport/useModelLoader'
 import { useViewportActions } from './viewport/useViewportActions'
 
@@ -186,7 +187,7 @@ export const SceneViewport = forwardRef(function SceneViewport({ source, nodes =
       context.save()
       context.globalAlpha = Math.max(0.01, Math.min(1, Number(settings.strength ?? 1)))
       context.globalCompositeOperation = settings.mode === 'erase' ? 'destination-out' : 'source-over'
-      context.fillStyle = settings.color || '#a83b59'
+      context.fillStyle = settings.color || AVATAR_DEFAULT_PAINT_COLOR
       context.beginPath()
       context.arc(x, y, radius, 0, Math.PI * 2)
       context.fill()

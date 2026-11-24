@@ -12,7 +12,6 @@ export function EveActiveView({
   onTabChange,
   avatarPrefs,
   setAvatarPrefs,
-  activePreset,
   avatarModel,
   messages,
   draft,
@@ -61,7 +60,6 @@ export function EveActiveView({
         <div className="eve-inline-avatar-wrap" data-eve-target="eve-inline-avatar">
           <EveInlineAvatar
             size="md"
-            presetId={activePreset}
             prefs={avatarPrefs}
             activeModel={avatarModel}
             isSending={isSending}
@@ -105,7 +103,6 @@ export function EveActiveView({
             callCenter={callCenter}
             avatarPrefs={avatarPrefs}
             avatarModel={avatarModel}
-            presetId={activePreset}
             onToggleAvatarRenderer={handleAvatarToggleRenderer}
           />
         )}

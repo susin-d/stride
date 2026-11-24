@@ -251,7 +251,7 @@
   align-items: center;
   gap: 4px;
   font-size: 11px;
-  color: var(--color-warning, #d97706);
+  color: var(--color-warning, #737373);
   font-weight: 500;
 }
 

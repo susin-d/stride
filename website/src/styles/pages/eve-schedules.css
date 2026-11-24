@@ -106,7 +106,7 @@
   padding: 0.3rem 0.6rem;
   border-radius: 5px;
   background: var(--bg-secondary, #121212);
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   color: var(--text-primary, #ffffff);
   font-size: 0.72rem;
   font-weight: 600;
@@ -129,7 +129,7 @@
 .eve-schedule-card-prompt {
   font-size: 0.82rem;
   line-height: 1.45;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   margin: 0;
   font-style: italic;
 }
@@ -140,7 +140,7 @@
   gap: 0.25rem;
   margin-top: auto;
   padding-top: 0.5rem;
-  border-top: 1px solid var(--border-color, #27272a);
+  border-top: 1px solid var(--border-color, #262626);
 }
 
 .eve-schedule-time {
@@ -148,12 +148,12 @@
   align-items: center;
   gap: 0.35rem;
   font-size: 0.75rem;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 .eve-schedule-last-run {
   font-size: 0.72rem;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 /* ── Banners ── */
@@ -163,21 +163,21 @@
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md, 8px);
-  background: var(--bg-tertiary, #18181b);
-  border: 1px solid var(--border-color, #3f3f46);
+  background: var(--bg-tertiary, #171717);
+  border: 1px solid var(--border-color, #3f3f3f);
   color: var(--text-primary, #ffffff);
   font-size: 0.82rem;
 }
 
 .eve-error-banner--rate {
-  border-color: var(--border-heavy, #52525b);
+  border-color: var(--border-heavy, #525252);
   border-left: 3px solid var(--text-primary, #ffffff);
   background: var(--bg-secondary, #121212);
 }
 
 .eve-error-banner--auth {
-  border-color: var(--border-heavy, #52525b);
-  border-left: 3px solid var(--text-secondary, #a1a1aa);
+  border-color: var(--border-heavy, #525252);
+  border-left: 3px solid var(--text-secondary, #a3a3a3);
   background: var(--bg-secondary, #121212);
 }
 
@@ -187,8 +187,8 @@
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md, 8px);
-  background: var(--bg-tertiary, #18181b);
-  border: 1px solid var(--border-color, #3f3f46);
+  background: var(--bg-tertiary, #171717);
+  border: 1px solid var(--border-color, #3f3f3f);
   color: var(--text-primary, #ffffff);
   font-size: 0.82rem;
 }

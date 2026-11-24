@@ -2,7 +2,7 @@
 /* Info Drawer */
 .whatsapp-info-drawer {
   width: 320px;
-  border-left: 1px solid var(--border-color, #27272a);
+  border-left: 1px solid var(--border-color, #262626);
   background: var(--bg-secondary, #121212);
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@
   font-size: 0.8125rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   margin: 0;
 }
 
@@ -32,7 +32,7 @@
   gap: 8px;
   padding: 8px 16px;
   overflow-x: auto;
-  border-bottom: 1px solid var(--border-color, #27272a);
+  border-bottom: 1px solid var(--border-color, #262626);
 }
 
 .whatsapp-filter-pill {
@@ -43,16 +43,16 @@
   border-radius: 9999px;
   font-size: 0.78rem;
   font-weight: 500;
-  background: var(--bg-tertiary, #1c1c1f);
-  color: var(--text-secondary, #a1a1aa);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-tertiary, #1c1c1c);
+  color: var(--text-secondary, #a3a3a3);
+  border: 1px solid var(--border-color, #262626);
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.15s ease;
 }
 
 .whatsapp-filter-pill:hover {
-  background: var(--bg-hover, #27272a);
+  background: var(--bg-hover, #262626);
   color: var(--text-primary, #ffffff);
 }
 
@@ -67,7 +67,7 @@
   font-weight: 700;
   padding: 0 4px;
   border-radius: 9999px;
-  background: var(--border-color, #3f3f46);
+  background: var(--border-color, #3f3f3f);
   color: var(--text-primary, #ffffff);
 }
 

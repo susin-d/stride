@@ -30,7 +30,7 @@ import { navigationItems } from '../config/navigation'
 const EveAssistantModal = lazy(() => import('./EveAssistantModal').then((m) => ({ default: m.EveAssistantModal })))
 const AdvancedSearchModal = lazy(() => import('./search/AdvancedSearchModal').then((m) => ({ default: m.AdvancedSearchModal })))
 
-import { applyThemeVariables, THEME_PRESETS } from '../themes/presets'
+import { applyTheme } from '../themes/themeApplicator'
 import { CALENDAR_FOCUS_KEY, CUSTOM_THEME_KEY } from '../lib/storageKeys'
 
 export function Header({
@@ -115,29 +115,23 @@ export function Header({
   }
 
   const handleToggleTheme = () => {
-    const isCurrentlyDark = document.documentElement.classList.contains('dark-theme')
-    const nextMode = isCurrentlyDark ? 'light' : 'dark'
-    const nextPreset = nextMode
-    const presetData = THEME_PRESETS[nextPreset]
-    if (!presetData) return
+    const nextMode = document.documentElement.classList.contains('dark-theme') ? 'light' : 'dark'
 
     let currentConfig = {}
     try {
       const saved = localStorage.getItem(CUSTOM_THEME_KEY)
       if (saved) currentConfig = JSON.parse(saved) || {}
-    } catch {}
-
-    const nextState = {
-      ...currentConfig,
-      preset: nextPreset,
-      mode: nextMode,
-      colors: presetData.colors,
+    } catch {
+      /* corrupt entry — a fresh appearance object is written below */
     }
 
-    applyThemeVariables(nextState)
+    const nextState = { ...currentConfig, mode: nextMode }
+    applyTheme(nextState)
     try {
       localStorage.setItem(CUSTOM_THEME_KEY, JSON.stringify(nextState))
-    } catch {}
+    } catch {
+      /* storage unavailable — the applied mode still holds for this session */
+    }
     window.dispatchEvent(new CustomEvent('stride:theme-change', { detail: nextState }))
   }
 

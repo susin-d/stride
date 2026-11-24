@@ -195,7 +195,7 @@
 .eve-composer-bottom-bar--dark {
   padding-top: 8px;
   margin-top: 8px;
-  border-top: 1px solid var(--border-color, #e4e4e7);
+  border-top: 1px solid var(--border-color, #e5e5e5);
 }
 
 .eve-composer-bottom-left {

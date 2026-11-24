@@ -22,7 +22,7 @@ import { EveInlineAvatar } from '../../components/eve/avatar/EveInlineAvatar'
 
 const IN_PROGRESS_PHASES = ['dialing', 'connecting', 'active']
 
-export function EveCallSection({ callCenter, avatarPrefs, avatarModel, presetId, onToggleAvatarRenderer }) {
+export function EveCallSection({ callCenter, avatarPrefs, avatarModel, onToggleAvatarRenderer }) {
   const {
     phase = 'idle',
     muted = false,
@@ -185,7 +185,6 @@ export function EveCallSection({ callCenter, avatarPrefs, avatarModel, presetId,
         <div className="eve-call-avatar-row" data-eve-target="eve-call-avatar">
           <EveInlineAvatar
             size="lg"
-            presetId={presetId}
             prefs={avatarPrefs}
             activeModel={avatarModel}
             isSending={false}

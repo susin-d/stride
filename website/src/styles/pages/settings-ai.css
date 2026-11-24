@@ -115,7 +115,7 @@
 }
 
 .ai-models-key-input-container input::placeholder {
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 .ai-models-key-toggle {
@@ -215,11 +215,11 @@
   gap: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 .eve-voice-capabilities > span.supported {
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
 }
 
 .coding-settings-footer {

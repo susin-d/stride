@@ -1,98 +1,110 @@
+/* Stride Dark — the only dark theme (monochrome, ADR 0057).
+   Neutral obsidian ramp, no brand hue. The light-theme ink ladder inverts:
+   the lightest tone now carries the strongest emphasis, and primary fills
+   flip to light-on-dark (see --on-fill below). */
 html.dark-theme {
-  /* Colors - Dark Theme Overrides (Crimson Noir default, ADR 0023) */
-  --bg-primary: #0d080a;
-  --bg-secondary: #1a0f13;
-  --bg-tertiary: #24121a;
-  --bg-card: #2e1823;
-  --bg-card-hover: #3a1f2c;
-  --bg-hover: #3a1f2c;
-  --bg-hover-subtle: #24121a;
-  --bg-overlay: rgba(26, 15, 19, 0.92);
-  --bg-backdrop: rgba(0, 0, 0, 0.55);
+  /* Colors - Dark Theme */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1c1c1c;
+  --bg-card: #161616;
+  --bg-card-hover: #1f1f1f;
+  --bg-hover: #262626;
+  --bg-hover-subtle: #1a1a1a;
+  --bg-overlay: rgba(20, 20, 20, 0.92);
+  --bg-backdrop: rgba(0, 0, 0, 0.62);
 
-  --text-primary: #f8f9fa;
-  --text-secondary: #b6a9b0;
-  --text-muted: #7a6a73;
-  --text-disabled: #5c4a54;
-  --text-inverse: #0d080a;
+  --text-primary: #fafafa;
+  --text-secondary: #b5b5b5;
+  --text-muted: #8a8a8a;
+  --text-disabled: #5c5c5c;
+  --text-inverse: #0a0a0a;
 
-  --color-primary: #a83b59;
-  --color-primary-hover: #c75a73;
-  --color-primary-light: rgba(168, 59, 89, 0.16);
-  --color-foam: #ffffff;
+  /* Primary action fill — light paper ink on the dark ramp */
+  --color-primary: #f5f5f5;
+  --color-primary-hover: #ffffff;
+  --color-primary-light: rgba(255, 255, 255, 0.10);
 
-  --border-color: #542033;
-  --border-light: #2e1823;
-  --border-heavy: #7a2e45;
-  --border-focus: #c75a73;
+  /* Text sitting on a primary/active fill flips to dark in this theme */
+  --on-fill: #0a0a0a;
 
-  --scrollbar-track: #1a0f13;
-  --scrollbar-thumb: #542033;
-  --scrollbar-thumb-hover: #a83b59;
+  /* Borders carry the hierarchy that hue used to: ≥3:1 for control outlines */
+  --border-color: #333333;
+  --border-light: #242424;
+  --border-heavy: #6b6b6b;
+  --border-focus: #d4d4d4;
 
-  --color-accent: #c75a73;
-  --color-accent-light: rgba(199, 90, 115, 0.16);
-  --color-success: #22c55e;
-  --color-success-light: rgba(34, 197, 94, 0.16);
-  --color-warning: #f59e0b;
-  --color-warning-light: rgba(245, 158, 11, 0.16);
-  --color-danger: #f43f5e;
-  --color-danger-light: rgba(244, 63, 94, 0.16);
-  --color-purple: #a855f7;
-  --color-purple-light: rgba(168, 85, 247, 0.16);
+  --scrollbar-track: #141414;
+  --scrollbar-thumb: #3d3d3d;
+  --scrollbar-thumb-hover: #737373;
 
-  /* Domain & Module Accent Color Identity (Dark Glow) */
-  --module-work: #6366f1;
-  --module-work-light: rgba(99, 102, 241, 0.16);
-  --module-workspace: #fbbf24;
-  --module-workspace-light: rgba(251, 191, 36, 0.16);
-  --module-todo: #22d3ee;
-  --module-todo-light: rgba(34, 211, 238, 0.16);
-  --module-projects: #3b82f6;
-  --module-projects-light: rgba(59, 130, 246, 0.16);
-  --module-documents: #38bdf8;
-  --module-documents-light: rgba(56, 189, 248, 0.16);
-  --module-studio: #a855f7;
-  --module-studio-light: rgba(168, 85, 247, 0.16);
-  --module-eve: #f43f5e;
-  --module-eve-light: rgba(244, 63, 94, 0.16);
-  --module-growth: #10b981;
-  --module-growth-light: rgba(16, 185, 129, 0.16);
-  --module-comm: #38bdf8;
-  --module-comm-light: rgba(56, 189, 248, 0.16);
-  --module-whatsapp: #22c55e;
-  --module-whatsapp-light: rgba(34, 197, 94, 0.16);
-  --module-mail: #fb7185;
-  --module-mail-light: rgba(251, 113, 133, 0.16);
-  --module-calendar: #38bdf8;
-  --module-calendar-light: rgba(56, 189, 248, 0.16);
-  --module-calls: #c084fc;
-  --module-calls-light: rgba(192, 132, 252, 0.16);
-  --module-chats: #818cf8;
-  --module-chats-light: rgba(129, 140, 248, 0.16);
-  --module-account: #94a3b8;
-  --module-account-light: rgba(148, 163, 184, 0.16);
+  /* Status tones — inverted ladder, strongest emphasis lightest */
+  --color-accent: #d4d4d4;
+  --color-accent-light: rgba(255, 255, 255, 0.10);
+  --color-success: #a3a3a3;
+  --color-success-light: rgba(255, 255, 255, 0.08);
+  --color-warning: #9a9a9a;
+  --color-warning-light: rgba(255, 255, 255, 0.08);
+  --color-danger: #fafafa;
+  --color-danger-light: rgba(255, 255, 255, 0.14);
+  --color-purple: #c4c4c4;
+  --color-purple-light: rgba(255, 255, 255, 0.10);
+
+  /* Domain & Module Accents — tone-only grouping on the dark ramp */
+  --module-work: #e5e5e5;
+  --module-work-light: rgba(255, 255, 255, 0.10);
+  --module-workspace: #c4c4c4;
+  --module-workspace-light: rgba(255, 255, 255, 0.09);
+  --module-todo: #c4c4c4;
+  --module-todo-light: rgba(255, 255, 255, 0.09);
+  --module-projects: #e5e5e5;
+  --module-projects-light: rgba(255, 255, 255, 0.10);
+  --module-documents: #c4c4c4;
+  --module-documents-light: rgba(255, 255, 255, 0.09);
+  --module-studio: #b5b5b5;
+  --module-studio-light: rgba(255, 255, 255, 0.08);
+  --module-eve: #b5b5b5;
+  --module-eve-light: rgba(255, 255, 255, 0.08);
+  --module-growth: #c4c4c4;
+  --module-growth-light: rgba(255, 255, 255, 0.09);
+  --module-comm: #b5b5b5;
+  --module-comm-light: rgba(255, 255, 255, 0.08);
+  --module-whatsapp: #c4c4c4;
+  --module-whatsapp-light: rgba(255, 255, 255, 0.09);
+  --module-mail: #c4c4c4;
+  --module-mail-light: rgba(255, 255, 255, 0.09);
+  --module-calendar: #b5b5b5;
+  --module-calendar-light: rgba(255, 255, 255, 0.08);
+  --module-calls: #b5b5b5;
+  --module-calls-light: rgba(255, 255, 255, 0.08);
+  --module-chats: #e5e5e5;
+  --module-chats-light: rgba(255, 255, 255, 0.10);
+  --module-account: #8a8a8a;
+  --module-account-light: rgba(255, 255, 255, 0.07);
+
+  /* Avatar Studio route-local identity — neutral ink, light on the dark ramp */
+  --avatar-studio-accent: #d4d4d4;
 
   /* Palette overrides — single source lives in styles/tokens.css */
-  --nav-bg: rgba(13, 8, 10, 0.92);
+  --nav-bg: rgba(10, 10, 10, 0.92);
 
-  --heat-1: #1e3a5f;
-  --heat-2: #3b82f6;
-  --heat-3: #3b82f6;
-  --heat-4: #60a5fa;
-  --heat-empty: #1e1e1e;
-  --heat-empty-border: #2a2a2a;
+  --heat-1: #2b2b2b;
+  --heat-2: #4d4d4d;
+  --heat-3: #737373;
+  --heat-4: #a3a3a3;
+  --heat-empty: #1c1c1c;
+  --heat-empty-border: #2b2b2b;
 
-  --tooltip-bg: #14090d;
-  --tooltip-border: #3a1f2c;
+  --tooltip-bg: #1c1c1c;
+  --tooltip-border: #3d3d3d;
 
   /* Glassmorphism — dark overrides */
-  --glass-bg: rgba(26, 15, 19, 0.52);
-  --glass-bg-card: rgba(46, 18, 28, 0.6);
-  --glass-bg-overlay: rgba(13, 8, 10, 0.72);
-  --glass-bg-sidebar: rgba(16, 9, 12, 0.65);
-  --glass-bg-topbar: rgba(13, 8, 10, 0.72);
-  --glass-bg-dropdown: rgba(30, 17, 23, 0.82);
+  --glass-bg: rgba(20, 20, 20, 0.52);
+  --glass-bg-card: rgba(22, 22, 22, 0.60);
+  --glass-bg-overlay: rgba(10, 10, 10, 0.72);
+  --glass-bg-sidebar: rgba(16, 16, 16, 0.65);
+  --glass-bg-topbar: rgba(10, 10, 10, 0.72);
+  --glass-bg-dropdown: rgba(28, 28, 28, 0.82);
   --glass-bg-input: rgba(0, 0, 0, 0.35);
   --glass-bg-input-focus: rgba(0, 0, 0, 0.45);
   --glass-border: rgba(255, 255, 255, 0.10);

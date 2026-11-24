@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Superseded by [ADR 0057](./0057-monochrome-white-and-dark-modes.md) (palette; landing redesign retained)
 
 - Date: 2026-09-06
 - Deciders: user (direction: bold experimental, rich cinematic, all sections, full copy rewrite)

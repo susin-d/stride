@@ -31,7 +31,7 @@
   position: absolute;
   inset: 0 0 auto 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--palette-ember), transparent);
+  background: linear-gradient(90deg, transparent, var(--palette-accent), transparent);
   opacity: 0.85;
   pointer-events: none;
 }

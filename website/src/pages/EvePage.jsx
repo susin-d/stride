@@ -16,7 +16,6 @@ import {
 } from '../lib/eveApi'
 import { useEveLibrary } from './eve/useEveLibrary'
 import { useEveAvatar } from '../components/eve/avatar/EveAvatarProvider'
-import { useThemeCustomizer } from '../hooks/useThemeCustomizer'
 import { EveActiveView } from './eve/EveActiveView'
 import { useEveActiveTab, useEveCompanionBroadcast } from './eve/useEveViewSync'
 
@@ -40,7 +39,6 @@ export function EvePage({
   const [error, setError] = useState('')
   const [promptQueue, setPromptQueue] = useState([])
   const { prefs: avatarPrefs, activeModel: avatarModel, setPrefs: setAvatarPrefs } = useEveAvatar()
-  const { activePreset } = useThemeCustomizer() || {}
   const {
     sessions,
     activeSessionId,
@@ -383,7 +381,6 @@ export function EvePage({
       onTabChange={switchTab}
       avatarPrefs={avatarPrefs}
       setAvatarPrefs={setAvatarPrefs}
-      activePreset={activePreset}
       avatarModel={avatarModel}
       messages={messages}
       draft={draft}

@@ -5,7 +5,6 @@ import { ModelSelectorDropdown } from '../../components/ui/ModelSelectorDropdown
 import { useEveAgentChat } from './useEveAgentChat'
 import { EveInlineAvatar } from '../../components/eve/avatar/EveInlineAvatar'
 import { useEveAvatar } from '../../components/eve/avatar/EveAvatarProvider'
-import { useThemeCustomizer } from '../../hooks/useThemeCustomizer'
 
 export function WorkspaceEvePanel({
   collapsed,
@@ -26,7 +25,6 @@ export function WorkspaceEvePanel({
   const [draft, setDraft] = useState('')
   const chatRef = useRef(null)
   const { prefs: avatarPrefs, activeModel: avatarModel } = useEveAvatar()
-  const { activePreset } = useThemeCustomizer() || {}
   const [selectedModel, setSelectedModel] = useState({ provider: 'openrouter', model: 'openrouter/free' })
 
   useEffect(() => {
@@ -41,7 +39,6 @@ export function WorkspaceEvePanel({
           <div className="workspace-eve-micro-avatar" aria-hidden="true">
             <EveInlineAvatar
               size="sm"
-              presetId={activePreset}
               prefs={avatarPrefs}
               activeModel={avatarModel}
               isEveSpeaking={sending}

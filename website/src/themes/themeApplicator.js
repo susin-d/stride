@@ -1,8 +1,27 @@
 import { THEME_MODE_KEY } from '../lib/storageKeys'
-// Theme application primitives — zero imports.
-// Extracted from presets.js so the startup path (App -> applyThemeVariables)
-// never pays for the 25 raw CSS preset strings or the customizer hook.
-// presets.js re-exports everything below for backward compatibility.
+
+// Appearance engine — Stride ships exactly two modes, white and dark, and a
+// strictly monochrome palette (ADR 0057). There is no preset catalog and no
+// color customization: the palettes live in styles/themes/index.css and
+// styles/themes/dark.css, and this module only toggles them by class and
+// applies the user's geometry/motion choices.
+
+export const THEME_MODES = [
+  {
+    id: 'light',
+    mode: 'light',
+    name: 'White',
+    description: 'Pure white canvas with a neutral ink ramp — the light half of the monochrome system.',
+  },
+  {
+    id: 'dark',
+    mode: 'dark',
+    name: 'Dark',
+    description: 'Neutral obsidian ramp with light ink emphasis — the dark half of the monochrome system.',
+  },
+]
+
+export const MODE_IDS = THEME_MODES.map((mode) => mode.id)
 
 export const FONT_OPTIONS = [
   { id: 'inter', name: 'Inter (Default)', value: "'Inter', sans-serif" },
@@ -173,174 +192,75 @@ export const MOTION_OPTIONS = [
   },
 ]
 
-export const COLOR_VARIABLE_GROUPS = [
-  {
-    title: 'Main & Surface Backgrounds',
-    variables: [
-      { key: '--bg-primary', label: 'Main Page Background' },
-      { key: '--bg-secondary', label: 'Sidebar & Header Background' },
-      { key: '--bg-tertiary', label: 'Sub-panel Background' },
-      { key: '--bg-card', label: 'Card & Container Surface' },
-      { key: '--bg-card-hover', label: 'Card Hover Background' },
-      { key: '--bg-hover', label: 'Interactive Hover Background' },
-      { key: '--bg-overlay', label: 'Modal & Popover Surface' },
-    ],
-  },
-  {
-    title: 'Text & Typography',
-    variables: [
-      { key: '--text-primary', label: 'Primary Heading & Body Text' },
-      { key: '--text-secondary', label: 'Secondary / Subtitle Text' },
-      { key: '--text-muted', label: 'Muted / Caption Text' },
-      { key: '--text-inverse', label: 'Button & Inverted Text' },
-    ],
-  },
-  {
-    title: 'Buttons & Accents',
-    variables: [
-      { key: '--color-primary', label: 'Primary Button & Active Fill' },
-      { key: '--color-primary-hover', label: 'Primary Button Hover Fill' },
-      { key: '--color-primary-light', label: 'Primary Light Badge Tint' },
-      { key: '--color-accent', label: 'Accent Highlight' },
-    ],
-  },
-  {
-    title: 'Borders & Lines',
-    variables: [
-      { key: '--border-color', label: 'Standard Component Border' },
-      { key: '--border-light', label: 'Light Separator Line' },
-      { key: '--border-heavy', label: 'High Contrast Border' },
-      { key: '--border-focus', label: 'Active Input Focus Ring' },
-    ],
-  },
-  {
-    title: 'Scrollbars',
-    variables: [
-      { key: '--scrollbar-track', label: 'Scrollbar Track' },
-      { key: '--scrollbar-thumb', label: 'Scrollbar Thumb' },
-      { key: '--scrollbar-thumb-hover', label: 'Scrollbar Thumb Hover' },
-    ],
-  },
-  {
-    title: 'Status & Badges',
-    variables: [
-      { key: '--color-success', label: 'Success Tag / Indicator' },
-      { key: '--color-warning', label: 'Warning Tag / Indicator' },
-      { key: '--color-danger', label: 'Danger / Error Tag' },
-      { key: '--color-purple', label: 'Special / Category Tag' },
-    ],
-  },
-  {
-    title: 'Domain & Module Accents',
-    variables: [
-      { key: '--module-work', label: 'Work & Projects Accent' },
-      { key: '--module-workspace', label: 'Workspace & Terminal Accent' },
-      { key: '--module-studio', label: 'Studio & Apps Accent' },
-      { key: '--module-eve', label: 'Eve AI Accent' },
-      { key: '--module-growth', label: 'Growth & Stats Accent' },
-      { key: '--module-whatsapp', label: 'WhatsApp Accent' },
-      { key: '--module-mail', label: 'Mail Accent' },
-      { key: '--module-calls', label: 'Voice & Calls Accent' },
-    ],
-  },
-]
+// Geometry/motion defaults — one source for the hook, the reset action, and
+// resetThemeVariables() so the three can never drift apart.
+export const DEFAULT_APPEARANCE = {
+  fontFamily: 'inter',
+  radius: 'modern',
+  density: 'default',
+  elevation: 'subtle',
+  motion: 'normal',
+}
 
-export function applyThemeVariables(data) {
+const OPTION_SOURCES = {
+  fontFamily: FONT_OPTIONS,
+  radius: RADIUS_OPTIONS,
+  density: DENSITY_OPTIONS,
+  elevation: ELEVATION_OPTIONS,
+  motion: MOTION_OPTIONS,
+}
+
+export function resolveMode(modeId) {
+  return modeId === 'light' ? 'light' : 'dark'
+}
+
+export function readStoredMode(storage) {
+  const store = storage ?? (typeof localStorage !== 'undefined' ? localStorage : null)
+  const stored = store?.getItem(THEME_MODE_KEY)
+  // Fresh visitors land on dark (ADR 0028 behaviour kept under ADR 0057).
+  return stored === 'light' ? 'light' : 'dark'
+}
+
+function syncThemeColorMeta(isDark) {
+  const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+  if (!metaThemeColor) return
+  const resolved = getComputedStyle(document.documentElement)
+    .getPropertyValue('--bg-primary')
+    .trim()
+  metaThemeColor.setAttribute('content', resolved || (isDark ? '#0a0a0a' : '#ffffff'))
+}
+
+export function applyTheme(data) {
   if (!data || typeof data !== 'object') return
   const root = document.documentElement
-
-  // Apply colors
-  if (data.colors && typeof data.colors === 'object') {
-    Object.entries(data.colors).forEach(([property, value]) => {
-      if (property.startsWith('--') && value) {
-        root.style.setProperty(property, value)
-      }
-    })
-  }
-
-  // Determine dark / light mode
-  const lightPresets = ['light', 'prism', 'coral', 'honey', 'azure', 'meadow', 'lilac', 'citrus']
-  let isDark = true
-  if (data.mode === 'light' || data.mode === 'dark') {
-    isDark = data.mode === 'dark'
-  } else if (data.preset) {
-    isDark = !lightPresets.includes(data.preset)
-  } else {
-    const stored = localStorage.getItem(THEME_MODE_KEY)
-    isDark = stored ? stored === 'dark' : true
-  }
+  const isDark = resolveMode(data.mode) === 'dark'
 
   root.classList.toggle('dark-theme', isDark)
   try {
     localStorage.setItem(THEME_MODE_KEY, isDark ? 'dark' : 'light')
-  } catch {}
-
-  // Update theme-color meta tag for browser/mobile status bar
-  const bgPrimary = data.colors?.['--bg-primary'] || (isDark ? '#0d080a' : '#f4f4f5')
-  const metaThemeColor = document.querySelector('meta[name="theme-color"]')
-  if (metaThemeColor) {
-    metaThemeColor.setAttribute('content', bgPrimary)
+  } catch {
+    /* storage unavailable (private mode) — the class toggle above still applies */
   }
+  syncThemeColorMeta(isDark)
 
-  // Apply Font
-  if (data.fontFamily) {
-    const fontOpt = FONT_OPTIONS.find((f) => f.id === data.fontFamily)
-    if (fontOpt) {
-      root.style.setProperty('--font-family', fontOpt.value)
+  Object.entries(OPTION_SOURCES).forEach(([optionKey, options]) => {
+    const selected = options.find((option) => option.id === data[optionKey])
+    if (!selected) return
+    if (optionKey === 'fontFamily') {
+      root.style.setProperty('--font-family', selected.value)
+      return
     }
-  }
-
-  // Apply Radius
-  if (data.radius) {
-    const radOpt = RADIUS_OPTIONS.find((r) => r.id === data.radius)
-    if (radOpt) {
-      Object.entries(radOpt.tokens).forEach(([k, v]) => root.style.setProperty(k, v))
-    }
-  }
-
-  // Apply Density
-  if (data.density) {
-    const denOpt = DENSITY_OPTIONS.find((d) => d.id === data.density)
-    if (denOpt) {
-      Object.entries(denOpt.tokens).forEach(([k, v]) => root.style.setProperty(k, v))
-    }
-  }
-
-  // Apply Elevation
-  if (data.elevation) {
-    const elevOpt = ELEVATION_OPTIONS.find((e) => e.id === data.elevation)
-    if (elevOpt) {
-      Object.entries(elevOpt.tokens).forEach(([k, v]) => root.style.setProperty(k, v))
-    }
-  }
-
-  // Apply Motion
-  if (data.motion) {
-    const motOpt = MOTION_OPTIONS.find((m) => m.id === data.motion)
-    if (motOpt) {
-      Object.entries(motOpt.tokens).forEach(([k, v]) => root.style.setProperty(k, v))
-    }
-  }
+    Object.entries(selected.tokens).forEach(([token, value]) => root.style.setProperty(token, value))
+  })
 }
 
 export function resetThemeVariables() {
   const root = document.documentElement
-  COLOR_VARIABLE_GROUPS.forEach((group) => {
-    group.variables.forEach((item) => {
-      root.style.removeProperty(item.key)
-    })
-  })
   root.style.removeProperty('--font-family')
-  if (RADIUS_OPTIONS[2].tokens) {
-    Object.keys(RADIUS_OPTIONS[2].tokens).forEach((k) => root.style.removeProperty(k))
-  }
-  if (DENSITY_OPTIONS[1].tokens) {
-    Object.keys(DENSITY_OPTIONS[1].tokens).forEach((k) => root.style.removeProperty(k))
-  }
-  if (ELEVATION_OPTIONS[1].tokens) {
-    Object.keys(ELEVATION_OPTIONS[1].tokens).forEach((k) => root.style.removeProperty(k))
-  }
-  if (MOTION_OPTIONS[2].tokens) {
-    Object.keys(MOTION_OPTIONS[2].tokens).forEach((k) => root.style.removeProperty(k))
-  }
+  Object.entries(OPTION_SOURCES).forEach(([optionKey, options]) => {
+    if (optionKey === 'fontFamily') return
+    const fallback = options.find((option) => option.id === DEFAULT_APPEARANCE[optionKey])
+    if (!fallback) return
+    Object.keys(fallback.tokens).forEach((token) => root.style.removeProperty(token))
+  })
 }

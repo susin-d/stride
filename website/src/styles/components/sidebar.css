@@ -462,9 +462,9 @@ nav {
   transform: translateY(-50%);
   z-index: 100;
   padding: 6px 14px;
-  background: var(--bg-tertiary, #18181b);
+  background: var(--bg-tertiary, #171717);
   color: var(--text-primary, #ffffff);
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: var(--radius-md, 8px);
   font-size: 13px;
   font-weight: 550;

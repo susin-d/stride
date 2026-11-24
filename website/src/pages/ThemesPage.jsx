@@ -1,14 +1,14 @@
 import "../styles/pages/themes-shell.css"
 import "../styles/pages/themes-controls.css"
-import "../styles/pages/themes-customizer.css"
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import {
   Check,
   Download,
   Upload,
   RotateCcw,
   Palette,
-  Sparkles,
+  Sun,
+  Moon,
   CheckCircle2,
   AlertTriangle,
   XCircle,
@@ -22,9 +22,7 @@ import {
 import { SectionHeading } from '../components/ui'
 import {
   useThemeCustomizer,
-  PALETTE_GROUPS,
-  getPresetsByPalette,
-  COLOR_VARIABLE_GROUPS,
+  THEME_MODES,
   FONT_OPTIONS,
   RADIUS_OPTIONS,
   DENSITY_OPTIONS,
@@ -32,42 +30,39 @@ import {
   MOTION_OPTIONS,
 } from '../themes'
 
+const MODE_ICONS = { light: Sun, dark: Moon }
+
 export function ThemesPage() {
   const {
-    activePreset,
-    currentColors,
+    mode,
     fontFamily,
     radius,
     density,
     elevation,
     motion,
-    isSaved,
-    selectPreset,
-    updateColor,
+    setMode,
     updateOption,
-    saveCustomTheme,
     resetToDefault,
-    exportTheme,
-    importTheme,
+    exportAppearance,
+    importAppearance,
   } = useThemeCustomizer()
 
   const fileInputRef = useRef(null)
-  const [activeCategory, setActiveCategory] = useState('all')
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files?.[0]
+  const handleFileUpload = (event) => {
+    const file = event.target.files?.[0]
     if (!file) return
     const reader = new FileReader()
-    reader.onload = (event) => {
+    reader.onload = (loadEvent) => {
       try {
-        const parsed = JSON.parse(event.target?.result)
-        importTheme(parsed)
+        const parsed = JSON.parse(loadEvent.target?.result)
+        if (!importAppearance(parsed)) alert('Invalid UI/UX configuration JSON file.')
       } catch {
         alert('Invalid UI/UX configuration JSON file.')
       }
     }
     reader.readAsText(file)
-    e.target.value = ''
+    event.target.value = ''
   }
 
   const triggerImport = () => {
@@ -82,7 +77,7 @@ export function ThemesPage() {
             type="button"
             className="secondary-button"
             onClick={resetToDefault}
-            title="Reset UI/UX settings to system defaults"
+            title="Reset appearance settings to system defaults"
           >
             <RotateCcw size={15} />
             Reset Defaults
@@ -90,8 +85,8 @@ export function ThemesPage() {
           <button
             type="button"
             className="secondary-button"
-            onClick={exportTheme}
-            title="Export full UI/UX configuration JSON"
+            onClick={exportAppearance}
+            title="Export UI/UX configuration JSON"
           >
             <Download size={15} />
             Export JSON
@@ -100,7 +95,7 @@ export function ThemesPage() {
             type="button"
             className="secondary-button"
             onClick={triggerImport}
-            title="Import full UI/UX configuration JSON"
+            title="Import UI/UX configuration JSON"
           >
             <Upload size={15} />
             Import JSON
@@ -112,106 +107,48 @@ export function ThemesPage() {
             accept=".json"
             style={{ display: 'none' }}
           />
-          <button
-            type="button"
-            className="primary-button theme-save-btn"
-            onClick={saveCustomTheme}
-          >
-            {isSaved ? (
-              <>
-                <Check size={16} /> Saved!
-              </>
-            ) : (
-              <>
-                <Sparkles size={16} /> Save Studio Preset
-              </>
-            )}
-          </button>
         </div>
       </div>
 
-      {/* 1. Presets */}
+      {/* 1. Appearance mode */}
       <div className="themes-section">
         <SectionHeading
-          title="1. Theme Presets"
-          description="Curated color presets — vibrant multi-color Spectrum themes with distinct semantic roles, and high-contrast energetic Duotones."
+          title="1. Appearance Mode"
+          description="Stride ships two modes and no color presets — White and Dark, both on the same strictly monochrome ink ramp."
         />
-        {PALETTE_GROUPS.map((group) => {
-          const presets = getPresetsByPalette(group.id)
+        <div className="modes-grid">
+          {THEME_MODES.map((themeMode) => {
+            const ModeIcon = MODE_ICONS[themeMode.id] || Sun
+            const isActive = mode === themeMode.id
 
-          return (
-            <div key={group.id} className="presets-group">
-              <div className="presets-group-heading">
-                <h3>{group.label}</h3>
-                <span className="presets-group-count">{presets.length} presets</span>
-              </div>
-              <p className="presets-group-desc">{group.description}</p>
-              <div className="presets-grid">
-                {presets.map((preset) => {
-                  const isActive = activePreset === preset.id
-                  const bg = preset.colors['--bg-primary'] || '#121212'
-                  const cardBg = preset.colors['--bg-card'] || '#1e1e1e'
-                  const primaryColor = preset.colors['--color-primary'] || '#ffffff'
-                  const textColor = preset.colors['--text-primary'] || '#ffffff'
-                  const roleTokens = [
-                    '--color-primary',
-                    '--color-accent',
-                    '--color-success',
-                    '--color-warning',
-                    '--color-danger',
-                  ]
-
-                  return (
-                    <button
-                      key={preset.id}
-                      type="button"
-                      className={`preset-card ${isActive ? 'active' : ''}`}
-                      onClick={() => selectPreset(preset.id)}
-                    >
-                      <div
-                        className="preset-preview-box"
-                        style={{ backgroundColor: bg, borderColor: preset.colors['--border-color'] }}
-                      >
-                        <div
-                          className="preset-mini-card"
-                          style={{ backgroundColor: cardBg, color: textColor }}
-                        >
-                          <span
-                            className="preset-mini-dot"
-                            style={{ backgroundColor: primaryColor }}
-                          />
-                          <span className="preset-mini-text" style={{ color: textColor }}>
-                            {preset.name}
-                          </span>
-                        </div>
-                        <div className="preset-mini-swatches">
-                          {roleTokens.map((tokenKey) => {
-                            const c = preset.colors[tokenKey]
-                            return c ? (
-                              <span
-                                key={tokenKey}
-                                className="preset-mini-swatch"
-                                style={{ backgroundColor: c }}
-                                title={tokenKey}
-                              />
-                            ) : null
-                          })}
-                        </div>
-                      </div>
-                      <div className="preset-info">
-                        <div className="preset-title-row">
-                          <strong>{preset.name}</strong>
-                          {isActive && <Check size={15} className="preset-check" />}
-                        </div>
-                        <small>{preset.description}</small>
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )
-        })}
+            return (
+              <button
+                key={themeMode.id}
+                type="button"
+                className={`mode-card ${isActive ? 'active' : ''}`}
+                onClick={() => setMode(themeMode.id)}
+                aria-pressed={isActive}
+              >
+                <div className={`mode-card-preview is-${themeMode.id}`} aria-hidden="true">
+                  <span className="mode-card-surface" />
+                  <span className="mode-card-bar" />
+                  <span className="mode-card-bar is-short" />
+                  <span className="mode-card-fill" />
+                </div>
+                <div className="mode-card-info">
+                  <div className="mode-card-title-row">
+                    <span className="mode-card-name">
+                      <ModeIcon size={15} />
+                      <strong>{themeMode.name}</strong>
+                    </span>
+                    {isActive && <Check size={15} className="mode-card-check" />}
+                  </div>
+                  <small>{themeMode.description}</small>
+                </div>
+              </button>
+            )
+          })}
+        </div>
       </div>
 
       {/* 2. Interface Geometry & UX Controls */}
@@ -236,9 +173,9 @@ export function ThemesPage() {
               value={fontFamily}
               onChange={(e) => updateOption('fontFamily', e.target.value)}
             >
-              {FONT_OPTIONS.map((f) => (
-                <option key={f.id} value={f.id}>
-                  {f.name}
+              {FONT_OPTIONS.map((font) => (
+                <option key={font.id} value={font.id}>
+                  {font.name}
                 </option>
               ))}
             </select>
@@ -254,14 +191,14 @@ export function ThemesPage() {
               </div>
             </div>
             <div className="ux-segment-group">
-              {RADIUS_OPTIONS.map((r) => (
+              {RADIUS_OPTIONS.map((option) => (
                 <button
-                  key={r.id}
+                  key={option.id}
                   type="button"
-                  className={`ux-segment-btn ${radius === r.id ? 'active' : ''}`}
-                  onClick={() => updateOption('radius', r.id)}
+                  className={`ux-segment-btn ${radius === option.id ? 'active' : ''}`}
+                  onClick={() => updateOption('radius', option.id)}
                 >
-                  {r.name}
+                  {option.name}
                 </button>
               ))}
             </div>
@@ -277,14 +214,14 @@ export function ThemesPage() {
               </div>
             </div>
             <div className="ux-segment-group">
-              {DENSITY_OPTIONS.map((d) => (
+              {DENSITY_OPTIONS.map((option) => (
                 <button
-                  key={d.id}
+                  key={option.id}
                   type="button"
-                  className={`ux-segment-btn ${density === d.id ? 'active' : ''}`}
-                  onClick={() => updateOption('density', d.id)}
+                  className={`ux-segment-btn ${density === option.id ? 'active' : ''}`}
+                  onClick={() => updateOption('density', option.id)}
                 >
-                  {d.name}
+                  {option.name}
                 </button>
               ))}
             </div>
@@ -300,14 +237,14 @@ export function ThemesPage() {
               </div>
             </div>
             <div className="ux-segment-group">
-              {ELEVATION_OPTIONS.map((e) => (
+              {ELEVATION_OPTIONS.map((option) => (
                 <button
-                  key={e.id}
+                  key={option.id}
                   type="button"
-                  className={`ux-segment-btn ${elevation === e.id ? 'active' : ''}`}
-                  onClick={() => updateOption('elevation', e.id)}
+                  className={`ux-segment-btn ${elevation === option.id ? 'active' : ''}`}
+                  onClick={() => updateOption('elevation', option.id)}
                 >
-                  {e.name}
+                  {option.name}
                 </button>
               ))}
             </div>
@@ -323,14 +260,14 @@ export function ThemesPage() {
               </div>
             </div>
             <div className="ux-segment-group">
-              {MOTION_OPTIONS.map((m) => (
+              {MOTION_OPTIONS.map((option) => (
                 <button
-                  key={m.id}
+                  key={option.id}
                   type="button"
-                  className={`ux-segment-btn ${motion === m.id ? 'active' : ''}`}
-                  onClick={() => updateOption('motion', m.id)}
+                  className={`ux-segment-btn ${motion === option.id ? 'active' : ''}`}
+                  onClick={() => updateOption('motion', option.id)}
                 >
-                  {m.name}
+                  {option.name}
                 </button>
               ))}
             </div>
@@ -342,7 +279,7 @@ export function ThemesPage() {
       <div className="themes-section">
         <SectionHeading
           title="3. Live Interface Preview"
-          description="Real-time view of your typography, corner roundness, shadows, motion, and colors."
+          description="Real-time view of your typography, corner roundness, shadows, motion, and mode."
         />
 
         <div className="live-preview-container">
@@ -370,7 +307,7 @@ export function ThemesPage() {
               <div className="preview-card-grid">
                 <div className="preview-card">
                   <h3>Project Overview</h3>
-                  <p>All colors, typography, corners, and elevation update dynamically.</p>
+                  <p>Typography, corners, elevation, motion, and mode update dynamically.</p>
                   <div className="preview-btn-group">
                     <button type="button" className="preview-primary-btn">
                       Primary Action
@@ -403,82 +340,6 @@ export function ThemesPage() {
           </div>
         </div>
       </div>
-
-      {/* 4. Color Controls */}
-      <div className="themes-section">
-        <SectionHeading
-          title="4. Customize All Element Colors"
-          description="Fine-tune Hex/RGB colors for backgrounds, cards, typography, buttons, borders, and status tags."
-        />
-
-        <div className="color-category-tabs">
-          <button
-            type="button"
-            className={`category-tab ${activeCategory === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveCategory('all')}
-          >
-            All Elements
-          </button>
-          {COLOR_VARIABLE_GROUPS.map((group, idx) => (
-            <button
-              key={group.title}
-              type="button"
-              className={`category-tab ${activeCategory === idx ? 'active' : ''}`}
-              onClick={() => setActiveCategory(idx)}
-            >
-              {group.title}
-            </button>
-          ))}
-        </div>
-
-        <div className="color-groups-stack">
-          {COLOR_VARIABLE_GROUPS.map((group, groupIdx) => {
-            if (activeCategory !== 'all' && activeCategory !== groupIdx) return null
-
-            return (
-              <div key={group.title} className="color-group-card">
-                <h3>{group.title}</h3>
-                <div className="color-pickers-grid">
-                  {group.variables.map((item) => {
-                    const currentColor = currentColors[item.key] || '#888888'
-
-                    return (
-                      <div key={item.key} className="color-picker-item">
-                        <div className="picker-label-col">
-                          <label htmlFor={`color-${item.key}`}>{item.label}</label>
-                          <code>{item.key}</code>
-                        </div>
-
-                        <div className="picker-input-controls">
-                          <div
-                            className="color-swatch-box"
-                            style={{ backgroundColor: currentColor }}
-                          />
-                          <input
-                            type="color"
-                            id={`color-${item.key}`}
-                            className="color-native-input"
-                            value={currentColor.length === 7 ? currentColor : '#888888'}
-                            onChange={(e) => updateColor(item.key, e.target.value)}
-                          />
-                          <input
-                            type="text"
-                            className="color-hex-input"
-                            value={currentColor}
-                            onChange={(e) => updateColor(item.key, e.target.value)}
-                            placeholder="#000000"
-                          />
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
     </section>
   )
 }
-

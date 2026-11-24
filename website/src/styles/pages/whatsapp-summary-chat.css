@@ -5,15 +5,15 @@
   flex-direction: column;
   flex: 1;
   min-height: 240px;
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 10px;
-  background: var(--bg-primary, #09090b);
+  background: var(--bg-primary, #0a0a0a);
   overflow: hidden;
 }
 
 .whatsapp-summary-suggestions {
   padding: 10px 14px 6px 14px;
-  border-bottom: 1px solid var(--border-color, #1f1f23);
+  border-bottom: 1px solid var(--border-color, #1f1f1f);
   background: rgba(255, 255, 255, 0.01);
 }
 
@@ -23,7 +23,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   margin-bottom: 6px;
 }
 
@@ -42,8 +42,8 @@
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--text-primary, #ffffff);
-  background: var(--bg-secondary, #18181b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-secondary, #171717);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 999px;
   padding: 4px 10px;
   cursor: pointer;
@@ -52,7 +52,7 @@
 }
 
 .whatsapp-summary-chip:hover {
-  background: var(--bg-hover, #27272a);
+  background: var(--bg-hover, #262626);
   border-color: var(--border-heavy);
 }
 
@@ -73,15 +73,15 @@
   justify-content: center;
   text-align: center;
   padding: 30px 20px;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
 }
 
 .whatsapp-summary-empty-icon {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--bg-secondary, #18181b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-secondary, #171717);
+  border: 1px solid var(--border-color, #262626);
   display: grid;
   place-items: center;
   margin-bottom: 10px;
@@ -97,7 +97,7 @@
 
 .whatsapp-summary-empty-desc {
   font-size: 0.8125rem;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   max-width: 380px;
   margin: 0;
   line-height: 1.5;
@@ -124,8 +124,8 @@
   min-width: 28px;
   min-height: 28px;
   border-radius: 50%;
-  background: var(--bg-secondary, #18181b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-secondary, #171717);
+  border: 1px solid var(--border-color, #262626);
   display: grid;
   place-items: center;
   color: var(--text-primary, #ffffff);
@@ -148,9 +148,9 @@
 }
 
 .whatsapp-summary-msg-row.is-assistant .whatsapp-summary-msg-bubble {
-  background: var(--bg-secondary, #18181b);
+  background: var(--bg-secondary, #171717);
   color: var(--text-primary, #ffffff);
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   border-bottom-left-radius: 2px;
 }
 
@@ -177,7 +177,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--text-secondary, #a1a1aa);
+  background: var(--text-secondary, #a3a3a3);
   animation: typingBounce 1.2s infinite ease-in-out;
 }
 
@@ -206,13 +206,13 @@
   gap: 8px;
   padding: 8px 12px;
   background: var(--bg-secondary, #121212);
-  border-top: 1px solid var(--border-color, #27272a);
+  border-top: 1px solid var(--border-color, #262626);
 }
 
 .whatsapp-summary-input {
   flex: 1;
-  background: var(--bg-primary, #09090b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-primary, #0a0a0a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 0.84375rem;
@@ -223,7 +223,7 @@
 }
 
 .whatsapp-summary-input:focus {
-  border-color: var(--border-focus, #52525b);
+  border-color: var(--border-focus, #525252);
 }
 
 .whatsapp-summary-send-btn {
@@ -259,16 +259,16 @@
 
 .whatsapp-summary-footer-hint {
   font-size: 0.75rem;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 .whatsapp-summary-footer-hint kbd {
   display: inline-block;
   padding: 1px 5px;
   font-size: 0.6875rem;
-  background: var(--bg-secondary, #18181b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-secondary, #171717);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 4px;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
 }
 

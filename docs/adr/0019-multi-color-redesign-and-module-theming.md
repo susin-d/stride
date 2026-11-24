@@ -1,6 +1,6 @@
 # ADR 0019: Multi-Color Redesign, Module Accent Theming, and Monochrome Retirement
 
-- **Status**: Accepted
+- **Status**: Superseded by [ADR 0057](./0057-monochrome-white-and-dark-modes.md) — monochrome design system with only White and Dark modes
 - **Date**: 2026-09-06
 - **Deciders**: Stride Core Team
 - **Supersedes**: [ADR 0011: Spectrum Color Role System](./0011-spectrum-color-role-system.md)

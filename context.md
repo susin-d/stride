@@ -1,7 +1,7 @@
 # Stride Context
 
 Living snapshot for AI agents. `AGENTS.md` holds permanent rules; this file holds the **current state**. See `CHANGELOG.md` for history and `PROJECT_MAP.md` for the file index.
-Last updated: 2026-11-24 — Starwaves renamed to Stride everywhere: brand text, storage/event keys, Docker + DB + image names, log filenames, native app IDs and deep-link schemes, and the canonical domains (ADR 0056); snapshot section compacted.
+Last updated: 2026-11-24 — Design system collapsed to monochrome with only White and Dark modes: 24 theme presets, the preset catalog, the per-color customizer and the avatar hue chain removed; every chromatic literal neutralized (ADR 0057).
 
 ## Contents
 1. [Overview](#1-overview) · 2. [Repository structure](#2-repository-structure) · 3. [Backend](#4-backend) · 4. [Frontend](#4-frontend) · 5. [Design system](#5-design-system) · 6. [Current snapshot](#6-current-snapshot) · 7. [Limitations](#7-limitations) · 8. [Verification](#8-verification)
@@ -9,7 +9,7 @@ Last updated: 2026-11-24 — Starwaves renamed to Stride everywhere: brand text,
 ## 1. Overview
 Personal productivity workspace: projects, jobs, tasks, documents, code workspace, calendars, email, WhatsApp, hackathons, competitive programming, and EVE AI assistant.
 
-- **Frontend** (`/website`): React 19 + Vite + Vanilla CSS (multi-color semantic tokens, module-level accent theming, spectrum & vibrant duo presets) + Monaco Editor. Docker multi-stage + Nginx. `vite define __APP_VERSION__` + updaters (`updatesApi`, `desktopUpdater`, `androidUpdater`, `otaUpdater`, `useAutoUpdater`, `UpdateBanner`, `UpdateSection` in Settings).
+- **Frontend** (`/website`): React 19 + Vite + Vanilla CSS (monochrome semantic tokens, two modes — White and Dark, ADR 0057) + Monaco Editor. Docker multi-stage + Nginx. `vite define __APP_VERSION__` + updaters (`updatesApi`, `desktopUpdater`, `androidUpdater`, `otaUpdater`, `useAutoUpdater`, `UpdateBanner`, `UpdateSection` in Settings).
 - **Backend** (`/server`): FastAPI + Supabase PostgreSQL 16 + pgvector + Async SQLAlchemy 2.0. Mount `server/static/updates` at `/updates` (StaticFiles) + `/api/v1/updates` (check/latest/android/ota).
 - **Desktop** (`/website/src-tauri`): Tauri v2 + bundle `msi/nsis` + `tauri-plugin-updater/process` (pubkey in tauri.conf, endpoints `api.stride.../updates/latest.json`).
 - **Worker** (`/services/whatsapp-worker`): Go (WhatsMeow) bridge.
@@ -19,7 +19,7 @@ Personal productivity workspace: projects, jobs, tasks, documents, code workspac
 ## 2. Repository structure
 ```text
 stride/
-├── website/            React 19 + Vite (multi-color tokens + spectrum/duo presets, Monaco, lucide-react, Framer Motion)
+├── website/            React 19 + Vite (monochrome tokens, White/Dark modes, Monaco, lucide-react, Framer Motion)
 ├── server/             FastAPI backend (app/api, app/core, app/db/sql, models, repos, schemas, services)
 ├── services/whatsapp-worker/  Go bridge
 ├── sql/                extensions.sql, schema.sql (18 tables incl. user_sessions+ai_usage), migrations.sql, indexes.sql (incl. HNSW)
@@ -55,12 +55,14 @@ For full maps see `PROJECT_MAP.md`. Keep this section brief; expand there.
   - **API clients** `lib/` — one per backend feature via `request.js` `apiRequest` (dedup + cache 30s/15s + concurrency 6 + retries + `X-Device-Id`, 401 logout). `authApi` device-aware, `uiPreferencesApi`, `eveAvatarApi`, `firebase.js`.
   - **Brand:** `components/StrideLogo.jsx` (styled by `.stride-logo-icon` in `styles/components/header-topbar.css`); icons/bundle art come from `public/logo.png`.
   - **Pages:** Dashboard, Projects, Jobs, Hackathons, Todo, Documents, Workspace (IDE + Eve + Browser, `useEveAgentChat` streams `thinking`+`stream` cursors), Studio (hero→builder/apps/templates), Eve (chat+memory+voice+schedules, `EveChatSection` streams `thinking`/`delta`/`toolCalls` with `EveThoughtHistory` + live cursor), **Avatar Studio** (`/app/avatar` lazy), Calls (WebRTC+Twilio), WhatsApp, Mails, Calendar, Contacts, Coding, Stats, `UsagePage`, Settings (`Device`+`Appearance`+`EveAvatarSection`), `CustomPage`, Themes, Profile, Onboarding, Landing, etc. Global `EveGlobalCompanion` dock.
-     - **Config:** `config/navigation.js` (`avatar` → Avatar Studio in the Eve AI group), `config/search/` (7 modules), `dashboard/dashboardConfig.js`, `themes/` 26 presets, `utils/` pure transformers, `styles/` import chain + `eve-avatar.css` + `pages/avatar.css` (Vite `avatar-3d`/`avatar-live2d` chunks), `public/avatars/` examples.
+     - **Config:** `config/navigation.js` (`avatar` → Avatar Studio in the Eve AI group), `config/search/` (7 modules), `dashboard/dashboardConfig.js`, `themes/` (`themeApplicator` engine + `THEME_MODES`, ADR 0057), `utils/` pure transformers, `styles/` import chain + `eve-avatar.css` + `pages/avatar.css` (Vite `avatar-3d`/`avatar-live2d` chunks), `public/avatars/` examples.
 
 ## 5. Design system
-- **Palette:** Multi-color semantic design system (ADR 0019) with domain/module accent theming. Default primary is Crimson Noir `#a83b59` in both themes (ADR 0030; light hover `#8c2f4b`, tint `#fbe8ed`); Work/Chats stay Electric Indigo `#4f46e5` + `prism` preset keeps indigo for wayfinding. Curated presets across Multi-Color Spectrum (`light`, `dark`, `prism`, `neonGrid`, `botanical`) and 12 Vibrant Duotones (`abyss`, `ember`, `coral`, `azure`, `verdant`, etc.).
-- **Module Accent Coding:** Signature colors per feature/group (`--module-work` Electric Indigo, `--module-studio` Vivid Violet, `--module-eve` Luminous Pink, `--module-growth` Emerald, `--module-whatsapp` Brand Green, `--module-mail` Rose, `--module-calendar` Sky Blue, `--module-calls` Purple).
-- **Tokens first:** `styles/tokens.css` CSS vars (8pt `--space-*` scale, `--content-max-width` 1440, `--content-gutter`/`--section-gap`/`--card-padding` clamps, `--header-height` 68/62, `--sidebar-*`, `--glow-*`, `--gradient-*`). Import order `tokens→base→utilities→responsive→components→pages→layout-symmetry` via `App.css`.
+- **Palette:** Strictly monochrome with exactly two modes (ADR 0057) — **White** (`styles/themes/index.css`) and **Dark** (`styles/themes/dark.css`). Identity comes from a neutral ink ladder, fill weight, borders, and icons: primary `#171717` (white mode) / `#f5f5f5` (dark), statuses on one ramp (`success #525252`, `warning #5c5c5c`, `danger #0a0a0a`, `purple #404040`; inverted in dark), `--on-fill`/`--text-inverse` flip per mode. No presets, no color editor.
+- **Tone-only module coding:** `--module-*` accents carry neutral tones (Work/Chats/Projects darkest, Studio/Eve/Calendar mid, Account lightest) so groups stay groups without hue.
+- **Engine:** `themes/themeApplicator.js` owns `THEME_MODES`, `DEFAULT_APPEARANCE`, geometry/motion catalogs, `applyTheme()` (mode class + geometry + `theme-color` meta read from live `--bg-primary`) and `resetThemeVariables()`; `useThemeCustomizer` persists `{mode, fontFamily, radius, density, elevation, motion}` in `stride.custom_theme`; `useAppEffects.useAppTheme` paints the stored appearance at boot; the Header toggle flips mode. Themes page = White/Dark cards + geometry controls + live preview + JSON export/import.
+- **Tokens first:** `styles/tokens.css` CSS vars (8pt `--space-*` scale, `--content-max-width` 1440, `--content-gutter`/`--section-gap`/`--card-padding` clamps, `--header-height` 68/62, `--sidebar-*`, neutral `--glow-*`/`--gradient-*`, `--chart-*`, `--heat-*`). Import order `tokens→base→utilities→responsive→components→pages→layout-symmetry` via `App.css`.
+- **Pinned neutral scopes:** landing `.cinema` (dark ramp + light variant, fixed mode previews) and `.auth-cinematic.auth-cinematic` (auth) pin their own neutral values — the documented palette-rule exceptions.
 - **One CSS per component/page**, `kebab-case` classes scoped, use vars (`var(--radius-lg)`), dark overrides in `styles/themes/dark.css`.
 - **Full-page, no clip:** `min-height:100vh` accounting for chrome, natural scroll. Responsive mobile-first with `clamp()`. Geometry in `layout-symmetry.css`.
 - Icons `lucide-react` only.
@@ -72,7 +74,7 @@ For full maps see `PROJECT_MAP.md`. Keep this section brief; expand there.
 - **Avatar modeling (ADR 0034/0039/0040):** `pages/avatar-studio/` editor — schema-v2 GLB/GLTF/VRM/OBJ/FBX scenes, `/modeling/projects` API, outliner, inspector, timeline, UV painting, GLB export.
 - **Studio:** unified prompt-first Builder, status-aware Apps gallery, filterable Templates catalog, preview readiness metadata, Builder IDE handoff via `StudioHero`.
 - **EVE/voice:** multi-provider + live `/v1/models`; SSE `delta`/`thinking`/`tool`/`done` + RAG + auto-remember (capped 3); tools: workspace files, web, WhatsApp, browser, schedule, UI (`ui-preferences`); `ModelSelectorDropdown` + `openrouter/free` default; `voice_fast.py` Groq 8b-instant + `POST /eve/voice/stream` + Twilio `ConversationRelay`; STT browser/Groq/Deepgram, TTS Google/OpenRouter Fish.
-- **Calls/search:** `in_app` WebRTC vs Twilio PSTN + `CallWSManager` multi + `BroadcastChannel`; `⌘K` palette + Landing cinema (`cinema-{base,hero,sections,motion}.css`) with Crimson Noir scenery (ADR 0023) retained under the new Hero.
+- **Calls/search:** `in_app` WebRTC vs Twilio PSTN + `CallWSManager` multi + `BroadcastChannel`; `⌘K` palette + Landing cinema (`cinema-{base,hero,sections,motion}.css`) with the pinned monochrome ramp (ADR 0057) under the Hero.
 - **Loading:** `WaveLoader` music-bar equalizer (reduced-motion safe) + `LoadingState`.
 - **Branding:** Stride everywhere — storage/event keys, Docker/DB/image names, log files, native IDs, domains (ADR 0056).
 

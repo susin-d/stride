@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted (amended by [ADR 0057](./0057-monochrome-white-and-dark-modes.md) — palette content is monochrome)
 
 - Date: 2026-09-06
 - Deciders: Stride Core Team

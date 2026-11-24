@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: 1rem;
   background: var(--bg-secondary, #121212);
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: var(--radius-lg, 12px);
   padding: 1.25rem;
   flex: 1;
@@ -28,7 +28,7 @@
 }
 
 .eve-messages-feed::-webkit-scrollbar-thumb {
-  background: var(--border-color, #27272a);
+  background: var(--border-color, #262626);
   border-radius: 3px;
 }
 
@@ -63,8 +63,8 @@
 }
 
 .eve-chat-bubble.assistant .eve-bubble-text {
-  background: var(--bg-card, #1c1917);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-card, #161616);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 18px 18px 18px 4px;
   padding: 0.85rem 1.25rem;
   color: var(--text-primary, #ffffff);
@@ -72,8 +72,8 @@
 }
 
 .eve-chat-bubble.user .eve-bubble-text {
-  background: var(--bg-tertiary, #18181b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-tertiary, #171717);
+  border: 1px solid var(--border-color, #262626);
   color: var(--text-primary, #ffffff);
   border-radius: 18px 18px 4px 18px;
   padding: 0.75rem 1.15rem;
@@ -163,8 +163,8 @@
   align-items: center;
   gap: 4px;
   padding: 0.75rem 1rem;
-  background: var(--bg-tertiary, #18181b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-tertiary, #171717);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 10px;
   width: fit-content;
 }
@@ -172,7 +172,7 @@
 .eve-typing-indicator span {
   width: 6px;
   height: 6px;
-  background: var(--text-muted, #71717a);
+  background: var(--text-muted, #737373);
   border-radius: 50%;
   animation: eve-typing 1.4s infinite ease-in-out;
 }
@@ -225,7 +225,7 @@
   margin-left: 2px;
   vertical-align: -0.12em;
   border-radius: 1px;
-  background: var(--text-secondary, #a1a1aa);
+  background: var(--text-secondary, #a3a3a3);
   animation: eve-caret-blink 0.95s steps(1, end) infinite;
 }
 

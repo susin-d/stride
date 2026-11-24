@@ -56,10 +56,10 @@ body {
   position: fixed;
   z-index: 9999;
   min-width: 160px;
-  background: color-mix(in srgb, var(--bg-surface, #1a1a2e) 90%, transparent);
+  background: color-mix(in srgb, var(--bg-surface, #1c1c1c) 90%, transparent);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid color-mix(in srgb, var(--color-primary, #a83b59) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary, #171717) 30%, transparent);
   border-radius: var(--radius-lg, 12px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 0.5px rgba(255,255,255,0.04);
   padding: 4px;
@@ -89,17 +89,17 @@ body {
 }
 
 .overlay-context-menu-item:hover {
-  background: color-mix(in srgb, var(--color-primary, #a83b59) 16%, transparent);
+  background: color-mix(in srgb, var(--color-primary, #171717) 16%, transparent);
   color: var(--text-primary, #f0f0f0);
 }
 
 .overlay-context-menu-item.is-danger:hover {
-  background: color-mix(in srgb, var(--color-danger, #e11d48) 18%, transparent);
-  color: var(--color-danger, #f43f5e);
+  background: color-mix(in srgb, var(--color-danger, #0a0a0a) 18%, transparent);
+  color: var(--color-danger, #0a0a0a);
 }
 
 .overlay-context-menu-sep {
   height: 1px;
-  background: color-mix(in srgb, var(--border-subtle, #333) 80%, transparent);
+  background: color-mix(in srgb, var(--border-subtle, #2b2b2b) 80%, transparent);
   margin: 3px 8px;
 }

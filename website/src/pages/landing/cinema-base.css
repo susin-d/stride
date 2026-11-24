@@ -1,34 +1,37 @@
-/* Stride — Cinematic base: tokens, nav, shared heads, footer (scoped, ADR 0019/0020/0023/0024) */
+/* Stride — Cinematic base: tokens, nav, shared heads, footer (scoped, ADR 0019/0020/0023/0024/0057) */
 .cinema {
-  --cinema-bg: #0d080a;
-  --cinema-bg-2: #1a0f13;
-  --cinema-surface: #24121a;
-  --cinema-surface-2: #2e1823;
-  --cinema-border: #542033;
-  --cinema-border-strong: #7a2e45;
-  --cinema-text: #f8f9fa;
-  --cinema-muted: #b6a9b0;
-  --cinema-dim: #7a6a73;
-  --cinema-faint: #5c4a54;
-  /* Pinned Crimson Noir defaults (ADR 0023): public landing renders crimson
-     even for logged-out visitors with no theme class — documented exception. */
-  --cinema-primary: #a83b59;
-  --cinema-focus: #c75a73;
-  --cinema-work: #6366f1;
-  --cinema-workspace: #fbbf24;
-  --cinema-todo: #22d3ee;
-  --cinema-projects: #3b82f6;
-  --cinema-documents: #38bdf8;
-  --cinema-studio: #a855f7;
-  --cinema-eve: #f43f5e;
-  --cinema-growth: #10b981;
-  --cinema-calendar: #38bdf8;
-  --cinema-mail: #fb7185;
-  --cinema-calls: #c084fc;
-  --cinema-gradient-primary: linear-gradient(135deg, #6e1f35 0%, #a83b59 100%);
-  --cinema-gradient-eve: linear-gradient(135deg, #db2777 0%, #f97316 100%);
-  --cinema-gradient-studio: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-  --cinema-glow-primary: 0 0 24px rgba(168, 59, 89, 0.4);
+  --cinema-bg: #0a0a0a;
+  --cinema-bg-2: #141414;
+  --cinema-surface: #1c1c1c;
+  --cinema-surface-2: #262626;
+  --cinema-border: #2b2b2b;
+  --cinema-border-strong: #525252;
+  --cinema-text: #fafafa;
+  --cinema-muted: #b5b5b5;
+  --cinema-dim: #8a8a8a;
+  --cinema-faint: #5c5c5c;
+  /* Pinned monochrome defaults (ADR 0057): the public landing renders the dark
+     ink ramp even for logged-out visitors with no theme class — documented
+     exception for intentionally pinned scopes. Module identities are tone-only. */
+  --cinema-primary: #f5f5f5;
+  --cinema-focus: #d4d4d4;
+  --cinema-work: #e5e5e5;
+  --cinema-workspace: #c4c4c4;
+  --cinema-todo: #c4c4c4;
+  --cinema-projects: #e5e5e5;
+  --cinema-documents: #c4c4c4;
+  --cinema-studio: #b5b5b5;
+  --cinema-eve: #b5b5b5;
+  --cinema-growth: #c4c4c4;
+  --cinema-calendar: #b5b5b5;
+  --cinema-mail: #c4c4c4;
+  --cinema-calls: #b5b5b5;
+  --cinema-gradient-primary: linear-gradient(135deg, #fafafa 0%, #a3a3a3 100%);
+  --cinema-gradient-eve: linear-gradient(135deg, #e5e5e5 0%, #8a8a8a 100%);
+  --cinema-gradient-studio: linear-gradient(135deg, #fafafa 0%, #737373 100%);
+  --cinema-glow-primary: 0 0 24px rgba(255, 255, 255, 0.16);
+  /* Light ink sits on the pinned light fills of this scope */
+  --on-fill: #0a0a0a;
   color: var(--cinema-text);
   background: var(--cinema-bg);
   isolation: isolate;
@@ -57,7 +60,7 @@
 }
 .cinema-cta--primary { background: var(--cinema-primary); color: var(--on-fill); box-shadow: var(--cinema-glow-primary); }
 .cinema-cta--primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
-.cinema-cta--eve { background: var(--cinema-eve); color: var(--on-fill); box-shadow: 0 0 24px rgba(244, 63, 94, 0.35); }
+.cinema-cta--eve { background: var(--cinema-eve); color: var(--on-fill); box-shadow: var(--cinema-glow-primary); }
 .cinema-cta--eve:hover { filter: brightness(1.08); transform: translateY(-1px); }
 .cinema-cta--ghost { background: transparent; color: var(--cinema-text); border-color: var(--cinema-border); }
 .cinema-cta--ghost:hover { background: var(--cinema-surface); border-color: var(--cinema-border-strong); }
@@ -76,7 +79,7 @@
   transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 .cinema-nav.is-scrolled {
-  background: rgba(13, 8, 10, 0.78);
+  background: rgba(10, 10, 10, 0.78);
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
   border-color: var(--cinema-border);
@@ -136,7 +139,7 @@
 .cinema-nav__drawer {
   position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 39;
   display: grid; gap: 4px; padding: 12px;
-  background: rgba(13, 8, 10, 0.97);
+  background: rgba(10, 10, 10, 0.97);
   backdrop-filter: blur(16px);
   border: 1px solid var(--cinema-border); border-radius: 16px;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
@@ -181,31 +184,32 @@
 /* — Light variant — follows system preference (dark remains default) */
 @media (prefers-color-scheme: light) {
   .cinema {
-    --cinema-bg: #f4f4f5;
-    --cinema-bg-2: #ffffff;
-    --cinema-surface: #fafafa;
-    --cinema-surface-2: #fbe8ed;
-    --cinema-border: #e2e8f0;
-    --cinema-border-strong: #94a3b8;
-    --cinema-text: #09090b;
-    --cinema-muted: #52525b;
-    --cinema-dim: #71717a;
-    --cinema-faint: #a1a1aa;
-    --cinema-primary: #a83b59;
-    --cinema-focus: #a83b59;
-    --cinema-work: #4f46e5;
-    --cinema-workspace: #d97706;
-    --cinema-todo: #0891b2;
-    --cinema-projects: #2563eb;
-    --cinema-documents: #0284c7;
-    --cinema-studio: #7c3aed;
-    --cinema-eve: #db2777;
-    --cinema-growth: #059669;
-    --cinema-calendar: #0284c7;
-    --cinema-mail: #e11d48;
-    --cinema-calls: #9333ea;
+    --cinema-bg: #ffffff;
+    --cinema-bg-2: #f6f6f6;
+    --cinema-surface: #f2f2f2;
+    --cinema-surface-2: #ededed;
+    --cinema-border: #e5e5e5;
+    --cinema-border-strong: #a3a3a3;
+    --cinema-text: #0a0a0a;
+    --cinema-muted: #525252;
+    --cinema-dim: #737373;
+    --cinema-faint: #a3a3a3;
+    --cinema-primary: #171717;
+    --cinema-focus: #171717;
+    --on-fill: #ffffff;
+    --cinema-work: #262626;
+    --cinema-workspace: #3f3f3f;
+    --cinema-todo: #3f3f3f;
+    --cinema-projects: #262626;
+    --cinema-documents: #3f3f3f;
+    --cinema-studio: #525252;
+    --cinema-eve: #525252;
+    --cinema-growth: #3f3f3f;
+    --cinema-calendar: #525252;
+    --cinema-mail: #3f3f3f;
+    --cinema-calls: #525252;
   }
-  .cinema-nav.is-scrolled { background: rgba(244, 244, 245, 0.82); }
-  .cinema-nav__drawer { background: rgba(244, 244, 245, 0.97); }
-  .cinema-nav__links a:hover { background: #fbe8ed; color: #09090b; }
+  .cinema-nav.is-scrolled { background: rgba(255, 255, 255, 0.82); }
+  .cinema-nav__drawer { background: rgba(255, 255, 255, 0.97); }
+  .cinema-nav__links a:hover { background: #f0f0f0; color: #0a0a0a; }
 }

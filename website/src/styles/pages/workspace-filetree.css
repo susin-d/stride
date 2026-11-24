@@ -213,7 +213,7 @@
 }
 
 .tree-folder-icon {
-  color: var(--color-warning, #d97706);
+  color: var(--color-warning, #737373);
   flex-shrink: 0;
 }
 

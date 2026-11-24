@@ -179,8 +179,8 @@
 }
 
 .dashboard-widget[data-widget="hackathons"] {
-  --widget-accent: var(--palette-ember);
-  --widget-accent-light: color-mix(in srgb, var(--palette-ember) 15%, transparent);
+  --widget-accent: var(--palette-accent);
+  --widget-accent-light: color-mix(in srgb, var(--palette-accent) 15%, transparent);
 }
 
 .dashboard-widget[data-widget="documents"],

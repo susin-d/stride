@@ -31,19 +31,19 @@
 | [0016](0016-modular-avatar-engine-chunks.md) | Modular avatar engine chunks (three-core/vrm-loader/pixi/live2d); all chunks < 600 kB, zero build warnings | Accepted | 2026-09-04 |
 | [0017](0017-sub-100kb-shell-modals-keep-vendor-whole.md) | Sub-100 kB pass: defer shell modals (index 152→107 kB); vendor/icons stay whole with evidence | Accepted | 2026-09-04 |
 | [0018](0018-optimize-all-lucide-pixi-themes.md) | Optimize all: lucide 1.40 (icons 469→43 kB), single-pixi override, theme leaf (index →113 kB), drop drei/fiber | Accepted | 2026-09-04 |
-| [0019](0019-multi-color-redesign-and-module-theming.md) | Multi-color redesign, module accent theming, and monochrome retirement | Accepted | 2026-09-06 |
-| [0020](0020-landing-cinematic-module-theming.md) | Landing cinematic module theming — ADR 0019 accents + light variant, full section theming | Accepted | 2026-09-06 |
+| [0019](0019-multi-color-redesign-and-module-theming.md) | Multi-color redesign, module accent theming, and monochrome retirement | Superseded by 0057 | 2026-09-06 |
+| [0020](0020-landing-cinematic-module-theming.md) | Landing cinematic module theming — ADR 0019 accents + light variant, full section theming | Superseded by 0057 (palette; structure retained) | 2026-09-06 |
 | [0021](0021-auth-cinematic-centered-card.md) | Auth cinematic centered card — shared AuthShell for login/signup/forgot-password | Superseded by 0025 | 2026-09-06 |
 | [0025](0025-auth-split-screen-brand-panel.md) | Auth split-screen — minimal brand panel + perspective grid floor, form right, all flows | Accepted | 2026-09-06 |
-| [0026](0026-auth-pinned-landing-theme.md) | Auth pinned to landing Crimson Noir theme in both app themes | Accepted | 2026-09-06 |
+| [0026](0026-auth-pinned-landing-theme.md) | Auth pinned to landing Crimson Noir theme in both app themes | Superseded by 0057 (pinned to monochrome ramp) | 2026-09-06 |
 | [0027](0027-app-ia-nav-regroup.md) | App IA regroup — Home/Code/Create/Evolve/Connect/You; Eve tabs, Compete, Studio tabs | Accepted | 2026-09-06 |
-| [0028](0028-crimson-noir-default-and-motion.md) | Crimson Noir default for fresh visitors + CSS page-enter motion language | Accepted | 2026-09-06 |
+| [0028](0028-crimson-noir-default-and-motion.md) | Crimson Noir default for fresh visitors + CSS page-enter motion language | Superseded by 0057 (palette half) | 2026-09-06 |
 | [0029](0029-shell-mobile-tabbar-ask-eve.md) | Shell: mobile bottom tab bar + sidebar Ask Eve + palette event bridge | Accepted | 2026-09-06 |
-| [0022](0022-single-source-color-palette.md) | Single-source color palette in tokens.css — var() everywhere, dead legacy landing CSS removed | Accepted | 2026-09-06 |
-| [0030](0030-crimson-primary-light-theme.md) | Crimson primary in light theme — unify with dark/landing, keep Work/Chats indigo | Accepted | 2026-09-06 |
-| [0031](0031-home-sidebar-accent-follows-primary.md) | Home sidebar accent follows primary — Dashboard/HOME crimson, Code keeps Work indigo | Accepted | 2026-09-06 |
-| [0023](0023-crimson-noir-default-dark-theme.md) | Crimson Noir default dark theme + landing planet/mountain SVG scenery | Accepted | 2026-09-06 |
-| [0024](0024-landing-bold-experimental-redesign.md) | Landing bold experimental redesign — Code/Create/Evolve arc, rich cinematic motion, CSS split | Accepted | 2026-09-06 |
+| [0022](0022-single-source-color-palette.md) | Single-source color palette in tokens.css — var() everywhere, dead legacy landing CSS removed | Accepted (amended by 0057 — monochrome palette) | 2026-09-06 |
+| [0030](0030-crimson-primary-light-theme.md) | Crimson primary in light theme — unify with dark/landing, keep Work/Chats indigo | Superseded by 0057 | 2026-09-06 |
+| [0031](0031-home-sidebar-accent-follows-primary.md) | Home sidebar accent follows primary — Dashboard/HOME crimson, Code keeps Work indigo | Superseded by 0057 | 2026-09-06 |
+| [0023](0023-crimson-noir-default-dark-theme.md) | Crimson Noir default dark theme + landing planet/mountain SVG scenery | Superseded by 0057 | 2026-09-06 |
+| [0024](0024-landing-bold-experimental-redesign.md) | Landing bold experimental redesign — Code/Create/Evolve arc, rich cinematic motion, CSS split | Superseded by 0057 (palette; redesign retained) | 2026-09-06 |
 | [0032](0032-eve-desktop-overlay-window.md) | Eve desktop overlay window — transparent Tauri secondary window floating above all apps | Accepted | 2026-09-06 |
 | [0033](0033-avatar-studio-framing-and-pan-zoom.md) | Avatar Studio framing — in-canvas drag-pan, wheel-zoom, dblclick-reset, persisted `userPan`/`userZoom` | Accepted | 2026-09-06 |
 | [0034](0034-avatar-modeling-studio-projects.md) | Avatar modeling studio workspace with versioned scenes and managed binary assets | Accepted | 2026-09-06 |
@@ -69,6 +69,7 @@
 | [0054](0054-dashboard-github-payload-limit.md) | Limit GitHub repository payload on the dashboard | Accepted | 2026-09-11 |
 | [0055](0055-cache-first-read-api-snapshots.md) | Cache-first read API snapshots with stale-while-revalidate refresh | Accepted | 2026-09-11 |
 | [0056](0056-rebrand-starwaves-to-stride.md) | Rebrand Starwaves to Stride across code, storage keys, native IDs and domains | Accepted | 2026-11-24 |
+| [0057](0057-monochrome-white-and-dark-modes.md) | Monochrome design system: only White and Dark modes, every theme preset and color editor removed | Accepted | 2026-11-24 |
 
 ## How to add a new ADR
 

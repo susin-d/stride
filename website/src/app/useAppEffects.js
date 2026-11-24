@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { confirmEmailVerification } from '../lib/emailApi'
 import { verifyAccountCombine } from '../lib/authApi'
-import { CUSTOM_THEME_KEY, THEME_MODE_KEY } from '../lib/storageKeys'
-import { applyThemeVariables } from '../themes/themeApplicator'
+import { CUSTOM_THEME_KEY } from '../lib/storageKeys'
+import { applyTheme, readStoredMode } from '../themes/themeApplicator'
 import { routeTitles } from './appUtils'
 
 export function useAppTitle({ activePage, route, previousRouteRef }) {
@@ -60,23 +60,16 @@ export function useAccountDeepLinks({ setSessionUser, setWorkspaceRefreshKey }) 
 }
 
 export function useAppTheme() {
+  // Boot-time paint: the stored appearance is applied before any page mounts so
+  // the first frame already matches the user's white/dark choice (ADR 0057).
   useEffect(() => {
-    const savedTheme = localStorage.getItem(CUSTOM_THEME_KEY)
-    if (savedTheme) {
-      try {
-        const parsed = JSON.parse(savedTheme)
-        if (parsed && typeof parsed === 'object') {
-          applyThemeVariables(parsed)
-          return
-        }
-      } catch (err) {
-        console.error('Could not load custom theme:', err)
-      }
+    let saved = null
+    try {
+      saved = JSON.parse(localStorage.getItem(CUSTOM_THEME_KEY) || 'null')
+    } catch (err) {
+      console.error('Could not load stored appearance:', err)
     }
-    const stored = localStorage.getItem(THEME_MODE_KEY)
-    if (stored === 'light') {
-      applyThemeVariables({ preset: 'light', mode: 'light' })
-    }
+    applyTheme(saved && typeof saved === 'object' ? saved : { mode: readStoredMode() })
   }, [])
 }
 

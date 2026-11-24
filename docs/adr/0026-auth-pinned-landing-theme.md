@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Superseded by [ADR 0057](./0057-monochrome-white-and-dark-modes.md) (auth stays pinned, now to the monochrome dark ramp)
 
 - Date: 2026-09-06
 - Deciders: user (explicit request: auth uses the landing page's color theme)

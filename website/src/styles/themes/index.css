@@ -1,76 +1,82 @@
+/* Stride White — the only light theme (monochrome, ADR 0057).
+   Every hue is retired: identity is carried by tone, weight, and iconography
+   on a neutral ladder from ink-950 (strongest) to ink-50 (surface).
+   Dark-mode counterparts live in styles/themes/dark.css. */
 :root {
-  /* Colors - Light Theme (Greyer Off-White Palette) */
-  --bg-primary: #f4f4f5;
-  --bg-secondary: #ececec;
-  --bg-tertiary: #e4e4e7;
-  --bg-card: #fafafa;
-  --bg-card-hover: #f0f0f2;
-  --bg-hover: #e4e4e7;
-  --bg-hover-subtle: #eaeaea;
-  --bg-overlay: rgba(244, 244, 245, 0.94);
-  --bg-backdrop: rgba(0, 0, 0, 0.22);
+  /* Colors - White Theme */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f6f6;
+  --bg-tertiary: #ededed;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f7f7f7;
+  --bg-hover: #ededed;
+  --bg-hover-subtle: #f3f3f3;
+  --bg-overlay: rgba(255, 255, 255, 0.94);
+  --bg-backdrop: rgba(0, 0, 0, 0.32);
 
-  --text-primary: #09090b;
-  --text-secondary: #52525b;
-  --text-muted: #71717a;
-  --text-disabled: #a1a1aa;
-  --text-inverse: #f4f4f5;
+  --text-primary: #0a0a0a;
+  --text-secondary: #525252;
+  --text-muted: #737373;
+  --text-disabled: #a3a3a3;
+  --text-inverse: #fafafa;
 
-  --color-primary: #a83b59;
-  --color-primary-hover: #8c2f4b;
-  --color-primary-light: #fbe8ed;
-  --color-foam: #ffffff;
+  /* Primary action fill — near-black ink on white */
+  --color-primary: #171717;
+  --color-primary-hover: #000000;
+  --color-primary-light: #f0f0f0;
 
-  --border-color: #e2e8f0;
-  --border-light: #f1f5f9;
-  --border-heavy: #94a3b8;
-  --border-focus: #a83b59;
+  /* Borders carry the hierarchy that hue used to: ≥3:1 for control outlines */
+  --border-color: #dcdcdc;
+  --border-light: #ececec;
+  --border-heavy: #8f8f8f;
+  --border-focus: #171717;
 
-  --scrollbar-track: #f1f5f9;
-  --scrollbar-thumb: #cbd5e1;
-  --scrollbar-thumb-hover: #a83b59;
+  --scrollbar-track: #f5f5f5;
+  --scrollbar-thumb: #d4d4d4;
+  --scrollbar-thumb-hover: #737373;
 
-  /* Accents & Status Colors (Multi-Color Semantic System) */
-  --color-accent: #0284c7;
-  --color-accent-light: #e0f2fe;
-  --color-success: #059669;
-  --color-success-light: #ecfdf5;
-  --color-warning: #d97706;
-  --color-warning-light: #fffbeb;
-  --color-danger: #e11d48;
-  --color-danger-light: #fff1f2;
-  --color-purple: #9333ea;
-  --color-purple-light: #faf5ff;
+  /* Status tones — one neutral ladder, strongest emphasis darkest.
+     Severity is read from fill weight + icon, never from hue. */
+  --color-accent: #404040;
+  --color-accent-light: #f2f2f2;
+  --color-success: #525252;
+  --color-success-light: #f4f4f4;
+  --color-warning: #5c5c5c;
+  --color-warning-light: #f5f5f5;
+  --color-danger: #0a0a0a;
+  --color-danger-light: #ebebeb;
+  --color-purple: #404040;
+  --color-purple-light: #f2f2f2;
 
-  /* Domain & Module Accent Color Identity */
-  --module-work: #4f46e5;
-  --module-work-light: #eef2ff;
-  --module-workspace: #d97706;
-  --module-workspace-light: #fef3c7;
-  --module-todo: #0891b2;
-  --module-todo-light: #ecfeff;
-  --module-projects: #2563eb;
-  --module-projects-light: #eff6ff;
-  --module-documents: #0284c7;
-  --module-documents-light: #f0f9ff;
-  --module-studio: #7c3aed;
-  --module-studio-light: #f5f3ff;
-  --module-eve: #db2777;
-  --module-eve-light: #fdf2f8;
-  --module-growth: #059669;
-  --module-growth-light: #ecfdf5;
-  --module-comm: #2563eb;
-  --module-comm-light: #eff6ff;
-  --module-whatsapp: #16a34a;
-  --module-whatsapp-light: #dcfce7;
-  --module-mail: #e11d48;
-  --module-mail-light: #ffe4e6;
-  --module-calendar: #0284c7;
-  --module-calendar-light: #e0f2fe;
-  --module-calls: #9333ea;
-  --module-calls-light: #f3e8ff;
-  --module-chats: #4f46e5;
-  --module-chats-light: #eef2ff;
-  --module-account: #475569;
-  --module-account-light: #f1f5f9;
+  /* Domain & Module Accents — tone-only grouping on the same neutral ladder */
+  --module-work: #262626;
+  --module-work-light: #f0f0f0;
+  --module-workspace: #3f3f3f;
+  --module-workspace-light: #f2f2f2;
+  --module-todo: #3f3f3f;
+  --module-todo-light: #f2f2f2;
+  --module-projects: #262626;
+  --module-projects-light: #f0f0f0;
+  --module-documents: #3f3f3f;
+  --module-documents-light: #f2f2f2;
+  --module-studio: #525252;
+  --module-studio-light: #f4f4f4;
+  --module-eve: #525252;
+  --module-eve-light: #f4f4f4;
+  --module-growth: #3f3f3f;
+  --module-growth-light: #f2f2f2;
+  --module-comm: #525252;
+  --module-comm-light: #f4f4f4;
+  --module-whatsapp: #3f3f3f;
+  --module-whatsapp-light: #f2f2f2;
+  --module-mail: #3f3f3f;
+  --module-mail-light: #f2f2f2;
+  --module-calendar: #525252;
+  --module-calendar-light: #f4f4f4;
+  --module-calls: #525252;
+  --module-calls-light: #f4f4f4;
+  --module-chats: #262626;
+  --module-chats-light: #f0f0f0;
+  --module-account: #737373;
+  --module-account-light: #f5f5f5;
 }

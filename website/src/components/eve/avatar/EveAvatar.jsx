@@ -1,7 +1,6 @@
 import { lazy, Suspense, useMemo, useRef } from 'react'
 import { AVATAR_DEFAULTS } from './avatarConstants'
 import { EveAvatarCanvas } from './EveAvatarCanvas'
-import { avatarCardStyle } from './avatarTokens'
 import { useAvatarLifecycle } from './useAvatarLifecycle'
 import { useEveAvatarState } from './useEveAvatarState'
 import { useEyeTracking } from './useEyeTracking'
@@ -12,7 +11,6 @@ const Live2DModel = lazy(() => import('./Live2DModel').then((m) => ({ default: m
 
 export function EveAvatar({
   size = 'md',
-  presetId = null,
   prefs,
   activeModel,
   // Eve state passthrough
@@ -45,7 +43,6 @@ export function EveAvatar({
   const reducedMotion = effectivePrefs.motion === 'reduced' || lifecycle.prefersReducedMotion
   const emotion = avatarState.emotion
 
-  const tintStyle = avatarCardStyle(presetId, null)
   const scale = effectivePrefs.scale ?? 1
   const zoom = effectivePrefs.zoom ?? 1
   const userPan = effectivePrefs.userPan ?? AVATAR_DEFAULTS.userPan
@@ -137,7 +134,7 @@ export function EveAvatar({
       data-eve-target="eve-avatar"
       data-emotion={emotion}
       data-renderer={resolvedRenderer}
-      style={{ ...tintStyle, '--eve-avatar-scale': String(scale), ...style }}
+      style={{ '--eve-avatar-scale': String(scale), ...style }}
     >
       <div className="eve-avatar-card">
         <div className="eve-avatar-card-header">

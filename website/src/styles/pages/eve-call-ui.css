@@ -3,8 +3,8 @@
 .eve-quick-call-box {
   margin: 14px 0 18px;
   padding: 14px 16px;
-  background: var(--bg-tertiary, #f4f4f5);
-  border: 1px solid var(--border-color, #e4e4e7);
+  background: var(--bg-tertiary, #f4f4f4);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-md, 8px);
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
 }
 
 html.dark-theme .eve-quick-call-box {
-  background: var(--bg-secondary, #18181b);
+  background: var(--bg-secondary, #171717);
 }
 
 .eve-quick-call-title {
@@ -21,13 +21,13 @@ html.dark-theme .eve-quick-call-box {
   gap: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
 }
 
 .eve-quick-call-desc {
   margin: 0;
   font-size: 12px;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   line-height: 1.4;
 }
 
@@ -81,7 +81,7 @@ html.dark-theme .eve-quick-call-box {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: var(--color-primary, #09090b);
+  background: var(--color-primary, #0a0a0a);
   color: var(--text-inverse, #ffffff);
   display: flex;
   align-items: center;
@@ -93,7 +93,7 @@ html.dark-theme .eve-quick-call-box {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1.5px solid var(--border-heavy, #71717a);
+  border: 1.5px solid var(--border-heavy, #737373);
   opacity: 0;
   pointer-events: none;
 }
@@ -128,10 +128,10 @@ html.dark-theme .eve-quick-call-box {
   padding: 4px 12px;
   border-radius: var(--radius-full, 999px);
   background: var(--bg-card, #ffffff);
-  border: 1px solid var(--border-color, #e4e4e7);
+  border: 1px solid var(--border-color, #e5e5e5);
   font-size: 12px;
   font-weight: 500;
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
 }
 
 .eve-info {
@@ -147,7 +147,7 @@ html.dark-theme .eve-quick-call-box {
   margin-top: 14px;
   padding: 12px 16px;
   background: var(--bg-overlay, rgba(255, 255, 255, 0.92));
-  border: 1px solid var(--border-color, #e4e4e7);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-md, 10px);
   backdrop-filter: blur(8px);
   display: flex;
@@ -171,12 +171,12 @@ html.dark-theme .eve-captions-box {
 
 .eve-caption-row .caption-speaker {
   font-weight: 600;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   flex-shrink: 0;
 }
 
 .eve-caption-row .caption-text {
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
 }
 
 /* Eve Text Fallback Input */
@@ -191,7 +191,7 @@ html.dark-theme .eve-captions-box {
 .eve-stt-hint {
   margin: 0;
   font-size: 12px;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   line-height: 1.4;
   text-align: center;
 }
@@ -201,7 +201,7 @@ html.dark-theme .eve-captions-box {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 .eve-text-fallback-row {
@@ -214,19 +214,19 @@ html.dark-theme .eve-captions-box {
   min-width: 0;
   padding: 10px 14px;
   background: var(--bg-card, #ffffff);
-  border: 1px solid var(--border-color, #e4e4e7);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-md, 9px);
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
   font: inherit;
   font-size: 13px;
 }
 
 html.dark-theme .eve-text-fallback-row input {
-  background: var(--bg-secondary, #18181b);
+  background: var(--bg-secondary, #171717);
 }
 
 .eve-text-fallback-row input:focus-visible {
-  outline: 2px solid var(--border-focus, #71717a);
+  outline: 2px solid var(--border-focus, #737373);
   outline-offset: 1px;
 }
 
@@ -236,10 +236,10 @@ html.dark-theme .eve-text-fallback-row input {
   justify-content: center;
   width: 42px;
   flex: 0 0 auto;
-  border: 1px solid var(--color-primary, #18181b);
+  border: 1px solid var(--color-primary, #171717);
   border-radius: var(--radius-md, 9px);
-  background: var(--color-primary, #18181b);
-  color: var(--text-inverse, #f4f4f5);
+  background: var(--color-primary, #171717);
+  color: var(--text-inverse, #f4f4f4);
   cursor: pointer;
   transition:
     opacity var(--transition-fast, 140ms ease),

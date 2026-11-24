@@ -46,7 +46,7 @@
 .whatsapp-context-menu {
   position: absolute;
   background: var(--menu-surface);
-  border: 1px solid rgba(24, 24, 27, 0.12);
+  border: 1px solid rgba(25, 25, 25, 0.12);
   border-radius: 14px;
   padding: 10px 8px;
   min-width: 220px;
@@ -81,7 +81,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 6px 8px;
-  background: var(--bg-primary, #09090b);
+  background: var(--bg-primary, #0a0a0a);
   border-radius: 6px;
   margin-bottom: 2px;
 }
@@ -98,7 +98,7 @@
 
 .whatsapp-context-react-btn:hover {
   transform: scale(1.25);
-  background: var(--bg-hover, #27272a);
+  background: var(--bg-hover, #262626);
 }
 
 .whatsapp-context-item {
@@ -123,12 +123,12 @@
 }
 
 .whatsapp-context-item:hover {
-  background: rgba(24, 24, 27, 0.05);
+  background: rgba(25, 25, 25, 0.05);
 }
 
 .whatsapp-context-item.danger {
   color: var(--menu-danger);
-  border-top: 1px solid rgba(24, 24, 27, 0.12);
+  border-top: 1px solid rgba(25, 25, 25, 0.12);
   margin-top: 4px;
   padding-top: 10px;
 }
@@ -140,7 +140,7 @@
 
 .whatsapp-context-item.eve-action {
   font-weight: 600;
-  border-top: 1px solid rgba(24, 24, 27, 0.12);
+  border-top: 1px solid rgba(25, 25, 25, 0.12);
   margin-top: 4px;
   padding-top: 10px;
 }
@@ -239,8 +239,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-  background: var(--bg-secondary, #18181b);
-  border-top: 1px solid var(--border-color, #27272a);
+  background: var(--bg-secondary, #171717);
+  border-top: 1px solid var(--border-color, #262626);
   border-left: 4px solid var(--text-primary, #ffffff);
 }
 
@@ -258,7 +258,7 @@
 
 .whatsapp-replying-text {
   font-size: 0.8rem;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -272,7 +272,7 @@
   gap: 5px;
   font-size: 0.75rem;
   font-style: italic;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   margin-bottom: 5px;
   user-select: none;
 }
@@ -337,7 +337,7 @@
   background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   font-size: 0.8125rem;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
 }
 
 .whatsapp-media-preview-container.is-sticker {

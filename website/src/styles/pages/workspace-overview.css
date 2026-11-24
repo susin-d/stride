@@ -196,8 +196,8 @@
 
 .ws-card-actions button.danger:hover,
 .ws-card-actions button.danger:focus-visible {
-  background: var(--color-danger, #e11d48);
-  border-color: var(--color-danger, #e11d48);
+  background: var(--color-danger, #0a0a0a);
+  border-color: var(--color-danger, #0a0a0a);
   color: #ffffff;
 }
 

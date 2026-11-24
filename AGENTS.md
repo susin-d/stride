@@ -56,8 +56,8 @@ Instructions and guidelines for AI Coding Agents working in the **Stride** codeb
      guidance.
 
 4. **Respect System Architecture**:
-   - **Frontend (`/website`)**: React 19 + Vite + Vanilla CSS (Design
-     Tokens & Presets: Mono, Duo, Spectrum) + Monaco Editor.
+   - **Frontend (`/website`)**: React 19 + Vite + Vanilla CSS (Monochrome
+     tokens, White + Dark modes) + Monaco Editor.
    - **Backend (`/server`)**: FastAPI (Python) + Supabase (PostgreSQL) / Async
      SQLAlchemy 2.0.
    - **Desktop Shell** (`/website/src-tauri`): Tauri v2 scaffold.
@@ -297,10 +297,10 @@ website/src/
 │   ├── utilities.css
 │   ├── responsive.css
 │   ├── layout-symmetry.css  # Final geometry pass
-│   ├── themes/      # Light/dark + preset theme overrides
+│   ├── themes/      # White + Dark mode palette files (ADR 0057)
 │   ├── components/  # Component-level styles (one .css per component)
 │   └── pages/       # Page-level styles (one .css per page)
-├── themes/          # Theme presets, options, engine
+├── themes/          # Appearance engine (modes + geometry options)
 ├── utils/           # Pure data transformers/parsers (no side effects)
 └── dashboard/       # Dashboard grid layout config
 ```
@@ -410,29 +410,20 @@ website/src/
 
 ### 4.6 CSS & Design System
 
-#### 4.6.1 Color System — Multi-Color Semantic Tokens & Module Accents (ADR 0019)
+#### 4.6.1 Color System — Monochrome, Two Modes Only (ADR 0057)
 
-The design system uses a **vibrant multi-color architecture** with domain-specific accent coding. Pure monochrome presets are retired:
+The design system is **strictly monochrome**: no hues, no preset catalog, no color editor. Exactly two modes ship, and palette values live in two files:
 
-1. **Semantic Role Tokens**:
-   - `--color-primary`: Electric Indigo (`#4f46e5` light / `#6366f1` dark)
-   - `--color-accent`: Sky Blue (`#0284c7` light / `#38bdf8` dark)
-   - `--color-success`: Emerald Green (`#059669` light / `#10b981` dark)
-   - `--color-warning`: Amber (`#d97706` light / `#f59e0b` dark)
-   - `--color-danger`: Crimson Rose (`#e11d48` light / `#f43f5e` dark)
-   - `--color-purple`: Royal Purple (`#9333ea` light / `#a855f7` dark)
+1. **Modes**: `White` (`styles/themes/index.css`) and `Dark` (`styles/themes/dark.css`), toggled by the `html.dark-theme` class. Fresh visitors land dark; a stored mode is always respected.
+2. **Identity is tone, weight, and iconography** — never hue:
+   - **Ink ladder**: `--color-primary` `#171717` (White) / `#f5f5f5` (Dark), then `--color-accent`, `--color-success`, `--color-warning`, `--color-danger`, `--color-purple` on one neutral ramp (strongest emphasis darkest in White mode, lightest in Dark mode).
+   - **Status colors carry no hue**: badge/indicator meaning comes from tone + the paired lucide icon.
+   - **Module accents** (`--module-work`, `--module-studio`, `--module-eve`, `--module-whatsapp`, ...) group by neutral tone only.
+   - **Fill text flips**: `--on-fill` and `--text-inverse` are white in White mode and near-black in Dark mode — always pair them with `--color-primary` fills.
+   - **Borders carry hierarchy**: `--border-color` dividers stay subtle, `--border-heavy` meets ≥3:1 for control outlines.
+3. **Token names are frozen.** Hue-named tokens (`--color-purple`, `--module-whatsapp`) keep their names because 200+ stylesheets and the backend allowlist (`server/app/services/ui_preferences.py` `ALLOWED_TOKENS`) reference them. They must hold neutral values — never reintroduce a hue behind an old name.
 
-2. **Domain & Module Accent Identities**:
-   - **Work Group**: `--module-work` (Electric Indigo) with specialized feature accents (`--module-workspace` Amber, `--module-todo` Cyan, `--module-projects` Cobalt, `--module-documents` Sky Blue).
-   - **Studio Group**: `--module-studio` (Vivid Violet).
-   - **Eve AI Group**: `--module-eve` (Luminous Iris/Pink).
-   - **Growth Group**: `--module-growth` (Energetic Emerald).
-   - **Communication Group**: App-specific signatures (`--module-whatsapp` Brand Green, `--module-mail` Rose Red, `--module-calendar` Sky Blue, `--module-calls` Purple, `--module-chats` Indigo).
-   - **Account Group**: `--module-account` (Slate Indigo).
-
-3. **Preset Palettes**:
-   - **Spectrum (`spectrum`)**: Multi-Color Spectrum where every semantic role owns a distinct hue (`light`, `dark`, `prism`, `neonGrid`, `botanical`).
-   - **Duotone (`duo`)**: High-contrast two-color themes pairing a neutral canvas with one high-energy signature accent (`abyss`, `ember`, `coral`, `azure`, etc.).
+**Do not add themes, presets, or per-user color pickers.** The Themes page offers White/Dark plus geometry controls; adding a color surface requires a new ADR superseding 0057.
 
 #### 4.6.2 CSS Architecture
 
@@ -475,7 +466,7 @@ The design system uses a **vibrant multi-color architecture** with domain-specif
    /* ✅ Good */
    .badge { background: var(--module-eve); box-shadow: 0 0 16px color-mix(in srgb, var(--module-eve) 40%, transparent); }
    ```
-   Only exceptions: per-theme presets under `styles/themes/`, intentionally
+   Only exceptions: the palette files under `styles/themes/`, intentionally
    pinned scoped defaults (`.cinema`), `var(--x, fallback)` resilience
    fallbacks, the neutral shadow/backdrop `rgba(0,0,0/255,255,255,…)` elevation
    system, and functional color-input defaults in theme-customizer UI.

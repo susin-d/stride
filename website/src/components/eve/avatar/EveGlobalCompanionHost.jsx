@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useThemeCustomizer } from '../../../hooks/useThemeCustomizer'
 import { EveGlobalCompanion } from './EveGlobalCompanion'
 import { useEveAvatar } from './EveAvatarProvider'
 
@@ -12,7 +11,6 @@ function isTauri() {
 // Keeps global companion decoupled from AppLayout.
 export function EveGlobalCompanionHost() {
   const { prefs, setPrefs, activeModel } = useEveAvatar()
-  const { activePreset } = useThemeCustomizer() || {}
   const [eveState, setEveState] = useState({ isSending: false, isEveSpeaking: false, isEveThinking: false, activeTool: null, streamText: '', error: '' })
 
   useEffect(() => {
@@ -58,7 +56,6 @@ export function EveGlobalCompanionHost() {
     <EveGlobalCompanion
       prefs={prefs}
       activeModel={activeModel}
-      presetId={activePreset}
       isSending={eveState.isSending}
       isEveSpeaking={eveState.isEveSpeaking}
       isEveThinking={eveState.isEveThinking}

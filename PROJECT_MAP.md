@@ -8,7 +8,7 @@
 
 ```text
 stride/
-├── website/          React 19 + Vite frontend (monochrome + spectrum design system)
+├── website/          React 19 + Vite frontend (monochrome design system, White + Dark modes only)
 ├── server/           FastAPI Python backend (SQLAlchemy 2.0 + PostgreSQL)
 ├── services/         Microservices
 │   └── whatsapp-worker/   Go (WhatsMeow) WhatsApp bridge
@@ -31,7 +31,7 @@ stride/
 
 ## Frontend (`website/`)
 
-**Stack**: React 19, Vite, Vanilla CSS (monochrome + spectrum tokens), Monaco Editor, lucide-react, Framer Motion
+**Stack**: React 19, Vite, Vanilla CSS (monochrome tokens, White/Dark modes), Monaco Editor, lucide-react, Framer Motion
 
 ### Key Directories
 
@@ -49,7 +49,7 @@ stride/
 | `src/pages/workspace/` | WorkspacePage + IDE components (editor, browser, eve panel) |
 | `src/pages/landing/` | Cinematic landing (Framer Motion sections, scoped cinema.css) |
 | `src/styles/` | tokens.css, base.css, components/, pages/, themes/ |
-| `src/themes/` | 25 presets (10 mono + 12 duo + 3 spectrum) + engine |
+| `src/themes/` | Appearance engine (`themeApplicator`): White/Dark modes + geometry/motion options |
 | `src/config/` | navigation.js, search/ package |
 | `src/utils/` | Pure transformers (speech, calendar, projectLifecycle, fileSize) |
 | `src-tauri/` | Tauri v2 desktop shell scaffold |
@@ -80,7 +80,7 @@ stride/
 | `/competitive-coding` | CompetitiveCoding | Contests + profile |
 | `/stats` | StatsPage | Coding stats |
 | `/settings` | SettingsPage | → `settings/` sections |
-| `/themes` | ThemesPage | Theme customizer |
+| `/themes` | ThemesPage | White/Dark mode + geometry controls |
 | `/profile` | ProfilePage | User profile |
 
 ### API Clients (`src/lib/`)

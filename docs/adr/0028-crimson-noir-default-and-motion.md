@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Superseded by [ADR 0057](./0057-monochrome-white-and-dark-modes.md) (palette half; dark default + motion retained)
 
 - Date: 2026-09-06
 - Deciders: user (program approval: Crimson Noir inward)

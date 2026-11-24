@@ -18,7 +18,7 @@
   width: min(92vw, 380px);
   padding: 36px 28px 28px;
   background: var(--bg-card, #fafafa);
-  border: 1px solid var(--border-color, #e4e4e7);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-xl, 16px);
   box-shadow: var(--shadow-lifted);
   text-align: center;
@@ -40,7 +40,7 @@
   margin: auto;
   width: 128px;
   height: 128px;
-  border: 1px solid var(--border-heavy, #a1a1aa);
+  border: 1px solid var(--border-heavy, #a3a3a3);
   border-radius: 50%;
   opacity: 0;
   animation: incoming-call-pulse 2.2s ease-out infinite;
@@ -56,14 +56,14 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 .incoming-call-name {
   margin: 6px 0 2px;
   font-size: 22px;
   font-weight: 600;
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
 }
 
 .incoming-call-meta {
@@ -72,7 +72,7 @@
   gap: 6px;
   margin: 0;
   font-size: 13px;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 .incoming-call-actions {
@@ -88,10 +88,10 @@
   gap: 8px;
   min-width: 84px;
   padding: 14px 12px 10px;
-  border: 1px solid var(--border-color, #e4e4e7);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-lg, 12px);
-  background: var(--bg-tertiary, #e4e4e7);
-  color: var(--text-primary, #09090b);
+  background: var(--bg-tertiary, #e5e5e5);
+  color: var(--text-primary, #0a0a0a);
   font: inherit;
   font-size: 12px;
   cursor: pointer;
@@ -101,13 +101,13 @@
 }
 
 .incoming-call-action:hover {
-  background: var(--bg-hover, #e4e4e7);
+  background: var(--bg-hover, #e5e5e5);
 }
 
 .incoming-call-accept {
-  background: var(--color-primary, #18181b);
-  border-color: var(--color-primary, #18181b);
-  color: var(--text-inverse, #f4f4f5);
+  background: var(--color-primary, #171717);
+  border-color: var(--color-primary, #171717);
+  color: var(--text-inverse, #f4f4f4);
 }
 
 .incoming-call-accept:hover {

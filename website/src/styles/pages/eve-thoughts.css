@@ -5,14 +5,14 @@
   flex-direction: column;
   margin-bottom: 0.6rem;
   border-radius: var(--radius-md, 8px);
-  background: var(--bg-tertiary, #18181b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-tertiary, #171717);
+  border: 1px solid var(--border-color, #262626);
   overflow: hidden;
   font-size: 0.8rem;
 }
 
 .eve-thought-container.live {
-  border-color: var(--border-color, #3f3f46);
+  border-color: var(--border-color, #3f3f3f);
 }
 
 .eve-thought-header {
@@ -23,7 +23,7 @@
   padding: 0.45rem 0.75rem;
   background: transparent;
   border: none;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   font: inherit;
   font-size: 0.75rem;
   font-weight: 600;
@@ -55,8 +55,8 @@
 
 .eve-thought-content {
   padding: 0.6rem 0.85rem;
-  border-top: 1px solid var(--border-color, #27272a);
-  color: var(--text-secondary, #a1a1aa);
+  border-top: 1px solid var(--border-color, #262626);
+  color: var(--text-secondary, #a3a3a3);
   font-size: 0.78rem;
   line-height: 1.5;
   background: color-mix(in srgb, var(--text-primary) 15%, transparent);
@@ -74,7 +74,7 @@
 
 .eve-thought-preview {
   font-weight: 400;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   font-size: 0.72rem;
   white-space: nowrap;
   overflow: hidden;
@@ -87,7 +87,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   flex-shrink: 0;
 }
 
@@ -113,16 +113,16 @@
   gap: 6px;
   padding: 0.35rem 0.65rem;
   border-radius: var(--radius-sm, 6px);
-  background: var(--bg-tertiary, #18181b);
-  border: 1px solid var(--border-color, #27272a);
-  color: var(--text-secondary, #a1a1aa);
+  background: var(--bg-tertiary, #171717);
+  border: 1px solid var(--border-color, #262626);
+  color: var(--text-secondary, #a3a3a3);
   font-size: 0.72rem;
   font-weight: 600;
   max-width: 100%;
 }
 
 .eve-tool-chip.running {
-  border-color: var(--border-color, #3f3f46);
+  border-color: var(--border-color, #3f3f3f);
   color: var(--text-primary, #ffffff);
 }
 
@@ -133,7 +133,7 @@
 
 .eve-tool-chip-args {
   font-family: var(--font-mono, monospace);
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   font-size: 0.68rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -142,7 +142,7 @@
 }
 
 .eve-tool-check {
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   flex-shrink: 0;
 }
 
@@ -151,9 +151,9 @@
   align-items: center;
   gap: 7px;
   padding: 0.55rem 0.9rem;
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 10px;
-  background: var(--bg-tertiary, #18181b);
+  background: var(--bg-tertiary, #171717);
   color: var(--text-secondary);
   font-size: 0.75rem;
   font-weight: 650;
@@ -206,6 +206,6 @@
 
 .eve-empty-hint {
   font-size: 0.78rem;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   margin: 0;
 }

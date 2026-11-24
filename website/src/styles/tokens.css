@@ -22,8 +22,8 @@
   --font-weight-semibold: 700;
   --font-weight-bold: 800;
 
-  /* Avatar Studio route-local identity — intentionally independent of theme presets. */
-  --avatar-studio-accent: #a83b59;
+  /* Avatar Studio route-local identity — neutral ink, no hue (ADR 0057). */
+  --avatar-studio-accent: #262626;
 
   /* 8pt spacing scale — use these instead of hard-coded px */
   --space-3xs: 4px;
@@ -71,8 +71,8 @@
   --glass-bg: rgba(255, 255, 255, 0.52);
   --glass-bg-card: rgba(255, 255, 255, 0.42);
   --glass-bg-overlay: rgba(255, 255, 255, 0.72);
-  --glass-bg-sidebar: rgba(245, 245, 247, 0.68);
-  --glass-bg-topbar: rgba(250, 250, 252, 0.78);
+  --glass-bg-sidebar: rgba(245, 245, 245, 0.68);
+  --glass-bg-topbar: rgba(250, 250, 250, 0.78);
   --glass-bg-dropdown: rgba(255, 255, 255, 0.78);
   --glass-bg-input: rgba(0, 0, 0, 0.08);
   --glass-bg-input-focus: rgba(0, 0, 0, 0.12);
@@ -97,32 +97,32 @@
   --transition-normal: 200ms ease;
   --transition-slow: 300ms ease;
 
-  /* Colored Glow & Accent Lighting */
-  --glow-primary: 0 0 20px rgba(168, 59, 89, 0.25);
-  --glow-accent: 0 0 20px rgba(2, 132, 199, 0.25);
-  --glow-success: 0 0 20px rgba(5, 150, 105, 0.25);
-  --glow-warning: 0 0 20px rgba(217, 119, 6, 0.25);
-  --glow-danger: 0 0 20px rgba(225, 29, 72, 0.25);
-  --glow-purple: 0 0 20px rgba(147, 51, 234, 0.25);
+  /* Neutral Glow & Accent Lighting (monochrome — ink light, no hue) */
+  --glow-primary: 0 0 20px rgba(0, 0, 0, 0.18);
+  --glow-accent: 0 0 20px rgba(0, 0, 0, 0.14);
+  --glow-success: 0 0 20px rgba(0, 0, 0, 0.12);
+  --glow-warning: 0 0 20px rgba(0, 0, 0, 0.10);
+  --glow-danger: 0 0 20px rgba(0, 0, 0, 0.22);
+  --glow-purple: 0 0 20px rgba(0, 0, 0, 0.14);
 
-  /* Expressive Gradients */
-  --gradient-primary: linear-gradient(135deg, #6e1f35 0%, #a83b59 100%);
-  --gradient-accent: linear-gradient(135deg, #0284c7 0%, #a83b59 100%);
-  --gradient-success: linear-gradient(135deg, #059669 0%, #0d9488 100%);
-  --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  --gradient-danger: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
-  --gradient-studio: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-  --gradient-eve: linear-gradient(135deg, #db2777 0%, #f97316 100%);
+  /* Neutral Gradients — tonal depth only */
+  --gradient-primary: linear-gradient(135deg, #0a0a0a 0%, #404040 100%);
+  --gradient-accent: linear-gradient(135deg, #262626 0%, #737373 100%);
+  --gradient-success: linear-gradient(135deg, #171717 0%, #525252 100%);
+  --gradient-warning: linear-gradient(135deg, #404040 0%, #a3a3a3 100%);
+  --gradient-danger: linear-gradient(135deg, #000000 0%, #262626 100%);
+  --gradient-studio: linear-gradient(135deg, #171717 0%, #525252 100%);
+  --gradient-eve: linear-gradient(135deg, #262626 0%, #8a8a8a 100%);
   --gradient-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%);
 
   /* ── Palette — single source of truth ─────────────────────────
-     Edit colors here. Every stylesheet and component must consume
+     Monochrome (ADR 0057). Edit colors here. Stylesheets/components consume
      these via var(--…); no bare hex/rgb literals outside this file,
-     per-theme presets (styles/themes/), and scoped defaults that
+     per-theme files (styles/themes/), and scoped defaults that
      intentionally pin a surface (cinema/auth-cinematic dark base).
      Dark-mode values live in styles/themes/dark.css. */
 
-  /* Text on colored fills (primary buttons, active nav, badges) — always white */
+  /* Text on filled primary/active surfaces — white in White mode, dark in Dark mode */
   --on-fill: #ffffff;
 
   /* Canvases that must stay white in both themes (email body, QR, device previews) */
@@ -131,31 +131,31 @@
   /* Public nav surface */
   --nav-bg: rgba(255, 255, 255, 0.92);
 
-  /* Usage trend-chart series */
-  --chart-1: #3b82f6;
-  --chart-2: #22c55e;
-  --chart-3: #a78bfa;
-  --chart-4: #f59e0b;
-  --chart-5: #ef4444;
-  --chart-6: #06b6d4;
+  /* Usage trend-chart series — neutral ladder, darkest first */
+  --chart-1: #0a0a0a;
+  --chart-2: #404040;
+  --chart-3: #737373;
+  --chart-4: #a3a3a3;
+  --chart-5: #262626;
+  --chart-6: #cfcfcf;
 
   /* Usage heatmap intensity scale */
-  --heat-1: #93c5fd;
-  --heat-2: #3b82f6;
-  --heat-3: #2563eb;
-  --heat-4: #1d4ed8;
+  --heat-1: #e5e5e5;
+  --heat-2: #b5b5b5;
+  --heat-3: #737373;
+  --heat-4: #262626;
 
   /* Chart/tooltip surfaces — near-black reference tooltip in both themes */
   --tooltip-bg: #171717;
   --tooltip-border: #262626;
   --tooltip-text: #ffffff;
-  --tooltip-muted: #a1a1aa;
+  --tooltip-muted: #8a8a8a;
 
-  /* Ember orange (hackathon widget accent, Eve gradient stop) */
-  --palette-ember: #f97316;
+  /* Neutral feature accent (hackathon widget accent, Eve gradient stop) */
+  --palette-accent: #737373;
 
-  /* Sync/error red (WhatsApp pairing states) */
-  --palette-red: #ef4444;
+  /* Sync/error ink (WhatsApp pairing states) */
+  --palette-alert: #0a0a0a;
 
   /* Ink on white canvases (QR code captions) — always black */
   --canvas-ink: #000000;
@@ -164,10 +164,10 @@
   --media-stage: #000000;
 
   /* Light paper context menu (WhatsApp-style) — pinned in both themes */
-  --menu-surface: rgba(233, 230, 225, 0.98);
+  --menu-surface: rgba(242, 242, 242, 0.98);
   --menu-text: #111111;
-  --menu-danger: #d11a2a;
-  --menu-danger-hover: #b70f20;
+  --menu-danger: #0a0a0a;
+  --menu-danger-hover: #262626;
 
   /* Mobile Safe Area Insets */
   --safe-area-top: env(safe-area-inset-top, 0px);
@@ -183,15 +183,15 @@ html.dark-theme {
   --shadow-surface: 0 1px 1px rgba(0, 0, 0, 0.5), 0 10px 22px rgba(0, 0, 0, 0.42), 0 28px 60px rgba(0, 0, 0, 0.28);
   --shadow-lifted: 0 2px 2px rgba(0, 0, 0, 0.55), 0 16px 32px rgba(0, 0, 0, 0.58), 0 36px 72px rgba(0, 0, 0, 0.38);
   --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.55);
-  --shadow-focus: 0 0 0 3px rgba(168, 59, 89, 0.35);
+  --shadow-focus: 0 0 0 3px rgba(255, 255, 255, 0.28);
 
-  --glow-primary: 0 0 24px rgba(168, 59, 89, 0.4);
-  --glow-accent: 0 0 24px rgba(199, 90, 115, 0.35);
-  --glow-success: 0 0 24px rgba(16, 185, 129, 0.35);
-  --glow-warning: 0 0 24px rgba(245, 158, 11, 0.35);
-  --glow-danger: 0 0 24px rgba(244, 63, 94, 0.35);
-  --glow-purple: 0 0 24px rgba(168, 85, 247, 0.35);
+  --glow-primary: 0 0 24px rgba(255, 255, 255, 0.16);
+  --glow-accent: 0 0 24px rgba(255, 255, 255, 0.14);
+  --glow-success: 0 0 24px rgba(255, 255, 255, 0.12);
+  --glow-warning: 0 0 24px rgba(255, 255, 255, 0.10);
+  --glow-danger: 0 0 24px rgba(255, 255, 255, 0.20);
+  --glow-purple: 0 0 24px rgba(255, 255, 255, 0.14);
 
-  --gradient-primary: linear-gradient(135deg, #6e1f35 0%, #a83b59 100%);
+  --gradient-primary: linear-gradient(135deg, #fafafa 0%, #a3a3a3 100%);
   --gradient-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
 }

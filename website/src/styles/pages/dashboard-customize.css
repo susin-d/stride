@@ -83,7 +83,7 @@
 
 .dashboard-edit-toggle:hover {
   border-color: var(--color-primary);
-  background: var(--bg-hover, #f3f4f6);
+  background: var(--bg-hover, #f4f4f4);
 }
 
 .dashboard-edit-toggle .edit-status {
@@ -169,7 +169,7 @@
 
 .dashboard-widget-toggles button:hover {
   border-color: var(--color-primary);
-  background: var(--bg-hover, #f9fafb);
+  background: var(--bg-hover, #fafafa);
   color: var(--text-primary);
 }
 

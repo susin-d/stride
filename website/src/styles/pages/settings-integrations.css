@@ -28,7 +28,7 @@
 
 .workspace-app-list a:hover {
   border-color: var(--color-primary);
-  background: var(--bg-hover, #f3f4f6);
+  background: var(--bg-hover, #f4f4f4);
   transform: translateY(-1px);
 }
 

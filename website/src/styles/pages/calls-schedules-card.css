@@ -8,7 +8,7 @@
   padding: 12px 18px;
   margin-bottom: 16px;
   background: var(--bg-card, #fafafa);
-  border: 1px solid var(--border-color, #e4e4e7);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-md, 10px);
 }
 
@@ -25,12 +25,12 @@
 
 .eve-header-info strong {
   font-size: 14px;
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
 }
 
 .eve-header-info small {
   font-size: 12px;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 .eve-header-actions {
@@ -53,13 +53,13 @@
   gap: 10px;
   margin: 12px 0;
   padding: 12px;
-  background: var(--bg-tertiary, #f4f4f5);
-  border: 1px solid var(--border-color, #e4e4e7);
+  background: var(--bg-tertiary, #f4f4f4);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-md, 8px);
 }
 
 html.dark-theme .eve-schedule-form {
-  background: var(--bg-secondary, #18181b);
+  background: var(--bg-secondary, #171717);
 }
 
 .eve-form-actions {
@@ -83,7 +83,7 @@ html.dark-theme .eve-schedule-form {
   gap: 10px;
   padding: 10px 12px;
   background: var(--bg-card, #ffffff);
-  border: 1px solid var(--border-color, #e4e4e7);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-sm, 6px);
   transition: opacity 140ms ease;
 }
@@ -109,7 +109,7 @@ html.dark-theme .eve-schedule-form {
 .eve-schedule-title {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -123,15 +123,15 @@ html.dark-theme .eve-schedule-form {
   font-weight: 500;
   padding: 2px 6px;
   border-radius: var(--radius-full, 999px);
-  background: var(--bg-tertiary, #e4e4e7);
-  color: var(--text-muted, #71717a);
+  background: var(--bg-tertiary, #e5e5e5);
+  color: var(--text-muted, #737373);
   text-transform: capitalize;
 }
 
 .eve-schedule-prompt {
   margin: 0;
   font-size: 12px;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -142,7 +142,7 @@ html.dark-theme .eve-schedule-form {
   align-items: center;
   gap: 4px;
   font-size: 11px;
-  color: var(--text-tertiary, #a1a1aa);
+  color: var(--text-tertiary, #a3a3a3);
 }
 
 .eve-schedule-actions {

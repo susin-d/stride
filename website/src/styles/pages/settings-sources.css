@@ -97,7 +97,7 @@
 
 .hackathon-source-row button:hover {
   border-color: var(--color-primary);
-  background: var(--bg-hover, #f3f4f6);
+  background: var(--bg-hover, #f4f4f4);
 }
 
 .hackathon-source-row button.enabled {

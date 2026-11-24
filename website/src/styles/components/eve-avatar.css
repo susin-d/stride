@@ -1,4 +1,4 @@
-/* Eve Avatar — glassmorphism, tokens only, monochrome + spectrum accent guard */
+/* Eve Avatar — glassmorphism, tokens only, monochrome accent guard (ADR 0057) */
 
 .eve-avatar {
   display: flex;
@@ -60,7 +60,7 @@
 .eve-avatar-status-dot.is-listening { background: var(--text-secondary); animation: eve-avatar-pulse 1.4s ease-in-out infinite; }
 .eve-avatar-status-dot.is-thinking { background: var(--text-secondary); opacity: 0.85; }
 .eve-avatar-status-dot.is-tool { background: var(--color-primary); }
-.eve-avatar-status-dot.is-error { background: var(--color-danger, #c2410c); }
+.eve-avatar-status-dot.is-error { background: var(--color-danger, #0a0a0a); }
 
 .eve-avatar-model-label {
   margin-left: auto;
@@ -207,7 +207,7 @@
 
 .eve-avatar-emotion { font-weight: var(--font-weight-semibold); text-transform: capitalize; color: var(--text-primary); }
 .eve-avatar-tool, .eve-avatar-error { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.eve-avatar-error { color: var(--color-danger, #c2410c); }
+.eve-avatar-error { color: var(--color-danger, #0a0a0a); }
 
 /* Procedural VRM fallback */
 .eve-vrm-fallback,

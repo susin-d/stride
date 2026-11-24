@@ -1,12 +1,11 @@
 import { EveAvatar } from './EveAvatar'
 
-export function EveInlineAvatar({ size = 'md', prefs, activeModel, presetId, isSending, isEveSpeaking, isEveThinking, thinkingText, activeTool, streamText, sttStatus, sttRecording, error, audioRef, onToggleRenderer, resetViewSignal = 0 }) {
+export function EveInlineAvatar({ size = 'md', prefs, activeModel, isSending, isEveSpeaking, isEveThinking, thinkingText, activeTool, streamText, sttStatus, sttRecording, error, audioRef, onToggleRenderer, resetViewSignal = 0 }) {
   return (
     <EveAvatar
       size={size}
       prefs={prefs}
       activeModel={activeModel}
-      presetId={presetId}
       isSending={isSending}
       isEveSpeaking={isEveSpeaking}
       isEveThinking={isEveThinking}

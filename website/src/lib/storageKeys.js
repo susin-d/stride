@@ -75,6 +75,6 @@ export const PROJECTS_STATUS_KEY = 'stride.projects.status'
 export const PROJECTS_SORT_KEY = 'stride.projects.sort'
 export const TODO_FILTER_KEY = 'stride.todo.filter'
 
-export function themeExportFilename(preset) {
-  return `stride-ui-ux-${preset || 'custom'}.json`
+export function themeExportFilename(mode) {
+  return `stride-ui-ux-${mode || 'custom'}.json`
 }

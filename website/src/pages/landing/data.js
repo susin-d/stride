@@ -53,7 +53,7 @@ export const manifesto = [
     numeral: '01',
     kicker: 'Signal — Code',
     title: 'One calm surface\nfor everything',
-    body: 'Tasks, calendars, contests, hackathons, jobs, projects, docs, mail and chat — stitched into a single deep-crimson canvas so the thread never snaps.',
+    body: 'Tasks, calendars, contests, hackathons, jobs, projects, docs, mail and chat — stitched into a single monochrome canvas so the thread never snaps.',
     icon: Layers,
     accent: 'work',
   },

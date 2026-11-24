@@ -27,7 +27,7 @@
   display: flex;
   flex-direction: column;
   background: var(--bg-secondary, #121212);
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: var(--radius-lg, 12px);
   overflow: hidden;
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.9);
@@ -39,7 +39,7 @@
   justify-content: space-between;
   padding: 12px 18px;
   background: var(--bg-secondary, #121212);
-  border-bottom: 1px solid var(--border-color, #27272a);
+  border-bottom: 1px solid var(--border-color, #262626);
   gap: 16px;
 }
 
@@ -57,7 +57,7 @@
 
 .whatsapp-lightbox-time {
   font-size: 0.75rem;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
 }
 
 .whatsapp-lightbox-actions {
@@ -91,7 +91,7 @@
   padding: 8px 12px;
   margin-bottom: 6px;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 8px;
   text-decoration: none;
   color: var(--text-primary, #ffffff);
@@ -106,7 +106,7 @@
   width: 32px;
   height: 32px;
   border-radius: 6px;
-  background: var(--bg-hover, #27272a);
+  background: var(--bg-hover, #262626);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -128,7 +128,7 @@
 
 .whatsapp-link-preview-url {
   font-size: 0.6875rem;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -159,13 +159,13 @@
   gap: 4px;
   padding: 10px 14px;
   min-height: 36px;
-  background: var(--bg-secondary, #18181b);
+  background: var(--bg-secondary, #171717);
 }
 
 .whatsapp-typing-dot-anim {
   width: 6px;
   height: 6px;
-  background: var(--text-secondary, #a1a1aa);
+  background: var(--text-secondary, #a3a3a3);
   border-radius: 50%;
   animation: typingBounce 1.2s infinite ease-in-out;
 }
@@ -192,8 +192,8 @@
 /* Media Tray with Emojis and Stickers */
 .whatsapp-media-tray {
   padding: 10px 14px;
-  background: var(--bg-secondary, #18181b);
-  border-top: 1px solid var(--border-color, #27272a);
+  background: var(--bg-secondary, #171717);
+  border-top: 1px solid var(--border-color, #262626);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -203,7 +203,7 @@
 .whatsapp-media-tray-title {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -215,8 +215,8 @@
 }
 
 .whatsapp-sticker-btn {
-  background: var(--bg-primary, #09090b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-primary, #0a0a0a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 8px;
   font-size: 1.35rem;
   padding: 6px 10px;
@@ -226,12 +226,12 @@
 
 .whatsapp-sticker-btn:hover {
   transform: scale(1.15);
-  background: var(--bg-hover, #27272a);
+  background: var(--bg-hover, #262626);
 }
 
 .whatsapp-quick-tag-btn {
-  background: var(--bg-primary, #09090b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-primary, #0a0a0a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -242,7 +242,7 @@
 }
 
 .whatsapp-quick-tag-btn:hover {
-  background: var(--bg-hover, #27272a);
+  background: var(--bg-hover, #262626);
   border-color: var(--text-primary, #ffffff);
 }
 

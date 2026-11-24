@@ -7,7 +7,6 @@ import { EveInlineAvatar } from '../../components/eve/avatar/EveInlineAvatar'
 import { AVATAR_CATALOG, AVATAR_LIMITS, AVATAR_RENDERERS } from '../../components/eve/avatar/avatarConstants'
 import { useEveAvatar } from '../../components/eve/avatar/EveAvatarProvider'
 import { getAvatarPreferences, listAvatarModels, saveAvatarPreferences, uploadAvatarModel, deleteAvatarModel } from '../../lib/eveAvatarApi'
-import { useThemeCustomizer } from '../../hooks/useThemeCustomizer'
 
 const RENDERER_OPTIONS = [
   { value: 'auto', label: 'Auto (recommended)' },
@@ -27,8 +26,6 @@ const SCALE_SAVE_DEBOUNCE_MS = 350
 
 export function EveAvatarSection() {
   const { prefs, setPrefs, activeModel } = useEveAvatar()
-  const { activePreset } = useThemeCustomizer() || {}
-  const activePresetId = activePreset
   const [remoteModels, setRemoteModels] = useState([])
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('')
@@ -191,7 +188,6 @@ export function EveAvatarSection() {
         <div className="eve-avatar-preview-grid">
           <EveInlineAvatar
             size="md"
-            presetId={activePresetId}
             prefs={prefs}
             activeModel={activeModel}
             isEveSpeaking={false}

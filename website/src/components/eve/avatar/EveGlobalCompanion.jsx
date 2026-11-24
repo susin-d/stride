@@ -7,7 +7,6 @@ import { COMPANION_EXPANDED_KEY } from '../../../lib/storageKeys'
 export function EveGlobalCompanion({
   prefs,
   activeModel,
-  presetId,
   isSending,
   isEveSpeaking,
   isEveThinking,
@@ -154,7 +153,6 @@ export function EveGlobalCompanion({
           <EveAvatar
             size="md"
             className="eve-global-character"
-            presetId={presetId}
             prefs={prefs}
             activeModel={activeModel}
             isSending={isSending}

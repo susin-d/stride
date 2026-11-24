@@ -25,8 +25,8 @@
   align-items: center;
   gap: 5px;
   font-size: 0.8125rem;
-  background: var(--bg-secondary, #18181b);
-  border: 1px solid var(--border-color, #3f3f46);
+  background: var(--bg-secondary, #171717);
+  border: 1px solid var(--border-color, #3f3f3f);
   padding: 2px 8px;
   border-radius: 14px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
@@ -46,7 +46,7 @@
 .whatsapp-reaction-count {
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
 }
 
 /* WhatsApp Reaction Breakdown Popup Modal */
@@ -54,7 +54,7 @@
   width: 100%;
   max-width: 420px;
   background: var(--bg-secondary, #121212);
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: var(--radius-lg, 12px);
   overflow: hidden;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75);
@@ -66,8 +66,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
-  border-bottom: 1px solid var(--border-color, #27272a);
-  background: var(--bg-primary, #09090b);
+  border-bottom: 1px solid var(--border-color, #262626);
+  background: var(--bg-primary, #0a0a0a);
 }
 
 .whatsapp-reaction-modal-tabs {
@@ -80,7 +80,7 @@
 .whatsapp-reaction-tab {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   padding: 5px 12px;
   border-radius: 999px;
   border: 1px solid transparent;
@@ -95,13 +95,13 @@
 }
 
 .whatsapp-reaction-tab:hover {
-  background: var(--bg-hover, #27272a);
+  background: var(--bg-hover, #262626);
   color: var(--text-primary, #ffffff);
 }
 
 .whatsapp-reaction-tab.active {
-  background: var(--bg-hover, #27272a);
-  border-color: var(--border-color, #3f3f46);
+  background: var(--bg-hover, #262626);
+  border-color: var(--border-color, #3f3f3f);
   color: var(--text-primary, #ffffff);
 }
 
@@ -124,7 +124,7 @@
 }
 
 .whatsapp-reaction-user-row:hover {
-  background: var(--bg-hover, #18181b);
+  background: var(--bg-hover, #171717);
 }
 
 .whatsapp-avatar.small {
@@ -166,8 +166,8 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: var(--bg-secondary, #18181b);
-  border-bottom: 1px solid var(--border-color, #27272a);
+  background: var(--bg-secondary, #171717);
+  border-bottom: 1px solid var(--border-color, #262626);
 }
 
 .whatsapp-inchat-search-bar input {
@@ -200,7 +200,7 @@
 .whatsapp-emoji-tray {
   padding: 8px 16px;
   background: var(--bg-secondary, #121212);
-  border-top: 1px solid var(--border-color, #27272a);
+  border-top: 1px solid var(--border-color, #262626);
   display: flex;
   gap: 10px;
   overflow-x: auto;
@@ -216,7 +216,7 @@
 }
 
 .whatsapp-emoji-btn:hover {
-  background: var(--bg-hover, #27272a);
+  background: var(--bg-hover, #262626);
 }
 
 .whatsapp-icon-btn.small {
@@ -241,7 +241,7 @@
   width: 400px;
   max-width: 90vw;
   background: var(--bg-secondary, #121212);
-  border: 1px solid var(--border-color, #27272a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: var(--radius-lg, 12px);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
   overflow: hidden;
@@ -252,7 +252,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border-color, #27272a);
+  border-bottom: 1px solid var(--border-color, #262626);
 }
 
 .whatsapp-info-modal-header h3 {
@@ -277,7 +277,7 @@
 }
 
 .whatsapp-info-row .info-label {
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   font-weight: 500;
 }
 
@@ -290,8 +290,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: var(--bg-primary, #09090b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-primary, #0a0a0a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 8px;
   padding: 12px 14px;
   margin-top: 4px;
@@ -317,23 +317,23 @@
 }
 
 .whatsapp-info-status-title .status-icon.delivered {
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
 }
 
 .whatsapp-info-status-title .status-icon.sent {
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
 }
 
 .whatsapp-info-status-time {
-  color: var(--text-secondary, #a1a1aa);
+  color: var(--text-secondary, #a3a3a3);
   font-size: 0.8125rem;
 }
 
 .whatsapp-info-preview-box {
   margin-top: 8px;
   padding: 12px;
-  background: var(--bg-primary, #09090b);
-  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-primary, #0a0a0a);
+  border: 1px solid var(--border-color, #262626);
   border-radius: 8px;
   font-size: 0.84rem;
   line-height: 1.45;

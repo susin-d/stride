@@ -245,11 +245,11 @@ export const PAGES_ITEMS = [
     category: 'pages',
     group: 'Pages & Views',
     title: 'Themes & Appearance',
-    subtitle: 'Monochrome theme customizer, font presets, radius & density',
+    subtitle: 'Monochrome white / dark mode, font, radius, density & motion',
     badge: 'You > Themes',
     page: 'themes',
     icon: Palette,
-    keywords: ['appearance', 'customizer', 'fonts', 'styling', 'dark mode', 'radius', 'monochrome'],
+    keywords: ['appearance', 'mode', 'fonts', 'styling', 'white mode', 'dark mode', 'radius', 'monochrome'],
   },
   {
     id: 'page-setting',

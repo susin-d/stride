@@ -10,7 +10,7 @@
 /* Call session panel (dialing / connecting / active / result) */
 .calls-session-panel {
   background: var(--bg-card, #fafafa);
-  border: 1px solid var(--border-color, #e4e4e7);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-lg, 12px);
   overflow: hidden;
   box-shadow: var(--shadow-surface);
@@ -42,7 +42,7 @@
   flex: 1;
   min-height: 280px;
   background:
-    linear-gradient(180deg, var(--bg-tertiary, #e4e4e7), var(--bg-primary, #f4f4f5));
+    linear-gradient(180deg, var(--bg-tertiary, #e5e5e5), var(--bg-primary, #f4f4f4));
   overflow: hidden;
 }
 
@@ -56,7 +56,7 @@ html.dark-theme .call-screen-stage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: var(--bg-primary, #f4f4f5);
+  background: var(--bg-primary, #f4f4f4);
 }
 
 .call-local-video {
@@ -67,7 +67,7 @@ html.dark-theme .call-screen-stage {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   background: var(--bg-secondary, #ececec);
-  border: 1px solid var(--border-color, #e4e4e7);
+  border: 1px solid var(--border-color, #e5e5e5);
   border-radius: var(--radius-md, 9px);
   box-shadow: var(--shadow-md);
   z-index: 2;
@@ -87,8 +87,8 @@ html.dark-theme .call-screen-stage {
   width: 88px;
   height: 88px;
   border-radius: 50%;
-  background: var(--color-primary, #18181b);
-  color: var(--text-inverse, #f4f4f5);
+  background: var(--color-primary, #171717);
+  color: var(--text-inverse, #f4f4f4);
   font-size: 28px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -107,8 +107,8 @@ html.dark-theme .call-screen-stage {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--bg-tertiary, #e4e4e7);
-  color: var(--text-primary, #09090b);
+  background: var(--bg-tertiary, #e5e5e5);
+  color: var(--text-primary, #0a0a0a);
 }
 
 .call-screen-info {
@@ -118,8 +118,8 @@ html.dark-theme .call-screen-stage {
   bottom: 0;
   padding: 14px 18px;
   text-align: center;
-  background: var(--bg-overlay, rgba(244, 244, 245, 0.94));
-  border-top: 1px solid var(--border-color, #e4e4e7);
+  background: var(--bg-overlay, rgba(245, 245, 245, 0.94));
+  border-top: 1px solid var(--border-color, #e5e5e5);
   backdrop-filter: blur(6px);
 }
 
@@ -127,19 +127,19 @@ html.dark-theme .call-screen-stage {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
 }
 
 .call-screen-status {
   margin: 2px 0 0;
   font-size: 13px;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 .call-screen-error {
   margin: 6px 0 0;
   font-size: 13px;
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
 }
 
 .call-screen-hint {
@@ -147,7 +147,7 @@ html.dark-theme .call-screen-stage {
   padding: 12px 18px;
   font-size: 13px;
   text-align: center;
-  color: var(--text-muted, #71717a);
+  color: var(--text-muted, #737373);
 }
 
 /* In-call controls */
@@ -157,7 +157,7 @@ html.dark-theme .call-screen-stage {
   justify-content: center;
   gap: 18px;
   padding: 18px;
-  border-top: 1px solid var(--border-color, #e4e4e7);
+  border-top: 1px solid var(--border-color, #e5e5e5);
 }
 
 .call-control-button {
@@ -168,9 +168,9 @@ html.dark-theme .call-screen-stage {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  border: 1px solid var(--border-heavy, #a1a1aa);
+  border: 1px solid var(--border-heavy, #a3a3a3);
   background: var(--bg-card, #fafafa);
-  color: var(--text-primary, #09090b);
+  color: var(--text-primary, #0a0a0a);
   cursor: pointer;
   transition:
     background var(--transition-fast, 140ms ease),
@@ -179,19 +179,19 @@ html.dark-theme .call-screen-stage {
 }
 
 .call-control-button:hover {
-  background: var(--bg-hover, #e4e4e7);
+  background: var(--bg-hover, #e5e5e5);
 }
 
 .call-control-button.active {
-  background: var(--color-primary, #18181b);
-  border-color: var(--color-primary, #18181b);
-  color: var(--text-inverse, #f4f4f5);
+  background: var(--color-primary, #171717);
+  border-color: var(--color-primary, #171717);
+  color: var(--text-inverse, #f4f4f4);
 }
 
 .call-control-end {
-  background: var(--color-primary, #18181b);
-  border-color: var(--color-primary, #18181b);
-  color: var(--text-inverse, #f4f4f5);
+  background: var(--color-primary, #171717);
+  border-color: var(--color-primary, #171717);
+  color: var(--text-inverse, #f4f4f4);
 }
 
 .call-control-end:hover {

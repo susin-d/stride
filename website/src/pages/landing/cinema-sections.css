@@ -178,7 +178,7 @@
 .cinema-step--eve { --cinema-step-color: var(--cinema-eve); }
 .cinema-step h3 { position: relative; margin: 0 0 8px; font-size: 14px; font-weight: 800; letter-spacing: -0.02em; color: var(--cinema-text); }
 .cinema-step p { position: relative; margin: 0; color: var(--cinema-muted); font-size: 12.5px; line-height: 1.65; }
-.cinema-step.is-active { border-color: var(--cinema-step-color, var(--cinema-primary)); background: var(--cinema-surface); box-shadow: 0 0 20px color-mix(in srgb, var(--cinema-step-color, #a83b59) 25%, transparent); }
+.cinema-step.is-active { border-color: var(--cinema-step-color, var(--cinema-primary)); background: var(--cinema-surface); box-shadow: 0 0 20px color-mix(in srgb, var(--cinema-step-color, var(--cinema-primary)) 25%, transparent); }
 .cinema-rail { height: 2px; background: var(--cinema-border); border-radius: 999px; overflow: hidden; }
 .cinema-rail i { display: block; height: 100%; background: var(--cinema-gradient-primary); border-radius: 999px; }
 
@@ -228,13 +228,13 @@
 @media (prefers-color-scheme: light) {
   .cinema-eve {
     background:
-      radial-gradient(ellipse 55% 40% at 50% 0%, rgba(219, 39, 119, 0.1), transparent 72%),
-      #f4f4f5;
+      radial-gradient(ellipse 55% 40% at 50% 0%, rgba(0, 0, 0, 0.08), transparent 72%),
+      #ffffff;
   }
   .cinema-finale {
     background:
-      radial-gradient(ellipse 60% 55% at 50% 110%, rgba(124, 58, 237, 0.12), transparent 72%),
-      radial-gradient(ellipse 45% 40% at 50% 110%, rgba(219, 39, 119, 0.08), transparent 72%),
-      #f4f4f5;
+      radial-gradient(ellipse 60% 55% at 50% 110%, rgba(0, 0, 0, 0.10), transparent 72%),
+      radial-gradient(ellipse 45% 40% at 50% 110%, rgba(0, 0, 0, 0.06), transparent 72%),
+      #ffffff;
   }
 }
