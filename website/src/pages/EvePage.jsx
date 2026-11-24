@@ -15,7 +15,7 @@ import {
   streamEveMessage,
 } from '../lib/eveApi'
 import { useEveLibrary } from './eve/useEveLibrary'
-import { useEveAvatar } from '../components/eve/avatar/EveAvatarProvider'
+import { useEveAvatar } from '../components/eve/avatar/useEveAvatar'
 import { EveActiveView } from './eve/EveActiveView'
 import { useEveActiveTab, useEveCompanionBroadcast } from './eve/useEveViewSync'
 

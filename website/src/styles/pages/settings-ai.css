@@ -153,6 +153,21 @@
 }
 
 /* Eve Voice Settings */
+.eve-voice-voice-hint {
+  width: 100%;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md, 8px);
+  font: inherit;
+}
+
+.eve-voice-voice-hint:focus-visible {
+  outline: 2px solid var(--border-heavy);
+  outline-offset: 1px;
+}
+
 .eve-voice-footer .eve-voice-primary {
   display: inline-flex;
   align-items: center;

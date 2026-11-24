@@ -318,12 +318,15 @@ export function Live2DModel({
       mount.removeEventListener('pointercancel', releaseDrag)
       mount.removeEventListener('wheel', onWheel)
       mount.removeEventListener('dblclick', onDoubleClick)
-      if (rafRef.current) {
-        window.cancelAnimationFrame(rafRef.current)
+      // Cancel the frame owned by this effect run; the ref may already point at
+      // a newer frame by the time React runs the cleanup.
+      const frameId = rafRef.current
+      if (frameId) {
+        window.cancelAnimationFrame(frameId)
         rafRef.current = 0
       }
     }
-  }, [applyTransform, onTransformChange, scheduleTransformEmit])
+  }, [applyTransform, onTransformChange, scheduleTransformEmit, rafRef])
 
   // React to prop changes from the parent (HUD slider, reset button).
   useEffect(() => {

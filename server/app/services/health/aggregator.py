@@ -6,36 +6,59 @@ import time
 from datetime import datetime, timezone
 
 from app.services.health.checks import check_cache, check_database, check_whatsapp_worker, check_workspace_storage
-from app.services.health.constants import _START_TS, elapsed_ms
+from app.services.health.constants import (
+    _START_TS,
+    CHECK_NAME_CACHE,
+    CHECK_NAME_DATABASE,
+    CHECK_NAME_WHATSAPP,
+    CHECK_NAME_WORKSPACE,
+    PROBE_TIMEOUT_SECONDS,
+    elapsed_ms,
+)
 from app.services.health.endpoints import collect_endpoints
 
 logger = logging.getLogger(__name__)
+
+
+async def _bounded_check(name: str, probe) -> dict:
+    """Run one dependency probe, reporting a timeout as a failed check."""
+    try:
+        return await asyncio.wait_for(probe(), timeout=PROBE_TIMEOUT_SECONDS)
+    except asyncio.TimeoutError:
+        return {
+            "status": "error",
+            "latency_ms": int(PROBE_TIMEOUT_SECONDS * 1000),
+            "detail": f"{name} probe timed out after {PROBE_TIMEOUT_SECONDS:g}s",
+        }
+    except Exception as exc:  # pragma: no cover - probes handle their own errors
+        logger.warning("health probe %s raised: %s", name, exc, exc_info=True)
+        return {"status": "error", "latency_ms": None, "detail": f"{name} probe failed: {exc}"}
 
 
 async def collect_health(app=None, detailed: bool = True) -> dict:
     """Run all probes concurrently and build the health payload."""
     t0 = time.monotonic()
     results = await asyncio.gather(
-        check_database(),
-        check_cache(),
-        check_whatsapp_worker(),
-        check_workspace_storage(),
+        _bounded_check(CHECK_NAME_DATABASE, check_database),
+        _bounded_check(CHECK_NAME_CACHE, check_cache),
+        _bounded_check(CHECK_NAME_WHATSAPP, check_whatsapp_worker),
+        _bounded_check(CHECK_NAME_WORKSPACE, check_workspace_storage),
         return_exceptions=False,
     )
     db, redis_stat, whatsapp, workspace = results
 
     if db["status"] == "error":
         overall = "error"
-    elif db["status"] == "degraded":
+    elif db["status"] == "degraded" or whatsapp["status"] == "error":
         overall = "degraded"
     else:
         overall = "ok"
 
     checks = {
-        "database": db,
-        "cache": redis_stat,
-        "whatsapp_worker": whatsapp,
-        "workspace_storage": workspace,
+        CHECK_NAME_DATABASE: db,
+        CHECK_NAME_CACHE: redis_stat,
+        CHECK_NAME_WHATSAPP: whatsapp,
+        CHECK_NAME_WORKSPACE: workspace,
     }
 
     endpoints = collect_endpoints(app) if (app is not None and detailed) else None
@@ -84,31 +107,31 @@ async def collect_health(app=None, detailed: bool = True) -> dict:
 async def collect_checks() -> dict[str, dict]:
     """Return all per-service checks without endpoint inventory — for /health/checks."""
     results = await asyncio.gather(
-        check_database(),
-        check_cache(),
-        check_whatsapp_worker(),
-        check_workspace_storage(),
+        _bounded_check(CHECK_NAME_DATABASE, check_database),
+        _bounded_check(CHECK_NAME_CACHE, check_cache),
+        _bounded_check(CHECK_NAME_WHATSAPP, check_whatsapp_worker),
+        _bounded_check(CHECK_NAME_WORKSPACE, check_workspace_storage),
         return_exceptions=False,
     )
     db, redis_stat, whatsapp, workspace = results
     return {
-        "database": db,
-        "cache": redis_stat,
-        "whatsapp_worker": whatsapp,
-        "workspace_storage": workspace,
+        CHECK_NAME_DATABASE: db,
+        CHECK_NAME_CACHE: redis_stat,
+        CHECK_NAME_WHATSAPP: whatsapp,
+        CHECK_NAME_WORKSPACE: workspace,
     }
 
 
 async def get_check(name: str) -> dict | None:
     mapping = {
-        "database": check_database,
-        "cache": check_cache,
+        CHECK_NAME_DATABASE: check_database,
+        CHECK_NAME_CACHE: check_cache,
         "whatsapp": check_whatsapp_worker,
-        "whatsapp_worker": check_whatsapp_worker,
+        CHECK_NAME_WHATSAPP: check_whatsapp_worker,
         "workspace": check_workspace_storage,
-        "workspace_storage": check_workspace_storage,
+        CHECK_NAME_WORKSPACE: check_workspace_storage,
     }
     fn = mapping.get(name)
     if not fn:
         return None
-    return await fn()
+    return await _bounded_check(name, fn)

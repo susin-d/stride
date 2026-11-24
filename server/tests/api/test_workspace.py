@@ -47,8 +47,12 @@ class TestWorkspaceEndpoints(_OverridesMixin, unittest.TestCase):
         response = client.get("/api/v1/health")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["status"], "ok")
-        # Liveness answers from process state only — no dependency probes.
-        self.assertIsNone(response.json()["checks"])
+        # Readiness answers with dependency statuses but never the endpoint
+        # inventory (that stays on /health/detailed).
+        checks = response.json()["checks"]
+        self.assertIsNotNone(checks)
+        self.assertIn("database", checks)
+        self.assertIsNone(response.json()["endpoint_count"])
 
     def test_list_jobs_mocked(self):
         mock_collection = MagicMock()

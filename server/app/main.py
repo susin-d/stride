@@ -181,6 +181,15 @@ def create_app() -> FastAPI:
 
         return JSONResponse(content=await collect_health(detailed=False))
 
+    # Zero-I/O liveness for load balancers: answers from process state only, so
+    # a blocked database cannot stall or skew the probe. Dependency readiness
+    # stays on /health/detailed and /health/checks*.
+    @application.get("/health/ready", include_in_schema=False)
+    async def root_health_liveness():
+        from app.services.health import build_liveness
+
+        return JSONResponse(content=build_liveness())
+
     # Root readiness aliases for operators and load balancers that do not use
     # the versioned API prefix. These delegate to the canonical health probes.
     @application.get("/health/detailed", include_in_schema=False)

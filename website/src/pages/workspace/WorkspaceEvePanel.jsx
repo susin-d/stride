@@ -4,7 +4,7 @@ import { Bot, Send, PanelRightClose, PanelRightOpen, Square, Wrench } from 'luci
 import { ModelSelectorDropdown } from '../../components/ui/ModelSelectorDropdown'
 import { useEveAgentChat } from './useEveAgentChat'
 import { EveInlineAvatar } from '../../components/eve/avatar/EveInlineAvatar'
-import { useEveAvatar } from '../../components/eve/avatar/EveAvatarProvider'
+import { useEveAvatar } from '../../components/eve/avatar/useEveAvatar'
 
 export function WorkspaceEvePanel({
   collapsed,

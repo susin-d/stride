@@ -13,7 +13,7 @@ router = APIRouter()
 
 @router.get("/health", response_model=HealthResponse)
 async def health_check() -> HealthResponse:
-    """Return service statuses without the expensive endpoint inventory walk."""
+    """Return dependency statuses without the expensive endpoint inventory walk."""
     from app.services.health import collect_health
 
     payload = await collect_health(detailed=False)

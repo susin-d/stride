@@ -209,9 +209,12 @@ export function useWorkspace() {
   const autoSaveTimers = useRef(new Map())
 
   useEffect(() => {
+    // Capture the Map for this effect run: the ref may point at a different
+    // Map by the time the cleanup executes.
+    const timers = autoSaveTimers.current
     return () => {
-      autoSaveTimers.current.forEach((timer) => clearTimeout(timer))
-      autoSaveTimers.current.clear()
+      timers.forEach((timer) => clearTimeout(timer))
+      timers.clear()
     }
   }, [])
 

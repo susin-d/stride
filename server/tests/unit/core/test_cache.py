@@ -82,18 +82,39 @@ class TestInvalidatePrefix:
 
 
 @pytest.mark.asyncio
-async def test_snapshot_miss_returns_empty_and_refreshes_in_background():
-    loaded = []
+async def test_snapshot_cold_miss_loads_inline_instead_of_returning_empty():
+    calls = []
 
     async def loader():
-        loaded.append(True)
+        calls.append(True)
         return {"value": 1}
 
     result = await cache.snapshot_read("snapshot", loader, {"value": 0})
-    assert result == {"value": 0}
-    await asyncio.sleep(0)
-    assert loaded == [True]
+    assert result == {"value": 1}
+    assert calls == [True]
+    # The loaded value is cached, so the next read is a hit with no extra load.
     assert await cache.snapshot_read("snapshot", loader, {"value": 0}) == {"value": 1}
+    assert calls == [True]
+
+
+@pytest.mark.asyncio
+async def test_snapshot_cold_miss_supports_sync_loaders():
+    def loader():
+        return [{"id": "a"}]
+
+    assert await cache.snapshot_read("sync", loader, []) == [{"id": "a"}]
+    assert await cache.snapshot_read("sync", loader, []) == [{"id": "a"}]
+
+
+@pytest.mark.asyncio
+async def test_snapshot_cold_miss_raises_when_loader_fails():
+    async def loader():
+        raise RuntimeError("db down")
+
+    with pytest.raises(cache.SnapshotLoaderError):
+        await cache.snapshot_read("broken", loader, {"items": []})
+    # A failed cold load must not leave a poisoned entry behind.
+    assert cache.stale_cache_get("broken")[0] == "miss"
 
 
 @pytest.mark.asyncio
@@ -110,3 +131,15 @@ async def test_snapshot_stale_returns_immediately_and_refreshes_once():
     assert await cache.snapshot_read("stale", loader, {"value": 0}) == {"value": 1}
     await asyncio.sleep(0)
     assert calls == 1
+
+
+@pytest.mark.asyncio
+async def test_background_refresh_failure_is_logged(caplog):
+    async def loader():
+        raise RuntimeError("upstream down")
+
+    cache.stale_cache_set("stale", {"value": 1}, fresh_ttl=0, stale_ttl=60)
+    assert await cache.snapshot_read("stale", loader, {"value": 0}) == {"value": 1}
+    await asyncio.sleep(0)
+
+    assert any("snapshot refresh failed" in record.message for record in caplog.records)

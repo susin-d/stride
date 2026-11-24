@@ -7,10 +7,14 @@ Keeps 1GB host lean: no external Redis cost, no pgbouncer needed.
 import asyncio
 import contextvars
 import hashlib
+import inspect
 import json as _json
+import logging
 import time as _time
 from functools import wraps
 from typing import Any, Callable
+
+from fastapi import HTTPException
 
 try:
     import redis as _redis  # type: ignore
@@ -18,6 +22,8 @@ except Exception:  # pragma: no cover
     _redis = None
 
 from app.core.config import settings
+
+logger = logging.getLogger(__name__)
 
 _local_cache: dict[str, tuple[float, Any]] = {}
 _MAX_LOCAL = 1000
@@ -235,27 +241,53 @@ def _release_refresh_lock(key: str) -> None:
     _local_refresh_locks.pop(lock_key, None)
 
 
+class SnapshotLoaderError(RuntimeError):
+    """A snapshot loader raised while rebuilding a cold cache entry."""
+
+
+async def _await_loader(loader: Callable[[], Any]) -> Any:
+    """Run a loader and await its result when the loader is asynchronous."""
+    result = loader()
+    if inspect.isawaitable(result):
+        result = await result
+    return result
+
+
 def _schedule_refresh(key: str, loader: Callable[[], Any], fresh_ttl: int, stale_ttl: int) -> None:
     if key in _refresh_tasks or not _try_refresh_lock(key):
         return
     _refresh_status.set("scheduled")
 
-    async def refresh() -> None:
-        try:
-            result = loader()
-            if asyncio.iscoroutine(result):
-                result = await result
-            if result is not None:
-                stale_cache_set(key, result, fresh_ttl, stale_ttl)
-        except Exception:
-            # The stale snapshot remains available until its stale window ends.
-            pass
-        finally:
-            _release_refresh_lock(key)
-            _refresh_tasks.pop(key, None)
-
-    task = asyncio.create_task(refresh())
+    task = asyncio.create_task(
+        _refresh_snapshot(key, loader, fresh_ttl, stale_ttl, raise_on_error=False)
+    )
     _refresh_tasks[key] = task
+
+
+async def _refresh_snapshot(
+    key: str,
+    loader: Callable[[], Any],
+    fresh_ttl: int,
+    stale_ttl: int,
+    *,
+    raise_on_error: bool,
+) -> Any:
+    """Rebuild one snapshot entry; optionally surface the loader's failure."""
+    try:
+        result = await _await_loader(loader)
+        if result is not None:
+            stale_cache_set(key, result, fresh_ttl, stale_ttl)
+        return result
+    except Exception as exc:
+        if raise_on_error:
+            raise SnapshotLoaderError(f"snapshot loader failed for {key!r}") from exc
+        # Background refresh: the previous snapshot stays served until its
+        # stale window ends, and the failure is logged rather than swallowed.
+        logger.warning("snapshot refresh failed for %r: %s", key, exc, exc_info=True)
+        return None
+    finally:
+        _release_refresh_lock(key)
+        _refresh_tasks.pop(key, None)
 
 
 async def snapshot_read(
@@ -266,14 +298,60 @@ async def snapshot_read(
     fresh_ttl: int = CACHE_TTL_SHORT,
     stale_ttl: int = CACHE_TTL_LONG,
 ) -> Any:
-    """Read a snapshot immediately and refresh it outside the request path."""
+    """Serve a cached snapshot, falling back to a blocking load on a cold miss.
+
+    Fresh and stale entries are returned without waiting for the loader, the
+    latter triggering a single background refresh. A cold miss (no entry at
+    all, or one past its stale window) awaits the loader so callers never see
+    a placeholder that claims "no data" while a refresh is still in flight.
+    """
     status, value = stale_cache_get(key)
-    if status in {"fresh", "stale"}:
-        if status == "stale":
-            _schedule_refresh(key, loader, fresh_ttl, stale_ttl)
+    if status == "fresh":
         return value
-    _schedule_refresh(key, loader, fresh_ttl, stale_ttl)
-    return empty
+    if status == "stale":
+        _schedule_refresh(key, loader, fresh_ttl, stale_ttl)
+        return value
+
+    # Cold miss: block on the load and cache it so the next reader is warm, and
+    # so callers never mistake an unbuilt snapshot for "no records". The owned
+    # flag only records whether this call took the refresh lock.
+    owned = _try_refresh_lock(key)
+    try:
+        return await _refresh_snapshot(
+            key, loader, fresh_ttl, stale_ttl, raise_on_error=True
+        )
+    finally:
+        if owned:
+            _release_refresh_lock(key)
+
+
+async def snapshot_read_http(
+    key: str,
+    loader: Callable[[], Any],
+    empty: Any,
+    *,
+    fresh_ttl: int = CACHE_TTL_SHORT,
+    stale_ttl: int = CACHE_TTL_LONG,
+) -> Any:
+    """``snapshot_read`` for route handlers whose loader raises HTTP errors.
+
+    Integrations answer with typed errors inside their loaders (e.g. "Connect
+    Google Drive first."), Notify-style 409/404/502 responses rather than
+    empty lists. Those must reach the client, so an ``HTTPException`` is
+    re-raised instead of being wrapped in ``SnapshotLoaderError`` as a 500.
+    """
+    try:
+        return await snapshot_read(
+            key,
+            loader,
+            empty,
+            fresh_ttl=fresh_ttl,
+            stale_ttl=stale_ttl,
+        )
+    except SnapshotLoaderError as exc:
+        if isinstance(exc.__cause__, HTTPException):
+            raise exc.__cause__ from None
+        raise
 
 
 # ---------------------------------------------------------------------------

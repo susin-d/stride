@@ -1,8 +1,9 @@
 """Liveness probe — zero-I/O fast path for load balancers and docker healthcheck.
 
 Deep dependency probes (database/cache/whatsapp/workspace) live behind
-`/health/detailed` and `/health/checks*` (readiness). Liveness answers from
-process state only, so a slow downstream can never slow or fail the probe.
+`/health`, `/health/detailed` and `/health/checks*` (readiness). Liveness
+answers from process state only, so a slow downstream can never slow or fail
+the probe. Served at the root alias `/health/ready`.
 """
 
 import time

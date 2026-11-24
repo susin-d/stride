@@ -73,6 +73,8 @@
 | [0059](0059-remove-avatar-studio.md) | Remove the Avatar Studio modeling workspace — page, /modeling/projects API, avatar_editor_action tool and editor_context channel | Accepted | 2026-11-24 |
 | [0060](0060-remove-neon-glow-layer.md) | Remove the neon glow layer — glow tokens, halo shadows and ambient bloom elements; elevation + solid rings instead | Accepted | 2026-11-24 |
 | [0061](0061-brushstroke-brand-mark-mask.md) | Brushstroke "S" brand mark — one transparent master masked in `currentColor`, white-tile app icons | Accepted | 2026-11-24 |
+| [0062](0062-snapshot-cache-blocks-on-cold-miss.md) | Snapshot cache blocks on a cold miss | Accepted | 2026-11-24 |
+| [0063](0063-bounded-health-probes.md) | Bounded health probes with honest status — 5s per-probe timeout, degraded DB reports degraded, `/health/ready` liveness alias | Accepted | 2026-11-24 |
 | [0058](0058-dashboard-overview-aggregate.md) | Dashboard overview aggregate endpoint | Accepted (renumbered from 0053 — duplicate number) | 2026-09-11 |
 
 ## How to add a new ADR

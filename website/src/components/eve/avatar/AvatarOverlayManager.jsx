@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react"
-import { useEveAvatar } from "./EveAvatarProvider"
+import { useEveAvatar } from "./useEveAvatar"
 import { AVATAR_OVERLAY_BC_CHANNEL, AVATAR_DEFAULTS } from "./avatarConstants"
 import { OVERLAY_POSITION_KEY } from '../../../lib/storageKeys'
 

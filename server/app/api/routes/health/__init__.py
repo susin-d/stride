@@ -1,9 +1,14 @@
 """Facade — preserves `from app.api.routes.health import router` after split.
 
 The monolithic 27-line health.py has been split per SRP:
-- main.py      : GET /health (liveness, zero I/O — no checks, for docker/LB)
-- detailed.py  : GET /health/detailed (full checks + 231 endpoints)
+- main.py      : GET /health (readiness: dependency checks, no endpoint inventory)
+- detailed.py  : GET /health/detailed (full checks + endpoint inventory)
 - checks.py    : GET /health/checks and GET /health/checks/{name} (per-service probes from other services)
+
+Every probe is bounded by `PROBE_TIMEOUT_SECONDS` so a blocked dependency
+reports a failure instead of stalling the response. The zero-I/O liveness
+payload (`build_liveness`) is served from the root alias `/health/ready`, not
+from these versioned routes.
 
 Each check's logic lives in `app/services/health/checks/{name}.py` — i.e. in
 another service, so the health endpoint itself stays small.

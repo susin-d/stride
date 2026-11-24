@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { EveGlobalCompanion } from './EveGlobalCompanion'
-import { useEveAvatar } from './EveAvatarProvider'
+import { useEveAvatar } from './useEveAvatar'
 
 // Returns true when running inside Tauri desktop shell
 function isTauri() {

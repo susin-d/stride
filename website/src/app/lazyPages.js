@@ -1,6 +1,4 @@
-import { lazy, Suspense } from 'react'
-import { NetworkStatus } from '../components/NetworkStatus'
-import { WaveLoader } from '../components/WaveLoader'
+import { lazy } from 'react'
 
 export const AuthPage = lazy(() => import('../pages/AuthPage').then((m) => ({ default: m.AuthPage })))
 export const ForgotPasswordPage = lazy(() => import('../pages/ForgotPasswordPage').then((m) => ({ default: m.ForgotPasswordPage })))
@@ -12,13 +10,3 @@ export const CustomPage = lazy(() => import('../pages/CustomPage').then((m) => (
 export const EveGlobalCompanionHost = lazy(() => import('../components/eve/avatar/EveGlobalCompanionHost').then((m) => ({ default: m.EveGlobalCompanionHost })))
 export const AvatarOverlayManager = lazy(() => import('../components/eve/avatar/AvatarOverlayManager').then((m) => ({ default: m.AvatarOverlayManager })))
 export const AvatarOverlayPage = lazy(() => import('../pages/AvatarOverlayPage').then((m) => ({ default: m.AvatarOverlayPage })))
-
-export function publicRoute(content) {
-  return (
-    <>
-      <a className="skip-link" href="#main-content">Skip to main content</a>
-      <NetworkStatus />
-      <Suspense fallback={<WaveLoader />}>{content}</Suspense>
-    </>
-  )
-}

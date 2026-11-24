@@ -8,7 +8,7 @@ from app.db import ArrayUnion, SERVER_TIMESTAMP, SqlClient, get_firestore
 from itsdangerous import URLSafeTimedSerializer
 
 from app.core.auth import get_current_user
-from app.core.cache import CACHE_TTL_LONG, snapshot_read
+from app.core.cache import CACHE_TTL_LONG, snapshot_read_http
 from app.core.config import settings
 from app.core.errors import bad_gateway, bad_request, conflict, not_found, service_unavailable
 from app.services.oauth import (
@@ -175,6 +175,11 @@ async def google_drive_files(
     user: dict = Depends(get_current_user),
 ):
     async def fetch_files():
+        # Not-connected is an ordinary state, not an error: the loader raises
+        # `conflict` for it, so short-circuit to the empty payload first.
+        integration = await asyncio.to_thread(drive_reference(database, user["uid"]).get)
+        if not integration.exists:
+            return {"files": []}
         token = await access_token(database, user["uid"])
         async with httpx.AsyncClient(timeout=30) as client:
             response = await client.get(
@@ -193,7 +198,7 @@ async def google_drive_files(
                 raise bad_gateway(response.text) from error
             return response.json()
 
-    return await snapshot_read(
+    return await snapshot_read_http(
         f"google-drive:files:{user['uid']}",
         fetch_files,
         {"files": []},

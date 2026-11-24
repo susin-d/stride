@@ -1,5 +1,14 @@
 /** WhatsApp conversation pure helpers — single responsibility: message formatting and parsing. */
 
+// JID suffixes WhatsApp appends to phone/LID/group identifiers.
+const JID_SUFFIX_PATTERN = /@s\.whatsapp\.net|@g\.us|@lid/g
+
+/** Strip the WhatsApp JID suffix so two identifiers compare by bare number. */
+export function normalizeChatId(raw) {
+  if (!raw) return ''
+  return String(raw).replace(JID_SUFFIX_PATTERN, '').trim()
+}
+
 export function extractFirstUrl(text) {
   if (!text) return null
   const urlRegex = /(https?:\/\/[^\s]+)/g

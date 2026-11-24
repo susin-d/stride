@@ -5,7 +5,7 @@ import { SettingsCard } from '../../components/ui/SettingsCard'
 import { SettingsSection } from '../../components/ui/SettingsSection'
 import { EveInlineAvatar } from '../../components/eve/avatar/EveInlineAvatar'
 import { AVATAR_CATALOG, AVATAR_LIMITS, AVATAR_RENDERERS } from '../../components/eve/avatar/avatarConstants'
-import { useEveAvatar } from '../../components/eve/avatar/EveAvatarProvider'
+import { useEveAvatar } from '../../components/eve/avatar/useEveAvatar'
 import { getAvatarPreferences, listAvatarModels, saveAvatarPreferences, uploadAvatarModel, deleteAvatarModel } from '../../lib/eveAvatarApi'
 
 const RENDERER_OPTIONS = [

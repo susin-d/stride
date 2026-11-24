@@ -1,5 +1,5 @@
 import '../../styles/pages/workspace-editor.css'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import Editor from '@monaco-editor/react'
 import { X, FileCode, FolderOpen, FilePlus, Circle, Play } from 'lucide-react'
 
@@ -45,29 +45,6 @@ function getLanguage(filePath) {
   return EXTENSION_LANGUAGE_MAP[ext] || 'plaintext'
 }
 
-function getLanguageLabel(filePath) {
-  const lang = getLanguage(filePath)
-  const map = {
-    javascript: 'JavaScript',
-    typescript: 'TypeScript',
-    python: 'Python',
-    rust: 'Rust',
-    go: 'Go',
-    java: 'Java',
-    csharp: 'C#',
-    css: 'CSS',
-    html: 'HTML',
-    json: 'JSON',
-    markdown: 'Markdown',
-    yaml: 'YAML',
-    sql: 'SQL',
-    shell: 'Shell',
-    dockerfile: 'Dockerfile',
-    plaintext: 'Text',
-  }
-  return map[lang] || lang
-}
-
 function getTheme() {
   return document.documentElement.classList.contains('dark-theme')
     ? 'vs-dark'
@@ -90,7 +67,6 @@ export function WorkspaceEditor({
   onRunHtml,
 }) {
   const editorRef = useRef(null)
-  const [cursorPos, setCursorPos] = useState({ line: 1, column: 1 })
 
   const handleMount = useCallback((editor) => {
     editorRef.current = editor
@@ -99,9 +75,6 @@ export function WorkspaceEditor({
       label: 'Save File',
       keybindings: [2048 | 49],
       run: () => onSave(activeTab),
-    })
-    editor.onDidChangeCursorPosition((e) => {
-      setCursorPos({ line: e.position.lineNumber, column: e.position.column })
     })
   }, [onSave, activeTab])
 
@@ -115,7 +88,7 @@ export function WorkspaceEditor({
         editorRef.current.setValue(activeTabData.content)
       }
     }
-  }, [activeTab, activeTabData?.content, isFileDirty])
+  }, [activeTab, activeTabData, isFileDirty])
 
   if (tabs.length === 0) {
     return (

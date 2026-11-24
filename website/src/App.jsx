@@ -12,9 +12,9 @@ import {
   LandingPage,
   OnboardingPage,
   PrivacyPolicyPage,
-  publicRoute,
   TermsOfServicePage,
-} from './app/publicShell'
+} from './app/lazyPages'
+import { publicRoute } from './app/publicRoute'
 import { buildUserProfile, detectNativeApp, parseResetToken, resolveLayoutPage } from './app/appUtils'
 import { useAccountDeepLinks, useAppTheme, useAppTitle, useAuthRedirects, useSessionEvents } from './app/useAppEffects'
 import { updateNotification } from './lib/workspaceApi'

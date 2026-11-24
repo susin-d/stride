@@ -94,6 +94,7 @@ export function VrmModel({
 
     const clock = new Clock()
     let visible = true
+    const frameRef = { id: 0 }
     const visibilityObserver = new IntersectionObserver(
       (entries) => { visible = entries[0]?.isIntersecting !== false },
       { threshold: 0 },
@@ -110,7 +111,8 @@ export function VrmModel({
     document.addEventListener('visibilitychange', onVisibility)
 
     const animate = () => {
-      rafRef.current = requestAnimationFrame(animate)
+      frameRef.id = requestAnimationFrame(animate)
+      rafRef.current = frameRef.id
       if (!visible || document.hidden) return
       const delta = clock.getDelta()
 
@@ -260,8 +262,13 @@ export function VrmModel({
     mount.addEventListener('dblclick', onDoubleClick)
 
     return () => {
-      cancelAnimationFrame(rafRef.current)
-      rafRef.current = 0
+      // Cleanup must cancel the frames that belong to this effect run: the ref
+      // may already point at a newer frame by the time React runs it.
+      const frameId = rafRef.current
+      if (frameId) {
+        cancelAnimationFrame(frameId)
+        rafRef.current = 0
+      }
       ro.disconnect()
       visibilityObserver.disconnect()
       document.removeEventListener('visibilitychange', onVisibility)
@@ -271,9 +278,12 @@ export function VrmModel({
       mount.removeEventListener('pointercancel', releaseDrag)
       mount.removeEventListener('wheel', onWheel)
       mount.removeEventListener('dblclick', onDoubleClick)
-      if (transformRafRef.current) {
-        window.cancelAnimationFrame(transformRafRef.current)
-        transformRafRef.current = 0
+      // Cancel only the frame created by this effect run. A module-level ref is
+      // inaccessible here (the WebGL mount effect intentionally runs once), so
+      // the id lives in a closure that `animate` updates.
+      if (frameRef.id) {
+        cancelAnimationFrame(frameRef.id)
+        frameRef.id = 0
       }
       try { mount.removeChild(renderer.domElement) } catch {}
       renderer.dispose()
