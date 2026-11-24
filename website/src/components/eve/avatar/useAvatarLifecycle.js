@@ -23,7 +23,7 @@ export function useAvatarLifecycle({ renderer = 'auto', modelUrl = '' } = {}) {
     const webgl2 = supportsWebGL2()
     const dm = deviceMemoryProbe()
     const cores = (typeof navigator !== 'undefined' && navigator.hardwareConcurrency) || 4
-    // Be conservative for Avatar Studio — 10MB VRM + 2.7MB Live2D textures crash low-end PCs
+    // Be conservative for the Eve avatar widget — 10MB VRM + 2.7MB Live2D textures crash low-end PCs
     // Mark lowMemory if dm < 6 or cores <= 4 or no WebGL2, so we default to procedural
     const lowMemory = dm < 6 || cores <= 4 || !webgl2
     return { webgl2, dm, cores, lowMemory }

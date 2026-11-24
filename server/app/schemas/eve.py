@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -14,7 +13,6 @@ class EveChatRequest(BaseModel):
     session_id: str | None = Field(default=None, max_length=200)
     provider: str | None = Field(default=None, min_length=1, max_length=64)
     model: str | None = Field(default=None, min_length=1, max_length=128)
-    editor_context: dict[str, Any] | None = None
 
 
 class EveChatResponse(BaseModel):

@@ -97,12 +97,6 @@ def whatsapp_summary_prompt(history_text: str) -> str:
 # Keys are tool names, or tool.param for parameter descriptions.
 
 
-# --- AVATAR (services/eve/tools/avatar.py) ---
-AVATAR_DESCRIPTIONS = {
-    "avatar_editor_action": "Request a validated action in the open Avatar Studio editor. "
-            "The frontend applies the action and asks for confirmation when required.",
-}
-
 # --- BROWSER (services/eve/tools/browser.py) ---
 BROWSER_DESCRIPTIONS = {
     "browser_navigate": "Open a URL in Eve's headless browser session. The page state persists across browser_* tool calls, so you can navigate then click, type, extract, or screenshot.",

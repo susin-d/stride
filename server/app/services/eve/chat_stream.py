@@ -58,7 +58,6 @@ def stream_chat_with_eve(
     session_id: str | None = None,
     provider: str | None = None,
     model: str | None = None,
-    editor_context: dict[str, Any] | None = None,
 ) -> Iterator[dict[str, Any]]:
     """Yield streaming events for an Eve chat turn.
 
@@ -106,7 +105,7 @@ def stream_chat_with_eve(
                 return
 
     try:
-        context = resolve_chat_context(database, user_id, messages, provider, model, editor_context)
+        context = resolve_chat_context(database, user_id, messages, provider, model)
     except Exception as error:
         logger.error(
             "[Eve Chat Stream] AI config error for user %s: %s: %s",

@@ -42,14 +42,12 @@
 /* ── Fullscreen exceptions — no gutters, true edge-to-edge ── */
 .content.whatsapp-fullscreen-content,
 .content.workspace-fullscreen-content,
-.content.avatar-fullscreen-content,
 .content:has(.whatsapp-page),
 .content:has(.whatsapp-page-wrapper),
 .content:has(.workspace-page),
 .content:has(.studio-builder),
 .content:has(.studio-page-builder),
-.content:has(.studio-page-gallery),
-.content:has(.avatar-studio) {
+.content:has(.studio-page-gallery) {
   width: 100%;
   max-width: none;
   margin: 0;

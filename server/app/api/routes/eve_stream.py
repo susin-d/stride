@@ -67,27 +67,15 @@ async def chat_stream(
     async_q: asyncio.Queue = asyncio.Queue()
 
     def _iter_events():
-        if payload.editor_context is not None:
-            if payload.provider or payload.model:
-                stream = stream_chat_with_eve(
-                    database, user, messages, session_id,
-                    payload.provider, payload.model, payload.editor_context,
-                )
-            else:
-                stream = stream_chat_with_eve(
-                    database, user, messages, session_id,
-                    editor_context=payload.editor_context,
-                )
+        if payload.provider or payload.model:
+            stream = stream_chat_with_eve(
+                database, user, messages, session_id,
+                payload.provider, payload.model,
+            )
         else:
-            if payload.provider or payload.model:
-                stream = stream_chat_with_eve(
-                    database, user, messages, session_id,
-                    payload.provider, payload.model,
-                )
-            else:
-                stream = stream_chat_with_eve(
-                    database, user, messages, session_id,
-                )
+            stream = stream_chat_with_eve(
+                database, user, messages, session_id,
+            )
         for event in stream:
             yield f"data: {json.dumps(event, default=str)}\n\n"
 

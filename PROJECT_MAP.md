@@ -77,7 +77,6 @@ Routes are `/app/<page>` (router `hooks/useRouter.js`, page ids in `appPages.jsx
 | `/app/studio-apps`, `/app/studio-templates` | StudioAppsPage, StudioTemplatesPage | Gallery + curated templates |
 | `/app/eve` (+ `/sessions`, `/memory`, `/call`, `/schedules`) | EvePage | Chat, sessions, memory, voice, schedules |
 | `/app/compete` | CompetePage | Contests + coding stats (`stats`/`competitive-coding` resolve to its tabs) |
-| `/app/avatar` | AvatarPage | Avatar Studio (lazy chunk) |
 | `/app/calls` | CallsPage | WebRTC + Twilio PSTN |
 | `/app/whatsapp` | WhatsAppPage | Chat list + conversation |
 | `/app/mails` | MailsPage | Gmail integration |

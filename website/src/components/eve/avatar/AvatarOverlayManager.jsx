@@ -61,7 +61,7 @@ export function AvatarOverlayManager() {
       if (type === "overlay-disabled") {
         // Overlay closed itself (from context menu "Close & disable") — relay disable to app
         overlayOpenRef.current = false
-        // Dispatch a custom event so EveGlobalCompanionHost / AvatarPage can react
+        // Dispatch a custom event so EveGlobalCompanionHost can react
         window.dispatchEvent(new CustomEvent("stride:overlay-self-disabled"))
       }
     }

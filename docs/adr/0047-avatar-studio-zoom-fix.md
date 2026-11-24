@@ -4,6 +4,8 @@
 
 ## Status
 
+Removed by [ADR 0059](./0059-remove-avatar-studio.md) — Avatar Studio deleted
+
 - Date: 2026-09-06
 - Deciders: @author
 - Tags: `avatar`, `ux`, `frontend`, `zoom`

@@ -147,4 +147,3 @@ python -m pytest tests -q
 - Mail attachments, forwarding, rich-text composition, and drafts are not implemented.
 - Calls use STUN only; a TURN relay is required behind strict NAT.
 - The production frontend build emits a bundle-size advisory.
-- Serverless deployments need object storage for modeling projects (they require a filesystem).

@@ -18,7 +18,6 @@ const TodoPage = lazy(() => import('./pages/TodoPage').then((m) => ({ default: m
 const ProfilePage = lazy(() => import('./pages/ProfilePage').then((m) => ({ default: m.ProfilePage })))
 const CalendarPage = lazy(() => import('./pages/CalendarPage').then((m) => ({ default: m.CalendarPage })))
 const EvePage = lazy(() => import('./pages/EvePage').then((m) => ({ default: m.EvePage })))
-const AvatarPage = lazy(() => import('./pages/AvatarPage').then((m) => ({ default: m.AvatarPage })))
 const MailsPage = lazy(() => import('./pages/MailsPage').then((m) => ({ default: m.MailsPage })))
 const WhatsAppPage = lazy(() => import('./pages/WhatsAppPage').then((m) => ({ default: m.WhatsAppPage })))
 const ChatsPage = lazy(() => import('./pages/ChatsPage').then((m) => ({ default: m.ChatsPage })))
@@ -144,7 +143,6 @@ export function buildAppPages({
         chatResetKey={eveChatKey}
       />
     ),
-    avatar: <AvatarPage onNavigate={navigateWorkspace} />,
     compete: (
       <CompetePage
         initialTab="contests"

@@ -15,7 +15,7 @@ import { previewFor } from '../utils/evePreview'
 
 const MAX_CHARS = 4000
 
-export function EveAssistantModal({ isOpen, onClose, onNavigate, onWorkspaceChanged, editorContext = null }) {
+export function EveAssistantModal({ isOpen, onClose, onNavigate, onWorkspaceChanged }) {
   const [messages, setMessages] = useState([])
   const [draft, setDraft] = useState('')
   const [error, setError] = useState('')
@@ -187,7 +187,7 @@ export function EveAssistantModal({ isOpen, onClose, onNavigate, onWorkspaceChan
       ])
     }
     const apiMessages = nextMessages.filter((m) => typeof m.content === 'string' && m.content.trim().length > 0).map((m) => ({ role: m.role, content: m.content.trim() }))
-    const response = await sendEveMessage(apiMessages.length ? apiMessages : nextMessages, nextSessionId, null, editorContext)
+    const response = await sendEveMessage(apiMessages.length ? apiMessages : nextMessages, nextSessionId, null)
     const assistantText = typeof response.message === 'string' ? response.message.trim() : ''
     const assistantMessage = assistantText ? { role: 'assistant', content: assistantText } : null
     const finalMessages = assistantMessage ? [...nextMessages, assistantMessage] : nextMessages
@@ -244,8 +244,6 @@ export function EveAssistantModal({ isOpen, onClose, onNavigate, onWorkspaceChan
       } else if (action.type === 'open_custom_page' && action.slug) {
         if (action.preferences) window.dispatchEvent(new CustomEvent('eve-ui-update', { detail: { preferences: action.preferences } }))
         onNavigate?.(`custom-${action.slug}`)
-      } else if (action.type === 'avatar_editor_action') {
-        window.dispatchEvent(new CustomEvent('stride:avatar-editor-action', { detail: action }))
       }
     })
   }

@@ -1,7 +1,7 @@
 # Stride Context
 
 Living snapshot for AI agents. `AGENTS.md` holds permanent rules; this file holds the **current state**. See `CHANGELOG.md` for history and `PROJECT_MAP.md` for the file index.
-Last updated: 2026-11-24 — Docs consolidated: stale design-system/Docker/deploy/server-README files merged or removed, root README rewritten for the SQL + `itsdangerous` stack, duplicate ADR 0053 renumbered to 0058, PROJECT_MAP page map fixed to the `/app/*` router ids.
+Last updated: 2026-11-24 — Avatar Studio removed end to end (page, `/modeling/projects` API + repo/service/schema/tests, `avatar_editor_action` Eve tool, `editor_context` chat channel, `--avatar-studio-accent`); Eve Avatar companion untouched (ADR 0059).
 
 ## Contents
 1. [Overview](#1-overview) · 2. [Repository structure](#2-repository-structure) · 3. [Backend](#4-backend) · 4. [Frontend](#4-frontend) · 5. [Design system](#5-design-system) · 6. [Current snapshot](#6-current-snapshot) · 7. [Limitations](#7-limitations) · 8. [Verification](#8-verification)
@@ -54,8 +54,8 @@ For full maps see `PROJECT_MAP.md`. Keep this section brief; expand there.
 - **Hooks:** `hooks/` (`useAuth`, `useRouter`, `useThemeCustomizer`, `useWorkspaceData` staggered, `useCustomUI`, `useDevices`, `useSyncEvents`, `call/` `useWebRTC`/`useEveVoice`/`useCallCenter`) + `usePersistentState`.
   - **API clients** `lib/` — one per backend feature via `request.js` `apiRequest` (dedup + cache 30s/15s + concurrency 6 + retries + `X-Device-Id`, 401 logout). `authApi` device-aware, `uiPreferencesApi`, `eveAvatarApi`, `firebase.js`.
   - **Brand:** `components/StrideLogo.jsx` (styled by `.stride-logo-icon` in `styles/components/header-topbar.css`); icons/bundle art come from `public/logo.png`.
-  - **Pages:** Dashboard, Projects, Jobs, Hackathons, Todo, Documents, Workspace (IDE + Eve + Browser), Studio (hero→builder/apps/templates), Eve (chat+memory+voice+schedules), Compete (contests + coding stats), **Avatar Studio** (`/app/avatar`, lazy), Calls, WhatsApp, Mails, Calendar, Contacts, `UsagePage`, Settings, `CustomPage`, Themes, Profile, Onboarding, Landing. Full route map: `PROJECT_MAP.md`. Global `EveGlobalCompanion` dock.
-     - **Config:** `config/navigation.js` (`avatar` → Avatar Studio in the Evolve group), `config/search/` (7 modules), `dashboard/dashboardConfig.js`, `themes/` (`themeApplicator` engine + `THEME_MODES`, ADR 0057), `utils/` pure transformers, `styles/` import chain + `eve-avatar.css` + `pages/avatar.css` (Vite `avatar-3d`/`avatar-live2d` chunks), `public/avatars/` examples.
+  - **Pages:** Dashboard, Projects, Jobs, Hackathons, Todo, Documents, Workspace (IDE + Eve + Browser), Studio (hero→builder/apps/templates), Eve (chat+memory+voice+schedules), Compete (contests + coding stats), Calls, WhatsApp, Mails, Calendar, Contacts, `UsagePage`, Settings, `CustomPage`, Themes, Profile, Onboarding, Landing, Avatar overlay window (`/app/avatar-overlay`). Full route map: `PROJECT_MAP.md`. Global `EveGlobalCompanion` dock.
+     - **Config:** `config/navigation.js`, `config/search/` (7 modules), `dashboard/dashboardConfig.js`, `themes/` (`themeApplicator` engine + `THEME_MODES`, ADR 0057), `utils/` pure transformers, `styles/` import chain + `eve-avatar.css` (Vite `avatar-3d`/`avatar-live2d` chunks), `public/avatars/` examples.
 
 ## 5. Design system
 - **Palette:** Strictly monochrome with exactly two modes (ADR 0057) — **White** (`styles/themes/index.css`) and **Dark** (`styles/themes/dark.css`). Identity comes from a neutral ink ladder, fill weight, borders, and icons: primary `#171717` (white mode) / `#f5f5f5` (dark), statuses on one ramp (`success #525252`, `warning #5c5c5c`, `danger #0a0a0a`, `purple #404040`; inverted in dark), `--on-fill`/`--text-inverse` flip per mode. No presets, no color editor.
@@ -69,8 +69,7 @@ For full maps see `PROJECT_MAP.md`. Keep this section brief; expand there.
 
 ## 6. Current snapshot
 - **Eve latency/streaming (ADRs 0041/0014):** memory extraction runs after the `done` yield on a daemon thread; 30s RAG cache, `MAX_INJECTED_MEMORIES=15`, 5-min session cache, `asyncio.Queue` SSE bridge. `EveChatSection`/`WorkspaceEvePanel` surface `thinking`/`delta`/`toolCalls` with `EveThoughtHistory`; `openai_compat` caps `max_tokens` by provider, retries quota halved, then `_FALLBACK_ORDER`.
-- **Eve Avatar (ADR 0012):** dual VRM+Live2D via `EveAvatarProvider` (lip-sync + `BroadcastChannel`); global companion, inline micro, Avatar Studio `/app/avatar`, `EveAvatarSection`; `/eve/avatar/*` validates and stores `avatars/{uid}/`.
-- **Avatar modeling (ADR 0034/0039/0040):** `pages/avatar-studio/` editor — schema-v2 GLB/GLTF/VRM/OBJ/FBX scenes, `/modeling/projects` API, outliner, inspector, timeline, UV painting, GLB export.
+- **Eve Avatar (ADR 0012):** dual VRM+Live2D via `EveAvatarProvider` (lip-sync + `BroadcastChannel`); global companion, inline micro, desktop overlay window, `EveAvatarSection`; `/eve/avatar/*` validates and stores `avatars/{uid}/`.
 - **Studio:** unified prompt-first Builder, status-aware Apps gallery, filterable Templates catalog, preview readiness metadata, Builder IDE handoff via `StudioHero`.
 - **EVE/voice:** multi-provider + live `/v1/models`; SSE `delta`/`thinking`/`tool`/`done` + RAG + auto-remember (capped 3); tools: workspace files, web, WhatsApp, browser, schedule, UI (`ui-preferences`); `ModelSelectorDropdown` + `openrouter/free` default; `voice_fast.py` Groq 8b-instant + `POST /eve/voice/stream` + Twilio `ConversationRelay`; STT browser/Groq/Deepgram, TTS Google/OpenRouter Fish.
 - **Calls/search:** `in_app` WebRTC vs Twilio PSTN + `CallWSManager` multi + `BroadcastChannel`; `⌘K` palette + Landing cinema (`cinema-{base,hero,sections,motion}.css`) with the pinned monochrome ramp (ADR 0057) under the Hero.
@@ -78,7 +77,7 @@ For full maps see `PROJECT_MAP.md`. Keep this section brief; expand there.
 - **Branding:** Stride everywhere — storage/event keys, Docker/DB/image names, log files, native IDs, domains (ADR 0056).
 
 ## 7. Limitations
-- Modeling projects require non-serverless filesystem storage; object storage is still needed for serverless deployments. VRM export currently validates and reports unsupported scenes while GLB/GLTF export is available. Sculpt/UV/texture-paint tooling remains the next modeling milestone beyond the current scene/transform/material foundation.
+- Avatar Studio (the 3D modeling workspace) was removed in ADR 0059: the page, `/modeling/projects` API, `avatar_editor_action` Eve tool and `editor_context` channel are gone, so previously saved modeling projects stay on disk unreachable. The Eve Avatar companion (VRM/Live2D) is unaffected.
 - Calendar create/edit not implemented. Mail attachments/forwarding/rich-text/drafts not implemented. Calls use STUN only — TURN needed for strict NAT. Frontend bundle emits size advisory.
 - The rebrand (ADR 0056) is not deploy-ready on its own: DNS + TLS for `stride.susindran.in`/`api.stride.susindran.in`, Google/GitHub OAuth redirect re-registration, the Vercel Primary domain, and the `com.stride.app`/`app.stride.workspace` deep-link schemes must be provisioned before the next release.
 

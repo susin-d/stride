@@ -82,9 +82,6 @@ html.dark-theme {
   --module-account: #8a8a8a;
   --module-account-light: rgba(255, 255, 255, 0.07);
 
-  /* Avatar Studio route-local identity — neutral ink, light on the dark ramp */
-  --avatar-studio-accent: #d4d4d4;
-
   /* Palette overrides — single source lives in styles/tokens.css */
   --nav-bg: rgba(10, 10, 10, 0.92);
 

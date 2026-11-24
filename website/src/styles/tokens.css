@@ -22,9 +22,6 @@
   --font-weight-semibold: 700;
   --font-weight-bold: 800;
 
-  /* Avatar Studio route-local identity — neutral ink, no hue (ADR 0057). */
-  --avatar-studio-accent: #262626;
-
   /* 8pt spacing scale — use these instead of hard-coded px */
   --space-3xs: 4px;
   --space-2xs: 8px;

@@ -32,13 +32,12 @@ function request(path, options = {}) {
   })
 }
 
-export function sendEveMessage(messages, sessionId, modelSelection = null, editorContext = null) {
+export function sendEveMessage(messages, sessionId, modelSelection = null) {
   const body = { messages, session_id: sessionId ?? null }
   if (modelSelection?.provider && modelSelection?.model) {
     body.provider = modelSelection.provider
     body.model = modelSelection.model
   }
-  if (editorContext) body.editor_context = editorContext
   return request('/eve/chat', {
     method: 'POST',
     body: JSON.stringify(body),
@@ -61,7 +60,6 @@ export async function streamEveMessage({
   messages,
   sessionId,
   modelSelection = null,
-  editorContext = null,
   signal,
   onDelta,
   onThinking,
@@ -87,7 +85,6 @@ export async function streamEveMessage({
         ...(modelSelection?.provider && modelSelection?.model
           ? { provider: modelSelection.provider, model: modelSelection.model }
           : {}),
-        ...(editorContext ? { editor_context: editorContext } : {}),
       }),
       signal,
     },

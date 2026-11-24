@@ -43,13 +43,6 @@ export function EveGlobalCompanion({
     } catch {}
   }
 
-  // Collapse to docked pill on Avatar Studio so Studio preview owns the
-  // single WebGL context — avoids dual VRM + Live2D renderers on low-end PCs.
-  useEffect(() => {
-    const isAvatarStudio = typeof window !== 'undefined' && window.location.pathname.includes('/avatar')
-    if (isAvatarStudio && expanded) setExpanded(false)
-  }, [expanded])
-
   // Auto-minimize when other inline avatars are visible in viewport (e.g. settings page).
   // CRITICAL: Must exclude our own avatar container to avoid auto-minimizing itself!
   useEffect(() => {

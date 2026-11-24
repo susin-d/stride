@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Removed by [ADR 0059](./0059-remove-avatar-studio.md)
 
 - Date: 2026-09-07
 - Deciders: Stride maintainers
