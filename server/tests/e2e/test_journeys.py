@@ -19,7 +19,7 @@ class TestProductivityJourney:
         # 1. Projects
         project = auth_client.post(
             "/api/v1/projects",
-            json={"name": "StarWaves Mobile", "status": "Planning", "progress": 5},
+            json={"name": "Stride Mobile", "status": "Planning", "progress": 5},
         ).json()
         assert project["id"]
 

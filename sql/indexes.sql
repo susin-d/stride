@@ -1,5 +1,5 @@
 -- ============================================================================
--- Starwaves · Database indexes (PostgreSQL 16)
+-- Stride · Database indexes (PostgreSQL 16)
 --
 -- Run order: extensions.sql -> schema.sql -> migrations.sql -> indexes.sql
 -- All statements are idempotent (IF NOT EXISTS).

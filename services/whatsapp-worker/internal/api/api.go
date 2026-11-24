@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"starwaves-whatsapp-worker/internal/contacts"
-	"starwaves-whatsapp-worker/internal/models"
-	"starwaves-whatsapp-worker/internal/session"
-	"starwaves-whatsapp-worker/internal/webhook"
+	"stride-whatsapp-worker/internal/contacts"
+	"stride-whatsapp-worker/internal/models"
+	"stride-whatsapp-worker/internal/session"
+	"stride-whatsapp-worker/internal/webhook"
 
 	"github.com/gin-gonic/gin"
 	qrcode "github.com/skip2/go-qrcode"
@@ -177,7 +177,7 @@ func (h *Handler) Pair(c *gin.Context) {
 					sess.Unlock()
 					log.Printf("[User %s] Real WhatsApp QR code generated successfully (len: %d)", req.UserID, len(qrData))
 
-					// Dispatch webhook to Starwaves FastAPI backend
+					// Dispatch webhook to Stride FastAPI backend
 					webhook.SendWebhookWithTimeout(map[string]interface{}{
 						"type":   "qr_update",
 						"userId": req.UserID,

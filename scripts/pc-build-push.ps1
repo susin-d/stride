@@ -30,6 +30,6 @@ Write-Host "Pushed ${Image}:${Tag}" -ForegroundColor Green
 Write-Host "GHCR: https://github.com/susin-d/dashboard/pkgs/container/dashboard-backend"
 Write-Host ""
 Write-Host "Next — pull on VM:" -ForegroundColor Yellow
-Write-Host "  gcloud compute ssh personal-vm --zone=us-central1-a --command='bash ~/starwaves/scripts/vm-pull.sh'"
+Write-Host "  gcloud compute ssh personal-vm --zone=us-central1-a --command='bash ~/stride/scripts/vm-pull.sh'"
 Write-Host "  # or inside VM:  bash scripts/vm-pull.sh"
 Write-Host "  # or from PC:    .\scripts\vm-pull.ps1"

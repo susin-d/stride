@@ -27,7 +27,7 @@ def github_state_serializer() -> URLSafeTimedSerializer:
     require_oauth_config()
     return create_oauth_state_serializer(
         settings.github_oauth_state_secret,
-        salt="starwaves-github-oauth",
+        salt="stride-github-oauth",
     )
 
 

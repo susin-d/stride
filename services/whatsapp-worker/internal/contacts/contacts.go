@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"starwaves-whatsapp-worker/internal/models"
+	"stride-whatsapp-worker/internal/models"
 
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/types"

@@ -2,6 +2,12 @@
 
 Historical implementation log extracted from `context.md`. `context.md` now holds the **current snapshot** only; this file preserves the full chronological history for audit.
 
+## 2026-11-24 — Rebrand Starwaves → Stride (ADR 0056)
+- Renamed every tracked occurrence (842 across 255 files): brand text and legal/email copy; `lib/storageKeys.js` keys and window events; Docker container/network/service names, Postgres user/db/password, GHCR image name and the `~/stride` VM deploy path; `stride.log`/`stride-error.log`; native `com.stride.app` (Capacitor/Android) and `app.stride.workspace` (Tauri) IDs plus both OAuth deep-link schemes; canonical `stride.susindran.in` + `api.stride.susindran.in` and `stride.vercel.app` 308 (amends ADR 0006).
+- Paths renamed with `git mv` (history preserved): `website/src/components/StrideLogo.jsx`, `docs/adr/0006-canonical-domain-stride-susindran-in.md`, `website/android/app/src/main/java/com/stride/app/`. Stale `public/*-logo.png` references corrected to the real asset `public/logo.png`.
+- Stored browser keys were hard-renamed with no dual-read shim, so locally cached preferences reset once for existing users.
+- `context.md` snapshot compacted back under 15k; previously duplicated snapshot bullets (caching, multi-device, workspace IDE, security/infra, process rules) distilled into §3/§4/§8 where they already lived.
+
 ## 2026-09-10 — Batch 1 splits (ADR 0051) kept; prompts backend-only (ADR 0049 amended)
 - 10 files split into facaded packages (SceneViewport, Eve voice, App shell, Eve composer, Workspace dialogs, Live2D, VRM, Documents, Eve modal, Eve page); menu-text UI + `/prompts` endpoint removed, `prompts.py` backend-only canonical.
 
@@ -65,7 +71,7 @@ Historical implementation log extracted from `context.md`. `context.md` now hold
 - Canonical `compete` destinations (dashboard config/widgets, header notifications, calendar + stats links); widget ids frozen so saved layouts survive.
 
 ## 2026-09-06 — Phase 2 shell additions (ADR 0029)
-- New `MobileTabBar` (Home/Search/Eve/Studio/You, fixed ≤900px, safe-area, module-accent actives); `starwaves:open-search` event bridge to the header palette; content bottom clearance.
+- New `MobileTabBar` (Home/Search/Eve/Studio/You, fixed ≤900px, safe-area, module-accent actives); `stride:open-search` event bridge to the header palette; content bottom clearance.
 - Sidebar footer `Ask Eve` button (Eve accent, 44px collapsed, tooltip-wired) opening the lazy `EveAssistantModal`; `onWorkspaceChanged` threaded via `AppLayout`. Shell audit found the rail/header mature — no visual churn.
 
 ## 2026-09-06 — Phase 1: Crimson Noir default + motion language (ADR 0028)
@@ -106,7 +112,7 @@ Historical implementation log extracted from `context.md`. `context.md` now hold
 ## 2026-08-26 — Security Phase 5 — RLS SET LOCAL + pip harden
 - `core/rls.py` `set_rls_user` (SET LOCAL app.current_user_id) wired into `sql/base.py` generic handlers
 - `studio/commands.py` hardened: `pip --no-build-isolation` + `npx/pnpm --ignore-scripts` + extended npm/yarn allowlist
-- Prior phases in snapshot: BOLA per-entity owner+allowlist (11 collections), SSRF `0.0.0.0`/`is_unspecified`, `website/nginx.conf` HSTS/CSP, `twilio_relay` 4096 cap, Twilio hard enforce, docs prod-gate, worker HMAC, RLS `starwaves_app` role, `SECURITY.md`, rate-limit, `pickle→json`, CORS `*.vercel.app` removal, `realpath`, `DOMPurify`
+- Prior phases in snapshot: BOLA per-entity owner+allowlist (11 collections), SSRF `0.0.0.0`/`is_unspecified`, `website/nginx.conf` HSTS/CSP, `twilio_relay` 4096 cap, Twilio hard enforce, docs prod-gate, worker HMAC, RLS `stride_app` role, `SECURITY.md`, rate-limit, `pickle→json`, CORS `*.vercel.app` removal, `realpath`, `DOMPurify`
 
 ## 2026-08-25 — Major passes (consolidated)
 
@@ -170,7 +176,7 @@ Historical implementation log extracted from `context.md`. `context.md` now hold
 - **Scripts:** `scripts/build-{android,desktop,ota,all}.{ps1,sh}` + `lib/common.ps1` (Node/Java/Android SDK/Rust checks, VITE_API_URL shadow, version sync `package.json→gradle/tauri.conf`, `vite build + cap sync/gradlew` and `tauri build`, artifact `android.json/latest.json/bundles` generation, optional `scp -Publish`). `package.json` bump `0.0.0→0.1.0`, scripts `android:*`, `tauri:*`, `define __APP_VERSION__`, optionalDeps `capgo/updater`, devDep `@tauri/cli`.
 - **Backend:** `server/static/updates/{latest,android,bundles}.json` (stubbed), `app/services/updates.py` (file manifests + semver `is_newer`), `app/schemas/updates.py`, `app/api/routes/updates/{check,latest}` (+ `app/main.py` mount `/updates→StaticFiles`, `docker-compose` bind `./server/static/updates:/app/static/updates`, `nginx` `/updates` proxy burst 60, `core/cors` tauri `tauri://`/`https` allows, `core/config` `updates_dir/updater_secret`).
 - **Frontend updaters:** `lib/{updatesApi,desktopUpdater,androidUpdater,otaUpdater}`, `hooks/useAutoUpdater` (startup 3.5s + 6h + visibility/resume, per-version dismiss), `components/ui/UpdateBanner` + `styles/components/update-banner.css` (integrated via `App.jsx`), `pages/settings/UpdateSection` (manual check via `check?platform`) + `vite config` external for `@capgo/@tauri`.
-- **Tauri:** `src-tauri/tauri.conf.json` bundle `msi,nsis` + `createUpdaterArtifacts v1Compatible` + `plugins.updater` endpoint `api.starwaves.../updates/latest.json`; `Cargo.toml` `updater/process`; `src/main.rs` plugins; `icons/icon.*` from `public/starwaves-logo.png`; signing via `TAURI_SIGNING_PRIVATE_KEY` env (pubkey in conf, `force:false`).
+- **Tauri:** `src-tauri/tauri.conf.json` bundle `msi,nsis` + `createUpdaterArtifacts v1Compatible` + `plugins.updater` endpoint `api.stride.../updates/latest.json`; `Cargo.toml` `updater/process`; `src/main.rs` plugins; `icons/icon.*` from `public/logo.png`; signing via `TAURI_SIGNING_PRIVATE_KEY` env (pubkey in conf, `force:false`).
 - **Android:** `cap sync + gradle` with `REQUEST_INSTALL_PACKAGES` deferred (Phase 1 browser `window.open(url)`), versionCode monotonic, OTA via self-host `bundles/latest.json` capable (Capgo plugin optional).
 - **Docs:** `docs/BUILD.md` (prereqs, debug/release/publish, troubleshooting), `docs/adr/0003-build-scripts-android-tauri.md`, `0004-backend-hosted-auto-update.md`, `README` index, `context.md` last-updated, `.gitignore` keys/binaries, `nginx` CORS maps, verify `npm run lint && npm run build` ok.
 

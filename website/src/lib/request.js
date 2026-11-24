@@ -17,10 +17,10 @@ export function getWsBase() {
 
 // Warn if prod build points to localhost (common Vercel mis-config)
 if (typeof window !== 'undefined' && import.meta.env.PROD && API_URL.includes('127.0.0.1')) {
-  console.warn('[StarWaves] VITE_API_URL is localhost in production — set Vercel env to https://api.starwaves.susindran.in/api/v1')
+  console.warn('[Stride] VITE_API_URL is localhost in production — set Vercel env to https://api.stride.susindran.in/api/v1')
 }
 if (typeof window !== 'undefined' && import.meta.env.PROD && API_URL.startsWith('http://')) {
-  console.warn('[StarWaves] VITE_API_URL should be https:// in production, got', API_URL)
+  console.warn('[Stride] VITE_API_URL should be https:// in production, got', API_URL)
 }
 
 const DEFAULT_REQUEST_TIMEOUT_MS = 30_000
@@ -251,7 +251,7 @@ export async function apiRequest(
       if (response.status === 401 && authRequired) {
         try {
           clearAuthSession()
-          window.dispatchEvent(new CustomEvent('starwaves:session-revoked'))
+          window.dispatchEvent(new CustomEvent('stride:session-revoked'))
         } catch {}
       }
       const detailMessage = formatErrorDetail(failure?.detail, errorMessage)

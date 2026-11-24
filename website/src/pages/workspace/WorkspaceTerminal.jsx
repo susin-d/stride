@@ -10,7 +10,7 @@ export function WorkspaceTerminal({ isTauri }) {
           <span>Terminal</span>
         </div>
         <div className="workspace-terminal-placeholder">
-          <p>Terminal is available in the Starwaves desktop app</p>
+          <p>Terminal is available in the Stride desktop app</p>
         </div>
       </div>
     )

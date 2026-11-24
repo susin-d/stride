@@ -2,13 +2,13 @@
 
 - **Status**: Superseded by [ADR 0019](./0019-multi-color-redesign-and-module-theming.md)
 - **Date**: 2026-09-01
-- **Deciders**: Starwaves Core Team
+- **Deciders**: Stride Core Team
 
 ---
 
 ## Context
 
-Starwaves originally mandated a strict **Monochrome Design System** (black, white, and gray tonal scales), supplemented by 12 duotone presets where each theme paired a neutral canvas with a single accent hue.
+Stride originally mandated a strict **Monochrome Design System** (black, white, and gray tonal scales), supplemented by 12 duotone presets where each theme paired a neutral canvas with a single accent hue.
 
 The requirement has evolved to support rich, distinctive color themes while preventing visual chaos and maintaining clean visual hierarchy:
 1. The user requested removing the strict monochrome-only mandate across the site for colored themes.

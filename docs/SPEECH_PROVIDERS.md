@@ -42,7 +42,7 @@ per month** where possible.
 > uptime/TTFA guarantees, and AWS's 60-minute offer is for the **first 12
 > months**. Don't treat those as guaranteed monthly quotas.
 
-### Fish S2.1 Pro Free via OpenRouter (StarWaves)
+### Fish S2.1 Pro Free via OpenRouter (Stride)
 
 - **Model:** `fish-audio/s2.1-pro-free:free` at `https://openrouter.ai/api/v1/audio/speech` (OpenAI-compatible, `response_format: mp3`).
 - **Env:** `OPENROUTER_API_KEY` (required), `OPENROUTER_TTS_MODEL` (default `fish-audio/s2.1-pro-free:free`), `OPENROUTER_TTS_VOICE` (default `alloy`), optional `OPENROUTER_TTS_URL`.

@@ -1,12 +1,12 @@
 import { ArrowLeft } from 'lucide-react'
-import { StarWavesLogo } from '../components/StarWavesLogo'
+import { StrideLogo } from '../components/StrideLogo'
 
 export function PrivacyPolicyPage({ onNavigate }) {
   return (
     <main id="main-content" className="public-page" tabIndex={-1}>
       <nav className="public-nav" aria-label="Public navigation">
         <button className="public-brand" onClick={() => onNavigate('/')}>
-          <StarWavesLogo size={28} /> StarWaves
+          <StrideLogo size={28} /> Stride
         </button>
         <div className="public-nav-actions">
           <button className="public-login-link" onClick={() => onNavigate('/login')}>
@@ -37,13 +37,13 @@ export function PrivacyPolicyPage({ onNavigate }) {
           <section>
             <h2>1. Overview</h2>
             <p>
-              StarWaves (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your data when you visit <strong>starwaves.susindran.in</strong> or use the StarWaves workspace application and integrations.
+              Stride (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your data when you visit <strong>stride.susindran.in</strong> or use the Stride workspace application and integrations.
             </p>
           </section>
 
           <section>
             <h2>2. Information We Collect</h2>
-            <p>We collect information you provide directly to us when using StarWaves:</p>
+            <p>We collect information you provide directly to us when using Stride:</p>
             <ul>
               <li><strong>Account Credentials:</strong> Name, email address, profile picture, and authenticating details provided during sign-up or via Google Sign-In.</li>
               <li><strong>Workspace & User Content:</strong> Projects, tasks, notes, uploaded documents, competitive coding stats, job application logs, and calendar event preferences.</li>
@@ -54,7 +54,7 @@ export function PrivacyPolicyPage({ onNavigate }) {
           <section>
             <h2>3. How We Use Your Information</h2>
             <ul>
-              <li>To deliver, maintain, and personalize your StarWaves workspace dashboard.</li>
+              <li>To deliver, maintain, and personalize your Stride workspace dashboard.</li>
               <li>To authenticate your identity securely via Firebase Authentication and Google OAuth 2.0.</li>
               <li>To aggregate your schedule across Google Calendar and internal workspace tasks.</li>
               <li>To index and display files stored in your Google Drive without transferring ownership.</li>
@@ -65,7 +65,7 @@ export function PrivacyPolicyPage({ onNavigate }) {
           <section>
             <h2>4. Google API Limited Use Disclosure</h2>
             <p>
-              StarWaves&apos; use and transfer to any other app of information received from Google APIs will adhere to the{' '}
+              Stride&apos; use and transfer to any other app of information received from Google APIs will adhere to the{' '}
               <a
                 href="https://developers.google.com/terms/api-services-user-data-policy"
                 target="_blank"
@@ -102,7 +102,7 @@ export function PrivacyPolicyPage({ onNavigate }) {
             </p>
             <p className="legal-contact">
               Email: <a href="mailto:dev@susindran.in" className="legal-link">dev@susindran.in</a><br />
-              Domain: starwaves.susindran.in
+              Domain: stride.susindran.in
             </p>
           </section>
         </article>
@@ -110,10 +110,10 @@ export function PrivacyPolicyPage({ onNavigate }) {
 
       <footer className="public-footer">
         <span className="public-footer-brand">
-          <StarWavesLogo size={22} /> StarWaves
+          <StrideLogo size={22} /> Stride
         </span>
         <p>Plan clearly. Build consistently.</p>
-        <small>© 2026 StarWaves. All rights reserved.</small>
+        <small>© 2026 Stride. All rights reserved.</small>
       </footer>
     </main>
   )

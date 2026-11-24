@@ -76,7 +76,7 @@ export function setupNativeOAuthListeners() {
         App.addListener('appUrlOpen', (data) => {
           if (data?.url && data.url.includes('token=')) {
             if (consumeAuthTokenFromUrl(data.url)) {
-              window.dispatchEvent(new Event('starwaves:auth-change'))
+              window.dispatchEvent(new Event('stride:auth-change'))
               // Navigate to dashboard
               try { window.history.replaceState({}, '', '/app/dashboard'); window.dispatchEvent(new PopStateEvent('popstate')) } catch {}
               window.location.replace('/app/dashboard')
@@ -124,9 +124,9 @@ export function setupNativeOAuthListeners() {
   // Popup postMessage listener for web OAuth popup flows
   try {
     window.addEventListener('message', (event) => {
-      if (event.data?.type === 'STARWAVES_AUTH_SUCCESS' && event.data.data?.token) {
+      if (event.data?.type === 'STRIDE_AUTH_SUCCESS' && event.data.data?.token) {
         setStoredAuthToken(event.data.data.token, event.data.data.user)
-        window.dispatchEvent(new Event('starwaves:auth-change'))
+        window.dispatchEvent(new Event('stride:auth-change'))
       }
     })
   } catch {}
@@ -139,8 +139,8 @@ function request(path, options = {}) {
     onFetchError: (error) =>
       new Error(
         error.message?.includes('Failed to fetch')
-          ? 'Could not reach the StarWaves API. Start the backend server or set VITE_API_URL to a reachable API URL.'
-          : error.message || 'Could not reach the StarWaves API.',
+          ? 'Could not reach the Stride API. Start the backend server or set VITE_API_URL to a reachable API URL.'
+          : error.message || 'Could not reach the Stride API.',
       ),
     ...options,
   })

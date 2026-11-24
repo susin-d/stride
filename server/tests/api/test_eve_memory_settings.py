@@ -98,10 +98,10 @@ class TestAutoRememberExtraction(unittest.TestCase):
     def test_saves_new_facts_and_dedupes(self):
         database = MagicMock()
         messages = [
-            {"role": "user", "content": "I use Neovim daily and I'm building Starwaves"},
+            {"role": "user", "content": "I use Neovim daily and I'm building Stride"},
         ]
         fake_response = MagicMock(
-            text='["Prefers Neovim as daily editor", "Is building the Starwaves project"]'
+            text='["Prefers Neovim as daily editor", "Is building the Stride project"]'
         )
         fake_client = MagicMock()
         fake_client.call.return_value = fake_response
@@ -135,8 +135,8 @@ class TestAutoRememberExtraction(unittest.TestCase):
             saved = self._service()(database, mock_user, messages, "Great!")
 
             # First fact dedupes against existing memory; only the new one saves
-            add_memory.assert_called_once_with(database, mock_user["uid"], "Is building the Starwaves project")
-            self.assertEqual(saved, ["Is building the Starwaves project"])
+            add_memory.assert_called_once_with(database, mock_user["uid"], "Is building the Stride project")
+            self.assertEqual(saved, ["Is building the Stride project"])
             list_memories.assert_called_once()
 
     def test_parse_facts_handles_fenced_json(self):

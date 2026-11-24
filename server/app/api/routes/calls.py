@@ -37,12 +37,12 @@ def _invalidate_calls(user_id: str) -> None:
     cache_invalidate_prefix(f"{_CALLS_PREFIX}:{user_id}")
 
 
-EVE_BOT_USER = {"uid": "eve-bot", "email": "eve@starwaves.app", "display_name": "Eve AI Assistant"}
+EVE_BOT_USER = {"uid": "eve-bot", "email": "eve@stride.app", "display_name": "Eve AI Assistant"}
 
 
 def _resolve_callee(database: SqlClient, identifier: str, current_user: dict) -> dict:
     cleaned = identifier.strip().lower()
-    if cleaned in ("eve", "eve-bot", "eve@starwaves.app"):
+    if cleaned in ("eve", "eve-bot", "eve@stride.app"):
         return EVE_BOT_USER
     record = get_user_by_email(database, cleaned) or get_user_by_id(database, cleaned)
     if not record:

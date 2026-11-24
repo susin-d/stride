@@ -112,7 +112,7 @@ class TestWorkspaceEndpoints(_OverridesMixin, unittest.TestCase):
         mock_db.collection.return_value.document.return_value.collection.return_value = mock_collection
 
         payload = {
-            "name": "StarWaves Web",
+            "name": "Stride Web",
             "status": "Planning",
             "progress": 10,
             "members": 2,
@@ -130,7 +130,7 @@ class TestWorkspaceEndpoints(_OverridesMixin, unittest.TestCase):
         mock_doc_ref.id = "project-42"
         mock_doc_ref.get.return_value.exists = True
         mock_doc_ref.get.return_value.to_dict.return_value = {
-            "name": "StarWaves Web",
+            "name": "Stride Web",
             "status": "Active",
             "progress": 40,
             "members": 2,
@@ -271,11 +271,11 @@ class TestEveMemoryEndpoints(_OverridesMixin, unittest.TestCase):
         mock_collection.document.return_value.id = "mem-2"
         mock_collection.order_by.return_value.limit.return_value.stream.return_value = []
 
-        response = client.post("/api/v1/eve/memories", json={"content": "Working on StarWaves"})
+        response = client.post("/api/v1/eve/memories", json={"content": "Working on Stride"})
         self.assertEqual(response.status_code, 201)
         memories = response.json()["memories"]
         self.assertEqual(memories[0]["id"], "mem-2")
-        self.assertEqual(memories[0]["content"], "Working on StarWaves")
+        self.assertEqual(memories[0]["content"], "Working on Stride")
 
     def test_delete_eve_memory_mocked(self):
         mock_collection = stub_memories_collection()

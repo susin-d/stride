@@ -1,4 +1,4 @@
-"""SQL-backed Firestore compatibility package for Starwaves."""
+"""SQL-backed Firestore compatibility package for Stride."""
 
 from app.db.sql._shared import (
     SERVER_TIMESTAMP,

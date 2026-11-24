@@ -1,4 +1,4 @@
-"""Reusable test scaffolding for the Starwaves backend test suite.
+"""Reusable test scaffolding for the Stride backend test suite.
 
 Modules:
 - ``db``       — SQLite database lifecycle + seeding helpers

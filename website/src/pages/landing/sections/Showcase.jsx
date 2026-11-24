@@ -157,7 +157,7 @@ export function Showcase({ onNavigate }) {
                   {scene.id === 'workspace' && (
                     <>
                       <div className="cinema-mini">
-                        <strong>Explorer — starwaves/</strong>
+                        <strong>Explorer — stride/</strong>
                         <span>Source tree with breadcrumbs</span>
                       </div>
                       <div className="cinema-mini cinema-mini--mono">

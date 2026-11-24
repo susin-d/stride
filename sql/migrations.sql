@@ -1,5 +1,5 @@
 -- ============================================================================
--- Starwaves · Idempotent migrations for pre-existing deployments
+-- Stride · Idempotent migrations for pre-existing deployments
 --
 -- The project has no Alembic migrations; init_db (server/app/db/session.py)
 -- backfills columns on databases created before these columns existed.
@@ -122,15 +122,15 @@ EXCEPTION WHEN OTHERS THEN NULL; END $$;
 
 -- ---------------------------------------------------------------------------
 -- Least-privilege application role (idempotent)
--- Run manually: CREATE USER starwaves_app WITH PASSWORD '...'; then use DATABASE_URL with starwaves_app
+-- Run manually: CREATE USER stride_app WITH PASSWORD '...'; then use DATABASE_URL with stride_app
 -- Grants below allow the app to work without superuser.
 -- ---------------------------------------------------------------------------
 DO $$ BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'starwaves_app') THEN
-    CREATE ROLE starwaves_app LOGIN;
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'stride_app') THEN
+    CREATE ROLE stride_app LOGIN;
   END IF;
 EXCEPTION WHEN OTHERS THEN NULL; END $$;
-GRANT USAGE ON SCHEMA public TO starwaves_app;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO starwaves_app;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO starwaves_app;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO starwaves_app;
+GRANT USAGE ON SCHEMA public TO stride_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO stride_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO stride_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO stride_app;

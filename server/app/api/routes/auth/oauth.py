@@ -50,15 +50,15 @@ def google_login(
     dname = (device_name or request.headers.get("X-Device-Name") or request.headers.get("x-device-name") or "")[:255]
     plat = (platform or request.query_params.get("platform") or request.headers.get("X-Platform") or "").strip().lower()
     # Normalize aliases
-    if plat in ("capacitor", "com.starwaves.app"):
+    if plat in ("capacitor", "com.stride.app"):
         plat = "android"
-    elif plat in ("tauri", "desktop", "app.starwaves.workspace"):
+    elif plat in ("tauri", "desktop", "app.stride.workspace"):
         plat = "tauri"
     elif plat not in ("android", "tauri", "web"):
         # Infer from origin scheme if platform not explicit
-        if client_origin.startswith("capacitor://") or client_origin.startswith("com.starwaves.app://"):
+        if client_origin.startswith("capacitor://") or client_origin.startswith("com.stride.app://"):
             plat = "android"
-        elif client_origin.startswith("tauri://") or client_origin.startswith("app.starwaves.workspace://") or client_origin.startswith("https://tauri.localhost"):
+        elif client_origin.startswith("tauri://") or client_origin.startswith("app.stride.workspace://") or client_origin.startswith("https://tauri.localhost"):
             plat = "tauri"
         elif plat:
             plat = plat[:16]
@@ -164,7 +164,7 @@ async def google_callback(
     # Validate target_origin again at callback time (defense-in-depth)
     if not _is_allowed_origin(target_origin):
         # Also allow native schemes even if regex misses (they are allowlisted explicitly)
-        if not (target_origin.startswith("capacitor://") or target_origin.startswith("tauri://") or target_origin.startswith("com.starwaves.app://") or target_origin.startswith("app.starwaves.workspace://")):
+        if not (target_origin.startswith("capacitor://") or target_origin.startswith("tauri://") or target_origin.startswith("com.stride.app://") or target_origin.startswith("app.stride.workspace://")):
             target_origin = settings.frontend_url
     # Deep-link handling for native apps: redirect to custom scheme with token in URL.
     # Web flow keeps postMessage HTML to avoid token in history; native cannot use postMessage across Browser → WebView, so we use a 302 to the app scheme.
@@ -172,24 +172,24 @@ async def google_callback(
     platform = platform.lower().strip()
     # Fallback inference from target_origin if platform missing
     if not platform:
-        if target_origin.startswith("capacitor://") or target_origin.startswith("com.starwaves.app://"):
+        if target_origin.startswith("capacitor://") or target_origin.startswith("com.stride.app://"):
             platform = "android"
-        elif target_origin.startswith("tauri://") or target_origin.startswith("app.starwaves.workspace://") or target_origin.startswith("https://tauri.localhost"):
+        elif target_origin.startswith("tauri://") or target_origin.startswith("app.stride.workspace://") or target_origin.startswith("https://tauri.localhost"):
             platform = "tauri"
     if platform == "android":
-        # Prefer the configured Android scheme (default com.starwaves.app)
-        scheme = getattr(settings, "native_app_scheme_android", "com.starwaves.app")
+        # Prefer the configured Android scheme (default com.stride.app)
+        scheme = getattr(settings, "native_app_scheme_android", "com.stride.app")
         # Token in query + hash for compatibility with appUrlOpen listeners that parse either
         qs = urlencode({"token": token, "uid": user_record["uid"], "email": user_record["email"]})
         deep_link = f"{scheme}://auth?{qs}#token={token}"
         return RedirectResponse(url=deep_link, status_code=302)
     if platform == "tauri":
-        scheme = getattr(settings, "native_app_scheme_tauri", "app.starwaves.workspace")
+        scheme = getattr(settings, "native_app_scheme_tauri", "app.stride.workspace")
         qs = urlencode({"token": token, "uid": user_record["uid"]})
         deep_link = f"{scheme}://auth?{qs}#token={token}"
         return RedirectResponse(url=deep_link, status_code=302)
     # Also handle case where target_origin itself is a native scheme but platform was not set (direct deep-link return to same scheme)
-    if target_origin.startswith("capacitor://") or target_origin.startswith("com.starwaves.app://") or target_origin.startswith("tauri://") or target_origin.startswith("app.starwaves.workspace://"):
+    if target_origin.startswith("capacitor://") or target_origin.startswith("com.stride.app://") or target_origin.startswith("tauri://") or target_origin.startswith("app.stride.workspace://"):
         # Echo back to the exact origin with token
         sep = "&" if "?" in target_origin else "?"
         # Use hash fragment to avoid server log leakage, but also query for listeners that inspect search
@@ -228,7 +228,7 @@ async def google_callback(
           let delivered = false;
           try {{
             if (window.opener) {{
-              window.opener.postMessage({{ type: "STARWAVES_AUTH_SUCCESS", data: authData }}, targetOrigin);
+              window.opener.postMessage({{ type: "STRIDE_AUTH_SUCCESS", data: authData }}, targetOrigin);
               delivered = true;
               setTimeout(() => {{ try {{ window.close(); }} catch(e) {{}} }}, 150);
             }}
@@ -237,7 +237,7 @@ async def google_callback(
             window.location.replace(redirectTarget);
           }}
         </script>
-        <p>Authentication successful. Redirecting to StarWaves...</p>
+        <p>Authentication successful. Redirecting to Stride...</p>
       </body>
     </html>
     """

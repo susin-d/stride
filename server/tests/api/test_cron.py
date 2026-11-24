@@ -17,7 +17,7 @@ class TestCronEndpoints(unittest.TestCase):
 
         # Test GET /api/v1/cron/process-jobs
         from app.core.config import settings
-        secret_val = settings.cron_secret or "starwaves-cron-secret"
+        secret_val = settings.cron_secret or "stride-cron-secret"
         response = self.client.get(
             f"/api/v1/cron/process-jobs?secret={secret_val}"
         )

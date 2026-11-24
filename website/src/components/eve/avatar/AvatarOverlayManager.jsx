@@ -62,7 +62,7 @@ export function AvatarOverlayManager() {
         // Overlay closed itself (from context menu "Close & disable") — relay disable to app
         overlayOpenRef.current = false
         // Dispatch a custom event so EveGlobalCompanionHost / AvatarPage can react
-        window.dispatchEvent(new CustomEvent("starwaves:overlay-self-disabled"))
+        window.dispatchEvent(new CustomEvent("stride:overlay-self-disabled"))
       }
     }
 
@@ -84,8 +84,8 @@ export function AvatarOverlayManager() {
     const handler = (event) => {
       bcRef.current?.postMessage({ type: "eve-state", payload: event.detail || {} })
     }
-    window.addEventListener("starwaves:eve-state", handler)
-    return () => window.removeEventListener("starwaves:eve-state", handler)
+    window.addEventListener("stride:eve-state", handler)
+    return () => window.removeEventListener("stride:eve-state", handler)
   }, [])
 
   // Open / close overlay window based on prefs.enabled

@@ -1,6 +1,6 @@
 # UI Agent Instructions
 
-These instructions apply to all work under `website/`. The repository-level `AGENTS.md` remains authoritative — including §1.5 Tiered Context Loading (Tier 0 preloaded, `PROJECT_MAP.md` first, no `Glob **/*`). This file adds frontend-specific guidance based on the current StarWaves implementation.
+These instructions apply to all work under `website/`. The repository-level `AGENTS.md` remains authoritative — including §1.5 Tiered Context Loading (Tier 0 preloaded, `PROJECT_MAP.md` first, no `Glob **/*`). This file adds frontend-specific guidance based on the current Stride implementation.
 
 ## Architecture
 

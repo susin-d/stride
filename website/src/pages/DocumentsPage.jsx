@@ -227,7 +227,7 @@ export function DocumentsPage({ documents, setDocuments, createIntent, onOpenDoc
         error.code === 'auth/popup-closed-by-user'
           ? 'Google Drive upload was cancelled.'
           : error.code === 'auth/credential-already-in-use'
-            ? 'This Google account is already linked to another StarWaves account.'
+            ? 'This Google account is already linked to another Stride account.'
             : error.message || 'The document could not be uploaded.',
       )
     } finally {

@@ -1,4 +1,4 @@
-# Common helpers for Starwaves build scripts (PowerShell 7+)
+# Common helpers for Stride build scripts (PowerShell 7+)
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 

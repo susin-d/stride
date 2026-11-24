@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from app.db.sql.query import SqlQuery
 
 EVE_BOT_UID = "eve-bot"
-EVE_BOT_IDENTITY = {"uid": EVE_BOT_UID, "name": "Eve AI Assistant", "email": "eve@starwaves.app"}
+EVE_BOT_IDENTITY = {"uid": EVE_BOT_UID, "name": "Eve AI Assistant", "email": "eve@stride.app"}
 
 
 def call_participant_identity(session: Session, uid: str) -> dict[str, Any]:

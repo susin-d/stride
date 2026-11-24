@@ -134,11 +134,11 @@ async def _fetch_openai_compatible_models(api_key: str, base_url: str, provider:
     if provider == "openrouter" and headers is not None:
         from app.core.config import settings as _settings
 
-        headers = {**headers, "HTTP-Referer": _settings.frontend_url, "X-Title": "Starwaves"}
+        headers = {**headers, "HTTP-Referer": _settings.frontend_url, "X-Title": "Stride"}
     elif provider == "openrouter" and headers is None:
         from app.core.config import settings as _settings
 
-        headers = {"HTTP-Referer": _settings.frontend_url, "X-Title": "Starwaves"}
+        headers = {"HTTP-Referer": _settings.frontend_url, "X-Title": "Stride"}
     data = await _get_models_json(provider, f"{base_url.rstrip('/')}/models", headers=headers)
     if data is None:
         return []

@@ -121,7 +121,7 @@ def _client_options(provider: str, user_api_key: str | None = None) -> dict[str,
         if "HTTP-Referer" not in default_headers and "Referer" not in default_headers:
             default_headers["HTTP-Referer"] = settings.frontend_url
         if "X-Title" not in default_headers:
-            default_headers["X-Title"] = "Starwaves"
+            default_headers["X-Title"] = "Stride"
         options["default_headers"] = default_headers
     return options
 

@@ -116,7 +116,7 @@ class OpenAiCompatibleClient(ProviderClient):
 
                     hdrs["HTTP-Referer"] = _settings.frontend_url
                 if "X-Title" not in hdrs:
-                    hdrs["X-Title"] = "Starwaves"
+                    hdrs["X-Title"] = "Stride"
                 options["default_headers"] = hdrs
             return OpenAI(**options)
         except Exception as error:

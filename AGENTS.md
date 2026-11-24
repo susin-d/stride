@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Instructions and guidelines for AI Coding Agents working in the **Starwaves** codebase.
+Instructions and guidelines for AI Coding Agents working in the **Stride** codebase.
 
 > **CRITICAL MANDATE FOR ALL AI AGENTS:**
 > Read this document thoroughly before writing, editing, or refactoring any code in this repository.

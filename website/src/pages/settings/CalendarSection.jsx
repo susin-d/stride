@@ -182,7 +182,7 @@ export function CalendarSection({ user, onGoogleCalendarsChange }) {
           ) : (
             <p className="google-calendar-empty">
               Add a Google account to import its visible calendars. Add
-              another account to merge both into the StarWaves calendar.
+              another account to merge both into the Stride calendar.
             </p>
           )}
           {calendarMessage && <strong role="status">{calendarMessage}</strong>}
@@ -192,7 +192,7 @@ export function CalendarSection({ user, onGoogleCalendarsChange }) {
       <ConfirmDialog
         isOpen={disconnectAllRequested}
         title="Disconnect integration?"
-        message="Disconnect all Google Calendar accounts from StarWaves? You can reconnect them later."
+        message="Disconnect all Google Calendar accounts from Stride? You can reconnect them later."
         confirmLabel="Disconnect"
         onCancel={() => setDisconnectAllRequested(false)}
         onConfirm={() => {
@@ -205,8 +205,8 @@ export function CalendarSection({ user, onGoogleCalendarsChange }) {
         isOpen={Boolean(removeRequested)}
         title="Disconnect integration?"
         message={removeRequested?.email
-          ? `Disconnect ${removeRequested.email} from StarWaves? You can reconnect it later.`
-          : 'Disconnect this integration from StarWaves? You can reconnect it later.'}
+          ? `Disconnect ${removeRequested.email} from Stride? You can reconnect it later.`
+          : 'Disconnect this integration from Stride? You can reconnect it later.'}
         confirmLabel="Disconnect"
         onCancel={() => setRemoveRequested(null)}
         onConfirm={() => {

@@ -72,7 +72,7 @@ def chat_accounts_collection(database: SqlClient, user_id: str):
 
 
 def chat_state_serializer() -> URLSafeTimedSerializer:
-    return google_oauth_state_serializer("starwaves-google-chat-oauth")
+    return google_oauth_state_serializer("stride-google-chat-oauth")
 
 
 @router.get("/authorize")

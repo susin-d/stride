@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo ===================================================
-echo   Starting StarWaves Services (DB, Server, Worker)
+echo   Starting Stride Services (DB, Server, Worker)
 echo ===================================================
 
 cd /d "%~dp0"
@@ -32,10 +32,10 @@ if %ERRORLEVEL% neq 0 (
 )
 
 echo [3/3] Launching Website Frontend Dev Server...
-start "StarWaves Frontend" cmd /k "cd /d "%~dp0website" && npm run dev"
+start "Stride Frontend" cmd /k "cd /d "%~dp0website" && npm run dev"
 
 echo ===================================================
-echo   StarWaves is running!
+echo   Stride is running!
 echo   - Frontend:        http://localhost:5173
 echo   - Backend API:     http://localhost:8000 (or http://localhost/api/v1)
 echo   - WhatsApp Worker: http://localhost:3001

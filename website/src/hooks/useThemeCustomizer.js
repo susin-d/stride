@@ -68,9 +68,9 @@ export function useThemeCustomizer() {
         }))
       }
     }
-    window.addEventListener('starwaves:theme-change', handleExternalThemeChange)
+    window.addEventListener('stride:theme-change', handleExternalThemeChange)
     return () => {
-      window.removeEventListener('starwaves:theme-change', handleExternalThemeChange)
+      window.removeEventListener('stride:theme-change', handleExternalThemeChange)
     }
   }, [])
 
@@ -86,7 +86,7 @@ export function useThemeCustomizer() {
     setThemeState(nextState)
     applyThemeVariables(nextState)
     localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState))
-    window.dispatchEvent(new CustomEvent('starwaves:theme-change', { detail: nextState }))
+    window.dispatchEvent(new CustomEvent('stride:theme-change', { detail: nextState }))
     setIsSaved(true)
     setTimeout(() => setIsSaved(false), 2000)
   }, [themeState])
@@ -136,7 +136,7 @@ export function useThemeCustomizer() {
     }
     setThemeState(defaultState)
     applyThemeVariables(defaultState)
-    window.dispatchEvent(new CustomEvent('starwaves:theme-change', { detail: defaultState }))
+    window.dispatchEvent(new CustomEvent('stride:theme-change', { detail: defaultState }))
     setIsSaved(true)
     setTimeout(() => setIsSaved(false), 2000)
   }, [])

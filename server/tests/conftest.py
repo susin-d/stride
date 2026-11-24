@@ -6,7 +6,7 @@ conftest.py before collecting test modules, which guarantees ordering):
 1. Stubs ``dotenv.load_dotenv`` so local ``.env`` / ``.env.prod`` secrets and
    machine-specific values never leak into the test process.
 2. Points ``DATABASE_URL`` at a throwaway per-worker SQLite file so tests never
-   touch the developer's real ``starwaves.db`` and xdist workers never share
+   touch the developer's real ``stride.db`` and xdist workers never share
    a file lock.
 3. Removes environment values that would trigger network side effects
    (``REDIS_URL``) or background daemons.
@@ -21,7 +21,7 @@ import tempfile
 
 import pytest
 
-_TEST_TMPDIR = tempfile.mkdtemp(prefix="starwaves-tests-")
+_TEST_TMPDIR = tempfile.mkdtemp(prefix="stride-tests-")
 
 # --- 1) Block .env loading BEFORE app.core.config is imported anywhere. ------
 import dotenv  # noqa: E402
@@ -36,12 +36,12 @@ os.environ.pop("IS_SERVERLESS", None)  # serverless mode disables workspace/stud
 os.environ.pop("TWILIO_ACCOUNT_SID", None)
 os.environ.pop("TWILIO_AUTH_TOKEN", None)
 # Fast WS teardown in tests; production default (25s) lives in the routes.
-os.environ.setdefault("STARWAVES_WS_PING_INTERVAL_S", "0.1")
+os.environ.setdefault("STRIDE_WS_PING_INTERVAL_S", "0.1")
 # Note: ServerBackgroundWorker starts only via app lifespan; tests instantiate
 # TestClient without a context manager so the daemon never runs.
 _worker = os.getenv("PYTEST_XDIST_WORKER", "master")
 os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///" + os.path.join(
-    _TEST_TMPDIR, f"starwaves-test-{_worker}.sqlite3"
+    _TEST_TMPDIR, f"stride-test-{_worker}.sqlite3"
 ).replace("\\", "/")
 
 # --- 3) Import-order guard ----------------------------------------------------

@@ -2,7 +2,7 @@
  * WebSocket client for real-time call signaling.
  *
  * Opens a single persistent connection to /ws/calls, authenticates via the
- * stored Starwaves auth token, and dispatches server-pushed events to
+ * stored Stride auth token, and dispatches server-pushed events to
  * registered message handlers.
  *
  * Auto-reconnects with exponential back-off (500 ms → 1 s → 2 s → … cap 30 s)

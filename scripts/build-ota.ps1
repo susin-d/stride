@@ -8,7 +8,7 @@ param(
   [string]$Version = "",
   [switch]$Publish,
   [string]$RemoteHost = "",
-  [string]$RemotePath = "~/starwaves/server/static/updates/bundles"
+  [string]$RemotePath = "~/stride/server/static/updates/bundles"
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -27,7 +27,7 @@ if (-not (Test-Path -LiteralPath "website/dist/index.html")) {
   Pop-Location
 }
 
-$tmp = Join-Path $env:TEMP "starwaves-ota-$Version.zip"
+$tmp = Join-Path $env:TEMP "stride-ota-$Version.zip"
 if (Test-Path -LiteralPath $tmp) { Remove-Item -LiteralPath $tmp -Force }
 Write-Step "Zipping website/dist -> $tmp"
 # Use Compress-Archive

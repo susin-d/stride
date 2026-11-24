@@ -116,7 +116,7 @@ Dependency direction today is **mostly** `Routes → Services/Repos → Core/Mod
 2. **Pagination**: `core/pagination` simple `encode(id)` vs `repositories/pagination.paginate_collection` Firestore-style `where deleted==False + order_by + start_after + limit+1 + Python re-filter` + `todos.py:29` "legacy list capped to 100" + `repositories/pagination.py:24` legacy-store fallback. Preserve wire shape; unify behind facade.
 3. **Serverless detection**: `main.py:65-67` vs `config.py:141` — same envs, two sites. Unify to `settings.is_serverless` (add property, no new env).
 4. **API_URL defaults**: three identical localhost fallbacks — unify to one import (no URL change).
-5. **Theme init**: `App.jsx` vs `Header.jsx` vs `themeApplicator.js` vs `useThemeCustomizer.js` (`prefersDarkTheme`, stored `starwaves.theme`, pre-paint class). Unify read order, preserve stored prefs.
+5. **Theme init**: `App.jsx` vs `Header.jsx` vs `themeApplicator.js` vs `useThemeCustomizer.js` (`prefersDarkTheme`, stored `stride.theme`, pre-paint class). Unify read order, preserve stored prefs.
 6. **Cache TTLs**: `core/cache CACHE_TTL_* (30/60/300)` vs `request.js (30s default, 120s prefs, 60s auth/ai-models, 15s usage/eve, 0 sessions)` vs `todos.py _TODOS_PREFIX` manual invalidate vs `usage:summary SHORT 30s` vs Eve RAG 30s/`MAX_INJECTED_MEMORIES=15`/`_session_cache` 5min (context §6). Document "DB wins" invariant; don't retune in refactor.
 
 ---
@@ -124,7 +124,7 @@ Dependency direction today is **mostly** `Routes → Services/Repos → Core/Mod
 ## 5. Dead code (candidates — verify usage before delete, Phase 8)
 
 - **Server root (untracked, likely one-off scripts)**: `server/gen_memories.py`, `server/write_memories.py` (untracked per `git status`; if one-off backfills, move to `server/scripts/` or delete after confirming no imports).
-- **Logs/caches (untracked or regenerable, never commit)**: `server/uvicorn.*.log`, `server/.pytest_cache`, `.pytest_cache/`, `server/.ruff_cache`, `__pycache__/`, `server/.venv/`, `starwaves.db` (root) + `server/starwaves.db`, `workspaces/` local data. Action: gitignore, not "refactor".
+- **Logs/caches (untracked or regenerable, never commit)**: `server/uvicorn.*.log`, `server/.pytest_cache`, `.pytest_cache/`, `server/.ruff_cache`, `__pycache__/`, `server/.venv/`, `stride.db` (root) + `server/stride.db`, `workspaces/` local data. Action: gitignore, not "refactor".
 - **Secrets (DO NOT DELETE)**: `server/.env`, `.env.prod`, `server/firebase-secrets-opensync.json` — never stage/delete per AGENTS §1.3.
 - **Deploy scripts**: audit `vm-quick-fix.sh`, `pc-*`, `vm-*` for live use; rename `quick-fix` (violates §1.9 language) or document as runbook.
 - **Frontend fixtures**: `public/avatars/` examples (10MB VRM + 3MB Live2D per context) — allowed only as isolated dev fixtures, never imported by prod pages (verify).
@@ -151,7 +151,7 @@ Dependency direction today is **mostly** `Routes → Services/Repos → Core/Mod
 - Eve pipeline (multi-provider fallback ADR 0014 + `openai_compat` function-nesting + SSE `delta/thinking/tool/done` + RAG + background auto-remember + quota retry) — scripted-AI tests only, never live keys.
 - WhatsApp (Go worker pairing + chats cursor pagination ADR 0042 + background sync + Eve auto-reply/draft/summarize) — dirty tree area; rebase carefully.
 - Workspace files sync + modeling FS (`MODELING_ASSET_MAX_BYTES` 100MB, non-serverless FS) — path-traversal/ownership checks.
-- OAuth (Google/GitHub/Drive/Gmail/Chat/Contacts deep-link `com.starwaves.app://` + state) + CORS allowlist + canonical domain 308 (ADR 0006).
+- OAuth (Google/GitHub/Drive/Gmail/Chat/Contacts deep-link `com.stride.app://` + state) + CORS allowlist + canonical domain 308 (ADR 0006).
 - Cron/worker (Vercel `*/15` + `CRON_SECRET` + `ServerBackgroundWorker` — never run both; `is_serverless` gate).
 - Cache invalidation (todos prefix, ai-config, usage, RAG, session) — stale-UX vs thundering-herd tradeoff; preserve TTLs.
 

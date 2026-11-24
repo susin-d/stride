@@ -1,7 +1,7 @@
 import { ArrowRight, UserRound } from 'lucide-react'
 import { useState } from 'react'
 import { updateUserProfile } from '../lib/authApi'
-import { StarWavesLogo } from '../components/StarWavesLogo'
+import { StrideLogo } from '../components/StrideLogo'
 
 export function OnboardingPage({ user, onComplete }) {
   const [name, setName] = useState(user?.displayName ?? '')
@@ -31,12 +31,12 @@ export function OnboardingPage({ user, onComplete }) {
   return (
     <main id="main-content" className="onboarding-page" tabIndex={-1}>
       <section className="onboarding-card">
-        <StarWavesLogo size={36} />
+        <StrideLogo size={36} />
         <div className="onboarding-icon"><UserRound size={23} /></div>
         <p className="onboarding-eyebrow">One last step</p>
         <h1 className="onboarding-title">What should we call you?</h1>
         <span className="onboarding-copy">
-          This name will appear in your StarWaves header and profile.
+          This name will appear in your Stride header and profile.
         </span>
         <form className="onboarding-form" onSubmit={submit}>
           <label htmlFor="onboarding-name">

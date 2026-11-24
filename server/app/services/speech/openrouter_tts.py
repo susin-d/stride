@@ -30,8 +30,8 @@ def _openrouter_headers() -> dict[str, str]:
     return {
         **OPENROUTER_TTS_HEADERS,
         "Authorization": f"Bearer {settings.openrouter_api_key}",
-        "HTTP-Referer": settings.frontend_url or "https://starwaves.susindran.in",
-        "X-Title": "StarWaves Eve TTS",
+        "HTTP-Referer": settings.frontend_url or "https://stride.susindran.in",
+        "X-Title": "Stride Eve TTS",
     }
 
 

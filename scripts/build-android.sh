@@ -9,13 +9,13 @@ ENV_FILE="${ENV_FILE:-}"
 SKIP_WEB="${SKIP_WEB:-0}"
 PUBLISH="${PUBLISH:-0}"
 REMOTE_HOST="${REMOTE_HOST:-}"
-REMOTE_PATH="${REMOTE_PATH:-~/starwaves/server/static/updates}"
+REMOTE_PATH="${REMOTE_PATH:-~/stride/server/static/updates}"
 
 cyan(){ echo -e "\033[36m==> $*\033[0m"; }
 green(){ echo -e "\033[32m  ✓ $*\033[0m"; }
 yellow(){ echo -e "\033[33m  ! $*\033[0m"; }
 
-cyan "Starwaves Android build ($TYPE, $BUNDLE)"
+cyan "Stride Android build ($TYPE, $BUNDLE)"
 command -v node >/dev/null || { echo "Missing node"; exit 1; }
 command -v npm >/dev/null || { echo "Missing npm"; exit 1; }
 java -version 2>&1 | head -1 || yellow "java not found — Gradle needs JDK 17/21"
@@ -73,15 +73,15 @@ if [[ "$TYPE" == "release" ]]; then
 {
   "latestVersion": "$PKG_VER",
   "versionCode": $VC,
-  "url": "/updates/starwaves-$PKG_VER.apk",
-  "notes": "Starwaves $PKG_VER — backend-hosted auto-update (force:false)",
+  "url": "/updates/stride-$PKG_VER.apk",
+  "notes": "Stride $PKG_VER — backend-hosted auto-update (force:false)",
   "force": false,
   "sha256": "$SHA",
   "size": $SIZE,
   "publishedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 JSON
-    cp "$APK" "$MANIFEST_DIR/starwaves-$PKG_VER.apk"
+    cp "$APK" "$MANIFEST_DIR/stride-$PKG_VER.apk"
     green "Wrote $MANIFEST_DIR/android.json + APK copy"
   fi
 fi

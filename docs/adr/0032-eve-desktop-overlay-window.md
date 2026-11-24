@@ -20,7 +20,7 @@ Use a **Tauri v2 secondary WebviewWindow** (`label: "eve-overlay"`) with:
 - `visible: false` by default — shown programmatically via `open_overlay` Tauri command
 - URL points to `/app/avatar-overlay` — a minimal React page with only `<EveAvatar>` on a transparent canvas
 
-**State relay via BroadcastChannel** (`starwaves-avatar-overlay`): The `AvatarOverlayManager` component in the main window relays `prefs` and `starwaves:eve-state` window events into the BC so the overlay window receives live avatar prefs and Eve speech/thinking state without any API calls.
+**State relay via BroadcastChannel** (`stride-avatar-overlay`): The `AvatarOverlayManager` component in the main window relays `prefs` and `stride:eve-state` window events into the BC so the overlay window receives live avatar prefs and Eve speech/thinking state without any API calls.
 
 **Drag-to-move**: The overlay page uses `pointerdown` → `pointermove` on `window` to compute delta from start screen position, calling `invoke('move_overlay', { x, y })` each frame. Final position is persisted to `localStorage` and to `prefs.overlayPosition`.
 

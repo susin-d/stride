@@ -11,10 +11,10 @@
       "has": [
         {
           "type": "host",
-          "value": "starwaves.vercel.app"
+          "value": "stride.vercel.app"
         }
       ],
-      "destination": "https://starwaves.susindran.in/$1",
+      "destination": "https://stride.susindran.in/$1",
       "permanent": true
     }
   ],

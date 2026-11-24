@@ -20,8 +20,8 @@ export function EveGlobalCompanionHost() {
       const detail = event.detail || {}
       setEveState((current) => ({ ...current, ...detail }))
     }
-    window.addEventListener('starwaves:eve-state', onState)
-    return () => window.removeEventListener('starwaves:eve-state', onState)
+    window.addEventListener('stride:eve-state', onState)
+    return () => window.removeEventListener('stride:eve-state', onState)
   }, [])
 
   const handleToggleRenderer = () => {

@@ -18,7 +18,7 @@ Constraints: no new dependencies without approval (AGENTS.md §7.5), single-work
 
 - Chosen approach: stdlib `TimedRotatingFileHandler(when="midnight", backupCount=7)` in new `app/core/app_logging.py` `setup_logging()`, called once from `app.main.create_app()`.
 - Scope: `app/core/app_logging.py` (setup + `request_id` ContextVar + secret redaction), `app/core/request_log.py` (`RequestLoggingMiddleware`), `app/core/config.py` (`LOG_DIR/LOG_LEVEL/LOG_RETENTION_DAYS`), `app/main.py` wiring, `docker-compose.yml` `server-logs:/app/logs` volume, `Dockerfile` `/app/logs`, `.gitignore`/`.dockerignore`, `.env.example`.
-- Files: `starwaves.log` (INFO+: app + access lines) and `starwaves-error.log` (WARNING+: errors with tracebacks), format `timestamp | LEVEL | logger | req=id | message`. Health probes log at DEBUG. Paths log without query strings; `Authorization`/keys/secrets are masked.
+- Files: `stride.log` (INFO+: app + access lines) and `stride-error.log` (WARNING+: errors with tracebacks), format `timestamp | LEVEL | logger | req=id | message`. Health probes log at DEBUG. Paths log without query strings; `Authorization`/keys/secrets are masked.
 - Serverless skips file handlers (stdout only). Uvicorn loggers propagate to the same handlers; stdout handler is always kept for `docker logs`.
 
 ## Consequences

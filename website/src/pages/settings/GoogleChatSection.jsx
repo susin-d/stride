@@ -146,7 +146,7 @@ export function GoogleChatSection({ user }) {
       <ConfirmDialog
         isOpen={disconnectAllRequested}
         title="Disconnect integration?"
-        message="Disconnect all Google Chat accounts from StarWaves? You can reconnect them later."
+        message="Disconnect all Google Chat accounts from Stride? You can reconnect them later."
         confirmLabel="Disconnect"
         onCancel={() => setDisconnectAllRequested(false)}
         onConfirm={() => {
@@ -159,8 +159,8 @@ export function GoogleChatSection({ user }) {
         isOpen={Boolean(removeRequested)}
         title="Disconnect integration?"
         message={removeRequested?.email
-          ? `Disconnect ${removeRequested.email} from StarWaves? You can reconnect it later.`
-          : 'Disconnect this integration from StarWaves? You can reconnect it later.'}
+          ? `Disconnect ${removeRequested.email} from Stride? You can reconnect it later.`
+          : 'Disconnect this integration from Stride? You can reconnect it later.'}
         confirmLabel="Disconnect"
         onCancel={() => setRemoveRequested(null)}
         onConfirm={() => {

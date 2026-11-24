@@ -6,8 +6,8 @@ gains file output once :func:`setup_logging` runs in ``app.main.create_app``.
 
 Files (under ``LOG_DIR``, default ``server/logs/``):
 
-- ``starwaves.log`` — INFO+ (app logs + one access line per request).
-- ``starwaves-error.log`` — WARNING+ (errors with tracebacks).
+- ``stride.log`` — INFO+ (app logs + one access line per request).
+- ``stride-error.log`` — WARNING+ (errors with tracebacks).
 
 Both rotate at midnight keeping ``LOG_RETENTION_DAYS`` (default 7) backups.
 Stdout is always kept so ``docker logs`` / Vercel log drains keep working.
@@ -21,8 +21,8 @@ import sys
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
-APP_LOG_NAME = "starwaves.log"
-ERROR_LOG_NAME = "starwaves-error.log"
+APP_LOG_NAME = "stride.log"
+ERROR_LOG_NAME = "stride-error.log"
 
 _LOG_FORMAT = "%(asctime)s | %(levelname)-8s | %(name)s | req=%(request_id)s | %(message)s"
 _LOG_DATEFMT = "%Y-%m-%d %H:%M:%S"

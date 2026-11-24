@@ -1,11 +1,11 @@
 export const routeTitles = {
-  '/': 'StarWaves — Developer productivity workspace',
-  '/login': 'Log in — StarWaves',
-  '/signup': 'Create account — StarWaves',
-  '/forgot-password': 'Forgot password — StarWaves',
-  '/onboarding': 'Set up your workspace — StarWaves',
-  '/privacy': 'Privacy policy — StarWaves',
-  '/terms': 'Terms of service — StarWaves',
+  '/': 'Stride — Developer productivity workspace',
+  '/login': 'Log in — Stride',
+  '/signup': 'Create account — Stride',
+  '/forgot-password': 'Forgot password — Stride',
+  '/onboarding': 'Set up your workspace — Stride',
+  '/privacy': 'Privacy policy — Stride',
+  '/terms': 'Terms of service — Stride',
 }
 
 export function detectNativeApp() {
@@ -44,7 +44,7 @@ export function buildUserProfile(activeUser) {
   const fullName =
     activeUser.displayName?.trim() ||
     activeUser.email?.split('@')[0] ||
-    'StarWaves user'
+    'Stride user'
   const nameParts = fullName.split(/\s+/).filter(Boolean)
   const isGoogle = Boolean(
     activeUser.providerData?.some(

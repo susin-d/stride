@@ -1,5 +1,5 @@
 # Backend-only stack — no website build.
-# Frontend is expected on Vercel (starwaves.susindran.in).
+# Frontend is expected on Vercel (stride.susindran.in).
 # Use with GHCR overlay for zero local build:
 #   docker compose -f docker-compose.yml -f docker-compose.backend.yml -f docker-compose.ghcr.backend.yml up -d
 #

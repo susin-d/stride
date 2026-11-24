@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-09-07
-- Deciders: StarWaves maintainers
+- Deciders: Stride maintainers
 - Tags: `eve`, `ai-models`, `workspace`
 
 ## Context

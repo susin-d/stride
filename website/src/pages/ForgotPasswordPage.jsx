@@ -220,7 +220,7 @@ export function ForgotPasswordPage({ onNavigate }) {
             </h2>
             <span>
               {step === 1
-                ? 'Enter the email address associated with your StarWaves account.'
+                ? 'Enter the email address associated with your Stride account.'
                 : step === 2
                   ? 'Enter the verification code sent to your inbox to continue.'
                   : step === 3
@@ -384,13 +384,13 @@ export function ForgotPasswordPage({ onNavigate }) {
                 <CheckCircle2 size={40} />
               </div>
               <h3>Password Reset Successfully</h3>
-              <p>Your StarWaves workspace account password has been updated.</p>
+              <p>Your Stride workspace account password has been updated.</p>
               <button
                 className="auth-submit"
                 type="button"
                 onClick={() => onNavigate('/login')}
               >
-                Log in to StarWaves
+                Log in to Stride
                 <ArrowRight size={17} />
               </button>
             </div>

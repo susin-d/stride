@@ -178,7 +178,7 @@ def save_upload(database: SqlClient, user_id: str, filename: str, data: bytes) -
     renderer = _validate_upload(filename, data)
     # write to workspace storage (reuse existing path logic)
     import os
-    base = os.environ.get("WORKSPACE_STORAGE_PATH", "/tmp/starwaves-workspace")
+    base = os.environ.get("WORKSPACE_STORAGE_PATH", "/tmp/stride-workspace")
     # sanitize filename
     safe_name = re.sub(r"[^a-zA-Z0-9._-]", "_", filename.split("/")[-1].split("\\")[-1])[:120]
     uid = uuid.uuid4().hex[:10]
@@ -231,7 +231,7 @@ def delete_upload(database: SqlClient, user_id: str, model_id: str) -> None:
     # try delete file
     try:
         import os
-        base = os.environ.get("WORKSPACE_STORAGE_PATH", "/tmp/starwaves-workspace")
+        base = os.environ.get("WORKSPACE_STORAGE_PATH", "/tmp/stride-workspace")
         # find file by model_id prefix
         subdir = os.path.join(base, "avatars", user_id)
         if os.path.isdir(subdir):

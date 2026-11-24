@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-09-06
-- Deciders: Starwaves maintainers
+- Deciders: Stride maintainers
 - Tags: `frontend`, `threejs`, `modeling`, `workspace-storage`
 
 ## Context

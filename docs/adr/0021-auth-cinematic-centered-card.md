@@ -5,7 +5,7 @@
 Superseded by [ADR 0025](./0025-auth-split-screen-brand-panel.md)
 
 - Date: 2026-09-06
-- Deciders: Starwaves Core Team
+- Deciders: Stride Core Team
 - Tags: `frontend`, `auth`, `layout`, `adr-0019`
 
 ## Context

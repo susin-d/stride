@@ -1,6 +1,6 @@
 # Architecture Decision Records (ADRs)
 
-> Living index of architectural decisions for **Starwaves**. See `AGENTS.md` §1.7 for the mandate and `_template.md` for the template.
+> Living index of architectural decisions for **Stride**. See `AGENTS.md` §1.7 for the mandate and `_template.md` for the template.
 
 ## Rules
 
@@ -18,7 +18,7 @@
 | [0003](0003-build-scripts-android-tauri.md) | Build scripts for Android (Capacitor) + Desktop EXE (Tauri) | Accepted | 2026-08-31 |
 | [0004](0004-backend-hosted-auto-update.md) | Backend-hosted auto-update (Tauri signed + APK sideload + OTA) | Accepted | 2026-08-31 |
 | [0005](0005-ai-provider-hardening-universal-openai.md) | AI provider hardening: universal OpenAI default + adapter fixes | Accepted | 2026-08-31 |
-| [0006](0006-canonical-domain-starwaves-susindran-in.md) | Canonical domain starwaves.susindran.in + api.starwaves.susindran.in | Accepted | 2026-08-31 |
+| [0006](0006-canonical-domain-stride-susindran-in.md) | Canonical domain stride.susindran.in + api.stride.susindran.in | Accepted | 2026-08-31 |
 | [0007](0007-differentiated-ai-error-messages.md) | Differentiated AI provider error messages (rate limit vs other) | Accepted | 2026-08-31 |
 | [0008](0008-oauth-deep-link-mobile-auth.md) | OAuth deep-link for native + mobile login layout | Accepted | 2026-08-31 |
 | [0009](0009-ui-ux-design-system-and-routing-hardening.md) | UI/UX design system and routing hardening (modal dedup, delete redirect, navigateWorkspace, LoadingState, CustomDropdown search, inline style cleanup) | Accepted | 2026-09-01 |
@@ -68,6 +68,7 @@
 | [0053](0053-health-liveness-shared-http-client.md) | Health liveness/readiness split + shared HTTP keepalive client | Accepted | 2026-09-11 |
 | [0054](0054-dashboard-github-payload-limit.md) | Limit GitHub repository payload on the dashboard | Accepted | 2026-09-11 |
 | [0055](0055-cache-first-read-api-snapshots.md) | Cache-first read API snapshots with stale-while-revalidate refresh | Accepted | 2026-09-11 |
+| [0056](0056-rebrand-starwaves-to-stride.md) | Rebrand Starwaves to Stride across code, storage keys, native IDs and domains | Accepted | 2026-11-24 |
 
 ## How to add a new ADR
 

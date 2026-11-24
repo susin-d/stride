@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-09-11
-- Deciders: @starwaves
+- Deciders: @stride
 - Tags: `backend`, `performance`, `workspace`, `dashboard`
 
 ## Context

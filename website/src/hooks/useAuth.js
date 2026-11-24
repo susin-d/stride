@@ -31,17 +31,17 @@ export function useAuth() {
       if (!e.key || e.key === AUTH_TOKEN_KEY || e.key === AUTH_USER_KEY) {
         if (mounted) setCurrentUser(getStoredUser())
       }
-      if (e.key && e.key.startsWith('starwaves:')) {
+      if (e.key && e.key.startsWith('stride:')) {
         clearRequestCache()
       }
     }
 
-    window.addEventListener('starwaves:auth-change', handleAuthChange)
+    window.addEventListener('stride:auth-change', handleAuthChange)
     window.addEventListener('storage', handleStorage)
     const bc = (() => {
       try {
         if (typeof BroadcastChannel === 'undefined') return null
-        const ch = new BroadcastChannel('starwaves-auth')
+        const ch = new BroadcastChannel('stride-auth')
         ch.onmessage = (msg) => {
           if (msg?.data?.type === 'auth-change' && mounted) setCurrentUser(getStoredUser())
         }
@@ -50,7 +50,7 @@ export function useAuth() {
     })()
     return () => {
       mounted = false
-      window.removeEventListener('starwaves:auth-change', handleAuthChange)
+      window.removeEventListener('stride:auth-change', handleAuthChange)
       window.removeEventListener('storage', handleStorage)
       try { bc?.close() } catch {}
     }

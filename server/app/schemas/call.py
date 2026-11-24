@@ -1,4 +1,4 @@
-"""Call schemas: WebRTC call records and signaling between StarWaves users."""
+"""Call schemas: WebRTC call records and signaling between Stride users."""
 
 from datetime import datetime
 

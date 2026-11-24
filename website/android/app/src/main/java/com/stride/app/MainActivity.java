@@ -1,4 +1,4 @@
-package com.starwaves.app;
+package com.stride.app;
 
 import com.getcapacitor.BridgeActivity;
 

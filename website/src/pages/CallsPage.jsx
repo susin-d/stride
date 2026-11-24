@@ -74,12 +74,12 @@ export function CallsPage({ callCenter, user }) {
   }
 
   const handleCallEve = () => {
-    dial('eve@starwaves.app', 'audio', 'in_app')
+    dial('eve@stride.app', 'audio', 'in_app')
   }
 
   const handleRequestEveCall = () => {
     if (provider === 'twilio' && twilioPhoneEve.trim()) {
-      requestEveCall?.('audio', 'twilio', twilioPhoneEve.trim(), 'Hello from StarWaves Eve')
+      requestEveCall?.('audio', 'twilio', twilioPhoneEve.trim(), 'Hello from Stride Eve')
     } else {
       requestEveCall?.('audio', 'in_app')
     }
@@ -128,7 +128,7 @@ export function CallsPage({ callCenter, user }) {
         <div className="calls-dialer-card">
           <div className="calls-dialer-header">
             <h2>Start a call</h2>
-            <p>Call another StarWaves user or Eve AI Assistant (<code>eve</code> or <code>eve@starwaves.app</code>).</p>
+            <p>Call another Stride user or Eve AI Assistant (<code>eve</code> or <code>eve@stride.app</code>).</p>
           </div>
 
           <div className="eve-quick-call-box">
@@ -136,7 +136,7 @@ export function CallsPage({ callCenter, user }) {
               <Bot size={16} />
               <span>Eve AI Assistant</span>
             </div>
-            <p className="eve-quick-call-desc">Have a real-time voice call with your StarWaves AI assistant. Choose in-app (WebRTC) or real phone via Twilio.</p>
+            <p className="eve-quick-call-desc">Have a real-time voice call with your Stride AI assistant. Choose in-app (WebRTC) or real phone via Twilio.</p>
             {twilioEnabled && (
               <div className="calls-provider-toggle" role="group" aria-label="Eve call provider">
                 <button type="button" className={`calls-mode-option ${provider === 'in_app' ? 'active' : ''}`} onClick={() => setProvider('in_app')} aria-pressed={provider === 'in_app'}>In-App</button>
@@ -245,7 +245,7 @@ export function CallsPage({ callCenter, user }) {
           ) : recent.length === 0 ? (
             <div className="calls-recent-empty">
               <Phone size={28} />
-              <p>No calls yet. Dial a StarWaves user to get started.</p>
+              <p>No calls yet. Dial a Stride user to get started.</p>
             </div>
           ) : (
             <ul className="calls-recent-list">

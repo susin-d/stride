@@ -1,4 +1,4 @@
-module starwaves-whatsapp-worker
+module stride-whatsapp-worker
 
 go 1.25.0
 

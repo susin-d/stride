@@ -115,7 +115,7 @@ export const showcaseScenes = [
 ]
 
 export const eveTerminalLines = [
-  'list_workspace_files({ workspace: "starwaves" })',
+  'list_workspace_files({ workspace: "stride" })',
   'search_workspace_files({ query: "auth callback" })',
   'browse_web({ query: "serverless cron schedules" })',
   'create_eve_schedule({ cron: "0 9 * * 1", action: "call" })',
@@ -189,7 +189,7 @@ export const workflow = [
 
 export const faqs = [
   {
-    q: 'What is StarWaves exactly?',
+    q: 'What is Stride exactly?',
     a: 'A personal operating system for builders: tasks, projects, jobs, hackathons, coding signal, calendar, documents, mail, WhatsApp and the Eve AI assistant — one canvas, three lights: Code, Create, Evolve.',
   },
   {

@@ -13,7 +13,7 @@ export function useSyncEvents({ onInvalidate, user }) {
       if (debounceTimerRef.current) window.clearTimeout(debounceTimerRef.current)
       debounceTimerRef.current = window.setTimeout(() => {
         debounceTimerRef.current = null
-        window.dispatchEvent(new CustomEvent('starwaves:sync-invalidate', { detail: event }))
+        window.dispatchEvent(new CustomEvent('stride:sync-invalidate', { detail: event }))
         onInvalidateRef.current?.(event)
       }, 300)
     }

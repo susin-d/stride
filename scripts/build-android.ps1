@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Build Starwaves Android APK/AAB via Capacitor + Gradle. Backend-hosted auto-update manifest.
+  Build Stride Android APK/AAB via Capacitor + Gradle. Backend-hosted auto-update manifest.
 
 .DESCRIPTION
   1. Checks Node, Java, Android SDK.
@@ -17,7 +17,7 @@
 
 .EXAMPLE
   ./scripts/build-android.ps1 -BuildType debug
-  ./scripts/build-android.ps1 -BuildType release -Publish -RemoteHost api.starwaves.susindran.in
+  ./scripts/build-android.ps1 -BuildType release -Publish -RemoteHost api.stride.susindran.in
   ./scripts/build-android.ps1 -BuildType release -Bundle aab -SkipWebBuild
 #>
 [CmdletBinding()]
@@ -28,7 +28,7 @@ param(
   [switch]$SkipWebBuild,
   [switch]$Publish,
   [string]$RemoteHost = "",
-  [string]$RemotePath = "~/starwaves/server/static/updates"
+  [string]$RemotePath = "~/stride/server/static/updates"
 )
 
 Set-StrictMode -Version Latest
@@ -37,7 +37,7 @@ $root = (Resolve-Path "$PSScriptRoot/..").Path
 Set-Location -LiteralPath $root
 . "$PSScriptRoot/lib/common.ps1"
 
-Write-Step "Starwaves Android build ($BuildType, $Bundle) — Capacitor + Gradle"
+Write-Step "Stride Android build ($BuildType, $Bundle) — Capacitor + Gradle"
 
 # --- Prereqs ---
 Assert-Command -Name "node" -Hint "https://nodejs.org"
@@ -145,7 +145,7 @@ if ($BuildType -eq "release") {
   if ($env:ANDROID_KEYSTORE_PATH -and (Test-Path -LiteralPath $env:ANDROID_KEYSTORE_PATH)) { $hasKeystore = $true }
   elseif (Test-Path -LiteralPath "website/android/app/release.keystore") { $hasKeystore = $true }
   if (-not $hasKeystore) {
-    Write-Warn "No keystore found (ANDROID_KEYSTORE_PATH or website/android/app/release.keystore). APK will be unsigned. To sign: keytool -genkeypair -keystore website/android/app/release.keystore -alias starwaves -keyalg RSA -keysize 2048 -validity 10000"
+    Write-Warn "No keystore found (ANDROID_KEYSTORE_PATH or website/android/app/release.keystore). APK will be unsigned. To sign: keytool -genkeypair -keystore website/android/app/release.keystore -alias stride -keyalg RSA -keysize 2048 -validity 10000"
   } else {
     Write-Ok "Keystore present — Gradle will sign if signingConfigs configured (add ANDROID_KEYSTORE_* env)."
   }
@@ -222,8 +222,8 @@ if ($BuildType -eq "release" -or $env:GENERATE_ANDROID_JSON) {
   if (Test-Path -LiteralPath $manifestApk) { $sha = Get-FileSha256 -Path $manifestApk; $size = (Get-Item -LiteralPath $manifestApk).Length }
   $manifestDir = "server/static/updates"
   New-Item -ItemType Directory -Path $manifestDir -Force | Out-Null
-  $apkName = "starwaves-$pkgVersion.apk"
-  if ($Bundle -eq "aab" -and (Test-Path -LiteralPath $aabRelease)) { $apkName = "starwaves-$pkgVersion.aab" }
+  $apkName = "stride-$pkgVersion.apk"
+  if ($Bundle -eq "aab" -and (Test-Path -LiteralPath $aabRelease)) { $apkName = "stride-$pkgVersion.aab" }
   # Absolute URL for backend: prefer API base if known
   $base = if ($env:API_BASE_URL) { $env:API_BASE_URL.TrimEnd('/') } else { "" }
   if ($base -and $base.EndsWith("/api/v1")) { $base = $base.Substring(0, $base.Length - 7) }
@@ -232,7 +232,7 @@ if ($BuildType -eq "release" -or $env:GENERATE_ANDROID_JSON) {
     latestVersion = $pkgVersion
     versionCode = $script:androidVersionCode
     url = $url
-    notes = "Starwaves $pkgVersion — backend-hosted auto-update (force:false). See CHANGELOG.md"
+    notes = "Stride $pkgVersion — backend-hosted auto-update (force:false). See CHANGELOG.md"
     force = $false
     sha256 = $sha
     size = $size
@@ -257,7 +257,7 @@ if ($Publish) {
     Write-Step "Publish to $RemoteHost`:$RemotePath"
     & ssh $RemoteHost "mkdir -p $RemotePath" 2>&1 | Out-String | Write-Host
     foreach ($p in $found) {
-      $leaf = if ($p -like "*app-release*") { "starwaves-$pkgVersion$(if($p -like "*.aab") {".aab"} else {".apk"})" } else { Split-Path -Leaf $p }
+      $leaf = if ($p -like "*app-release*") { "stride-$pkgVersion$(if($p -like "*.aab") {".aab"} else {".apk"})" } else { Split-Path -Leaf $p }
       Write-Host "  scp $p -> $RemoteHost`:$RemotePath/$leaf" -ForegroundColor DarkGray
       & scp $p "${RemoteHost}:$RemotePath/$leaf" 2>&1 | Out-String | Write-Host
     }

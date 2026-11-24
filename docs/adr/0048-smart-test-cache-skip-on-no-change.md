@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-09-10
-- Deciders: Starwaves maintainer
+- Deciders: Stride maintainer
 - Tags: `testing`, `dx`, `infra`
 
 ## Context

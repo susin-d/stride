@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Pull latest backend on GCP VM — no build.
-# Run INSIDE VM (personal-vm @ ~/starwaves):
+# Run INSIDE VM (personal-vm @ ~/stride):
 #   bash scripts/vm-pull.sh
 #   # or with tag: TAG=v1.0.1 bash scripts/vm-pull.sh
 set -euo pipefail
@@ -33,7 +33,7 @@ echo "== Status =="
 docker compose -f docker-compose.yml -f docker-compose.backend.yml ps
 
 echo "== Health =="
-curl -fsS http://localhost:8000/api/v1/health && echo " -> API ok" || (echo "API health failed"; docker logs starwaves-server --tail 50; exit 1)
+curl -fsS http://localhost:8000/api/v1/health && echo " -> API ok" || (echo "API health failed"; docker logs stride-server --tail 50; exit 1)
 curl -fsS http://localhost/health && echo " -> nginx ok" || echo "nginx check failed"
 
 echo "Done — pulled ${IMAGE}:${TAG}"

@@ -8,7 +8,7 @@ The server pushes events to the client instead of the client polling:
   { "type": "call_updated",   "call": { ...CallResponse } }
   { "type": "ping" }
 
-Authentication uses the same Starwaves token passed as a ``token`` query
+Authentication uses the same Stride token passed as a ``token`` query
 parameter (identical token format validated by ``app.core.auth``).
 """
 
@@ -35,11 +35,11 @@ def _ping_interval() -> float:
     """Server ping interval, overridable for tests via env.
 
     Production default stays 25s. Tests set
-    ``STARWAVES_WS_PING_INTERVAL_S=0.1`` (see ``tests/conftest.py``) so
+    ``STRIDE_WS_PING_INTERVAL_S=0.1`` (see ``tests/conftest.py``) so
     ``websocket_connect`` teardown never waits out the full interval.
     """
     try:
-        return max(0.05, float(os.getenv("STARWAVES_WS_PING_INTERVAL_S", "25")))
+        return max(0.05, float(os.getenv("STRIDE_WS_PING_INTERVAL_S", "25")))
     except ValueError:
         return 25.0
 
@@ -52,7 +52,7 @@ def _serialize_call(call: dict) -> dict:
 @router.websocket("/ws/calls")
 async def calls_websocket(
     websocket: WebSocket,
-    token: str = Query(..., description="Starwaves auth token"),
+    token: str = Query(..., description="Stride auth token"),
 ) -> None:
     """Persistent WebSocket connection for call signaling events."""
     # Origin check — block cross-site WebSocket hijack

@@ -17,11 +17,11 @@ def _ping_interval() -> float:
     """Server ping interval, overridable for tests via env.
 
     Production default stays 25s. Tests set
-    ``STARWAVES_WS_PING_INTERVAL_S=0.1`` (see ``tests/conftest.py``) so idle
+    ``STRIDE_WS_PING_INTERVAL_S=0.1`` (see ``tests/conftest.py``) so idle
     sockets never block teardown indefinitely.
     """
     try:
-        return max(0.05, float(os.getenv("STARWAVES_WS_PING_INTERVAL_S", "25")))
+        return max(0.05, float(os.getenv("STRIDE_WS_PING_INTERVAL_S", "25")))
     except ValueError:
         return 25.0
 
@@ -29,7 +29,7 @@ def _ping_interval() -> float:
 @router.websocket("/ws/whatsapp")
 async def whatsapp_websocket(
     websocket: WebSocket,
-    token: str = Query(..., description="Starwaves auth token"),
+    token: str = Query(..., description="Stride auth token"),
 ) -> None:
     """Persistent WebSocket connection for WhatsApp live updates."""
     origin = websocket.headers.get("origin")

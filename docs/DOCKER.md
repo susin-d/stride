@@ -1,6 +1,6 @@
-# StarWaves Docker Deployment Guide
+# Stride Docker Deployment Guide
 
-This guide explains how to build, run, and manage the full StarWaves stack (React website frontend, FastAPI backend, PostgreSQL database, WhatsApp worker, and Nginx reverse proxy) containerized with Docker and Docker Compose.
+This guide explains how to build, run, and manage the full Stride stack (React website frontend, FastAPI backend, PostgreSQL database, WhatsApp worker, and Nginx reverse proxy) containerized with Docker and Docker Compose.
 
 ---
 
@@ -8,12 +8,12 @@ This guide explains how to build, run, and manage the full StarWaves stack (Reac
 
 | Service | Container Name | Internal Port | Host Port | Description |
 | --- | --- | --- | --- | --- |
-| **nginx** | `starwaves-nginx` | `80`, `443` | `80`, `443` | Edge reverse proxy (VM: `api.starwaves.susindran.in` → `/api/` & `/ws/`; `/` local dev only) + 5r/s rate limit |
-| **website** | `starwaves-website` | `80` | `3000` | React 19 + Vite frontend SPA (prod on Vercel `starwaves.susindran.in`, VM keeps for local dev) |
-| **server** | `starwaves-server` | `8000` | `—` (expose only) | FastAPI (Uvicorn 1 worker, e2-micro 512M limit, pools 5/5, Redis cache) |
-| **postgres** | `starwaves-postgres` | `5432` | `5432` | PostgreSQL 16 (e2-micro: 128M shared_buffers, 512M effective_cache, 50 max_conn) |
-| **redis** | `starwaves-redis` | `6379` | `—` | Redis 7 (96M, allkeys-lru, RDB on VM disk) for caches/locks/rate limit |
-| **whatsapp-worker** | `starwaves-whatsapp-worker` | `3001` | `3001` | Go WhatsApp Whatsmeow worker (local volume `whatsapp-data`) |
+| **nginx** | `stride-nginx` | `80`, `443` | `80`, `443` | Edge reverse proxy (VM: `api.stride.susindran.in` → `/api/` & `/ws/`; `/` local dev only) + 5r/s rate limit |
+| **website** | `stride-website` | `80` | `3000` | React 19 + Vite frontend SPA (prod on Vercel `stride.susindran.in`, VM keeps for local dev) |
+| **server** | `stride-server` | `8000` | `—` (expose only) | FastAPI (Uvicorn 1 worker, e2-micro 512M limit, pools 5/5, Redis cache) |
+| **postgres** | `stride-postgres` | `5432` | `5432` | PostgreSQL 16 (e2-micro: 128M shared_buffers, 512M effective_cache, 50 max_conn) |
+| **redis** | `stride-redis` | `6379` | `—` | Redis 7 (96M, allkeys-lru, RDB on VM disk) for caches/locks/rate limit |
+| **whatsapp-worker** | `stride-whatsapp-worker` | `3001` | `3001` | Go WhatsApp Whatsmeow worker (local volume `whatsapp-data`) |
 
 ---
 
@@ -132,5 +132,5 @@ curl -i http://localhost:3000/
 2. **Reverse Proxy Security**: Nginx strips internal server headers, applies Gzip compression, sets security headers (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`), and limits body uploads to 20MB.
 3. **HTTPS / Certbot Setup**:
    - Place your SSL certs in `nginx/certs/`.
-   - Uncomment the SSL server block in [`nginx/conf.d/default.conf`](file:///c:/project/starwaves/nginx/conf.d/default.conf).
+   - Uncomment the SSL server block in [`nginx/conf.d/default.conf`](file:///c:/project/stride/nginx/conf.d/default.conf).
    - Reload Nginx: `docker compose exec nginx nginx -s reload`.

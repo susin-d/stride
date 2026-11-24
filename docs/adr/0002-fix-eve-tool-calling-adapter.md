@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-08-30
-- Deciders: Starwaves maintainers
+- Deciders: Stride maintainers
 - Tags: `eve`, `ai-models`, `tool-calling`, `provider-adapter`
 
 ## Context

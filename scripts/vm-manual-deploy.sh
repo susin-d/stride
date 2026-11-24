@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Manual deploy on GCP VM — backend only (no website)
-# Run inside VM:  ~/starwaves/scripts/vm-manual-deploy.sh
-# Or one-liner from laptop: gcloud compute ssh starwaves-api --zone=us-central1-a --command="bash ~/starwaves/scripts/vm-manual-deploy.sh"
+# Run inside VM:  ~/stride/scripts/vm-manual-deploy.sh
+# Or one-liner from laptop: gcloud compute ssh stride-api --zone=us-central1-a --command="bash ~/stride/scripts/vm-manual-deploy.sh"
 set -euo pipefail
 cd "$(dirname "$0")/.."
 echo "== Git pull =="
@@ -20,8 +20,8 @@ docker compose -f docker-compose.yml -f docker-compose.backend.yml -f docker-com
 echo "== Status =="
 docker compose -f docker-compose.yml -f docker-compose.backend.yml ps
 echo "== Health =="
-curl -fsS http://localhost:8000/api/v1/health && echo " -> API ok" || (echo "API health failed"; docker logs starwaves-server --tail 50; exit 1)
+curl -fsS http://localhost:8000/api/v1/health && echo " -> API ok" || (echo "API health failed"; docker logs stride-server --tail 50; exit 1)
 curl -fsS http://localhost/health && echo " -> nginx ok" || echo "nginx health failed (check nginx logs)"
 echo "== Prune old images =="
 docker image prune -f
-echo "Done — backend at https://api.starwaves.susindran.in (Vercel frontend calls this)"
+echo "Done — backend at https://api.stride.susindran.in (Vercel frontend calls this)"

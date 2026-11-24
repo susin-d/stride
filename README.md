@@ -1,6 +1,6 @@
-# StarWaves
+# Stride
 
-StarWaves is a personal productivity workspace that brings projects, job
+Stride is a personal productivity workspace that brings projects, job
 applications, tasks, documents, calendars, email, hackathons, and competitive
 programming activity into one dashboard.
 
@@ -48,7 +48,7 @@ and integration settings.
 ## Repository structure
 
 ```text
-Starwaves/
+Stride/
 ├── website/                 React frontend
 │   ├── src/components/      Shared UI components
 │   ├── src/hooks/           Authentication, routing, and data hooks

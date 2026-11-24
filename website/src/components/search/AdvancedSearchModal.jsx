@@ -451,7 +451,7 @@ export function AdvancedSearchModal({
             <kbd>Esc</kbd> <span>Close</span>
           </div>
           <div className="search-palette-footer-badge">
-            StarWaves Command Palette
+            Stride Command Palette
           </div>
         </div>
       </div>

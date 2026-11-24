@@ -17,7 +17,7 @@ export function AppsSection({
     <div className="setting-section" id="settings-apps">
       <SectionHeading
         title="Integrations"
-        description="Connect Google Workspace, Calendars, Gmail, Google Chat, and GitHub to synchronize data across StarWaves."
+        description="Connect Google Workspace, Calendars, Gmail, Google Chat, and GitHub to synchronize data across Stride."
       />
 
       <div className="apps-settings-stack">

@@ -1,4 +1,4 @@
-# ARCHITECTURE.md — Starwaves Single Source of Truth
+# ARCHITECTURE.md — Stride Single Source of Truth
 
 > Companion to `CODEBASE_AUDIT.md` (Phase 1 findings), ADRs `0043–0046` (canonical decisions), and `REFACTOR_REPORT.md` (what changed). `context.md` holds the living snapshot; this file holds the durable rules.
 
@@ -91,7 +91,7 @@ CLIENT (UX validation only; backend authoritative)
 ## 10. Error handling
 
 - Backend: `core/errors.py` only (same codes/messages as before; `400`-vs-`422` inconsistencies preserved and documented for a future behavior ADR).
-- Frontend: `apiRequest` formats `detail` (string/array/object), friendly network/timeout messages, 401 → session cleanup + `starwaves:session-revoked`. No leaked internals (prod 500 is generic).
+- Frontend: `apiRequest` formats `detail` (string/array/object), friendly network/timeout messages, 401 → session cleanup + `stride:session-revoked`. No leaked internals (prod 500 is generic).
 
 ## 11. Testing
 

@@ -15,7 +15,7 @@ export function WhatsAppEmptyPane({ connected, onLink }) {
       <p className="whatsapp-empty-lead">
         {connected
           ? 'Choose a chat from the sidebar to view and send messages.'
-          : 'Link your device to start sending and receiving messages in Starwaves.'}
+          : 'Link your device to start sending and receiving messages in Stride.'}
       </p>
 
       {!connected && (

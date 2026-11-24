@@ -17,7 +17,7 @@ from app.services.oauth import (
 
 
 GITHUB_QUERY = """
-query StarWavesGitHub($cursor: String, $repositoryLimit: Int!, $includeStats: Boolean!) {
+query StrideGitHub($cursor: String, $repositoryLimit: Int!, $includeStats: Boolean!) {
   viewer {
     login
     url
@@ -86,7 +86,7 @@ async def fetch_github_data(token: str, repository_limit: int = 100, include_sta
                 headers={
                     "Authorization": f"Bearer {token}",
                     "Accept": "application/vnd.github+json",
-                    "User-Agent": "StarWaves/0.1",
+                    "User-Agent": "Stride/0.1",
                 },
                 json={
                     "query": GITHUB_QUERY,

@@ -201,7 +201,7 @@ export function WhatsAppSection() {
               <div className="whatsapp-status-info">
                 <strong>{status.connected ? status.phone_number || 'Linked WhatsApp' : 'Not Connected'}</strong>
                 <small>
-                  {status.connected ? `Device: ${status.push_name || 'Active Session'}` : 'Link via QR code to sync chats with Starwaves'}
+                  {status.connected ? `Device: ${status.push_name || 'Active Session'}` : 'Link via QR code to sync chats with Stride'}
                 </small>
               </div>
             </div>
@@ -251,7 +251,7 @@ export function WhatsAppSection() {
                 <div className="whatsapp-automation-text">
                   <strong>Desktop & Push Notifications</strong>
                   <small>
-                    Receive instant alerts in Starwaves when new WhatsApp messages arrive
+                    Receive instant alerts in Stride when new WhatsApp messages arrive
                   </small>
                 </div>
               </div>

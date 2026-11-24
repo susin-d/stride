@@ -10,8 +10,8 @@ import (
 	"syscall"
 	"time"
 
-	"starwaves-whatsapp-worker/internal/api"
-	"starwaves-whatsapp-worker/internal/session"
+	"stride-whatsapp-worker/internal/api"
+	"stride-whatsapp-worker/internal/session"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -41,7 +41,7 @@ func main() {
 	r := gin.Default()
 	allowedOrigins := os.Getenv("CORS_ORIGINS")
 	if allowedOrigins == "" {
-		allowedOrigins = "https://starwaves.susindran.in,http://localhost:5173,http://127.0.0.1:5173"
+		allowedOrigins = "https://stride.susindran.in,http://localhost:5173,http://127.0.0.1:5173"
 	}
 	origins := []string{}
 	for _, o := range splitCSV(allowedOrigins) {
@@ -70,7 +70,7 @@ func main() {
 	}
 
 	go func() {
-		log.Printf("StarWaves Go Whatsmeow Worker running on :%s\n", port)
+		log.Printf("Stride Go Whatsmeow Worker running on :%s\n", port)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("Server error: %v\n", err)
 		}

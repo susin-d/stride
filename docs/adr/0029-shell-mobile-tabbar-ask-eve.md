@@ -14,14 +14,14 @@ The shell audit (Phase 2 survey) found a mature sidebar/header: collapsible rail
 
 ## Decision
 
-- New `MobileTabBar` (Home · Search · Eve · Studio · You), fixed bottom ≤900px with safe-area padding, 52px targets, module-accent active states; content gets bottom clearance. Search fires a decoupled `starwaves:open-search` window event the `Header` listens for (same pattern family as existing `eve-ui-update`/`sync-invalidate` events) so palette ownership stays in one place.
+- New `MobileTabBar` (Home · Search · Eve · Studio · You), fixed bottom ≤900px with safe-area padding, 52px targets, module-accent active states; content gets bottom clearance. Search fires a decoupled `stride:open-search` window event the `Header` listens for (same pattern family as existing `eve-ui-update`/`sync-invalidate` events) so palette ownership stays in one place.
 - Sidebar footer gains an Eve-accented `Ask Eve` button (icon-only 44px when collapsed, full button when expanded, tooltip-wired) opening the existing lazy `EveAssistantModal`; `onWorkspaceChanged` threaded one level through `AppLayout`.
 - Scope: `components/MobileTabBar.jsx` + `styles/components/mobile-tabbar.css` (wired in `App.css` order), `components/Sidebar.jsx` + `sidebar.css`, `layouts/AppLayout.jsx`, `components/Header.jsx` (event listener only).
 
 ## Consequences
 
 - **Positive:** phones get one-tap primary navigation; Eve is reachable from every surface; no new deps, no routing changes, no chunk impact (modal/tab bar are tiny, modal stays lazy).
-- **Negative / Cost:** fixed bar covers bottom content on ≤900px (mitigated with content clearance); one more global event name to know (`starwaves:open-search`).
+- **Negative / Cost:** fixed bar covers bottom content on ≤900px (mitigated with content clearance); one more global event name to know (`stride:open-search`).
 - **Follow-up:** Wave rebuilds keep the bar labels in sync if IA labels change; revisit haptics/indicators only with evidence.
 
 ## Alternatives Considered

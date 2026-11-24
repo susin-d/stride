@@ -1,4 +1,4 @@
-# Starwaves — Build Guide (Android + Desktop)
+# Stride — Build Guide (Android + Desktop)
 
 One-command builds for Android APK/AAB (Capacitor) and Windows EXE (Tauri), with backend-hosted auto-update.
 
@@ -24,7 +24,7 @@ echo $env:ANDROID_HOME
 ## Env Files
 
 - `website/.env` → local dev (`VITE_API_URL=http://127.0.0.1:8000/api/v1`)
-- `website/.env.android` → prod Android (`VITE_API_URL=https://api.starwaves.susindran.in/api/v1`)
+- `website/.env.android` → prod Android (`VITE_API_URL=https://api.stride.susindran.in/api/v1`)
 - `website/.env.prod` → desktop prod (same URL)
 - `server/.env` / `.env.prod` → backend; relevant: `API_BASE_URL`, `UPDATES_DIR`, `UPDATER_SECRET`, `TAURI_SIGNING_PUBLIC_KEY`
 
@@ -41,23 +41,23 @@ adb install -r website/android/app/build/outputs/apk/debug/app-debug.apk
 
 **Release (signed if keystore present) + publish manifest:**
 ```powershell
-$env:ANDROID_KEYSTORE_PATH="C:\keys\starwaves.keystore"
+$env:ANDROID_KEYSTORE_PATH="C:\keys\stride.keystore"
 $env:ANDROID_KEYSTORE_PASSWORD="..."
-$env:ANDROID_KEY_ALIAS="starwaves"
+$env:ANDROID_KEY_ALIAS="stride"
 $env:ANDROID_KEY_PASSWORD="..."
-.\scripts\build-android.ps1 -BuildType release -Bundle apk -Publish -RemoteHost api.starwaves.susindran.in
-# creates server/static/updates/android.json + starwaves-0.1.0.apk and scp if -Publish
+.\scripts\build-android.ps1 -BuildType release -Bundle apk -Publish -RemoteHost api.stride.susindran.in
+# creates server/static/updates/android.json + stride-0.1.0.apk and scp if -Publish
 ```
 
 - `versionName` from `website/package.json.version`; `versionCode` monotonic (+1 each release, checks `android.json` to avoid collision).
 - If no keystore → unsigned APK (`app-release-unsigned.apk`) — still installable after enabling *Install unknown apps* but updater prompt uses same file.
-- To create keystore: `keytool -genkeypair -keystore website/android/app/release.keystore -alias starwaves -keyalg RSA -keysize 2048 -validity 10000`
-- `Bundle` `apk|aab|both` — `aab` for Play, `apk` for sideload. `Publish` copies to `~/starwaves/server/static/updates/`.
+- To create keystore: `keytool -genkeypair -keystore website/android/app/release.keystore -alias stride -keyalg RSA -keysize 2048 -validity 10000`
+- `Bundle` `apk|aab|both` — `aab` for Play, `apk` for sideload. `Publish` copies to `~/stride/server/static/updates/`.
 
 **Bash (WSL/CI):**
 ```bash
 ./scripts/build-android.sh debug
-PUBLISH=1 REMOTE_HOST=api.starwaves.susindran.in ./scripts/build-android.sh release
+PUBLISH=1 REMOTE_HOST=api.stride.susindran.in ./scripts/build-android.sh release
 ```
 
 ## Desktop (Tauri)
@@ -70,11 +70,11 @@ PUBLISH=1 REMOTE_HOST=api.starwaves.susindran.in ./scripts/build-android.sh rele
 **Release (signed, MSI+NSIS):**
 ```powershell
 # One-time: generate keys
-npx --prefix website tauri signer generate -w $HOME/.tauri/starwaves.key
+npx --prefix website tauri signer generate -w $HOME/.tauri/stride.key
 # pubkey printed → paste into website/src-tauri/tauri.conf.json plugins.updater.pubkey
-$env:TAURI_SIGNING_PRIVATE_KEY = Get-Content $HOME/.tauri/starwaves.key -Raw
+$env:TAURI_SIGNING_PRIVATE_KEY = Get-Content $HOME/.tauri/stride.key -Raw
 $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = "optionalIfEncrypted"
-.\scripts\build-desktop.ps1 -BuildType release -Publish -RemoteHost api.starwaves.susindran.in
+.\scripts\build-desktop.ps1 -BuildType release -Publish -RemoteHost api.stride.susindran.in
 # outputs: website/src-tauri/target/release/bundle/{msi,nsis}/*.exe/*.msi +.sig + latest.json
 ```
 
@@ -86,13 +86,13 @@ $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = "optionalIfEncrypted"
 **Bash:**
 ```bash
 ./scripts/build-desktop.sh release  # or debug
-PUBLISH=1 REMOTE_HOST=api.starwaves.susindran.in ./scripts/build-desktop.sh release
+PUBLISH=1 REMOTE_HOST=api.stride.susindran.in ./scripts/build-desktop.sh release
 ```
 
 ## OTA Web Bundle
 
 ```powershell
-.\scripts\build-ota.ps1 -Publish -RemoteHost api.starwaves.susindran.in
+.\scripts\build-ota.ps1 -Publish -RemoteHost api.stride.susindran.in
 # zips website/dist → server/static/updates/bundles/bundle-0.1.0.zip + latest.json
 ```
 - Requires `@capgo/capacitor-updater` on device to apply; otherwise banner shows but `window.open(url)` fallback.
@@ -101,7 +101,7 @@ PUBLISH=1 REMOTE_HOST=api.starwaves.susindran.in ./scripts/build-desktop.sh rele
 ## All
 
 ```powershell
-.\scripts\build-all.ps1 -BuildType release -WithOTA -Publish -RemoteHost api.starwaves.susindran.in
+.\scripts\build-all.ps1 -BuildType release -WithOTA -Publish -RemoteHost api.stride.susindran.in
 ```
 
 ## Auto-Update Flow (backend-hosted)
@@ -116,7 +116,7 @@ curl http://localhost:8000/api/v1/updates/check?platform=windows&currentVersion=
 curl http://localhost:8000/api/v1/updates/latest.json
 curl http://localhost:8000/api/v1/updates/android.json
 curl http://localhost:8000/updates/ | head
-curl https://api.starwaves.susindran.in/updates/starwaves-0.1.0.apk --head
+curl https://api.stride.susindran.in/updates/stride-0.1.0.apk --head
 ```
 
 ## Docker & Nginx

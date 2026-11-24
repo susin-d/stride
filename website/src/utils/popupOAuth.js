@@ -65,7 +65,7 @@ export function openOAuthPopup(url, title = 'google-oauth-popup') {
       if (
         event.data &&
         typeof event.data === 'object' &&
-        event.data.type === 'STARWAVES_OAUTH_CALLBACK'
+        event.data.type === 'STRIDE_OAUTH_CALLBACK'
       ) {
         processOAuthData(event.data)
       }
@@ -75,7 +75,7 @@ export function openOAuthPopup(url, title = 'google-oauth-popup') {
       if (event.key === OAUTH_EVENT_KEY && event.newValue) {
         try {
           const parsed = JSON.parse(event.newValue)
-          if (parsed?.payload?.type === 'STARWAVES_OAUTH_CALLBACK') {
+          if (parsed?.payload?.type === 'STRIDE_OAUTH_CALLBACK') {
             processOAuthData(parsed.payload)
           }
         } catch {
@@ -86,9 +86,9 @@ export function openOAuthPopup(url, title = 'google-oauth-popup') {
 
     if (typeof BroadcastChannel !== 'undefined') {
       try {
-        broadcastChannel = new BroadcastChannel('starwaves_oauth')
+        broadcastChannel = new BroadcastChannel('stride_oauth')
         broadcastChannel.onmessage = (event) => {
-          if (event.data?.type === 'STARWAVES_OAUTH_CALLBACK') {
+          if (event.data?.type === 'STRIDE_OAUTH_CALLBACK') {
             processOAuthData(event.data)
           }
         }

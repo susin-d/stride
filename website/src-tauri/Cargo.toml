@@ -1,11 +1,11 @@
 [package]
-name = "starwaves-desktop"
+name = "stride-desktop"
 version = "0.1.0"
-description = "Starwaves Desktop Shell"
+description = "Stride Desktop Shell"
 edition = "2021"
 
 [lib]
-name = "starwaves_desktop_lib"
+name = "stride_desktop_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

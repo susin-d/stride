@@ -16,7 +16,7 @@ function isTabActive(tabId, activePage) {
 
 export function MobileTabBar({ activePage, onNavigate }) {
   const openSearch = () => {
-    window.dispatchEvent(new CustomEvent('starwaves:open-search'))
+    window.dispatchEvent(new CustomEvent('stride:open-search'))
   }
 
   return (

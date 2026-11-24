@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-09-06
-- Deciders: StarWaves product team
+- Deciders: Stride product team
 - Tags: `studio`, `frontend`, `api-contract`, `metadata`
 
 ## Context

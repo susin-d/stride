@@ -7,7 +7,7 @@
 
 ## Context
 
-The Starwaves UI used flat, opaque surfaces throughout — solid `--bg-card` backgrounds on cards, modals, sidebars, and the topbar. While this is clean and minimal, it misses the depth and luminosity that modern productivity apps achieve. Adding a glassmorphism (frosted-glass) layer makes the UI feel more spatial and tactile without violating the existing monochrome + curated duotone design language.
+The Stride UI used flat, opaque surfaces throughout — solid `--bg-card` backgrounds on cards, modals, sidebars, and the topbar. While this is clean and minimal, it misses the depth and luminosity that modern productivity apps achieve. Adding a glassmorphism (frosted-glass) layer makes the UI feel more spatial and tactile without violating the existing monochrome + curated duotone design language.
 
 Key constraints that shaped the decision:
 - The 22-preset theme system (`light`, `dark`, `oled`, plus 12 curated duotones) must all work — glass must look correct on both light and dark canvases and on every accent hue.
@@ -19,7 +19,7 @@ Key constraints that shaped the decision:
 
 ## Decision
 
-Glass is implemented as a **purely additive CSS layer** — a new [`glassmorphism.css`](file:///c:/project/starwaves/website/src/styles/glassmorphism.css) imported last in `App.css`. It overrides `background`, `border-color`, `backdrop-filter`, and `box-shadow` on 12 surface categories using CSS custom properties.
+Glass is implemented as a **purely additive CSS layer** — a new [`glassmorphism.css`](file:///c:/project/stride/website/src/styles/glassmorphism.css) imported last in `App.css`. It overrides `background`, `border-color`, `backdrop-filter`, and `box-shadow` on 12 surface categories using CSS custom properties.
 
 ### New tokens (`tokens.css`)
 ```
@@ -82,8 +82,8 @@ Glass is implemented as a **purely additive CSS layer** — a new [`glassmorphis
 
 ## Files Changed
 
-- [`tokens.css`](file:///c:/project/starwaves/website/src/styles/tokens.css) — `--glass-*` tokens in `:root`
-- [`dark.css`](file:///c:/project/starwaves/website/src/styles/themes/dark.css) — dark overrides for all `--glass-*` tokens
-- [`base.css`](file:///c:/project/starwaves/website/src/styles/base.css) — `body::before` radial gradient mesh
-- [`glassmorphism.css`](file:///c:/project/starwaves/website/src/styles/glassmorphism.css) — **NEW** isolated glass layer (12 surface categories + reduced-motion)
-- [`App.css`](file:///c:/project/starwaves/website/src/App.css) — `@import './styles/glassmorphism.css'` wired last
+- [`tokens.css`](file:///c:/project/stride/website/src/styles/tokens.css) — `--glass-*` tokens in `:root`
+- [`dark.css`](file:///c:/project/stride/website/src/styles/themes/dark.css) — dark overrides for all `--glass-*` tokens
+- [`base.css`](file:///c:/project/stride/website/src/styles/base.css) — `body::before` radial gradient mesh
+- [`glassmorphism.css`](file:///c:/project/stride/website/src/styles/glassmorphism.css) — **NEW** isolated glass layer (12 surface categories + reduced-motion)
+- [`App.css`](file:///c:/project/stride/website/src/App.css) — `@import './styles/glassmorphism.css'` wired last

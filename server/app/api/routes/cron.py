@@ -57,7 +57,7 @@ def run_eve_schedules_job(database: SqlClient) -> dict[str, Any]:
         try:
             if action_type == "voice_call":
                 call_repo = CallRepository(database)
-                caller = CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@starwaves.app")
+                caller = CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@stride.app")
                 callee = CallUser(
                     uid=user_id,
                     name=user_record.get("display_name") or "User",

@@ -79,7 +79,7 @@ export function GithubSection({ user }) {
       >
         <div className="github-settings-copy">
           <p>
-            Connected repositories become StarWaves projects. GitHub activity
+            Connected repositories become Stride projects. GitHub activity
             replaces placeholder statistics.
           </p>
           {githubMessage && <strong role="status">{githubMessage}</strong>}
@@ -89,7 +89,7 @@ export function GithubSection({ user }) {
       <ConfirmDialog
         isOpen={confirmDisconnect}
         title="Disconnect integration?"
-        message="Disconnect GitHub from StarWaves? You can reconnect it later."
+        message="Disconnect GitHub from Stride? You can reconnect it later."
         confirmLabel="Disconnect"
         onCancel={() => setConfirmDisconnect(false)}
         onConfirm={() => {

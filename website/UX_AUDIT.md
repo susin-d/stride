@@ -1,4 +1,4 @@
-# StarWaves Comprehensive UX Audit
+# Stride Comprehensive UX Audit
 
 **Audit date:** 26 July 2026  
 **Product surface:** React web application in `website/`  
@@ -7,7 +7,7 @@
 
 ## 1. Executive summary
 
-StarWaves is a personal productivity workspace for developers and students. It combines tasks, calendars, coding contests, hackathons, projects, job applications, documents, email, chat, statistics, and external integrations. The core product proposition is consolidation: users should be able to understand and advance their work without moving between many services.
+Stride is a personal productivity workspace for developers and students. It combines tasks, calendars, coding contests, hackathons, projects, job applications, documents, email, chat, statistics, and external integrations. The core product proposition is consolidation: users should be able to understand and advance their work without moving between many services.
 
 The application has a broad feature set but currently carries more interaction risk than its visual polish suggests. The largest problems are structural:
 
@@ -274,7 +274,7 @@ No public route produced a blank screen, Vite overlay, console error, or horizon
 ### UX-15 — Loading states rely on text or blank transitions instead of structure
 
 - **Location:** Initial authentication, workspace data, mail, chat, documents, pagination
-- **Description:** Initial auth uses a single “Loading StarWaves…” screen. Data-heavy surfaces generally use button text or isolated spinners rather than stable skeletons.
+- **Description:** Initial auth uses a single “Loading Stride…” screen. Data-heavy surfaces generally use button text or isolated spinners rather than stable skeletons.
 - **Why it hurts UX:** Layout changes feel slower and users cannot predict what is loading.
 - **Who is affected:** Mobile, slow-network, and returning users
 - **Severity:** **Medium**

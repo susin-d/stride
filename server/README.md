@@ -1,4 +1,4 @@
-# StarWaves FastAPI server
+# Stride FastAPI server
 
 ## Setup
 
@@ -66,7 +66,7 @@ header:
 - `DELETE /api/v1/documents/{document_id}` — remove a document
 
 Document metadata is stored under `users/{uid}/documents/{document_id}`. File
-contents uploaded through StarWaves remain in the user's Google Drive.
+contents uploaded through Stride remain in the user's Google Drive.
 
 ## GitHub OAuth
 

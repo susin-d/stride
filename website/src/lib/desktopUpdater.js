@@ -75,7 +75,7 @@ export async function checkDesktopUpdateInteractive() {
     try {
       const dlg = await import('@tauri-apps/plugin-dialog')
       const yes = await dlg.ask(`Version ${info.latestVersion} available.\n\n${info.notes || ''}\n\nInstall now?`, {
-        title: 'Starwaves Update',
+        title: 'Stride Update',
         kind: 'info',
       })
       if (!yes) return { updated: false, info, dismissed: true }

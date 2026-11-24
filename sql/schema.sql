@@ -1,5 +1,5 @@
 -- ============================================================================
--- Starwaves · Database schema (PostgreSQL 16)
+-- Stride · Database schema (PostgreSQL 16)
 --
 -- Mirror of the SQLAlchemy declarative models in
 -- server/app/models/__init__.py (Base.metadata.create_all).

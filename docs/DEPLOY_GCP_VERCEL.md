@@ -15,14 +15,14 @@ New backend-only workflow: `.github/workflows/docker-backend.yml` → `dashboard
 
 ```bash
 # create e2-micro (us-central1, Debian 12, 30GB, allow http/https)
-gcloud compute instances create starwaves-api \
+gcloud compute instances create stride-api \
   --machine-type=e2-micro --zone=us-central1-a --image-family=debian-12 --image-project=debian-cloud \
   --tags=http-server,https-server --boot-disk-size=30GB
 
-gcloud compute firewall-rules create allow-starwaves --allow tcp:80,tcp:443 --target-tags=http-server,https-server || true
+gcloud compute firewall-rules create allow-stride --allow tcp:80,tcp:443 --target-tags=http-server,https-server || true
 
 # ssh
-gcloud compute ssh starwaves-api --zone=us-central1-a
+gcloud compute ssh stride-api --zone=us-central1-a
 ```
 
 On VM:
@@ -34,16 +34,16 @@ sudo apt update && sudo apt install -y docker.io docker-compose-plugin git
 sudo fallocate -l 1G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
 echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 
-git clone https://github.com/susin-d/dashboard.git starwaves && cd starwaves
+git clone https://github.com/susin-d/dashboard.git stride && cd stride
 
 # env
 cp .env.docker.example server/.env
 nano server/.env  # set:
 #  AUTH_SECRET_KEY=$(openssl rand -base64 48)
 #  CRON_SECRET=$(openssl rand -hex 32)
-#  CORS_ORIGINS=https://starwaves.susindran.in,https://starwaves.vercel.app,https://*.vercel.app,http://<VM_EXTERNAL_IP>
-#  FRONTEND_URL=https://starwaves.susindran.in  # canonical — vercel.app 308s to this (avoids Safe Browsing phishing flag)
-#  DATABASE_URL=postgresql+asyncpg://starwaves:starwaves_password@postgres:5432/starwaves
+#  CORS_ORIGINS=https://stride.susindran.in,https://stride.vercel.app,https://*.vercel.app,http://<VM_EXTERNAL_IP>
+#  FRONTEND_URL=https://stride.susindran.in  # canonical — vercel.app 308s to this (avoids Safe Browsing phishing flag)
+#  DATABASE_URL=postgresql+asyncpg://stride:stride_password@postgres:5432/stride
 #  plus OPENAI/ANTHROPIC/GEMINI keys etc
 
 # login to GHCR (use PAT classic with read:packages)
@@ -62,23 +62,23 @@ docker compose -f docker-compose.yml -f docker-compose.backend.yml logs -f serve
 
 `nginx/conf.d/default.backend.conf` on VM serves:
 - `GET /health`, `/api/*`, `/ws/*`, `/docs` → `server:8000`
-- `GET /` → `302` to `https://starwaves.susindran.in` (canonical — `starwaves.vercel.app` 308s at edge via `vercel.json`)
+- `GET /` → `302` to `https://stride.susindran.in` (canonical — `stride.vercel.app` 308s at edge via `vercel.json`)
 
-Add DNS **A** `api.starwaves.susindran.in` `→ <VM_EXTERNAL_IP>` and TLS:
+Add DNS **A** `api.stride.susindran.in` `→ <VM_EXTERNAL_IP>` and TLS:
 
 ```bash
 # 1) Get VM external IP
 gcloud compute instances describe personal-vm --zone=us-central1-a --format='get(networkInterfaces[0].accessConfigs[0].natIP)'
-# or: gcloud compute instances describe starwaves-api --zone=us-central1-a --format='get(networkInterfaces[0].accessConfigs[0].natIP)'
+# or: gcloud compute instances describe stride-api --zone=us-central1-a --format='get(networkInterfaces[0].accessConfigs[0].natIP)'
 
 # 2) In Vercel Dashboard → Domains → susindran.in → Add Record:
-#    Type: A, Name: api.starwaves, Value: <VM_EXTERNAL_IP>, TTL: 60
+#    Type: A, Name: api.stride, Value: <VM_EXTERNAL_IP>, TTL: 60
 # Verify DNS (wait 1-5 min):
-#    nslookup api.starwaves.susindran.in  # should return VM IP, not NXDOMAIN
-#    curl -i http://api.starwaves.susindran.in/health  # should 200 via HTTP before TLS
+#    nslookup api.stride.susindran.in  # should return VM IP, not NXDOMAIN
+#    curl -i http://api.stride.susindran.in/health  # should 200 via HTTP before TLS
 
 # 3) Ensure firewall (once)
-gcloud compute firewall-rules create allow-starwaves --allow tcp:80,tcp:443 --target-tags=http-server,https-server || true
+gcloud compute firewall-rules create allow-stride --allow tcp:80,tcp:443 --target-tags=http-server,https-server || true
 gcloud compute instances add-tags personal-vm --tags=http-server,https-server --zone=us-central1-a || true
 
 # 4) Issue TLS (webroot, works with docker nginx — no host nginx needed)
@@ -93,27 +93,27 @@ EMAIL=you@susindran.in ./scripts/init-letsencrypt.sh
 # 5) Enable HTTPS block after certs exist
 ./scripts/enable-https.sh
 docker compose -f docker-compose.yml -f docker-compose.backend.yml -f docker-compose.ghcr.backend.yml up -d --force-recreate nginx
-curl -i https://api.starwaves.susindran.in/health
-curl -i https://api.starwaves.susindran.in/api/v1/health
+curl -i https://api.stride.susindran.in/health
+curl -i https://api.stride.susindran.in/api/v1/health
 ```
 
-Then update Vercel + VM env to `VITE_API_URL=https://api.starwaves.susindran.in/api/v1` and redeploy.
+Then update Vercel + VM env to `VITE_API_URL=https://api.stride.susindran.in/api/v1` and redeploy.
 
 ## 3) Vercel — frontend
 
 Vercel Project → Settings → Environment Variables:
 
 ```
-VITE_API_URL=https://api.starwaves.susindran.in/api/v1
+VITE_API_URL=https://api.stride.susindran.in/api/v1
 # or http://<VM_EXTERNAL_IP>/api/v1 during dev
 ```
 
 Vercel Project → Settings → Domains:
 
-- Add `starwaves.susindran.in` (and `www` if owned) → set as **Primary**
-- Vercel auto-issues TLS. `starwaves.vercel.app` is kept for preview deploys but 308-redirected to canonical at edge (see `vercel.json` `redirects`).
+- Add `stride.susindran.in` (and `www` if owned) → set as **Primary**
+- Vercel auto-issues TLS. `stride.vercel.app` is kept for preview deploys but 308-redirected to canonical at edge (see `vercel.json` `redirects`).
 
-`vercel.json` SPA rewrites (`/((?!api/).*) → /index.html`) + `redirects` 308 `starwaves.vercel.app → starwaves.susindran.in` — no API proxy, frontend calls GCP directly.
+`vercel.json` SPA rewrites (`/((?!api/).*) → /index.html`) + `redirects` 308 `stride.vercel.app → stride.susindran.in` — no API proxy, frontend calls GCP directly.
 On push to `main`, Vercel auto-deploys `website/`.
 
 Local dev still works:
@@ -126,7 +126,7 @@ VITE_API_URL=http://127.0.0.1:8000/api/v1
 ## 4) Pull updates (zero-build on VM)
 
 ```bash
-cd ~/starwaves
+cd ~/stride
 git pull
 echo $GITHUB_TOKEN | docker login ghcr.io -u susin-d --password-stdin
 docker compose -f docker-compose.yml -f docker-compose.backend.yml -f docker-compose.ghcr.backend.yml pull
@@ -146,5 +146,5 @@ Or dispatch **Backend — Build and Push to GHCR** workflow → VM `watchtower` 
 - `AUTH_SECRET_KEY must be strong` → `openssl rand -base64 48` → `server/.env`
 - `CORS` 403 on Vercel → add `https://<vercel-preview>--*.vercel.app` to `CORS_ORIGINS`
 - `502` on `/` → expected (redirects to Vercel), check `/api/v1/health`
-- `502` on `/api` → `docker logs starwaves-server` → DB `DATABASE_URL` typo?
+- `502` on `/api` → `docker logs stride-server` → DB `DATABASE_URL` typo?
 - GHCR `denied` → `docker login ghcr.io`, ensure package is Public (`ghcr.io/susin-d/dashboard-backend` → Package settings → Public)

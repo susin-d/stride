@@ -352,13 +352,13 @@ export function ThemesPage() {
               <span className="dot" />
               <span className="dot" />
             </div>
-            <span className="preview-title">StarWaves Real-Time Studio Preview</span>
+            <span className="preview-title">Stride Real-Time Studio Preview</span>
           </div>
 
           <div className="preview-body">
             <div className="preview-sidebar">
               <div className="preview-logo">
-                <Palette size={16} /> StarWaves
+                <Palette size={16} /> Stride
               </div>
               <div className="preview-nav-item active">Dashboard</div>
               <div className="preview-nav-item">Projects</div>

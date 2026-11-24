@@ -14,14 +14,14 @@
 #   - Docker logged in to GHCR:
 #       docker login ghcr.io -u susin-d
 #   - VM has:
-#       ~/starwaves/scripts/vm-pull.sh
+#       ~/stride/scripts/vm-pull.sh
 #
 
 param(
     [string]$Tag = "latest",
     [string]$Vm = "personal-vm",
     [string]$Zone = "us-east1-b",
-    [string]$Image = "starwaves-backend",
+    [string]$Image = "stride-backend",
     [string]$VmUser = "susindransd",
     [string]$GhcrImage = "ghcr.io/susin-d/dashboard-backend"
 )
@@ -37,7 +37,7 @@ Set-Location $root
 
 Write-Host ""
 Write-Host "============================================" -ForegroundColor Cyan
-Write-Host " Starwaves Backend -> GHCR -> GCP VM" -ForegroundColor Cyan
+Write-Host " Stride Backend -> GHCR -> GCP VM" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -58,7 +58,7 @@ GHCR_IMAGE is not configured.
 
 Set it first:
 
-`$env:GHCR_IMAGE = "ghcr.io/YOUR_GITHUB_USERNAME/starwaves-backend"
+`$env:GHCR_IMAGE = "ghcr.io/YOUR_GITHUB_USERNAME/stride-backend"
 
 Then run this script again.
 "@
@@ -134,7 +134,7 @@ Write-Host "SSH OK." -ForegroundColor Green
 Write-Host ""
 Write-Host "Checking VM image pull script..." -ForegroundColor Cyan
 
-$pullScript = "~/starwaves/scripts/vm-pull.sh"
+$pullScript = "~/stride/scripts/vm-pull.sh"
 
 gcloud compute ssh `
     "${VmUser}@${Vm}" `

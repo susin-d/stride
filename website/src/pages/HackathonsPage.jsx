@@ -264,7 +264,7 @@ export function HackathonsPage({ hackathons, setHackathons, canLoadMore, loading
                 className="contest-site-header"
               >
                 <div className="hackathon-card-topline">
-                  <span className="hackathon-card-source">{hackathon.source === 'manual' ? 'StarWaves' : hackathon.source.toUpperCase()}</span>
+                  <span className="hackathon-card-source">{hackathon.source === 'manual' ? 'Stride' : hackathon.source.toUpperCase()}</span>
                 </div>
                 <span className="contest-site-copy">
                   {hackathon.url ? (

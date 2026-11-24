@@ -7,7 +7,7 @@
 ## Top-Level Structure
 
 ```text
-starwaves/
+stride/
 ├── website/          React 19 + Vite frontend (monochrome + spectrum design system)
 ├── server/           FastAPI Python backend (SQLAlchemy 2.0 + PostgreSQL)
 ├── services/         Microservices

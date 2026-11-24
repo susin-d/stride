@@ -72,8 +72,8 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value=latest,enable={{is_default_branch}}
           labels: |
-            org.opencontainers.image.title=StarWaves Backend
-            org.opencontainers.image.description=StarWaves FastAPI backend (no website, frontend on Vercel)
+            org.opencontainers.image.title=Stride Backend
+            org.opencontainers.image.description=Stride FastAPI backend (no website, frontend on Vercel)
             org.opencontainers.image.vendor=susin-d
           flavor: |
             latest=false

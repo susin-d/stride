@@ -90,7 +90,7 @@ def run_schedule_now(
 
     if action_type == "voice_call":
         call_repo = CallRepository(database)
-        caller = CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@starwaves.app")
+        caller = CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@stride.app")
         callee = CallUser(
             uid=user["uid"],
             name=user.get("display_name") or user.get("name") or "User",

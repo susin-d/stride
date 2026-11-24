@@ -115,7 +115,7 @@ export const ACTIONS_ITEMS = [
     category: 'actions',
     group: 'Quick Actions',
     title: 'Sign Out',
-    subtitle: 'Log out of current StarWaves session',
+    subtitle: 'Log out of current Stride session',
     badge: 'Action',
     actionId: 'sign-out',
     icon: LogOut,

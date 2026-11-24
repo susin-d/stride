@@ -160,7 +160,7 @@ async def _fetch_openrouter_unified(api_key: str | None, base_url: str | None) -
     # OpenRouter ranking headers — also required for free-tier model listing
     from app.core.config import settings as _s
 
-    headers = {**(headers or {}), "HTTP-Referer": _s.frontend_url, "X-Title": "Starwaves"}
+    headers = {**(headers or {}), "HTTP-Referer": _s.frontend_url, "X-Title": "Stride"}
     # OpenRouter's default /models omits speech; must also fetch ?output_modalities=speech
     urls = [f"{base}/models", f"{base}/models?output_modalities=speech"]
     seen: set[str] = set()

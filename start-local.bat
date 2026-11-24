@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo ===================================================
-echo   StarWaves Local Dev (Postgres Docker + local services)
+echo   Stride Local Dev (Postgres Docker + local services)
 echo ===================================================
 
 cd /d "%~dp0"
@@ -25,7 +25,7 @@ if %ERRORLEVEL% neq 0 (
 
 echo   Waiting for Postgres to be healthy...
 :wait_pg
-docker inspect --format="{{.State.Health.Status}}" starwaves-postgres 2>nul | findstr /i "healthy" >nul
+docker inspect --format="{{.State.Health.Status}}" stride-postgres 2>nul | findstr /i "healthy" >nul
 if %ERRORLEVEL% neq 0 (
     timeout /t 2 /nobreak >nul
     goto wait_pg
@@ -33,20 +33,20 @@ if %ERRORLEVEL% neq 0 (
 echo   Postgres is healthy.
 
 echo [2/4] Starting FastAPI Server (local)...
-start "StarWaves Server" cmd /k "cd /d "%~dp0server" && if not exist .venv (python -m venv .venv) && call .venv\Scripts\activate.bat && pip install -q -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+start "Stride Server" cmd /k "cd /d "%~dp0server" && if not exist .venv (python -m venv .venv) && call .venv\Scripts\activate.bat && pip install -q -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
 
 echo [3/4] Starting WhatsApp Worker (local)...
-start "StarWaves Worker" cmd /k "cd /d "%~dp0services\whatsapp-worker" && go run main.go"
+start "Stride Worker" cmd /k "cd /d "%~dp0services\whatsapp-worker" && go run main.go"
 
 echo [4/4] Starting Frontend (Vite)...
-start "StarWaves Frontend" cmd /k "cd /d "%~dp0website" && npm install && npm run dev"
+start "Stride Frontend" cmd /k "cd /d "%~dp0website" && npm install && npm run dev"
 
 echo ===================================================
 echo   All services launching in separate windows
 echo   - Frontend:        http://localhost:5173
 echo   - Backend API:     http://localhost:8000/api/v1/health
 echo   - WhatsApp Worker: http://localhost:3001/health
-echo   - PostgreSQL:      localhost:5432 (user: starwaves)
+echo   - PostgreSQL:      localhost:5432 (user: stride)
 echo   - Redis:           localhost:6379
 echo ===================================================
 echo   Tip: Use stop.bat or docker compose down to stop DB.

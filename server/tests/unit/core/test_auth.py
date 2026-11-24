@@ -52,7 +52,7 @@ class TestTokenValidation:
             get_current_user_from_token(other)
 
     def test_missing_uid_rejected(self):
-        rogue = create_serializer("starwaves-auth-token").dumps({"email": "x@y.z"})
+        rogue = create_serializer("stride-auth-token").dumps({"email": "x@y.z"})
         assert try_get_user_from_token(rogue) is None
 
     def test_try_variant_returns_none_for_garbage(self):

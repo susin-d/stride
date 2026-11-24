@@ -11,7 +11,7 @@ export function useAppTitle({ activePage, route, previousRouteRef }) {
       .split('-')
       .map((part) => part[0]?.toUpperCase() + part.slice(1))
       .join(' ')
-    document.title = routeTitles[route] ?? `${pageName} — StarWaves`
+    document.title = routeTitles[route] ?? `${pageName} — Stride`
 
     if (previousRouteRef.current !== route) {
       window.requestAnimationFrame(() => {
@@ -117,12 +117,12 @@ export function useSessionEvents({ setSessionUser, setWorkspaceRefreshKey, clear
       window.history.pushState({}, '', '/login')
       window.dispatchEvent(new PopStateEvent('popstate'))
     }
-    window.addEventListener('starwaves:session-revoked', onRevoked)
+    window.addEventListener('stride:session-revoked', onRevoked)
     const onSync = () => setWorkspaceRefreshKey((k) => k + 1)
-    window.addEventListener('starwaves:sync-invalidate', onSync)
+    window.addEventListener('stride:sync-invalidate', onSync)
     return () => {
-      window.removeEventListener('starwaves:session-revoked', onRevoked)
-      window.removeEventListener('starwaves:sync-invalidate', onSync)
+      window.removeEventListener('stride:session-revoked', onRevoked)
+      window.removeEventListener('stride:sync-invalidate', onSync)
     }
   }, [setSessionUser, setWorkspaceRefreshKey, clearAuthSession])
 }

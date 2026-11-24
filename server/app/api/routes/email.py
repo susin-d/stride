@@ -38,7 +38,7 @@ def _deliver_email(send_func, target_email: str, email_kind: str, **kwargs) -> b
 def email_token_serializer() -> URLSafeTimedSerializer:
     return URLSafeTimedSerializer(
         settings.auth_secret_key,
-        salt="starwaves-email-verification",
+        salt="stride-email-verification",
     )
 
 
@@ -85,18 +85,18 @@ def send_test_email(
         raise bad_request("No valid recipient email address specified.")
 
     user_name = user.get("name") or target_email.split("@")[0]
-    subject = "StarWaves Mail Service Test"
+    subject = "Stride Mail Service Test"
     body_html = f"""
     <div style="background-color:#09090b; color:#fafafa; font-family:sans-serif; padding:32px; border-radius:8px;">
-      <h2 style="color:#ffffff;">StarWaves Email System Test</h2>
+      <h2 style="color:#ffffff;">Stride Email System Test</h2>
       <p style="color:#a1a1aa;">Hello {user_name},</p>
-      <p style="color:#a1a1aa;">This is a test email sent from your StarWaves platform to verify SMTP configuration and background delivery.</p>
+      <p style="color:#a1a1aa;">This is a test email sent from your Stride platform to verify SMTP configuration and background delivery.</p>
       <div style="background-color:#18181b; border:1px solid #27272a; padding:12px; border-radius:4px; font-size:12px; color:#e4e4e7;">
         Status: Operating Normally • Time: Server UTC
       </div>
     </div>
     """
-    body_text = f"StarWaves Mail Test for {user_name}. SMTP service operating normally."
+    body_text = f"Stride Mail Test for {user_name}. SMTP service operating normally."
 
     sent = _deliver_email(
         send_email,
@@ -257,7 +257,7 @@ def send_calendar_reminder_test(
         reminder_type = "Calendar Reminder - 1 Hour Away"
         due_time = "In 60 minutes (10:00 AM UTC)"
 
-    description = "Test calendar reminder notification from StarWaves."
+    description = "Test calendar reminder notification from Stride."
 
     sent = _deliver_email(
         send_reminder_email,

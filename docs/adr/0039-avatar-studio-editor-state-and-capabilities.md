@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-09-07
-- Deciders: Starwaves maintainers
+- Deciders: Stride maintainers
 - Tags: `avatar-studio`, `three.js`, `state`
 
 ## Context

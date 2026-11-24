@@ -19,11 +19,11 @@ def _send_welcome_email_best_effort(to_email: str, user_name: str) -> None:
 
 
 def state_serializer() -> URLSafeTimedSerializer:
-    return create_serializer("starwaves-google-auth-state")
+    return create_serializer("stride-google-auth-state")
 
 
 def combine_token_serializer() -> URLSafeTimedSerializer:
-    return create_serializer("starwaves-combine-account-token")
+    return create_serializer("stride-combine-account-token")
 
 
 def get_current_user_optional(

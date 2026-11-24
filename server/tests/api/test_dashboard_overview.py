@@ -10,7 +10,7 @@ JOB_PAYLOAD = {
 }
 
 PROJECT_PAYLOAD = {
-    "name": "StarWaves Web",
+    "name": "Stride Web",
     "status": "Planning",
     "progress": 10,
     "members": 2,
@@ -39,7 +39,7 @@ class TestDashboardOverview:
         assert auth_client.post("/api/v1/todos", json=TODO_PAYLOAD).status_code == 201
         body = auth_client.get("/api/v1/dashboard-overview", params={"limit": 3}).json()
         assert any(j["company"] == "Acme Corp" for j in body["jobs"]["items"])
-        assert any(p["name"] == "StarWaves Web" for p in body["projects"]["items"])
+        assert any(p["name"] == "Stride Web" for p in body["projects"]["items"])
         assert any(t["title"] == "Overview todo" for t in body["todos"]["items"])
 
     def test_limit_validation(self, auth_client):

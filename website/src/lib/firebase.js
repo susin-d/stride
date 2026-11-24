@@ -15,7 +15,7 @@ export function clearGmailAuthorization(email = null) {
     sessionStorage.removeItem(GMAIL_ACCOUNTS_KEY)
     localStorage.removeItem(GMAIL_CONNECTED_KEY)
   }
-  window.dispatchEvent(new Event('starwaves:gmail-change'))
+  window.dispatchEvent(new Event('stride:gmail-change'))
 }
 
 export function saveGmailAccountToken(email, token, expiresAt) {
@@ -25,7 +25,7 @@ export function saveGmailAccountToken(email, token, expiresAt) {
     sessionStorage.setItem(GMAIL_ACCOUNTS_KEY, JSON.stringify(map))
     sessionStorage.setItem(GMAIL_SESSION_KEY, JSON.stringify({ accessToken: token, expiresAt }))
     localStorage.setItem(GMAIL_CONNECTED_KEY, 'true')
-    window.dispatchEvent(new Event('starwaves:gmail-change'))
+    window.dispatchEvent(new Event('stride:gmail-change'))
   } catch {
     // ignore
   }

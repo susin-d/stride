@@ -166,7 +166,7 @@ export function GmailSection({ user }) {
       <ConfirmDialog
         isOpen={disconnectAllRequested}
         title="Disconnect integration?"
-        message="Disconnect all Gmail accounts from StarWaves? You can reconnect them later."
+        message="Disconnect all Gmail accounts from Stride? You can reconnect them later."
         confirmLabel="Disconnect"
         onCancel={() => setDisconnectAllRequested(false)}
         onConfirm={() => {
@@ -179,8 +179,8 @@ export function GmailSection({ user }) {
         isOpen={Boolean(removeRequested)}
         title="Disconnect integration?"
         message={removeRequested?.email
-          ? `Disconnect ${removeRequested.email} from StarWaves? You can reconnect it later.`
-          : 'Disconnect this integration from StarWaves? You can reconnect it later.'}
+          ? `Disconnect ${removeRequested.email} from Stride? You can reconnect it later.`
+          : 'Disconnect this integration from Stride? You can reconnect it later.'}
         confirmLabel="Disconnect"
         onCancel={() => setRemoveRequested(null)}
         onConfirm={() => {

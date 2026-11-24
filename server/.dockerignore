@@ -21,4 +21,4 @@ serviceAccountKey.json
 workspaces/
 logs/
 *.log
-starwaves.db
+stride.db

@@ -138,7 +138,7 @@ export function Header({
     try {
       localStorage.setItem(CUSTOM_THEME_KEY, JSON.stringify(nextState))
     } catch {}
-    window.dispatchEvent(new CustomEvent('starwaves:theme-change', { detail: nextState }))
+    window.dispatchEvent(new CustomEvent('stride:theme-change', { detail: nextState }))
   }
 
   useEffect(() => {
@@ -154,16 +154,16 @@ export function Header({
     const handleOpenSearchEvent = () => setSearchOpen(true)
 
     document.addEventListener('keydown', handleShortcut)
-    window.addEventListener('starwaves:open-search', handleOpenSearchEvent)
+    window.addEventListener('stride:open-search', handleOpenSearchEvent)
     const handleOpenEve = () => setEveOpen(true)
     const handleEditorContext = (event) => setEditorContext(event.detail || null)
-    window.addEventListener('starwaves:open-eve', handleOpenEve)
-    window.addEventListener('starwaves:avatar-editor-context', handleEditorContext)
+    window.addEventListener('stride:open-eve', handleOpenEve)
+    window.addEventListener('stride:avatar-editor-context', handleEditorContext)
     return () => {
       document.removeEventListener('keydown', handleShortcut)
-      window.removeEventListener('starwaves:open-search', handleOpenSearchEvent)
-      window.removeEventListener('starwaves:open-eve', handleOpenEve)
-      window.removeEventListener('starwaves:avatar-editor-context', handleEditorContext)
+      window.removeEventListener('stride:open-search', handleOpenSearchEvent)
+      window.removeEventListener('stride:open-eve', handleOpenEve)
+      window.removeEventListener('stride:avatar-editor-context', handleEditorContext)
     }
   }, [setNotificationsOpen])
 

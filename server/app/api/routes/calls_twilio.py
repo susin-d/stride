@@ -91,7 +91,7 @@ async def trigger_eve_twilio_call(payload: EveTwilioCallRequest, database: SqlCl
     repo = CallRepository(database)
     user_rec = get_user_by_id(database, user["uid"]) or user
     callee = CallUser(uid=user["uid"], name=user_rec.get("display_name") or user_rec.get("name") or "User", email=user_rec.get("email") or "")
-    eve = CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@starwaves.app")
+    eve = CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@stride.app")
     call = repo.create(caller=eve, callee=callee, mode=payload.mode, provider="twilio", phone_number=payload.phone_number)
     # prompt stored as Say text
     prompt = payload.prompt or DEFAULT_CALL_GREETING

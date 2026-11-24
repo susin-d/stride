@@ -2,12 +2,12 @@
 # vm-load-image.sh — Get the built backend image on VM and (re)start the stack
 # Supports both GHCR pull and DIRECT tar load (paired with pc-build-image.sh)
 #
-# Usage (inside VM, ~/starwaves):
+# Usage (inside VM, ~/stride):
 #   bash scripts/vm-load-image.sh                  # GHCR latest (git pull + docker pull)
 #   bash scripts/vm-load-image.sh --tag mytest     # GHCR mytest
 #   bash scripts/vm-load-image.sh --tar /tmp/backend-latest.tar.gz --tag latest  # direct tar
 #   # from PC in one shot:
-#   gcloud compute ssh personal-vm --zone=us-central1-a --command='bash ~/starwaves/scripts/vm-load-image.sh --tag latest'
+#   gcloud compute ssh personal-vm --zone=us-central1-a --command='bash ~/stride/scripts/vm-load-image.sh --tag latest'
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -61,7 +61,7 @@ docker compose -f docker-compose.yml -f docker-compose.backend.yml ps 2>&1 | hea
 echo "== Health =="
 sleep 5
 curl -fsS http://localhost:8000/api/v1/health | head -c 2500; echo ""
-curl -fsS http://localhost:8000/api/v1/health | grep -q '"status":"ok"' && echo " -> API ok" || (echo "API health failed"; docker logs starwaves-server --tail 80; exit 1)
+curl -fsS http://localhost:8000/api/v1/health | grep -q '"status":"ok"' && echo " -> API ok" || (echo "API health failed"; docker logs stride-server --tail 80; exit 1)
 curl -fsS http://localhost/health | head -c 2000; echo ""
 echo "Done — ${IMAGE}:${TAG} live"
 

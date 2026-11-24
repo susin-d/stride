@@ -25,7 +25,7 @@ def handle_trigger_eve_call(database: SqlClient, user_id: str, arguments: dict) 
         user_record = get_user_by_id(database, user_id) or {"uid": user_id, "display_name": "User", "email": ""}
         callee_user = CallUser(uid=user_id, name=user_record.get("display_name") or "User", email=user_record.get("email") or "")
         repo = CallRepository(database)
-        call = repo.create(caller=CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@starwaves.app"), callee=callee_user, mode=arguments.get("mode", "audio"), provider="twilio", phone_number=phone_number)
+        call = repo.create(caller=CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@stride.app"), callee=callee_user, mode=arguments.get("mode", "audio"), provider="twilio", phone_number=phone_number)
         prompt = arguments.get("prompt") or DEFAULT_CALL_GREETING
         base = (settings.twilio_callback_base_url or "").rstrip("/") or "http://127.0.0.1:8000"
         twiml_url = f"{base}/api/v1/calls/twilio/relay-twiml/{call['id']}"
@@ -49,7 +49,7 @@ def handle_trigger_eve_call(database: SqlClient, user_id: str, arguments: dict) 
     )
     repo = CallRepository(database)
     call = repo.create(
-        caller=CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@starwaves.app"),
+        caller=CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@stride.app"),
         callee=callee_user,
         mode=arguments.get("mode", "audio"),
         provider="in_app",

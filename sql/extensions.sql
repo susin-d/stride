@@ -1,5 +1,5 @@
 -- ============================================================================
--- Starwaves · PostgreSQL extensions
+-- Stride · PostgreSQL extensions
 -- Run FIRST (requires superuser on first run; the pgvector/pgvector image
 -- ships the extension preinstalled).
 --

@@ -6,7 +6,7 @@ export function ThemeSection({ onNavigate }) {
     <div className="setting-section" id="settings-themes">
       <SectionHeading
         title="Themes & Appearance"
-        description="Customize presets and colors for all UI elements across every page in StarWaves."
+        description="Customize presets and colors for all UI elements across every page in Stride."
       />
 
       <div className="workspace-settings-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px', flexWrap: 'wrap', gap: '16px' }}>

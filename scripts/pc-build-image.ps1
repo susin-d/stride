@@ -104,7 +104,7 @@ if ($mode -eq "ghcr") {
 
   Write-Host ""
   Write-Host "Next on VM:" -ForegroundColor Yellow
-  Write-Host "  gcloud compute ssh $Vm --zone=$Zone --command='bash ~/starwaves/scripts/vm-load-image.sh --tag $Tag'"
+  Write-Host "  gcloud compute ssh $Vm --zone=$Zone --command='bash ~/stride/scripts/vm-load-image.sh --tag $Tag'"
   Write-Host ""
   Write-Host "Or inside VM:" -ForegroundColor Yellow
   Write-Host "  bash scripts/vm-load-image.sh --tag $Tag"
@@ -117,8 +117,8 @@ if ($mode -eq "ghcr") {
 
   Write-Host "== Direct transfer via gcloud scp ==" -ForegroundColor Cyan
 
-  $tmpTar = Join-Path $env:TEMP "starwaves-backend-$Tag.tar.gz"
-  $tmpRawTar = Join-Path $env:TEMP "starwaves-backend-$Tag.tar"
+  $tmpTar = Join-Path $env:TEMP "stride-backend-$Tag.tar.gz"
+  $tmpRawTar = Join-Path $env:TEMP "stride-backend-$Tag.tar"
 
   # Clean up previous files
   Remove-Item $tmpTar -ErrorAction SilentlyContinue
@@ -187,7 +187,7 @@ if ($mode -eq "ghcr") {
   gcloud compute ssh `
     $Vm `
     --zone=$Zone `
-    --command="bash ~/starwaves/scripts/vm-load-image.sh --tar $remoteFile --tag $Tag"
+    --command="bash ~/stride/scripts/vm-load-image.sh --tar $remoteFile --tag $Tag"
 
   if ($LASTEXITCODE -ne 0) {
     throw "VM image load failed"

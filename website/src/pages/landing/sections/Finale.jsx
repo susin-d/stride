@@ -29,7 +29,7 @@ export function Finale({ onNavigate }) {
           <span>that moves with your ambition</span>
         </h2>
         <p>
-          Join builders, competitors and teams running their whole operating system on StarWaves. Free to start — your data stays yours.
+          Join builders, competitors and teams running their whole operating system on Stride. Free to start — your data stays yours.
         </p>
 
         <div className="cinema-finale__ctas">
@@ -77,7 +77,7 @@ export function Footer({ onNavigate }) {
         <div className="cinema-footer__brand-block">
           <div className="cinema-footer__brand">
             <img src="/logo.png" alt="" aria-hidden="true" className="cinema-nav__mark" />
-            <span className="cinema-footer__word">StarWaves</span>
+            <span className="cinema-footer__word">Stride</span>
             <span className="cinema-footer__copy">© {new Date().getFullYear()}</span>
           </div>
           <p className="cinema-footer__tag">
@@ -117,7 +117,7 @@ export function Footer({ onNavigate }) {
         </nav>
       </div>
       <p className="cinema-footer__giant" aria-hidden="true">
-        STARWAVES
+        STRIDE
       </p>
     </footer>
   )

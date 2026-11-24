@@ -58,7 +58,7 @@ Routes thin (validate→delegate→respond); services own orchestration/AI/exter
 3. **ADR `0034` number collision** (`avatar-modeling-studio-projects` + `avatar-studio-zoom-fix`) + README index ordering — rename second to next free + reorder (docs-only).
 4. **Committed one-off scripts** `server/gen_memories.py` / `write_memories.py` (landed via `f3310ac`) — move to `server/scripts/` with README or delete once `memories.py` stabilizes.
 5. **Pre-existing ruff F401s** (unused `ArrayUnion`, `SERVER_TIMESTAMP`, etc.) and `E402`s in `eve.py` — untouched (out of scope).
-6. **`useAuth` storage-event prefix** (`startsWith('starwaves:')`) only matches colon-form keys — verify intended coverage in a behavior ADR (left as-is).
+6. **`useAuth` storage-event prefix** (`startsWith('stride:')`) only matches colon-form keys — verify intended coverage in a behavior ADR (left as-is).
 7. **Deploy-script sprawl** (4× compose, `vm-quick-fix.sh` naming) + **event/channel-name centralization** — follow-ups, not started.
 8. Full `pytest tests -q` runtime (>180s) — investigate slow e2e/service tests separately.
 

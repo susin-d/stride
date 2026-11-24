@@ -14,7 +14,7 @@ The token engine (26 presets, customizer, density/elevation/motion options) is m
 
 ## Decision
 
-- Crimson Noir dark is the default: absent `starwaves.theme` now resolves dark in `useThemeCustomizer` (×3 paths via a `prefersDarkTheme` helper), the `Header` toggle init, and a pre-paint inline script in `index.html` (plus `theme-color` `#0d080a`) so first paint never flashes light. Stored `light` is always respected; the preset engine is untouched.
+- Crimson Noir dark is the default: absent `stride.theme` now resolves dark in `useThemeCustomizer` (×3 paths via a `prefersDarkTheme` helper), the `Header` toggle init, and a pre-paint inline script in `index.html` (plus `theme-color` `#0d080a`) so first paint never flashes light. Stored `light` is always respected; the preset engine is untouched.
 - Motion language is CSS-only: `.app-page-enter` (fade/rise on `var(--transition-normal)`, driven by a `key={activePage}` wrapper in `App.jsx`) with a `prefers-reduced-motion` freeze. Zero chunk cost, follows the user's motion-token setting.
 - Boy Scout fixes in the same pass: removed unjustified `!important` from `.theme-toggle` (specificity already wins by order) and raised `.icon-button` to 44px on coarse pointers.
 - Scope: `hooks/useThemeCustomizer.js`, `components/Header.jsx`, `index.html`, `App.jsx`, `styles/utilities.css`, `styles/components/buttons.css`.

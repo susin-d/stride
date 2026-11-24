@@ -7,7 +7,7 @@ TEST_USER_2 = {"uid": "user-2", "email": "user2@example.com", "name": "User Two"
 
 
 def token_for(user: dict | None = None) -> str:
-    """Create a real Starwaves Bearer token signed with the app secret."""
+    """Create a real Stride Bearer token signed with the app secret."""
     from app.core.auth import create_user_token
 
     return create_user_token(user or TEST_USER)

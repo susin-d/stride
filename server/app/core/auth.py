@@ -12,7 +12,7 @@ def auth_serializer() -> URLSafeTimedSerializer:
     if _serializer is None:
         _serializer = URLSafeTimedSerializer(
             settings.auth_secret_key,
-            salt="starwaves-auth-token",
+            salt="stride-auth-token",
         )
     return _serializer
 
@@ -167,7 +167,7 @@ async def _validate_token_payload_async(token: str) -> dict | None:
 
 
 def get_current_user_from_token(token: str) -> dict:
-    """Validate a raw Starwaves token string and return the user payload.
+    """Validate a raw Stride token string and return the user payload.
 
     Used by the WebSocket endpoint where the token arrives as a query
     parameter rather than an Authorization header.

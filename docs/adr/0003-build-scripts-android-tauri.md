@@ -10,7 +10,7 @@ Accepted
 
 ## Context
 
-Starwaves had half-wired shells: `website/android/` (Capacitor 8.4.2, Gradle 8.13, compileSdk 36) built only via manual `.\gradlew assembleDebug`; `website/src-tauri/` (Tauri 2.0) had no `@tauri/cli`, no `bundle`, no signing. Package.json `cap:build` was Windows-only debug. No single-command, reproducible build existed for teammates/CI, and `VITE_API_URL` env injection at build time was ad-hoc (.env vs .env.android confusion). AGENTS.md requires thin routes, DRY, and no temp hacks — we need a proper build layer, not inline workarounds.
+Stride had half-wired shells: `website/android/` (Capacitor 8.4.2, Gradle 8.13, compileSdk 36) built only via manual `.\gradlew assembleDebug`; `website/src-tauri/` (Tauri 2.0) had no `@tauri/cli`, no `bundle`, no signing. Package.json `cap:build` was Windows-only debug. No single-command, reproducible build existed for teammates/CI, and `VITE_API_URL` env injection at build time was ad-hoc (.env vs .env.android confusion). AGENTS.md requires thin routes, DRY, and no temp hacks — we need a proper build layer, not inline workarounds.
 
 ## Decision
 
@@ -24,7 +24,7 @@ Add cross-shell build scripts at repo root `scripts/` (matching existing `script
 
 Package.json augments: `android:sync`, `android:build:debug|release|bundle`, `tauri:dev|build|build:debug`; bump version `0.0.0→0.1.0`; define `__APP_VERSION__` via vite; add dev ` @tauri/cli` and optional ` @capgo/capacitor-updater`, `@tauri-apps/plugin-updater/process/dialog`.
 
-Tauri config: add `bundle {targets:[msi,nsis], icon, createUpdaterArtifacts:v1Compatible}` and `plugins.updater` endpoint pointing at backend (`/api/v1/updates/latest.json`). Cargo adds `tauri-plugin-updater/process`. Generated icons from `public/starwaves-logo.png`.
+Tauri config: add `bundle {targets:[msi,nsis], icon, createUpdaterArtifacts:v1Compatible}` and `plugins.updater` endpoint pointing at backend (`/api/v1/updates/latest.json`). Cargo adds `tauri-plugin-updater/process`. Generated icons from `public/logo.png`.
 
 Android gradle: `versionName` derived from `package.json`, `versionCode` monotonic (reads prior `android.json` to avoid collision). `gradle.properties` `java.home` made overridable via `-Dorg.gradle.java.home` or `JAVA_HOME`.
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# init-letsencrypt.sh — one-time TLS for api.starwaves.susindran.in on the VM
+# init-letsencrypt.sh — one-time TLS for api.stride.susindran.in on the VM
 # Run on personal-vm after DNS A record propagates.
 # Requires: docker compose stack up (http), ports 80/443 open.
 set -euo pipefail
 
-DOMAIN="api.starwaves.susindran.in"
+DOMAIN="api.stride.susindran.in"
 EMAIL="${EMAIL:-}" # export EMAIL=you@susindran.in before running, or pass as arg1
 if [ -n "${1:-}" ]; then EMAIL="$1"; fi
 if [ -z "$EMAIL" ]; then
@@ -18,7 +18,7 @@ mkdir -p certbot/www certbot/certs
 echo "==> 1) Ensure nginx is up (http only, 443 block still commented)"
 docker compose -f docker-compose.yml -f docker-compose.backend.yml -f docker-compose.ghcr.backend.yml up -d nginx
 sleep 3
-docker logs starwaves-nginx --tail 20 || true
+docker logs stride-nginx --tail 20 || true
 
 echo "==> 2) Issue cert via webroot (needs port 80 + DNS A ${DOMAIN} -> this VM)"
 # Use certbot container so host doesn't need pip install
@@ -31,7 +31,7 @@ docker run --rm \
   --email "$EMAIL" --agree-tos --no-eff-email \
   --preferred-challenges http
 
-echo "==> 3) Certs at certbot/certs/live/${DOMAIN}/ — wiring to nginx path /etc/nginx/certs (primary: api.starwaves.susindran.in)"
+echo "==> 3) Certs at certbot/certs/live/${DOMAIN}/ — wiring to nginx path /etc/nginx/certs (primary: api.stride.susindran.in)"
 # nginx expects /etc/nginx/certs/live/<domain>/ — certbot writes to /etc/letsencrypt/live
 # Bind mount is certbot/certs:/etc/nginx/certs, so create the expected layout
 if [ -d "certbot/certs/live/$DOMAIN" ]; then

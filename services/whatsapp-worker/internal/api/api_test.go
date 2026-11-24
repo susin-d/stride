@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"starwaves-whatsapp-worker/internal/session"
+	"stride-whatsapp-worker/internal/session"
 
 	"github.com/gin-gonic/gin"
 )

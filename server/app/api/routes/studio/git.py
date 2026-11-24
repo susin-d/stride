@@ -100,7 +100,7 @@ async def push_github(
     """Commit everything and push to the connected GitHub repo (uses stored OAuth token)."""
     require_non_serverless()
     commit = await asyncio.to_thread(
-        git_ops.commit_all, user["uid"], workspace_id, "Sync from StarWaves Studio"
+        git_ops.commit_all, user["uid"], workspace_id, "Sync from Stride Studio"
     )
     token = await asyncio.to_thread(_get_github_token, database, user["uid"])
     try:

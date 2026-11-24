@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-09-06
-- Deciders: StarWaves maintainers
+- Deciders: Stride maintainers
 - Tags: `studio`, `routing`, `identifiers`
 
 ## Context

@@ -52,7 +52,7 @@ class EveSchedulesBackgroundJob:
             try:
                 if action_type == "voice_call":
                     call_repo = CallRepository(database)
-                    caller = CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@starwaves.app")
+                    caller = CallUser(uid="eve-bot", name="Eve AI Assistant", email="eve@stride.app")
                     callee = CallUser(
                         uid=user_id,
                         name=user_record.get("display_name") or "User",
@@ -198,18 +198,18 @@ class ServerBackgroundWorker:
         self._stop_event.clear()
         self._thread = threading.Thread(
             target=self._run_loop,
-            name="StarWavesGCPBackgroundWorker",
+            name="StrideGCPBackgroundWorker",
             daemon=True,
         )
         self._thread.start()
-        logger.info("StarWaves GCP background worker daemon started with %d individual jobs.", len(self.jobs))
+        logger.info("Stride GCP background worker daemon started with %d individual jobs.", len(self.jobs))
 
     def stop(self, timeout: float = 5.0):
         if not self._thread or not self._thread.is_alive():
             return
         self._stop_event.set()
         self._thread.join(timeout=timeout)
-        logger.info("StarWaves GCP background worker daemon stopped.")
+        logger.info("Stride GCP background worker daemon stopped.")
 
     def _run_loop(self):
         try:

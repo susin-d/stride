@@ -112,7 +112,7 @@ export function useAvatarPref({ uiPrefs } = {}) {
       writeLocalPrefs(merged)
       try {
         bcRef.current?.postMessage({ type: 'avatar-pref', prefs: merged })
-        window.dispatchEvent(new CustomEvent('starwaves:avatar-pref', { detail: merged }))
+        window.dispatchEvent(new CustomEvent('stride:avatar-pref', { detail: merged }))
       } catch {}
       return merged
     })

@@ -1,4 +1,4 @@
-/* StarWaves — Cinematic hero: display type, orb, stage, marquee, scenery (scoped) */
+/* Stride — Cinematic hero: display type, orb, stage, marquee, scenery (scoped) */
 .cinema-hero {
   position: relative; overflow: hidden;
   min-height: calc(100vh - 72px); min-height: calc(100dvh - 72px);

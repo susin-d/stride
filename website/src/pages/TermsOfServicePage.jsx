@@ -1,12 +1,12 @@
 import { ArrowLeft } from 'lucide-react'
-import { StarWavesLogo } from '../components/StarWavesLogo'
+import { StrideLogo } from '../components/StrideLogo'
 
 export function TermsOfServicePage({ onNavigate }) {
   return (
     <main id="main-content" className="public-page" tabIndex={-1}>
       <nav className="public-nav" aria-label="Public navigation">
         <button className="public-brand" onClick={() => onNavigate('/')}>
-          <StarWavesLogo size={28} /> StarWaves
+          <StrideLogo size={28} /> Stride
         </button>
         <div className="public-nav-actions">
           <button className="public-login-link" onClick={() => onNavigate('/login')}>
@@ -37,7 +37,7 @@ export function TermsOfServicePage({ onNavigate }) {
           <section>
             <h2>1. Acceptance of Terms</h2>
             <p>
-              By accessing or using <strong>StarWaves</strong> (accessible via <strong>starwaves.susindran.in</strong>), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms, please do not access or use the application.
+              By accessing or using <strong>Stride</strong> (accessible via <strong>stride.susindran.in</strong>), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms, please do not access or use the application.
             </p>
           </section>
 
@@ -51,10 +51,10 @@ export function TermsOfServicePage({ onNavigate }) {
           <section>
             <h2>3. Third-Party Integrations & Google Services</h2>
             <p>
-              StarWaves integrates with third-party services including Google Calendar, Google Drive, Gmail, and GitHub. By connecting these services, you grant StarWaves authorization to access data specified during the OAuth authorization flow in accordance with our <button className="inline-link" type="button" onClick={() => onNavigate('/privacy')}>Privacy Policy</button>.
+              Stride integrates with third-party services including Google Calendar, Google Drive, Gmail, and GitHub. By connecting these services, you grant Stride authorization to access data specified during the OAuth authorization flow in accordance with our <button className="inline-link" type="button" onClick={() => onNavigate('/privacy')}>Privacy Policy</button>.
             </p>
             <p>
-              You remain subject to the respective terms and conditions of third-party providers (e.g., Google Terms of Service). StarWaves is not responsible for third-party outage or changes in third-party API availability.
+              You remain subject to the respective terms and conditions of third-party providers (e.g., Google Terms of Service). Stride is not responsible for third-party outage or changes in third-party API availability.
             </p>
           </section>
 
@@ -62,7 +62,7 @@ export function TermsOfServicePage({ onNavigate }) {
             <h2>4. Acceptable Use Policy</h2>
             <p>You agree not to:</p>
             <ul>
-              <li>Use StarWaves for any illegal, harmful, or unauthorized purpose.</li>
+              <li>Use Stride for any illegal, harmful, or unauthorized purpose.</li>
               <li>Attempt to gain unauthorized access to our servers, user accounts, or databases.</li>
               <li>Interfere with or disrupt the integrity or performance of the workspace platform.</li>
               <li>Reverse engineer, decompile, or copy the proprietary application code.</li>
@@ -72,21 +72,21 @@ export function TermsOfServicePage({ onNavigate }) {
           <section>
             <h2>5. Intellectual Property</h2>
             <p>
-              StarWaves, its original content, design system, and features remain the exclusive property of StarWaves and its creators. Content you create or upload to your workspace remains exclusively your property.
+              Stride, its original content, design system, and features remain the exclusive property of Stride and its creators. Content you create or upload to your workspace remains exclusively your property.
             </p>
           </section>
 
           <section>
             <h2>6. Limitation of Liability</h2>
             <p>
-              To the maximum extent permitted by applicable law, StarWaves shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the service.
+              To the maximum extent permitted by applicable law, Stride shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the service.
             </p>
           </section>
 
           <section>
             <h2>7. Termination & Changes to Terms</h2>
             <p>
-              We reserve the right to modify or terminate access to StarWaves at any time. We may update these Terms periodically, and your continued use of the platform constitutes acceptance of updated terms.
+              We reserve the right to modify or terminate access to Stride at any time. We may update these Terms periodically, and your continued use of the platform constitutes acceptance of updated terms.
             </p>
           </section>
 
@@ -97,7 +97,7 @@ export function TermsOfServicePage({ onNavigate }) {
             </p>
             <p className="legal-contact">
               Email: <a href="mailto:dev@susindran.in" className="legal-link">dev@susindran.in</a><br />
-              Domain: starwaves.susindran.in
+              Domain: stride.susindran.in
             </p>
           </section>
         </article>
@@ -105,10 +105,10 @@ export function TermsOfServicePage({ onNavigate }) {
 
       <footer className="public-footer">
         <span className="public-footer-brand">
-          <StarWavesLogo size={22} /> StarWaves
+          <StrideLogo size={22} /> Stride
         </span>
         <p>Plan clearly. Build consistently.</p>
-        <small>© 2026 StarWaves. All rights reserved.</small>
+        <small>© 2026 Stride. All rights reserved.</small>
       </footer>
     </main>
   )

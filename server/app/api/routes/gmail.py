@@ -46,7 +46,7 @@ def gmail_accounts_collection(database: SqlClient, user_id: str):
 
 
 def gmail_state_serializer() -> URLSafeTimedSerializer:
-    return google_oauth_state_serializer("starwaves-gmail-oauth")
+    return google_oauth_state_serializer("stride-gmail-oauth")
 
 
 @router.get("/authorize")

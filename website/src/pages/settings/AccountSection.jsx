@@ -58,7 +58,7 @@ export function AccountSection({ user, onSignOut }) {
           <div>
             <h3>Sign out of account</h3>
             <p>
-              Sign out of your active StarWaves session on this device.
+              Sign out of your active Stride session on this device.
             </p>
           </div>
           <button
@@ -103,7 +103,7 @@ export function AccountSection({ user, onSignOut }) {
         </div>
         <h2 id="delete-account-title">Delete account?</h2>
         <p>
-          This permanently deletes your StarWaves account and cannot be
+          This permanently deletes your Stride account and cannot be
           undone.
         </p>
 

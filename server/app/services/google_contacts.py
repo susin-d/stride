@@ -16,7 +16,7 @@ GOOGLE_CONTACTS_SCOPES = (
 
 
 def google_contacts_state_serializer():
-    return google_oauth_state_serializer("starwaves-google-contacts-oauth-state")
+    return google_oauth_state_serializer("stride-google-contacts-oauth-state")
 
 
 def parse_google_person(person: dict[str, Any]) -> dict[str, Any] | None:

@@ -31,7 +31,7 @@ def delete_account(
     deleted = delete_user_account(database, user["uid"])
     if not deleted:
         raise not_found("User account not found.")
-    return {"message": "Your StarWaves account and all associated data have been deleted."}
+    return {"message": "Your Stride account and all associated data have been deleted."}
 
 
 @router.get("/me")

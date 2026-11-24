@@ -22,8 +22,8 @@ class TestCORSAndErrorMiddleware(unittest.TestCase):
             "http://localhost:5174",
             "http://127.0.0.1:3000",
             "capacitor://localhost",
-            "https://starwaves.susindran.in",
-            "https://api.starwaves.susindran.in",
+            "https://stride.susindran.in",
+            "https://api.stride.susindran.in",
         ]
         for origin in origins:
             response = self.client.get("/api/v1/health", headers={"Origin": origin})

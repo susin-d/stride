@@ -2,7 +2,7 @@
 services:
   postgres:
     image: pgvector/pgvector:0.8.0-pg16
-    container_name: starwaves-postgres
+    container_name: stride-postgres
     restart: unless-stopped
     command: >
       postgres
@@ -17,17 +17,17 @@ services:
       -c random_page_cost=1.1
       -c log_min_duration_statement=1000
     environment:
-      POSTGRES_USER: starwaves
-      POSTGRES_PASSWORD: starwaves_password
-      POSTGRES_DB: starwaves
+      POSTGRES_USER: stride
+      POSTGRES_PASSWORD: stride_password
+      POSTGRES_DB: stride
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
-      - starwaves-network
+      - stride-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U starwaves -d starwaves"]
+      test: ["CMD-SHELL", "pg_isready -U stride -d stride"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -37,7 +37,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: starwaves-server
+    container_name: stride-server
     restart: unless-stopped
     env_file:
       - path: ./server/.env
@@ -45,7 +45,7 @@ services:
     environment:
       - APP_ENV=production
       - PORT=8000
-      - DATABASE_URL=postgresql+asyncpg://starwaves:starwaves_password@postgres:5432/starwaves
+      - DATABASE_URL=postgresql+asyncpg://stride:stride_password@postgres:5432/stride
       - WHATSAPP_GATEWAY_URL=http://whatsapp-worker:3001
       - REDIS_URL=redis://redis:6379/0
       - WORKSPACE_STORAGE_PATH=/app/workspaces
@@ -63,7 +63,7 @@ services:
       - server-logs:/app/logs
       - ./server/static/updates:/app/static/updates
     networks:
-      - starwaves-network
+      - stride-network
     depends_on:
       postgres:
         condition: service_healthy
@@ -87,14 +87,14 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_API_URL=/api/v1
-    container_name: starwaves-website
+    container_name: stride-website
     restart: unless-stopped
     expose:
       - "80"
     ports:
       - "3000:80"
     networks:
-      - starwaves-network
+      - stride-network
     healthcheck:
       test: ["CMD-SHELL", "wget --spider -q http://localhost:80/ || exit 1"]
       interval: 15s
@@ -104,13 +104,13 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: starwaves-redis
+    container_name: stride-redis
     restart: unless-stopped
     command: redis-server --maxmemory 96mb --maxmemory-policy allkeys-lru --save 900 1 --save 300 10 --dir /data
     volumes:
       - redis-data:/data
     networks:
-      - starwaves-network
+      - stride-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -124,7 +124,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: starwaves-nginx
+    container_name: stride-nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -143,13 +143,13 @@ services:
       server:
         condition: service_healthy
     networks:
-      - starwaves-network
+      - stride-network
 
   whatsapp-worker:
     build:
       context: ./services/whatsapp-worker
       dockerfile: Dockerfile
-    container_name: starwaves-whatsapp-worker
+    container_name: stride-whatsapp-worker
     restart: unless-stopped
     environment:
       - PORT=3001
@@ -160,7 +160,7 @@ services:
     volumes:
       - whatsapp-data:/app/data
     networks:
-      - starwaves-network
+      - stride-network
     healthcheck:
       test: ["CMD-SHELL", "wget --spider -q http://localhost:3001/health || exit 1"]
       interval: 10s
@@ -173,7 +173,7 @@ services:
           memory: 256M
 
 networks:
-  starwaves-network:
+  stride-network:
     driver: bridge
 
 volumes:

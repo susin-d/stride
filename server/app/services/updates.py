@@ -97,7 +97,7 @@ def _public_base_url() -> str:
     base = os.getenv("API_BASE_URL") or os.getenv("PUBLIC_UPDATES_BASE_URL") or ""
     if base:
         base = base.rstrip("/")
-        # API_BASE_URL is like https://api.starwaves.susindran.in
+        # API_BASE_URL is like https://api.stride.susindran.in
         # Ensure we use /updates or /api/v1/updates/latest.json already handled via route,
         # but for artifact URLs we return absolute https://host/updates/<file>
         # If base already includes /api/v1, strip it for static alias

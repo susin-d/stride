@@ -1,6 +1,6 @@
 const EQ_BAR_COUNT = 24
 
-export function WaveLoader({ label = 'Loading StarWaves…', detail = 'Preparing your workspace' }) {
+export function WaveLoader({ label = 'Loading Stride…', detail = 'Preparing your workspace' }) {
   return (
     <div className="wave-loader" role="status" aria-live="polite">
       <div className="wave-loader-backdrop" aria-hidden="true">

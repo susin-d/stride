@@ -26,10 +26,10 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="com.starwaves.app" android:host="auth" />
+                <data android:scheme="com.stride.app" android:host="auth" />
                 <data android:scheme="capacitor" android:host="localhost" />
-                <data android:scheme="app.starwaves.workspace" android:host="auth" />
-                <data android:scheme="https" android:host="api.starwaves.susindran.in" android:pathPrefix="/auth" />
+                <data android:scheme="app.stride.workspace" android:host="auth" />
+                <data android:scheme="https" android:host="api.stride.susindran.in" android:pathPrefix="/auth" />
             </intent-filter>
 
         </activity>

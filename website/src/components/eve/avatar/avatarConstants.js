@@ -1,8 +1,8 @@
 // Single source of truth for Eve avatar — tokens, limits, catalog.
 import { AVATAR_PREFS_KEY, UI_CACHE_KEY } from '../../../lib/storageKeys'
 export const AVATAR_STORAGE_KEY = AVATAR_PREFS_KEY
-export const AVATAR_BC_CHANNEL = 'starwaves-avatar'
-export const AVATAR_OVERLAY_BC_CHANNEL = 'starwaves-avatar-overlay'
+export const AVATAR_BC_CHANNEL = 'stride-avatar'
+export const AVATAR_OVERLAY_BC_CHANNEL = 'stride-avatar-overlay'
 export const AVATAR_CACHE_KEY = UI_CACHE_KEY
 export const AVATAR_DEFAULT_PAINT_COLOR = '#a83b59'
 

@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"sync"
 
-	"starwaves-whatsapp-worker/internal/events"
-	"starwaves-whatsapp-worker/internal/models"
+	"stride-whatsapp-worker/internal/events"
+	"stride-whatsapp-worker/internal/models"
 
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/store/sqlstore"

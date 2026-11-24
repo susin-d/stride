@@ -94,43 +94,43 @@ def send_email(
 
 
 def send_welcome_email(to_email: str, user_name: str) -> bool:
-    subject = "Welcome to StarWaves"
+    subject = "Welcome to Stride"
     display_name = user_name or to_email.split("@")[0]
     body_html = render_template(
         "welcome.html",
         {"user_name": display_name, "app_url": settings.frontend_url},
     )
-    body_text = f"Welcome to StarWaves, {display_name}! Visit {settings.frontend_url} to get started."
+    body_text = f"Welcome to Stride, {display_name}! Visit {settings.frontend_url} to get started."
     return send_email(to_email, subject, body_html, body_text)
 
 
 def send_verification_email(to_email: str, user_name: str, verification_token: str) -> bool:
     verify_url = f"{settings.frontend_url}/#verify-email?token={verification_token}"
-    subject = "Verify Your Email Address - StarWaves"
+    subject = "Verify Your Email Address - Stride"
     display_name = user_name or to_email.split("@")[0]
     body_html = render_template(
         "email_verification.html",
         {"user_name": display_name, "verify_url": verify_url},
     )
-    body_text = f"Verify your StarWaves email address by visiting: {verify_url}"
+    body_text = f"Verify your Stride email address by visiting: {verify_url}"
     return send_email(to_email, subject, body_html, body_text)
 
 
 def send_password_reset_email(to_email: str, reset_token: str, otp_code: str = "") -> bool:
     reset_url = f"{settings.frontend_url}/#reset-token={reset_token}"
-    subject = "Password Reset Request - StarWaves"
+    subject = "Password Reset Request - Stride"
     body_html = render_template(
         "password_reset.html",
         {"reset_url": reset_url, "otp_code": otp_code},
     )
     code_msg = f"Your 6-digit verification code is: {otp_code}\n\n" if otp_code else ""
-    body_text = f"{code_msg}Reset your StarWaves password using this link: {reset_url}"
+    body_text = f"{code_msg}Reset your Stride password using this link: {reset_url}"
     return send_email(to_email, subject, body_html, body_text)
 
 
 def send_account_combine_email(to_email: str, owner_email: str, token: str) -> bool:
     verify_url = f"{settings.frontend_url}/#combine-account?token={token}"
-    subject = f"Account Combination Request from {owner_email} - StarWaves"
+    subject = f"Account Combination Request from {owner_email} - Stride"
     body_html = render_template(
         "combine_account_invite.html",
         {
@@ -153,7 +153,7 @@ def send_security_alert_email(
     details: str,
     ip_address: str = "Unknown",
 ) -> bool:
-    subject = f"Security Alert: {event_type} - StarWaves"
+    subject = f"Security Alert: {event_type} - Stride"
     display_name = user_name or to_email.split("@")[0]
     body_html = render_template(
         "security_alert.html",
@@ -166,7 +166,7 @@ def send_security_alert_email(
         },
     )
     body_text = (
-        f"Security Alert for StarWaves account: {event_type}\n"
+        f"Security Alert for Stride account: {event_type}\n"
         f"Details: {details}\n"
         f"IP Address: {ip_address}\n"
         f"Manage settings at: {settings.frontend_url}"
@@ -180,7 +180,7 @@ def send_announcement_email(
     title: str,
     message: str,
 ) -> bool:
-    subject = f"Announcement: {title} - StarWaves"
+    subject = f"Announcement: {title} - Stride"
     display_name = user_name or to_email.split("@")[0]
     body_html = render_template(
         "announcement.html",
@@ -191,7 +191,7 @@ def send_announcement_email(
             "app_url": settings.frontend_url,
         },
     )
-    body_text = f"StarWaves Announcement - {title}\n\n{message}\n\nVisit {settings.frontend_url}"
+    body_text = f"Stride Announcement - {title}\n\n{message}\n\nVisit {settings.frontend_url}"
     return send_email(to_email, subject, body_html, body_text)
 
 
@@ -203,7 +203,7 @@ def send_reminder_email(
     due_time: str = "Today",
     description: str = "",
 ) -> bool:
-    subject = f"Reminder: {reminder_title} - StarWaves"
+    subject = f"Reminder: {reminder_title} - Stride"
     display_name = user_name or to_email.split("@")[0]
     description_escaped = jinja2.escape(description) if description else ""
     description_block = f"<p><strong>Details:</strong> {description_escaped}</p>" if description else ""
@@ -220,7 +220,7 @@ def send_reminder_email(
         },
     )
     body_text = (
-        f"StarWaves Reminder ({reminder_type}): {reminder_title}\n"
+        f"Stride Reminder ({reminder_type}): {reminder_title}\n"
         f"Due Time: {due_time}\n"
         f"{'Details: ' + description if description else ''}\n"
         f"Open Workspace: {settings.frontend_url}"

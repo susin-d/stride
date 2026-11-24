@@ -57,12 +57,12 @@ def oauth_callback_html(frontend_url: str, feature: str, error_reason: str | Non
     )
     html = f"""<!DOCTYPE html>
 <html>
-<head><title>StarWaves Authentication</title></head>
+<head><title>Stride Authentication</title></head>
 <body>
 <script>
   try {{
     var payload = {{
-      type: "STARWAVES_OAUTH_CALLBACK",
+      type: "STRIDE_OAUTH_CALLBACK",
       feature: {feature_js},
       status: {status_js},
       error: {error_js}
@@ -75,13 +75,13 @@ def oauth_callback_html(frontend_url: str, feature: str, error_reason: str | Non
     }}
     if (window.BroadcastChannel) {{
       try {{
-        var bc = new BroadcastChannel("starwaves_oauth");
+        var bc = new BroadcastChannel("stride_oauth");
         bc.postMessage(payload);
         bc.close();
       }} catch (err) {{}}
     }}
     try {{
-      localStorage.setItem("starwaves_oauth_event", JSON.stringify({{ payload: payload, t: Date.now() }}));
+      localStorage.setItem("stride_oauth_event", JSON.stringify({{ payload: payload, t: Date.now() }}));
     }} catch (err) {{}}
   }} catch (e) {{}}
   window.close();

@@ -17,7 +17,7 @@ Accepted
 - Parallel by default: `pytest-xdist` + `pytest-timeout` (`pytest.ini`: `addopts -n auto --dist loadfile`, `timeout 30 thread`). Per-worker SQLite files via `PYTEST_XDIST_WORKER` suffix in `tests/conftest.py`.
 - Row truncate, not DDL: schema `create_all` once per worker; `db` fixture `DELETE FROM` all tables (reverse `sorted_tables`) before each test only. `clean_database` kept as a fast alias (single source: `tests/support/db.py`).
 - No network in tests: autouse `_disable_eve_auto_memory` patches `eve.chat` + `eve.chat_stream` call-site symbols to `[]`. Direct `auto_memory` unit tests are unaffected (they import the module itself).
-- Bounded sockets: `STARWAVES_WS_PING_INTERVAL_S` env override (prod default 25s, tests `0.1s`); `/ws/whatsapp` `receive_json` wrapped in `wait_for` with ping-on-timeout like `/ws/calls`; `test_calls_ws` closes explicitly; `test_twilio_relay._read_until_last` gains `timeout=10` + `max_frames` fail-fast.
+- Bounded sockets: `STRIDE_WS_PING_INTERVAL_S` env override (prod default 25s, tests `0.1s`); `/ws/whatsapp` `receive_json` wrapped in `wait_for` with ping-on-timeout like `/ws/calls`; `test_calls_ws` closes explicitly; `test_twilio_relay._read_until_last` gains `timeout=10` + `max_frames` fail-fast.
 - Scope: `server/pytest.ini`, `server/requirements.txt`, `tests/conftest.py`, `tests/support/{db,__init__}.py`, `app/api/routes/{calls_ws,whatsapp_ws}.py`, `tests/api/{test_calls_ws,test_twilio_relay}.py`.
 
 ## Consequences

@@ -1,4 +1,4 @@
-# StarWaves Colors & Type
+# Stride Colors & Type
 
 > Design-system reference. Single source of truth is `website/src/styles/tokens.css`
 > (+ `styles/themes/dark.css` for dark values). Consume everything via `var(--…)`;

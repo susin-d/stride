@@ -45,7 +45,7 @@ authenticated `/app/*` sessions that never render those routes.
 - **Positive:** ineffective-dynamic-import warning gone; `index` 247.7 →
   152.0 kB (−39%); `authApi` chunk 12.7 → 6.4 kB; `motion` (133.6 kB) now
   loads only with the landing route. No API, route, UI, or auth-behavior
-  change — 401 still clears the session and fires `starwaves:session-revoked`.
+  change — 401 still clears the session and fires `stride:session-revoked`.
 - **Negative / Cost:** one extra tiny module (`authStorage`); public routes
   show `WaveLoader` briefly on first visit (same loader as auth-gating).
 - **Follow-up:** none required; avatar chunks (>600 kB) stay large but are

@@ -25,7 +25,7 @@ from app.services.oauth import (
 
 def google_state_serializer() -> URLSafeTimedSerializer:
     """Compatibility wrapper: Calendar OAuth state serializer with its default salt."""
-    return google_oauth_state_serializer("starwaves-google-calendar-oauth")
+    return google_oauth_state_serializer("stride-google-calendar-oauth")
 
 
 async def google_calendar_data(access_token: str) -> dict:

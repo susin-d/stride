@@ -56,10 +56,10 @@ export function setStoredAuthToken(token, user = null) {
   } else if (user === null) {
     localStorage.removeItem(USER_KEY)
   }
-  window.dispatchEvent(new Event('starwaves:auth-change'))
+  window.dispatchEvent(new Event('stride:auth-change'))
   try {
     if (typeof BroadcastChannel !== 'undefined') {
-      const ch = new BroadcastChannel('starwaves-auth')
+      const ch = new BroadcastChannel('stride-auth')
       ch.postMessage({ type: 'auth-change' })
       ch.close()
     }
@@ -78,10 +78,10 @@ export function getStoredUser() {
 export function clearAuthSession() {
   localStorage.removeItem(TOKEN_KEY)
   localStorage.removeItem(USER_KEY)
-  window.dispatchEvent(new Event('starwaves:auth-change'))
+  window.dispatchEvent(new Event('stride:auth-change'))
   try {
     if (typeof BroadcastChannel !== 'undefined') {
-      const ch = new BroadcastChannel('starwaves-auth')
+      const ch = new BroadcastChannel('stride-auth')
       ch.postMessage({ type: 'auth-change' })
       ch.close()
     }

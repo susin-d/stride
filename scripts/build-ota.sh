@@ -5,7 +5,7 @@ cd "$ROOT"
 VERSION="${VERSION:-$(node -p "require('./website/package.json').version")}"
 PUBLISH="${PUBLISH:-0}"
 REMOTE_HOST="${REMOTE_HOST:-}"
-REMOTE_PATH="${REMOTE_PATH:-~/starwaves/server/static/updates/bundles}"
+REMOTE_PATH="${REMOTE_PATH:-~/stride/server/static/updates/bundles}"
 cyan(){ echo -e "\033[36m==> $*\033[0m"; }
 green(){ echo -e "\033[32m  ✓ $*\033[0m"; }
 cyan "OTA bundle build v$VERSION"
@@ -15,7 +15,7 @@ if [[ ! -f website/dist/index.html ]]; then
   npm run build
   popd >/dev/null
 fi
-tmp="/tmp/starwaves-ota-$VERSION.zip"
+tmp="/tmp/stride-ota-$VERSION.zip"
 rm -f "$tmp"
 pushd website/dist >/dev/null
 zip -r "$tmp" . >/dev/null

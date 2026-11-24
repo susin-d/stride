@@ -8,10 +8,10 @@ import (
 	"strings"
 	"time"
 
-	"starwaves-whatsapp-worker/internal/contacts"
-	"starwaves-whatsapp-worker/internal/models"
-	"starwaves-whatsapp-worker/internal/parser"
-	"starwaves-whatsapp-worker/internal/webhook"
+	"stride-whatsapp-worker/internal/contacts"
+	"stride-whatsapp-worker/internal/models"
+	"stride-whatsapp-worker/internal/parser"
+	"stride-whatsapp-worker/internal/webhook"
 
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/types"

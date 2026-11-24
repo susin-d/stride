@@ -1,2 +1,2 @@
-"""StarWaves backend application."""
+"""Stride backend application."""
 

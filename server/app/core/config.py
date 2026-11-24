@@ -14,12 +14,12 @@ else:
 
 @dataclass(frozen=True)
 class Settings:
-    app_name: str = os.getenv("APP_NAME", "StarWaves API")
+    app_name: str = os.getenv("APP_NAME", "Stride API")
     app_env: str = os.getenv("APP_ENV", "development")
     api_v1_prefix: str = os.getenv("API_V1_PREFIX", "/api/v1")
     cors_origins_raw: str = os.getenv(
         "CORS_ORIGINS",
-        "https://starwaves.susindran.in,http://localhost:5173,http://127.0.0.1:5173",
+        "https://stride.susindran.in,http://localhost:5173,http://127.0.0.1:5173",
     )
     firebase_project_id: str | None = os.getenv("FIREBASE_PROJECT_ID")
     firebase_private_key: str | None = os.getenv("FIREBASE_PRIVATE_KEY")
@@ -77,10 +77,10 @@ class Settings:
         "AUTH_GOOGLE_CALLBACK_URL",
         "http://127.0.0.1:8000/api/v1/auth/google/callback",
     )
-    native_app_scheme_android: str = os.getenv("NATIVE_APP_SCHEME_ANDROID", "com.starwaves.app")
-    native_app_scheme_tauri: str = os.getenv("NATIVE_APP_SCHEME_TAURI", "app.starwaves.workspace")
+    native_app_scheme_android: str = os.getenv("NATIVE_APP_SCHEME_ANDROID", "com.stride.app")
+    native_app_scheme_tauri: str = os.getenv("NATIVE_APP_SCHEME_TAURI", "app.stride.workspace")
     auth_secret_key: str = os.getenv("AUTH_SECRET_KEY") or (
-        "starwaves-super-secret-auth-key-change-in-prod" if app_env != "production" else ""
+        "stride-super-secret-auth-key-change-in-prod" if app_env != "production" else ""
     )
     default_ai_provider: str = os.getenv("DEFAULT_AI_PROVIDER", "openrouter")
     openai_api_key: str | None = os.getenv("OPENAI_API_KEY")
@@ -124,17 +124,17 @@ class Settings:
     )
     database_url: str = os.getenv(
         "DATABASE_URL",
-        "sqlite+aiosqlite:///starwaves.db",
+        "sqlite+aiosqlite:///stride.db",
     )
     smtp_host: str = os.getenv("SMTP_HOST", "")
     smtp_port: int = int(os.getenv("SMTP_PORT", "587"))
     smtp_user: str | None = os.getenv("SMTP_USER")
     smtp_password: str | None = os.getenv("SMTP_PASSWORD")
-    smtp_from_email: str = os.getenv("SMTP_FROM_EMAIL", "noreply@starwaves.susindran.in")
+    smtp_from_email: str = os.getenv("SMTP_FROM_EMAIL", "noreply@stride.susindran.in")
     smtp_use_tls: bool = os.getenv("SMTP_USE_TLS", "true").lower() == "true"
     smtp_use_ssl: bool = os.getenv("SMTP_USE_SSL", "false").lower() == "true"
     cron_secret: str | None = os.getenv("CRON_SECRET") or (
-        "starwaves-cron-secret" if app_env != "production" else None
+        "stride-cron-secret" if app_env != "production" else None
     )
     # Unified serverless flag: VERCEL/Lambda auto-detect + explicit IS_SERVERLESS override (canonical — main.py uses this, ADR 0045)
     is_serverless: bool = bool(

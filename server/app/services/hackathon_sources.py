@@ -165,7 +165,7 @@ async def fetch_enabled_hackathons(enabled_sources: list[str]) -> list[dict]:
         "unstop": unstop_hackathons,
         "mlh": mlh_hackathons,
     }
-    headers = {"User-Agent": "StarWaves/0.1 (+https://starwaves.app)"}
+    headers = {"User-Agent": "Stride/0.1 (+https://stride.app)"}
     if not cache_key:
         return []
 

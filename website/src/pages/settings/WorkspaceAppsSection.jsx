@@ -174,7 +174,7 @@ export function WorkspaceAppsSection() {
       <ConfirmDialog
         isOpen={confirmDisconnect}
         title="Disconnect integration?"
-        message="Disconnect Google Workspace from StarWaves? You can reconnect it later."
+        message="Disconnect Google Workspace from Stride? You can reconnect it later."
         confirmLabel="Disconnect"
         onCancel={() => setConfirmDisconnect(false)}
         onConfirm={() => {

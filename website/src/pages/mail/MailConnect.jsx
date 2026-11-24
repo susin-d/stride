@@ -12,7 +12,7 @@ export function MailConnect({ error, connectingGmail, onConnect, onNavigate }) {
 
         <h2>Connect Google Mail</h2>
         <p className="mail-connect-lead">
-          Link your Google account to access your inbox, organize priority threads, search archives, and draft replies directly from StarWaves.
+          Link your Google account to access your inbox, organize priority threads, search archives, and draft replies directly from Stride.
         </p>
 
         <div className="mail-connect-features-grid">

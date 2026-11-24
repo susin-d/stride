@@ -31,7 +31,7 @@ describe('searchIndex', () => {
 
   it('buildSearchIndex dynamically adds projects, jobs, documents, hackathons, and tasks', () => {
     const workspaceData = {
-      projects: [{ id: 'p1', title: 'StarWaves App', lifecycle_phase: 'build' }],
+      projects: [{ id: 'p1', title: 'Stride App', lifecycle_phase: 'build' }],
       jobs: [{ id: 'j1', title: 'Frontend Engineer', company: 'Google', status: 'Interviewing' }],
       documents: [{ id: 'd1', title: 'System Architecture', content: 'Database specs and schemas' }],
       hackathons: [{ id: 'h1', title: 'AI Genesis', source: 'Devpost' }],
@@ -41,7 +41,7 @@ describe('searchIndex', () => {
     const index = buildSearchIndex(workspaceData)
     const titles = index.map((item) => item.title)
 
-    expect(titles).toContain('StarWaves App')
+    expect(titles).toContain('Stride App')
     expect(titles).toContain('Frontend Engineer — Google')
     expect(titles).toContain('System Architecture')
     expect(titles).toContain('AI Genesis')

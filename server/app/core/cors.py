@@ -8,8 +8,8 @@ ALLOWED_ORIGIN_REGEX = (
     r"|^capacitor://localhost$"
     r"|^tauri://localhost$"
     r"|^https://tauri\.localhost$"
-    r"|^com\.starwaves\.app://.*$"
-    r"|^app\.starwaves\.workspace://.*$"
+    r"|^com\.stride\.app://.*$"
+    r"|^app\.stride\.workspace://.*$"
     r"|^https://([a-zA-Z0-9-]+\.)*susindran\.in$"
     r"|^https://([a-zA-Z0-9-]+\.)*vercel\.app$"
 )

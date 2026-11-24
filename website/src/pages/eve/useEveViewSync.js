@@ -4,7 +4,7 @@ import { TAB_PAGE_ID } from './eveConstants'
 export function useEveCompanionBroadcast({ isSending, streamText, thinkingText, activeTool, error }) {
   useEffect(() => {
     const detail = { isSending, isEveSpeaking: Boolean(streamText) && isSending, isEveThinking: Boolean(thinkingText) && isSending, thinkingText, activeTool, streamText, error }
-    window.dispatchEvent(new CustomEvent('starwaves:eve-state', { detail }))
+    window.dispatchEvent(new CustomEvent('stride:eve-state', { detail }))
   }, [isSending, streamText, thinkingText, activeTool, error])
 }
 

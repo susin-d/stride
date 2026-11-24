@@ -1,4 +1,4 @@
-/* StarWaves — Cinematic motion: keyframes, reduced-motion, responsive (scoped) */
+/* Stride — Cinematic motion: keyframes, reduced-motion, responsive (scoped) */
 @keyframes cinema-photo-drift { from { transform: scale(1); } to { transform: scale(1.07); } }
 @keyframes cinema-tide-drift {
   from { transform: translateX(-70px); opacity: 0.75; }

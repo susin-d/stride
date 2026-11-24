@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-09-01
-- Deciders: @starwaves
+- Deciders: @stride
 - Tags: `frontend`, `avatar`, `eve`, `live2d`, `vrm`, `three`, `pixi`, `ux`
 
 ## Context
@@ -31,7 +31,7 @@ Add a **dual-renderer avatar subsystem** behind a shared abstraction:
   - `Live2DModel` — `pixi.js`@7 + `pixi-live2d-display` + Cubism 4 core (`.model3.json`), expressions for `tool/error`. Preferred on mobile/low-memory or uploaded `.model3.json`.
   - `Auto` mode probes `WebGL2`, `deviceMemory`, `hardwareConcurrency`, uploaded ext; 8s load timeout → fallback CSS orb (never blank).
 - **Placements (both):**
-  - `EveAvatarProvider` (React Context) in `App.jsx`/`CustomUIProvider` — single `AnalyserNode` lip-sync source from `useEveVoice` TTS queue, shared emotion memo, `BroadcastChannel('starwaves-avatar')` for multi-tab pos.
+  - `EveAvatarProvider` (React Context) in `App.jsx`/`CustomUIProvider` — single `AnalyserNode` lip-sync source from `useEveVoice` TTS queue, shared emotion memo, `BroadcastChannel('stride-avatar')` for multi-tab pos.
   - `EveGlobalCompanion` — fixed `bottom/right` dock in `AppLayout` (96px minimized → 320px expanded), draggable (clamp + persist), hides on `/` landing, auto-minimizes when inline avatar in viewport (IntersectionObserver).
   - `EveInlineAvatar` — used in `EvePage` header and `EveCallSection` orb row (`Orb | Avatar` toggle, orb kept as a11y fallback). `WorkspaceEvePanel` collapsed bar shows 16px micro-head.
 - **Theming auto:** `avatarTokens.js` maps 25 presets → tint. `mono` keeps VRM `#18181b`/`#27272a`, `duo` tints one accent onto secondary material only, `spectrum` ties avatar accent to `var(--color-primary)` uniqueness guard.

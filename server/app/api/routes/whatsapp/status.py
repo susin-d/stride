@@ -21,7 +21,7 @@ async def initiate_whatsapp_pairing(payload: WhatsAppPairRequest = WhatsAppPairR
 
 
 @router.post("/confirm-pairing", response_model=WhatsAppStatusResponse)
-async def confirm_whatsapp_pairing(phone_number: str = Query(default="+1 (555) 019-2834"), push_name: str = Query(default="Starwaves User"), current_user: dict = Depends(get_current_user), database: SqlClient = Depends(get_firestore)):
+async def confirm_whatsapp_pairing(phone_number: str = Query(default="+1 (555) 019-2834"), push_name: str = Query(default="Stride User"), current_user: dict = Depends(get_current_user), database: SqlClient = Depends(get_firestore)):
     return await WhatsAppService.confirm_connection(database=database, user_id=current_user["uid"], phone_number=phone_number, push_name=push_name)
 
 

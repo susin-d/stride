@@ -1,4 +1,4 @@
-"""SQLAlchemy Declarative Models for Starwaves.
+"""SQLAlchemy Declarative Models for Stride.
 
 One module per domain (`user`, `workspace`, `calls`, `eve`, `settings`,
 `workspace_files`, `whatsapp`, `sessions`, `usage` plus shared helpers in

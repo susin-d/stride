@@ -148,7 +148,7 @@ export function Hero({ onNavigate }) {
         </motion.h1>
 
         <motion.p className="cinema-sub" variants={reduce ? undefined : item}>
-          StarWaves fuses <strong>tasks, calendars, contests, projects, jobs, documents, mail, WhatsApp</strong> and{' '}
+          Stride fuses <strong>tasks, calendars, contests, projects, jobs, documents, mail, WhatsApp</strong> and{' '}
           <strong>Eve AI</strong> into one cinematic stage — Code keeps the signal, Create sets the scene, Evolve never forgets.
         </motion.p>
 
@@ -180,7 +180,7 @@ export function Hero({ onNavigate }) {
                 <i />
                 <i />
               </span>
-              <span>starwaves.app — command center • Live</span>
+              <span>stride.app — command center • Live</span>
               <span className="cinema-frame__live">● synced</span>
             </div>
             <div className="cinema-frame__body">

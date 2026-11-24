@@ -348,7 +348,7 @@ class TestGoogleOAuth:
             )
 
         assert res.status_code == 200
-        assert "STARWAVES_AUTH_SUCCESS" in res.text
+        assert "STRIDE_AUTH_SUCCESS" in res.text
         assert "guser@example.com" in res.text
 
     def test_callback_token_exchange_failure_400(self, client, db, monkeypatch):

@@ -33,4 +33,4 @@ def test_whatsapp_templates():
 
 def test_call_greetings():
     assert prompts.DEFAULT_CALL_GREETING.startswith("Hello, this is Eve")
-    assert prompts.DEFAULT_CALL_GREETING_SHORT == "Hello, this is Eve from StarWaves."
+    assert prompts.DEFAULT_CALL_GREETING_SHORT == "Hello, this is Eve from Stride."

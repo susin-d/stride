@@ -1,7 +1,7 @@
 {
-  "productName": "Starwaves",
+  "productName": "Stride",
   "version": "0.1.0",
-  "identifier": "app.starwaves.workspace",
+  "identifier": "app.stride.workspace",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:5173",
@@ -13,14 +13,14 @@
     "category": "DeveloperTool",
     "targets": ["msi", "nsis"],
     "icon": ["icons/icon.png", "icons/icon.ico"],
-    "shortDescription": "StarWaves — Developer Productivity Workspace",
+    "shortDescription": "Stride — Developer Productivity Workspace",
     "longDescription": "Projects, jobs, tasks, documents, workspace IDE, EVE AI, WhatsApp & more.",
     "createUpdaterArtifacts": "v1Compatible"
   },
   "app": {
     "windows": [
       {
-        "title": "Starwaves",
+        "title": "Stride",
         "width": 1280,
         "height": 800,
         "minWidth": 800,
@@ -50,11 +50,11 @@
   "plugins": {
     "deepLink": {
       "domains": false,
-      "schemes": ["com.starwaves.app", "app.starwaves.workspace"]
+      "schemes": ["com.stride.app", "app.stride.workspace"]
     },
     "updater": {
       "pubkey": "",
-      "endpoints": ["https://api.starwaves.susindran.in/api/v1/updates/latest.json"],
+      "endpoints": ["https://api.stride.susindran.in/api/v1/updates/latest.json"],
       "windows": { "installMode": "passive" }
     }
   }

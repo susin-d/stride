@@ -34,7 +34,7 @@ class TestWebBrowsing(unittest.TestCase):
             <body>
                 <div class="result">
                     <h2 class="result__title">
-                        <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fstarwaves.app&rut=1">StarWaves Dashboard</a>
+                        <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fstride.app&rut=1">Stride Dashboard</a>
                     </h2>
                     <div class="result__snippet">The all-in-one productivity workspace.</div>
                 </div>
@@ -46,11 +46,11 @@ class TestWebBrowsing(unittest.TestCase):
         mock_response.text = mock_html
         mock_post.return_value = mock_response
 
-        res = search_web("starwaves productivity", num_results=3)
-        self.assertEqual(res["query"], "starwaves productivity")
+        res = search_web("stride productivity", num_results=3)
+        self.assertEqual(res["query"], "stride productivity")
         self.assertEqual(len(res["results"]), 1)
-        self.assertEqual(res["results"][0]["title"], "StarWaves Dashboard")
-        self.assertEqual(res["results"][0]["url"], "https://starwaves.app")
+        self.assertEqual(res["results"][0]["title"], "Stride Dashboard")
+        self.assertEqual(res["results"][0]["url"], "https://stride.app")
         self.assertIn("productivity workspace", res["results"][0]["snippet"])
 
     @patch("httpx.Client.post")

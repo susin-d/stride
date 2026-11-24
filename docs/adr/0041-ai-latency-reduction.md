@@ -23,13 +23,13 @@ esolve_ai_config() queried Firestore settings even when an explicit server-keyed
 
 We implemented a coordinated 6-point latency optimization across the backend:
 
-- **Asynchronous Auto-Memory**: stream_chat_with_eve() in [chat_stream.py](file:///c:/project/starwaves/server/app/services/eve/chat_stream.py) yields the done event immediately to the client and fires memory extraction in a daemon background thread (	hreading.Thread).
-- **RAG Query Cache**: Added a 30-second per-query RAG cache _rag_cache keyed by (user_id, sha256(query)[:12]) in [memories.py](file:///c:/project/starwaves/server/app/services/eve/memories.py), invalidated when memories change.
-- **Injected Memory Cap**: Capped fallback injected memories at MAX_INJECTED_MEMORIES = 15 in [memories.py](file:///c:/project/starwaves/server/app/services/eve/memories.py).
-- **AI Config Override Fast-Path**: [config.py](file:///c:/project/starwaves/server/app/services/ai_models/config.py) skips DB preference loading if provider_override has a configured server key.
-- **Session ID Cache**: Added in-memory session validation cache _session_cache (5 min TTL, 20 max per user) in [chat_stream.py](file:///c:/project/starwaves/server/app/services/eve/chat_stream.py).
-- **Direct Asyncio SSE Queue**: [ve_stream.py](file:///c:/project/starwaves/server/app/api/routes/eve_stream.py) replaced thread queue polling with syncio.Queue + loop.call_soon_threadsafe, enabling direct event loop consumption without sleep polling.
-- **Concurrent Workspace Record Fetching**: [workspace_records.py](file:///c:/project/starwaves/server/app/services/eve/workspace_records.py) parallelized _all_records() using ThreadPoolExecutor.map() across all 6 supported resource types.
+- **Asynchronous Auto-Memory**: stream_chat_with_eve() in [chat_stream.py](file:///c:/project/stride/server/app/services/eve/chat_stream.py) yields the done event immediately to the client and fires memory extraction in a daemon background thread (	hreading.Thread).
+- **RAG Query Cache**: Added a 30-second per-query RAG cache _rag_cache keyed by (user_id, sha256(query)[:12]) in [memories.py](file:///c:/project/stride/server/app/services/eve/memories.py), invalidated when memories change.
+- **Injected Memory Cap**: Capped fallback injected memories at MAX_INJECTED_MEMORIES = 15 in [memories.py](file:///c:/project/stride/server/app/services/eve/memories.py).
+- **AI Config Override Fast-Path**: [config.py](file:///c:/project/stride/server/app/services/ai_models/config.py) skips DB preference loading if provider_override has a configured server key.
+- **Session ID Cache**: Added in-memory session validation cache _session_cache (5 min TTL, 20 max per user) in [chat_stream.py](file:///c:/project/stride/server/app/services/eve/chat_stream.py).
+- **Direct Asyncio SSE Queue**: [ve_stream.py](file:///c:/project/stride/server/app/api/routes/eve_stream.py) replaced thread queue polling with syncio.Queue + loop.call_soon_threadsafe, enabling direct event loop consumption without sleep polling.
+- **Concurrent Workspace Record Fetching**: [workspace_records.py](file:///c:/project/stride/server/app/services/eve/workspace_records.py) parallelized _all_records() using ThreadPoolExecutor.map() across all 6 supported resource types.
 
 ## Consequences
 
@@ -52,8 +52,8 @@ We implemented a coordinated 6-point latency optimization across the backend:
 
 ## References
 
-- [chat_stream.py](file:///c:/project/starwaves/server/app/services/eve/chat_stream.py)
-- [memories.py](file:///c:/project/starwaves/server/app/services/eve/memories.py)
-- [config.py](file:///c:/project/starwaves/server/app/services/ai_models/config.py)
-- [ve_stream.py](file:///c:/project/starwaves/server/app/api/routes/eve_stream.py)
-- [workspace_records.py](file:///c:/project/starwaves/server/app/services/eve/workspace_records.py)
+- [chat_stream.py](file:///c:/project/stride/server/app/services/eve/chat_stream.py)
+- [memories.py](file:///c:/project/stride/server/app/services/eve/memories.py)
+- [config.py](file:///c:/project/stride/server/app/services/ai_models/config.py)
+- [ve_stream.py](file:///c:/project/stride/server/app/api/routes/eve_stream.py)
+- [workspace_records.py](file:///c:/project/stride/server/app/services/eve/workspace_records.py)

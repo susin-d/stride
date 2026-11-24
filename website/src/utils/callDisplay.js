@@ -6,7 +6,7 @@ export function otherParticipant(call, myUid) {
 }
 
 export function participantName(person) {
-  return person?.name || person?.email?.split('@')[0] || 'StarWaves user'
+  return person?.name || person?.email?.split('@')[0] || 'Stride user'
 }
 
 export function participantInitials(person) {

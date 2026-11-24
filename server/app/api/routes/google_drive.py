@@ -44,7 +44,7 @@ def drive_reference(database: SqlClient, user_id: str):
 
 
 def drive_state_serializer() -> URLSafeTimedSerializer:
-    return google_oauth_state_serializer("starwaves-google-drive-oauth")
+    return google_oauth_state_serializer("stride-google-drive-oauth")
 
 
 _drive_token_cache: dict[str, tuple[float, str]] = {}

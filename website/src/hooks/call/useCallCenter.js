@@ -47,8 +47,8 @@ export function useCallCenter({ user }) {
     activeCallObj &&
       (activeCallObj.callee?.uid === 'eve-bot' ||
         activeCallObj.caller?.uid === 'eve-bot' ||
-        activeCallObj.callee?.email === 'eve@starwaves.app' ||
-        activeCallObj.caller?.email === 'eve@starwaves.app'),
+        activeCallObj.callee?.email === 'eve@stride.app' ||
+        activeCallObj.caller?.email === 'eve@stride.app'),
   )
 
   const eveVoice = useEveVoice({ isEveCall, phase, muted, localStreamRef, phaseRef })
@@ -174,7 +174,7 @@ export function useCallCenter({ user }) {
         try {
           setError('')
           setCallProvider('twilio')
-          const tw = await createTwilioCall(phoneNumber, `Call from ${userRef.current?.displayName || 'StarWaves user'}`, requestedMode)
+          const tw = await createTwilioCall(phoneNumber, `Call from ${userRef.current?.displayName || 'Stride user'}`, requestedMode)
           callIdRef.current = tw.id
           setCall(tw)
           setMode(requestedMode === 'video' ? 'video' : 'audio')
@@ -325,7 +325,7 @@ export function useCallCenter({ user }) {
     if (typeof BroadcastChannel === 'undefined') return undefined
     let ch
     try {
-      ch = new BroadcastChannel('starwaves-call')
+      ch = new BroadcastChannel('stride-call')
       ch.onmessage = async (msg) => {
         const ev = msg?.data
         if (!ev) return
@@ -344,7 +344,7 @@ export function useCallCenter({ user }) {
       // Also rebroadcast to local tabs via BroadcastChannel for instant sync
       try {
         if (event.type === 'call_updated' && typeof BroadcastChannel !== 'undefined') {
-          const ch = new BroadcastChannel('starwaves-call')
+          const ch = new BroadcastChannel('stride-call')
           ch.postMessage(event)
           ch.close()
         }

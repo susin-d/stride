@@ -5,7 +5,7 @@
 Accepted
 
 - Date: 2026-09-06
-- Deciders: Starwaves Core Team
+- Deciders: Stride Core Team
 - Tags: `frontend`, `landing`, `theming`, `adr-0019`
 
 ## Context

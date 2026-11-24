@@ -41,7 +41,7 @@ export function WhatsAppQrModal({
       isOpen={isOpen}
       onClose={onClose}
       title="Link WhatsApp"
-      subtitle="Connect your WhatsApp account to Starwaves and Eve AI"
+      subtitle="Connect your WhatsApp account to Stride and Eve AI"
       className="whatsapp-qr-modal-dialog"
     >
       <div className="whatsapp-qr-container">

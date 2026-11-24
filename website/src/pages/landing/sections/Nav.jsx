@@ -60,9 +60,9 @@ export function Nav({ onNavigate }) {
       animate={reduce ? {} : { y: 0, opacity: 1 }}
       transition={reduce ? {} : { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
     >
-      <button type="button" className="cinema-nav__brand" onClick={() => onNavigate('/')} aria-label="StarWaves home">
+      <button type="button" className="cinema-nav__brand" onClick={() => onNavigate('/')} aria-label="Stride home">
         <img src="/logo.png" alt="" aria-hidden="true" className="cinema-nav__mark" />
-        <span>StarWaves</span>
+        <span>Stride</span>
       </button>
 
       <div className="cinema-nav__links" role="list">

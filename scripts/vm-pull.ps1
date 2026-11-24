@@ -6,5 +6,5 @@ param(
   [string]$Tag = "latest"
 )
 $ErrorActionPreference = "Stop"
-$cmd = "TAG=$Tag bash ~/starwaves/scripts/vm-pull.sh"
+$cmd = "TAG=$Tag bash ~/stride/scripts/vm-pull.sh"
 gcloud compute ssh $VmHost --zone=$VmZone --command="$cmd"

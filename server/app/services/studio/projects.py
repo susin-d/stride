@@ -76,7 +76,7 @@ def create_project(user_id: str, payload: dict) -> dict:
         warnings.append("git is unavailable on the server — version history disabled.")
     if git_ops.is_available():
         try:
-            git_ops.commit_all(user_id, workspace_id, "Initial commit by StarWaves Studio")
+            git_ops.commit_all(user_id, workspace_id, "Initial commit by Stride Studio")
         except git_ops.GitUnavailableError as error:
             warnings.append(str(error))
     studio_repo.update_studio_project(user_id, workspace_id, {

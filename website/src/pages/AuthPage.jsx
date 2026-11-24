@@ -110,7 +110,7 @@ export function AuthPage({ mode, onNavigate, onAuthenticate, resetToken }) {
     <AuthShell backLabel="Back home" onBack={() => onNavigate('/')} onHome={() => onNavigate('/')} panel={panel}>
           <div className="auth-heading">
             <p>{resetting ? 'Reset your password' : signup ? 'Create an account' : 'Welcome back'}</p>
-            <h2>{resetting ? 'Set a new password' : signup ? 'Build your workspace' : 'Log in to StarWaves'}</h2>
+            <h2>{resetting ? 'Set a new password' : signup ? 'Build your workspace' : 'Log in to Stride'}</h2>
             <span>{resetting ? 'Enter a new password for your account.' : signup ? 'Set up your account in a few seconds.' : 'Enter your details to continue.'}</span>
           </div>
 
@@ -194,7 +194,7 @@ export function AuthPage({ mode, onNavigate, onAuthenticate, resetToken }) {
           <p className="auth-switch">
             {resetting
               ? 'Ready to log in?'
-              : signup ? 'Already have an account?' : 'New to StarWaves?'}
+              : signup ? 'Already have an account?' : 'New to Stride?'}
             <button onClick={() => onNavigate(resetting ? '/login' : signup ? '/login' : '/signup')}>
               {resetting ? 'Log in' : signup ? 'Log in' : 'Create an account'}
             </button>

@@ -112,7 +112,7 @@ export function HackathonDetailPage({ hackathon, onBack, onSave, onDelete }) {
         <div>
           <div className="hackathon-card-topline">
             <span className="hackathon-card-source">
-              {isManual ? 'StarWaves' : (hackathon.source || '').toUpperCase()}
+              {isManual ? 'Stride' : (hackathon.source || '').toUpperCase()}
             </span>
           </div>
           <h1>{hackathon.title}</h1>

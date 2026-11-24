@@ -1,17 +1,17 @@
-# Security — Starwaves
+# Security — Stride
 
 ## Hardening History (2026-08-26)
 - **P0/P1**: fail-closed `AUTH_SECRET_KEY`/`CRON_SECRET`, `secrets` OTP, HMAC verify, BOLA owner guards, SSRF `_assert_public_url`, CORS `*.vercel.app` removal, HSTS/CSP, preview `allow-same-origin` removal, OAuth `targetOrigin` validation, `realpath` traversal, `DOMPurify`, `WHATSAPP_WORKER_SECRET`, `shell=False` delegation.
-- **P2**: rate-limit (`core/rate_limit.py` Redis/in-memory, prod-only), `pickle→json` cache, Twilio `X-Twilio-Signature`, RLS `user_isolation_*`, least-privilege `starwaves_app`, docs gated in prod.
+- **P2**: rate-limit (`core/rate_limit.py` Redis/in-memory, prod-only), `pickle→json` cache, Twilio `X-Twilio-Signature`, RLS `user_isolation_*`, least-privilege `stride_app`, docs gated in prod.
 
 ## Required Env (prod)
 ```
 AUTH_SECRET_KEY=$(openssl rand -base64 48)
 CRON_SECRET=$(openssl rand -hex 32)
 WHATSAPP_WORKER_SECRET=$(openssl rand -hex 32)
-DATABASE_URL=postgresql+psycopg2://starwaves_app:<strong>@postgres:5432/starwaves
+DATABASE_URL=postgresql+psycopg2://stride_app:<strong>@postgres:5432/stride
 TWILIO_AUTH_TOKEN=...
-CORS_ORIGINS=https://starwaves.susindran.in
+CORS_ORIGINS=https://stride.susindran.in
 ```
 
 ## Scans
@@ -27,7 +27,7 @@ python -m pytest tests -q
 ```
 
 ## RLS Activation
-`psql $DATABASE_URL -f sql/migrations.sql` (idempotent). App sets `SET LOCAL app.current_user_id = '<uid>'` per request when role is `starwaves_app` (future: add middleware).
+`psql $DATABASE_URL -f sql/migrations.sql` (idempotent). App sets `SET LOCAL app.current_user_id = '<uid>'` per request when role is `stride_app` (future: add middleware).
 
 ## Worker Signature
 Go worker sends `X-Worker-Signature: hex(HMAC-SHA256(secret, rawBody))` — server verifies in `api/routes/whatsapp/webhook.py`.

@@ -245,7 +245,7 @@ export function EveAssistantModal({ isOpen, onClose, onNavigate, onWorkspaceChan
         if (action.preferences) window.dispatchEvent(new CustomEvent('eve-ui-update', { detail: { preferences: action.preferences } }))
         onNavigate?.(`custom-${action.slug}`)
       } else if (action.type === 'avatar_editor_action') {
-        window.dispatchEvent(new CustomEvent('starwaves:avatar-editor-action', { detail: action }))
+        window.dispatchEvent(new CustomEvent('stride:avatar-editor-action', { detail: action }))
       }
     })
   }

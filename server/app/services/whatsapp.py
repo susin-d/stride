@@ -40,7 +40,7 @@ class WhatsAppService:
                     data = resp.json()
                     if data.get("connected"):
                         phone_number = data.get("phoneNumber") or "+1 (555) 019-2834"
-                        push_name = data.get("pushName") or "Starwaves User"
+                        push_name = data.get("pushName") or "Stride User"
                         try:
                             # Save in background thread to not block response
                             import asyncio
@@ -131,7 +131,7 @@ class WhatsAppService:
         database: SqlClient,
         user_id: str,
         phone_number: str = "+1 (555) 019-2834",
-        push_name: str = "Starwaves User",
+        push_name: str = "Stride User",
     ) -> WhatsAppStatusResponse:
         whatsapp_repo.save_whatsapp_session(
             database=database,
@@ -173,7 +173,7 @@ class WhatsAppService:
                 user_id=user_id,
                 chat_id="eve",
                 name="Eve AI Assistant",
-                phone_number="eve@starwaves.app",
+                phone_number="eve@stride.app",
                 is_group=False,
                 is_eve=True,
                 unread_count=0,
@@ -188,7 +188,7 @@ class WhatsAppService:
                 sender_name="Eve AI",
                 is_from_me=False,
                 is_eve=True,
-                content="Hello! I'm Eve, your Starwaves AI assistant on WhatsApp. You can ask me questions, have me manage your workspace, draft replies, or message your contacts.",
+                content="Hello! I'm Eve, your Stride AI assistant on WhatsApp. You can ask me questions, have me manage your workspace, draft replies, or message your contacts.",
                 timestamp=datetime.now(timezone.utc),
                 status="read",
             )

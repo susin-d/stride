@@ -46,7 +46,7 @@ def _studio_preview_frame_ancestors() -> str:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     if settings.app_env == "production":
-        if not settings.auth_secret_key or settings.auth_secret_key.startswith("starwaves-super-secret"):
+        if not settings.auth_secret_key or settings.auth_secret_key.startswith("stride-super-secret"):
             raise RuntimeError("AUTH_SECRET_KEY must be set to a strong random value in production")
         if not settings.cron_secret:
             raise RuntimeError("CRON_SECRET must be set in production")

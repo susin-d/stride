@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Build all Starwaves artifacts: Android + Desktop (+ optional OTA).
+  Build all Stride artifacts: Android + Desktop (+ optional OTA).
 #>
 [CmdletBinding()]
 param(

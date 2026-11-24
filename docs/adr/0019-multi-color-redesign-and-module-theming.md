@@ -2,14 +2,14 @@
 
 - **Status**: Accepted
 - **Date**: 2026-09-06
-- **Deciders**: Starwaves Core Team
+- **Deciders**: Stride Core Team
 - **Supersedes**: [ADR 0011: Spectrum Color Role System](./0011-spectrum-color-role-system.md)
 
 ---
 
 ## Context
 
-Starwaves historically mandated a monochrome-first user interface (pure black, white, and grays), with duotone and spectrum palettes only available as opt-in presets while preserving greyscale defaults.
+Stride historically mandated a monochrome-first user interface (pure black, white, and grays), with duotone and spectrum palettes only available as opt-in presets while preserving greyscale defaults.
 
 In user experience evaluations and design iterations, the monochrome default lacked visual hierarchy, semantic clarity, and product personality. Different workspace sections (Code Workspace, Studio, Eve AI, WhatsApp, Mail, Calendar) felt uniform and monotone. Users requested transitioning the site from the monochrome design to a vibrant, expressive multi-color design with module-specific accent coding.
 

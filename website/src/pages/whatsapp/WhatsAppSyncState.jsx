@@ -34,7 +34,7 @@ export function WhatsAppSyncState({ status, progress, stepText, error, onRetry }
         <div className="whatsapp-sync-logo-wrapper">
           <MessageSquare size={36} className="whatsapp-sync-logo-icon" />
         </div>
-        <h2 className="whatsapp-sync-title">Starwaves WhatsApp</h2>
+        <h2 className="whatsapp-sync-title">Stride WhatsApp</h2>
         <p className="whatsapp-sync-step">{stepText}</p>
 
         <div className="whatsapp-sync-progress-bar-bg">

@@ -1,11 +1,11 @@
 <#
 .SYNOPSIS
-  Build Starwaves Desktop EXE via Tauri (Windows MSI + NSIS). Backend-hosted updater artifacts.
+  Build Stride Desktop EXE via Tauri (Windows MSI + NSIS). Backend-hosted updater artifacts.
 
 .DESCRIPTION
   1. Checks prereqs (Node, npm, Rust, cargo, WebView2 indirectly).
   2. Injects VITE_API_URL from env file (default website/.env.prod else website/.env).
-  3. Optionally generates Tauri icons from public/starwaves-logo.png.
+  3. Optionally generates Tauri icons from public/logo.png.
   4. Runs vite build (unless -SkipWebBuild) then `tauri build` (--debug if requested).
   5. Validates Tauri signing key for release (TAURI_SIGNING_PRIVATE_KEY env).
   6. Collects bundle artifacts + .sig + latest.json.
@@ -19,7 +19,7 @@
 .EXAMPLE
   ./scripts/build-desktop.ps1 -BuildType release
   ./scripts/build-desktop.ps1 -BuildType debug -SkipWebBuild
-  ./scripts/build-desktop.ps1 -BuildType release -Publish -RemoteHost api.starwaves.susindran.in
+  ./scripts/build-desktop.ps1 -BuildType release -Publish -RemoteHost api.stride.susindran.in
 #>
 [CmdletBinding()]
 param(
@@ -29,7 +29,7 @@ param(
   [switch]$SkipWebBuild,
   [switch]$Publish,
   [string]$RemoteHost = "",
-  [string]$RemotePath = "~/starwaves/server/static/updates"
+  [string]$RemotePath = "~/stride/server/static/updates"
 )
 
 Set-StrictMode -Version Latest
@@ -38,7 +38,7 @@ $root = (Resolve-Path "$PSScriptRoot/..").Path
 Set-Location -LiteralPath $root
 . "$PSScriptRoot/lib/common.ps1"
 
-Write-Step "Starwaves Desktop build ($BuildType) — Tauri"
+Write-Step "Stride Desktop build ($BuildType) — Tauri"
 
 # --- Prereqs ---
 Assert-Command -Name "node" -Hint "Install Node 20 from https://nodejs.org"
@@ -109,8 +109,8 @@ try {
 $hasSigning = $false
 if ($env:TAURI_SIGNING_PRIVATE_KEY) { $hasSigning = $true }
 elseif ($env:TAURI_PRIVATE_KEY) { $hasSigning = $true; $env:TAURI_SIGNING_PRIVATE_KEY = $env:TAURI_PRIVATE_KEY }
-# Also check file at ~/.tauri/starwaves.key
-$keyPath = Join-Path $HOME ".tauri/starwaves.key"
+# Also check file at ~/.tauri/stride.key
+$keyPath = Join-Path $HOME ".tauri/stride.key"
 if (-not $hasSigning -and (Test-Path -LiteralPath $keyPath)) {
   Write-Ok "Found signing key at $keyPath"
   $hasSigning = $true
@@ -217,7 +217,7 @@ if ($latestJson -and (Test-Path -LiteralPath $latestJson)) {
 # --- Publish (scp to backend) ---
 if ($Publish) {
   if (-not $RemoteHost) {
-    Write-Warn "-Publish requires -RemoteHost (e.g. api.starwaves.susindran.in). Skipping upload."
+    Write-Warn "-Publish requires -RemoteHost (e.g. api.stride.susindran.in). Skipping upload."
   } else {
     Write-Step "Publish to $RemoteHost`:$RemotePath"
     if (-not (Get-Command ssh -ErrorAction SilentlyContinue)) { throw "ssh not found — install OpenSSH" }

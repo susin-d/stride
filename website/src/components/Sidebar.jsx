@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { PanelLeftClose, PanelLeftOpen, X } from 'lucide-react'
 import { getGroupModuleKey, navigationItems } from '../config/navigation'
-import { StarWavesLogo } from './StarWavesLogo'
+import { StrideLogo } from './StrideLogo'
 
 export function Sidebar({
   activePage,
@@ -62,11 +62,11 @@ export function Sidebar({
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && (isExpanded ? handleNavigate('dashboard') : onToggleExpand())}
-            title={isExpanded ? 'StarWaves Dashboard' : 'Expand navigation'}
-            aria-label={isExpanded ? 'StarWaves Dashboard' : 'Expand navigation'}
+            title={isExpanded ? 'Stride Dashboard' : 'Expand navigation'}
+            aria-label={isExpanded ? 'Stride Dashboard' : 'Expand navigation'}
           >
-            <StarWavesLogo size={28} />
-            {isExpanded && <span className="sidebar-brand-name">StarWaves</span>}
+            <StrideLogo size={28} />
+            {isExpanded && <span className="sidebar-brand-name">Stride</span>}
           </div>
 
           <button

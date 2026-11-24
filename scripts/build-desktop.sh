@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# Starwaves Desktop build (Tauri) — bash variant for WSL/CI/Linux/macOS
+# Stride Desktop build (Tauri) — bash variant for WSL/CI/Linux/macOS
 # Mirrors build-desktop.ps1
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -10,13 +10,13 @@ TYPE="${1:-release}" # debug|release
 SKIP_WEB="${SKIP_WEB:-0}"
 PUBLISH="${PUBLISH:-0}"
 REMOTE_HOST="${REMOTE_HOST:-}"
-REMOTE_PATH="${REMOTE_PATH:-~/starwaves/server/static/updates}"
+REMOTE_PATH="${REMOTE_PATH:-~/stride/server/static/updates}"
 
 green(){ echo -e "\033[32m  ✓ $*\033[0m"; }
 cyan(){ echo -e "\033[36m==> $*\033[0m"; }
 yellow(){ echo -e "\033[33m  ! $*\033[0m"; }
 
-cyan "Starwaves Desktop build ($TYPE) — Tauri"
+cyan "Stride Desktop build ($TYPE) — Tauri"
 
 command -v node >/dev/null || { echo "Missing node"; exit 1; }
 command -v npm >/dev/null || { echo "Missing npm"; exit 1; }

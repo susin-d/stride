@@ -417,7 +417,7 @@ export function ModelingStudioWorkspace() {
       nodes: nodes.slice(0, 80).map(({ id, name, type, parentId, visible }) => ({ id, name, type, parentId, visible })),
       capabilities,
     }
-    window.dispatchEvent(new CustomEvent('starwaves:avatar-editor-context', { detail: context }))
+    window.dispatchEvent(new CustomEvent('stride:avatar-editor-context', { detail: context }))
   }, [capabilities, currentProject.dirty, currentProject.id, currentProject.name, nodes, scene.model?.label, sceneFormat, selectedNode])
 
   useEffect(() => {
@@ -444,8 +444,8 @@ export function ModelingStudioWorkspace() {
       else if (action.command === 'playback') setPlaying(action.playing !== false)
       else if (action.command === 'export_glb') handleExport('glb')
     }
-    window.addEventListener('starwaves:avatar-editor-action', handleEditorAction)
-    return () => window.removeEventListener('starwaves:avatar-editor-action', handleEditorAction)
+    window.addEventListener('stride:avatar-editor-action', handleEditorAction)
+    return () => window.removeEventListener('stride:avatar-editor-action', handleEditorAction)
   }, [currentFrame, handleExport, handleNodeUpdateFor, handleSave, nodes, updateScene])
   const viewportSource = useMemo(() => source || (scene.model?.url ? { url: scene.model.url, format: scene.model.format || inferModelFormat(scene.model.url, scene.model.renderer), key: scene.model.id } : null), [scene.model, source])
 
