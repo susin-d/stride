@@ -26,8 +26,10 @@ export function AppLayout({
   workspaceData,
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  // The rail starts collapsed and expands on hover; the stored flag only
+  // records an explicit "pin open" choice from the toggle.
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    () => localStorage.getItem(SIDEBAR_EXPANDED_KEY) !== 'false',
+    () => localStorage.getItem(SIDEBAR_EXPANDED_KEY) === 'true',
   )
   const contentRef = useRef(null)
   const isSidebarExpanded = sidebarExpanded

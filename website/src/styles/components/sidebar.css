@@ -1,3 +1,6 @@
+/* ── Sidebar: hover-expandable rail ──────────────────────────────────────────
+   The sidebar occupies a fixed rail in the flex flow and grows as an overlay,
+   so expanding never reflows or pushes page content (no layout shift). */
 .sidebar {
   position: relative;
   flex: 0 0 var(--sidebar-collapsed);
@@ -11,7 +14,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior-y: contain;
-  padding: 0 var(--space-xs) var(--space-sm);
+  padding: 0 var(--space-2xs) var(--space-2xs);
   background: var(--bg-secondary);
   border-right: 1px solid var(--border-color);
   box-shadow:
@@ -20,18 +23,29 @@
   scrollbar-width: none;
   scrollbar-color: var(--scrollbar-thumb) transparent;
   transition:
-    width 260ms cubic-bezier(0.25, 1, 0.5, 1),
-    flex-basis 260ms cubic-bezier(0.25, 1, 0.5, 1),
-    box-shadow 260ms cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: width, flex-basis;
+    width 240ms cubic-bezier(0.32, 0.72, 0, 1),
+    box-shadow 240ms cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: width;
   z-index: 40;
 }
 
+/* An open rail overlays the content instead of widening the flex row. */
 .sidebar.expanded {
-  flex-basis: var(--sidebar-expanded);
   width: var(--sidebar-expanded);
+  z-index: 50;
   scrollbar-width: thin;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Hover-expanded (unpinned) rail gets a slightly stronger edge than resting. */
+.sidebar.is-previewing {
+  border-right-color: var(--border-heavy, var(--text-muted));
+}
+
+.sidebar.is-previewing.expanded {
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 1px var(--border-color);
 }
 
 .sidebar::-webkit-scrollbar {
@@ -83,6 +97,17 @@
   font-weight: 700;
   letter-spacing: -0.35px;
   color: var(--text-primary);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 160ms ease,
+    transform 240ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.sidebar.expanded .sidebar-brand-name {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 60ms;
 }
 
 .sidebar-toggle-btn {
@@ -115,10 +140,6 @@
 .sidebar:not(.expanded) .sidebar-brand {
   padding: 6px;
   justify-content: center;
-}
-
-.sidebar:not(.expanded) .sidebar-brand-name {
-  display: none;
 }
 
 .sidebar:not(.expanded) .sidebar-toggle-btn {
@@ -166,11 +187,25 @@ nav {
   text-overflow: ellipsis;
   user-select: none;
   -webkit-user-select: none;
+  max-height: 26px;
   opacity: 1;
+  transition:
+    max-height 220ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 140ms ease,
+    padding 220ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
+/* Collapsed: groups collapse to a thin divider rather than vanish abruptly. */
 .sidebar:not(.expanded) .sidebar-nav-group-label {
-  display: none;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+}
+
+.sidebar:not(.expanded) .sidebar-nav-group + .sidebar-nav-group {
+  margin-top: 6px;
+  padding-top: 6px;
 }
 
 .nav-item {
@@ -198,11 +233,13 @@ nav {
     transform 200ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* Collapsed rail: perfect square hit target, icon centred. */
 .sidebar:not(.expanded) .nav-item {
   width: 44px;
   height: 44px;
   min-height: 44px;
   padding: 0;
+  gap: 0;
   justify-content: center;
   margin: 0 auto;
   border-radius: var(--radius-lg);
@@ -220,31 +257,75 @@ nav {
   z-index: 1;
   flex: 0 0 auto;
   transition:
-    transform 240ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 240ms cubic-bezier(0.32, 0.72, 0, 1),
     color 180ms ease;
 }
 
-.nav-item span {
+/* Labels animate open from the rail: width-agnostic, so no truncation flash. */
+.nav-item-label {
   position: relative;
   z-index: 1;
-  max-width: 0;
+  flex: 1 1 auto;
+  min-width: 0;
   overflow: hidden;
+  text-overflow: ellipsis;
   opacity: 0;
-  transform: translateX(-4px);
+  transform: translateX(-6px);
   transition:
-    max-width 260ms cubic-bezier(0.25, 1, 0.5, 1),
-    opacity 200ms cubic-bezier(0.25, 1, 0.5, 1),
-    transform 240ms cubic-bezier(0.25, 1, 0.5, 1);
+    opacity 120ms ease,
+    transform 220ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.sidebar.expanded .nav-item span {
-  max-width: 160px;
+.sidebar.expanded .nav-item-label {
   opacity: 1;
   transform: translateX(0);
+  transition:
+    opacity 160ms ease 70ms,
+    transform 240ms cubic-bezier(0.32, 0.72, 0, 1) 40ms;
 }
 
-.sidebar:not(.expanded) .nav-item span {
-  display: none;
+.sidebar:not(.expanded) .nav-item-label {
+  flex: 0 0 0;
+  width: 0;
+}
+
+/* Active marker: a dot keeps the current page readable while collapsed. */
+.nav-item-active-dot {
+  position: absolute;
+  right: 6px;
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--on-fill);
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 160ms ease,
+    transform 200ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.sidebar.expanded .nav-item.active {
+  padding-right: 18px;
+}
+
+.sidebar.expanded .nav-item-active-dot {
+  opacity: 0.7;
+  transform: scale(1);
+}
+
+/* Collapsed: a small bar inside the tile keeps the active page readable
+   without breaking the centred icon (the tile clips overflow). */
+.sidebar:not(.expanded) .nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  width: 3px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background: var(--on-fill);
+  transform: translateY(-50%);
+  transition: height 200ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* Dynamic Module Accent Mappings */
@@ -370,13 +451,23 @@ nav {
   border-color: var(--border-light);
 }
 
-.sidebar-footer-toggle span {
+.sidebar-footer-label {
   white-space: nowrap;
   overflow: hidden;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 140ms ease,
+    transform 220ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.sidebar:not(.expanded) .sidebar-footer-toggle span {
-  display: none;
+.sidebar.expanded .sidebar-footer-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.sidebar:not(.expanded) .sidebar-footer-label {
+  width: 0;
 }
 
 .sidebar > nav:not(.sidebar-bottom-nav) {
@@ -448,32 +539,50 @@ nav {
     transform: translateX(0);
   }
 
-  .sidebar .nav-item span {
-    max-width: 180px;
+  .sidebar .nav-item-label,
+  .sidebar .sidebar-brand-name,
+  .sidebar .sidebar-footer-label,
+  .sidebar .sidebar-nav-group-label {
     opacity: 1;
+    transform: none;
+    width: auto;
+    max-height: none;
+    flex: 1 1 auto;
   }
 
+  .sidebar .nav-item {
+    width: 100%;
+    padding: 8px 12px;
+    gap: 11px;
+    justify-content: flex-start;
+    margin: 0;
+    border-radius: var(--radius-md);
+  }
+
+  /* Touch devices get no hover preview — the drawer owns the transition. */
+  .sidebar.is-previewing {
+    box-shadow: var(--shadow-lg);
+  }
 }
 
 /* Sidebar Hover Tooltip Pill (Collapsed Mode) */
 .sidebar-tooltip-pill {
   position: fixed;
-  left: 80px;
+  /* Anchored just past the rail so it never overlaps the icon target. */
+  left: calc(var(--sidebar-collapsed) + var(--space-2xs));
   transform: translateY(-50%);
   z-index: 100;
   padding: 6px 14px;
-  background: var(--bg-tertiary, #171717);
-  color: var(--text-primary, #ffffff);
-  border: 1px solid var(--border-color, #262626);
-  border-radius: var(--radius-md, 8px);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 550;
   line-height: 1.4;
   white-space: nowrap;
   pointer-events: none;
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-md);
   animation: sidebar-tooltip-in 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
