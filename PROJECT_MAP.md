@@ -270,6 +270,11 @@ npm test            # Vitest
 # Backend (from server/)
 python -m pytest tests -q   # unit + api + services + e2e
 
+# Smart test cache (from root) — skips unchanged suites and, with -PerFile,
+# reruns only the test files that can reach your edit (ADR 0066).
+./scripts/test-smart.ps1 -Scope server -PerFile
+./scripts/test-smart.ps1 -Scope all -Force
+
 # Docker (from root)
 docker compose up --build -d
 curl -i http://localhost/health

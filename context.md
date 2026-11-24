@@ -1,7 +1,7 @@
 # Stride Context
 
 Living snapshot for AI agents. `AGENTS.md` holds permanent rules; this file holds the **current state**. See `CHANGELOG.md` for history and `PROJECT_MAP.md` for the file index.
-Last updated: 2026-11-24 — Sidebar is an auto-collapsing hover-expandable rail (ADR 0065): overlays content instead of reflowing it, hover-intent timing in `components/sidebarHoverIntent.js`.
+Last updated: 2026-11-24 — Smart test cache selects affected test files (ADR 0066): `test-smart.ps1 -PerFile` + `scripts/lib/test_deps.py`, guard files invalidate all.
 
 ## Contents
 1. [Overview](#1-overview) · 2. [Repository structure](#2-repository-structure) · 3. [Backend](#4-backend) · 4. [Frontend](#4-frontend) · 5. [Design system](#5-design-system) · 6. [Current snapshot](#6-current-snapshot) · 7. [Limitations](#7-limitations) · 8. [Verification](#8-verification)
