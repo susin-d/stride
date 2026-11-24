@@ -204,12 +204,14 @@ nav {
     padding 220ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/* Collapsed: groups collapse to a thin divider rather than vanish abruptly. */
+/* Collapsed: group labels vanish entirely — zero height, invisible, non-interactive. */
 .sidebar:not(.expanded) .sidebar-nav-group-label {
   max-height: 0;
   padding-top: 0;
   padding-bottom: 0;
   opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .sidebar:not(.expanded) .sidebar-nav-group + .sidebar-nav-group {

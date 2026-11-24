@@ -14,15 +14,14 @@
   transition: padding-left 240ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.app-shell.sidebar-expanded,
-.app-shell:has(.sidebar.expanded) {
+/* Only pinned-open state shifts the content. Hover-preview overlays. */
+.app-shell.sidebar-expanded {
   padding-left: var(--sidebar-expanded);
 }
 
 @media (max-width: 900px) {
   .app-shell,
-  .app-shell.sidebar-expanded,
-  .app-shell:has(.sidebar.expanded) {
+  .app-shell.sidebar-expanded {
     padding-left: 0;
   }
 }
