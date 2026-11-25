@@ -8,6 +8,7 @@ import {
   RotateCcw,
   Sun,
   Moon,
+  Terminal,
   CheckCircle2,
   AlertTriangle,
   XCircle,
@@ -30,7 +31,7 @@ import {
   MOTION_OPTIONS,
 } from '../themes'
 
-const MODE_ICONS = { light: Sun, dark: Moon }
+const MODE_ICONS = { light: Sun, dark: Moon, void: Terminal }
 
 export function ThemesPage() {
   const {

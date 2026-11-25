@@ -19,6 +19,12 @@ export const THEME_MODES = [
     name: 'Dark',
     description: 'Neutral obsidian ramp with light ink emphasis — the dark half of the monochrome system.',
   },
+  {
+    id: 'void',
+    mode: 'void',
+    name: 'Void',
+    description: 'Deep obsidian IDE aesthetic with low-contrast structural dividers and pure neutral ink.',
+  },
 ]
 
 export const MODE_IDS = THEME_MODES.map((mode) => mode.id)
@@ -210,38 +216,47 @@ const OPTION_SOURCES = {
   motion: MOTION_OPTIONS,
 }
 
+const VALID_MODES = ['light', 'dark', 'void']
+
 export function resolveMode(modeId) {
-  return modeId === 'light' ? 'light' : 'dark'
+  return VALID_MODES.includes(modeId) ? modeId : 'dark'
 }
 
 export function readStoredMode(storage) {
   const store = storage ?? (typeof localStorage !== 'undefined' ? localStorage : null)
   const stored = store?.getItem(THEME_MODE_KEY)
   // Fresh visitors land on dark (ADR 0028 behaviour kept under ADR 0057).
-  return stored === 'light' ? 'light' : 'dark'
+  return VALID_MODES.includes(stored) ? stored : 'dark'
 }
 
-function syncThemeColorMeta(isDark) {
+function syncThemeColorMeta(resolvedMode) {
   const metaThemeColor = document.querySelector('meta[name="theme-color"]')
   if (!metaThemeColor) return
   const resolved = getComputedStyle(document.documentElement)
     .getPropertyValue('--bg-primary')
     .trim()
-  metaThemeColor.setAttribute('content', resolved || (isDark ? '#0a0a0a' : '#ffffff'))
+  const fallback = resolvedMode === 'light' ? '#ffffff' : (resolvedMode === 'void' ? '#121212' : '#0a0a0a')
+  metaThemeColor.setAttribute('content', resolved || fallback)
 }
 
 export function applyTheme(data) {
   if (!data || typeof data !== 'object') return
   const root = document.documentElement
-  const isDark = resolveMode(data.mode) === 'dark'
+  const resolvedMode = resolveMode(data.mode)
 
-  root.classList.toggle('dark-theme', isDark)
+  root.classList.remove('dark-theme', 'void-theme')
+  if (resolvedMode === 'dark') {
+    root.classList.add('dark-theme')
+  } else if (resolvedMode === 'void') {
+    root.classList.add('void-theme')
+  }
+
   try {
-    localStorage.setItem(THEME_MODE_KEY, isDark ? 'dark' : 'light')
+    localStorage.setItem(THEME_MODE_KEY, resolvedMode)
   } catch {
     /* storage unavailable (private mode) — the class toggle above still applies */
   }
-  syncThemeColorMeta(isDark)
+  syncThemeColorMeta(resolvedMode)
 
   Object.entries(OPTION_SOURCES).forEach(([optionKey, options]) => {
     const selected = options.find((option) => option.id === data[optionKey])

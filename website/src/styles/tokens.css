@@ -1,5 +1,6 @@
 @import './themes/index.css';
 @import './themes/dark.css';
+@import './themes/void.css';
 
 :root {
   /* Typography */
