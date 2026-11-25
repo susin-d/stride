@@ -25,7 +25,6 @@ const workspacePages = new Set([
   'workspace',
   'studio',
   'studio-apps',
-  'studio-templates',
   'profile',
   'themes',
   'setting',

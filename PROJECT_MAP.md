@@ -47,7 +47,7 @@ stride/
 | `src/lib/` | API clients — one per backend feature, all via `request.js` (`apiRequest`) |
 | `src/pages/` | Route-level components (see Page Map below) |
 | `src/pages/settings/` | Settings sections: Profile, AiModels, EveVoice, WhatsApp, Gmail, Github, etc. |
-| `src/pages/studio/` | StudioHero, StudioAppsPage, StudioBuilderPage, StudioTemplatesPage |
+| `src/pages/studio/` | StudioHero, StudioAppsPage, StudioBuilderPage |
 | `src/pages/workspace/` | WorkspacePage + IDE components (editor, browser, eve panel) |
 | `src/pages/landing/` | Cinematic landing (Framer Motion sections, scoped cinema.css) |
 | `src/styles/` | tokens.css, base.css, components/, pages/, themes/ |
@@ -74,7 +74,7 @@ Routes are `/app/<page>` (router `hooks/useRouter.js`, page ids in `appPages.jsx
 | `/app/todo` | TodoPage | Tasks with checkboxes |
 | `/app/workspace` | WorkspacePage | Code IDE + Eve Agent panel + Browser |
 | `/app/studio`, `/app/studio/:id` | StudioProjectsPage → StudioBuilderPage | Hero prompt → builder; apps/templates siblings |
-| `/app/studio-apps`, `/app/studio-templates` | StudioAppsPage, StudioTemplatesPage | Gallery + curated templates |
+| `/app/studio-apps` | StudioAppsPage | Built apps gallery |
 | `/app/eve` (+ `/sessions`, `/memory`, `/call`, `/schedules`) | EvePage | Chat, sessions, memory, voice, schedules |
 | `/app/compete` | CompetePage | Contests + coding stats (`stats`/`competitive-coding` resolve to its tabs) |
 | `/app/calls` | CallsPage | WebRTC + Twilio PSTN |

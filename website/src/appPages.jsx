@@ -27,7 +27,6 @@ const WorkspacePage = lazy(() => import('./pages/WorkspacePage').then((m) => ({ 
 const StudioProjectsPage = lazy(() => import('./pages/studio/StudioProjectsPage').then((m) => ({ default: m.StudioProjectsPage })))
 const StudioAppsPage = lazy(() => import('./pages/studio/StudioAppsPage').then((m) => ({ default: m.StudioAppsPage })))
 const StudioBuilderPage = lazy(() => import('./pages/studio/StudioBuilderPage').then((m) => ({ default: m.StudioBuilderPage })))
-const StudioTemplatesPage = lazy(() => import('./pages/studio/StudioTemplatesPage').then((m) => ({ default: m.StudioTemplatesPage })))
 const UsagePage = lazy(() => import('./pages/UsagePage').then((m) => ({ default: m.UsagePage })))
 
 export function buildAppPages({
@@ -254,12 +253,6 @@ export function buildAppPages({
     ),
     'studio-apps': (
       <StudioAppsPage
-        onOpenProject={(project) => navigateWorkspace('studio-detail', project.id)}
-        onNavigate={navigateWorkspace}
-      />
-    ),
-    'studio-templates': (
-      <StudioTemplatesPage
         onOpenProject={(project) => navigateWorkspace('studio-detail', project.id)}
         onNavigate={navigateWorkspace}
       />
