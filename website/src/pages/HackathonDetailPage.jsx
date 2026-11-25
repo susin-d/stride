@@ -11,7 +11,7 @@ import {
   Users,
 } from 'lucide-react'
 import { deleteHackathon, updateHackathon } from '../lib/workspaceApi'
-import { ConfirmDialog, Modal } from '../components/ui'
+import { ConfirmDialog, Modal, PageHeader } from '../components/ui'
 
 const emptyHackathon = {
   title: '',
@@ -104,45 +104,48 @@ export function HackathonDetailPage({ hackathon, onBack, onSave, onDelete }) {
 
   return (
     <section className="hackathons-page hackathon-detail-page">
-      <button className="project-back-button" onClick={onBack} type="button">
-        <ArrowLeft size={16} /> Back to hackathons
-      </button>
-
-      <div className="hackathon-detail-header">
-        <div>
-          <div className="hackathon-card-topline">
+      <PageHeader
+        backAction={
+          <button className="project-back-button" onClick={onBack} type="button">
+            <ArrowLeft size={16} /> Back to hackathons
+          </button>
+        }
+        title={hackathon.title}
+        meta={
+          <>
             <span className="hackathon-card-source">
               {isManual ? 'Stride' : (hackathon.source || '').toUpperCase()}
             </span>
-          </div>
-          <h1>{hackathon.title}</h1>
-          <p className="hackathon-organizer-subhead">
-            Organized by <strong>{hackathon.organizer || 'Not specified'}</strong>
-          </p>
-        </div>
-      </div>
-      <div className="page-inline-actions">
-        {isManual && (
-          <>
-            <button className="secondary-button" type="button" onClick={openEdit}>
-              <Pencil size={15} /> Edit details
-            </button>
-            <button className="secondary-button" type="button" onClick={() => setDeleteId(hackathon.id)}>
-              <Trash2 size={15} /> Delete
-            </button>
+            <span>
+              Organized by <strong>{hackathon.organizer || 'Not specified'}</strong>
+            </span>
           </>
-        )}
-        {hackathon.url && (
-          <a
-            className="primary-button"
-            href={hackathon.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <ExternalLink size={15} /> Open external page
-          </a>
-        )}
-      </div>
+        }
+        actions={
+          <>
+            {isManual && (
+              <>
+                <button className="secondary-button" type="button" onClick={openEdit}>
+                  <Pencil size={15} /> Edit details
+                </button>
+                <button className="secondary-button" type="button" onClick={() => setDeleteId(hackathon.id)}>
+                  <Trash2 size={15} /> Delete
+                </button>
+              </>
+            )}
+            {hackathon.url && (
+              <a
+                className="primary-button"
+                href={hackathon.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink size={15} /> Open external page
+              </a>
+            )}
+          </>
+        }
+      />
 
       <div className="workspace-insight-grid hackathon-detail-insights" aria-label="Hackathon overview">
         <div className="workspace-insight-card">

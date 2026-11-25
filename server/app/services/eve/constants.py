@@ -5,12 +5,16 @@ SUPPORTED_RESOURCES = ("todos", "projects", "jobs", "hackathons", "documents", "
 WRITABLE_RESOURCES = ("todos", "projects", "jobs", "hackathons", "documents", "calendar_events")
 WORKSPACE_PAGES = (
     "dashboard",
+    "eve",
     "stats",
     "todo",
     "calendar",
     "mails",
     "chats",
+    "calls",
+    "contacts",
     "competitive-coding",
+    "compete",
     "hackathons",
     "projects",
     "jobs",
@@ -18,5 +22,7 @@ WORKSPACE_PAGES = (
     "workspace",
     "whatsapp",
     "profile",
+    "themes",
     "setting",
+    "usage",
 )

@@ -19,7 +19,7 @@ import {
   Layers,
   Zap,
 } from 'lucide-react'
-import { SectionHeading } from '../components/ui'
+import { PageHeader, SectionHeading } from '../components/ui'
 import { StrideLogo } from '../components/StrideLogo'
 import {
   useThemeCustomizer,
@@ -72,44 +72,46 @@ export function ThemesPage() {
 
   return (
     <section className="themes-page">
-      <div className="page-inline-actions">
-        <div className="themes-header-actions">
-          <button
-            type="button"
-            className="secondary-button"
-            onClick={resetToDefault}
-            title="Reset appearance settings to system defaults"
-          >
-            <RotateCcw size={15} />
-            Reset Defaults
-          </button>
-          <button
-            type="button"
-            className="secondary-button"
-            onClick={exportAppearance}
-            title="Export UI/UX configuration JSON"
-          >
-            <Download size={15} />
-            Export JSON
-          </button>
-          <button
-            type="button"
-            className="secondary-button"
-            onClick={triggerImport}
-            title="Import UI/UX configuration JSON"
-          >
-            <Upload size={15} />
-            Import JSON
-          </button>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-            accept=".json"
-            style={{ display: 'none' }}
-          />
-        </div>
-      </div>
+      <PageHeader
+        actions={
+          <>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={resetToDefault}
+              title="Reset appearance settings to system defaults"
+            >
+              <RotateCcw size={15} />
+              Reset Defaults
+            </button>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={exportAppearance}
+              title="Export UI/UX configuration JSON"
+            >
+              <Download size={15} />
+              Export JSON
+            </button>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={triggerImport}
+              title="Import UI/UX configuration JSON"
+            >
+              <Upload size={15} />
+              Import JSON
+            </button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileUpload}
+              accept=".json"
+              className="visually-hidden"
+            />
+          </>
+        }
+      />
 
       {/* 1. Appearance mode */}
       <div className="themes-section">

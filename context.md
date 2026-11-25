@@ -1,7 +1,7 @@
 # Stride Context
 
 Living snapshot for AI agents. `AGENTS.md` holds permanent rules; this file holds the **current state**. See `CHANGELOG.md` for history and `PROJECT_MAP.md` for the file index.
-Last updated: 2026-11-25 — Redesigned landing page as a White/Dark monochrome Editorial Broadsheet with Inter + JetBrains Mono and a 6-section Swiss grid (ADR 0075).
+Last updated: 2026-11-25 — Global UI/UX audit & deslop: added canonical PageHeader, wired mobile drawer trigger, deduplicated sidebar toggle, fixed primitive prop mismatches, and unified pages on shared components (ADR 0077).
 
 ## Contents
 1. [Overview](#1-overview) · 2. [Repository structure](#2-repository-structure) · 3. [Backend](#4-backend) · 4. [Frontend](#4-frontend) · 5. [Design system](#5-design-system) · 6. [Current snapshot](#6-current-snapshot) · 7. [Limitations](#7-limitations) · 8. [Verification](#8-verification)

@@ -9,25 +9,9 @@
   background: var(--bg-primary);
 }
 
-.ws-overview-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-sm);
+.ws-overview-toolbar {
   margin: 0 auto var(--space-lg);
   max-width: var(--layout-max-width, 1240px);
-}
-
-.ws-overview-search {
-  width: min(100%, 280px);
-}
-
-.ws-overview-header h2 {
-  margin: 0 0 6px;
-  font-size: clamp(22px, 2.6vw, 30px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
 }
 
 .ws-overview-grid {

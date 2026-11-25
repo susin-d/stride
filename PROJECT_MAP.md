@@ -47,7 +47,7 @@ stride/
 | `src/lib/` | API clients — one per backend feature, all via `request.js` (`apiRequest`) |
 | `src/pages/` | Route-level components (see Page Map below) |
 | `src/pages/settings/` | Settings sections: Profile, AiModels, EveVoice, WhatsApp, Gmail, Github, etc. |
-| `src/pages/workspace/` | WorkspacePage + IDE components (editor, browser, eve panel) |
+| `src/pages/workspace/` | WorkspacePage + IDE components (editor, browser, terminal, file tree) |
 | `src/pages/landing/` | Cinematic landing (Framer Motion sections, scoped cinema.css) |
 | `src/styles/` | tokens.css, base.css, components/, pages/, themes/ |
 | `src/themes/` | Appearance engine (`themeApplicator`): White/Dark modes + geometry/motion options |
@@ -71,7 +71,7 @@ Routes are `/app/<page>` (router `hooks/useRouter.js`, page ids in `appPages.jsx
 | `/app/hackathons`, `/app/hackathons/:id` | HackathonsPage → HackathonDetailPage | Sources + manual entry |
 | `/app/documents`, `/app/documents/:id` | DocumentsPage → DocumentOpenerPage | Monaco editor |
 | `/app/todo` | TodoPage | Tasks with checkboxes |
-| `/app/workspace` | WorkspacePage | Code IDE + Eve Agent panel + Browser |
+| `/app/workspace` | WorkspacePage | Code IDE + Terminal + Browser |
 | `/app/eve` (+ `/sessions`, `/memory`, `/call`, `/schedules`) | EvePage | Chat, sessions, memory, voice, schedules |
 | `/app/compete` | CompetePage | Contests + coding stats (`stats`/`competitive-coding` resolve to its tabs) |
 | `/app/calls` | CallsPage | WebRTC + Twilio PSTN |

@@ -12,6 +12,8 @@ import {
 } from '../lib/eveApi'
 import { Markdown } from './ui/Markdown'
 import { previewFor } from '../utils/evePreview'
+import { buildSiteContextPrefix } from '../utils/eveSiteContext'
+import { dispatchEveActions } from '../utils/eveActions'
 
 const MAX_CHARS = 4000
 
@@ -186,8 +188,13 @@ export function EveAssistantModal({ isOpen, onClose, onNavigate, onWorkspaceChan
         ...current,
       ])
     }
-    const apiMessages = nextMessages.filter((m) => typeof m.content === 'string' && m.content.trim().length > 0).map((m) => ({ role: m.role, content: m.content.trim() }))
-    const response = await sendEveMessage(apiMessages.length ? apiMessages : nextMessages, nextSessionId, null)
+    const contextPrefix = buildSiteContextPrefix()
+    const cleanHistory = sanitizedBase.map((m) => ({ role: m.role, content: m.content.trim() }))
+    const apiMessages = [
+      ...cleanHistory,
+      { role: 'user', content: contextPrefix ? `${contextPrefix}\n\n${trimmed}` : trimmed },
+    ]
+    const response = await sendEveMessage(apiMessages, nextSessionId, null)
     const assistantText = typeof response.message === 'string' ? response.message.trim() : ''
     const assistantMessage = assistantText ? { role: 'assistant', content: assistantText } : null
     const finalMessages = assistantMessage ? [...nextMessages, assistantMessage] : nextMessages
@@ -196,8 +203,10 @@ export function EveAssistantModal({ isOpen, onClose, onNavigate, onWorkspaceChan
       { id: nextSessionId, title: sessionTitle, updated_at: new Date().toISOString(), preview: previewFor(finalMessages) },
       ...current.filter((session) => session.id !== nextSessionId),
     ])
-    if (response.changed_resources.length) onWorkspaceChanged()
-    handleActions(response.actions ?? [])
+    await dispatchEveActions(response.actions ?? [], response.changed_resources ?? [], {
+      onNavigate,
+      onWorkspaceChanged,
+    })
     return { messages: finalMessages, sessionId: nextSessionId }
   }
 
@@ -228,24 +237,6 @@ export function EveAssistantModal({ isOpen, onClose, onNavigate, onWorkspaceChan
     } finally {
       setIsSending(false)
     }
-  }
-
-  const handleActions = (actions) => {
-    actions.forEach((action) => {
-      if (action.type === 'navigate_page') {
-        onNavigate?.(action.page)
-      } else if (action.type === 'open_record') {
-        if (action.page === 'project-detail') onNavigate?.('project-detail', action.projectId)
-        if (action.page === 'document-opener') onNavigate?.('document-opener', null, action.documentId)
-      } else if (action.type === 'refresh_workspace_data') {
-        onWorkspaceChanged()
-      } else if (action.type === 'apply_ui_overrides' || action.type === 'reset_ui') {
-        if (action.preferences) window.dispatchEvent(new CustomEvent('eve-ui-update', { detail: { preferences: action.preferences } }))
-      } else if (action.type === 'open_custom_page' && action.slug) {
-        if (action.preferences) window.dispatchEvent(new CustomEvent('eve-ui-update', { detail: { preferences: action.preferences } }))
-        onNavigate?.(`custom-${action.slug}`)
-      }
-    })
   }
 
   const charProgress = draft.length / MAX_CHARS

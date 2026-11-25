@@ -8,6 +8,8 @@ import "../styles/pages/settings-whatsapp.css"
 import "../styles/pages/settings-whatsapp-eve.css"
 import { useEffect, useRef, useState } from 'react'
 import { TabNav } from '../components/ui'
+import { isTauri } from '../lib/desktopUpdater'
+import { isNative as isCapacitorNative } from '../lib/otaUpdater'
 import { AccountSection } from './settings/AccountSection'
 import { AiModelsSection } from './settings/AiModelsSection'
 import { AppsSection } from './settings/AppsSection'
@@ -36,7 +38,7 @@ const SETTINGS_SECTIONS = [
   { id: 'settings-eve-voice', href: '#settings-eve-voice', label: 'Eve voice' },
   { id: 'settings-eve-avatar', href: '#settings-eve-avatar', label: 'Eve avatar' },
   { id: 'settings-devices', href: '#settings-devices', label: 'Devices & sessions' },
-  { id: 'settings-updates', href: '#settings-updates', label: 'Updates' },
+  ...(isTauri() || isCapacitorNative() ? [{ id: 'settings-updates', href: '#settings-updates', label: 'Updates' }] : []),
   { id: 'settings-account', href: '#settings-account', label: 'Account & security' },
 ]
 

@@ -373,15 +373,21 @@ export function DocumentsPage({ documents, setDocuments, createIntent, onOpenDoc
       )}
 
       {!documents.length && (
-        <section className="document-empty-state">
-          <span><Files size={22} /></span>
-          <h2>No documents yet</h2>
-          <p>Upload a file or import one from Google Drive to get started.</p>
-          <div>
-            <button onClick={openUpload}><Upload size={15} /> Upload document</button>
-            <button onClick={connectGoogleDrive}><FolderInput size={15} /> Import from Drive</button>
-          </div>
-        </section>
+        <EmptyState
+          icon={Files}
+          title="No documents yet"
+          description="Upload a file or import one from Google Drive to get started."
+          action={
+            <div className="cluster-xs">
+              <button type="button" className="primary-button" onClick={openUpload}>
+                <Upload size={15} /> Upload document
+              </button>
+              <button type="button" className="secondary-button" onClick={connectGoogleDrive}>
+                <FolderInput size={15} /> Import from Drive
+              </button>
+            </div>
+          }
+        />
       )}
 
       <DocumentEditorModal

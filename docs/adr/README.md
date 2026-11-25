@@ -87,6 +87,8 @@
 | [0073](0073-remove-unified-models-routes.md) | Remove unused `/models/*` unified model discovery routes | Accepted | 2026-11-25 |
 | [0074](0074-parameterize-coding-stats-routes.md) | Parameterize `/stats/competitive-coding/{platform}` and remove unused aggregate | Accepted | 2026-11-25 |
 | [0075](0075-landing-editorial-broadsheet-redesign.md) | Editorial Broadsheet landing page redesign (White + Dark monochrome, Inter + JetBrains Mono, 6-section Swiss grid) | Accepted | 2026-11-25 |
+| [0076](0076-unify-eve-site-wide-remove-workspace-agent.md) | Remove Workspace-only Eve Agent panel and unify global Eve with site-wide context, actions, and workspace tools | Accepted | 2026-11-25 |
+| [0077](0077-unified-ui-shell-page-header-and-primitives.md) | Unified UI shell, PageHeader, and shared primitives (global audit & deslop) | Accepted | 2026-11-25 |
 | [0058](0058-dashboard-overview-aggregate.md) | Dashboard overview aggregate endpoint | Accepted (renumbered from 0053 — duplicate number) | 2026-09-11 |
 
 ## How to add a new ADR

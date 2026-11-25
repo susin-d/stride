@@ -22,9 +22,9 @@ export function CalendarToolbar({
 }) {
   return (
     <div className="calendar-toolbar">
-      <div>
-        <p className="calendar-eyebrow">Calendar</p>
+      <div className="calendar-toolbar-heading">
         <h1>{calendarTitle}</h1>
+        <p className="calendar-readonly-note">Events are managed by their source calendars</p>
       </div>
 
       <div className="calendar-actions">
@@ -65,7 +65,6 @@ export function CalendarToolbar({
           onPrev={onPrev}
           onNext={onNext}
         />
-        <span className="calendar-readonly-note">Events are managed by their source calendars</span>
       </div>
     </div>
   )

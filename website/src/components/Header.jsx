@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { Bell, Bot, Search } from 'lucide-react'
+import { Bell, Bot, Menu, Search } from 'lucide-react'
 import { clearAuthSession } from '../lib/authApi'
 import { getNotificationPermission, requestNotificationPermission } from '../utils/browserNotifications'
 import { navigationItems } from '../config/navigation'
@@ -15,6 +15,7 @@ const AdvancedSearchModal = lazy(() => import('./search/AdvancedSearchModal').th
 export function Header({
   activePage,
   onNavigate,
+  onOpenSidebar,
   onCreate,
   callCenter,
   notifications,
@@ -112,6 +113,16 @@ export function Header({
     <>
       <header className="topbar">
         <div className="topbar-left">
+          {onOpenSidebar && (
+            <button
+              type="button"
+              className="header-menu-btn"
+              onClick={onOpenSidebar}
+              aria-label="Open navigation"
+            >
+              <Menu size={19} aria-hidden="true" />
+            </button>
+          )}
           <span className="topbar-page-title" aria-current="page">{currentNav.label}</span>
         </div>
 

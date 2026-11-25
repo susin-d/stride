@@ -132,12 +132,6 @@
   .workspace-toolbar-v2 {
     flex-wrap: wrap;
   }
-  .workspace-eve-panel {
-    display: none;
-  }
-  .workspace-eve-collapsed {
-    display: none;
-  }
 }
 
 @media (max-width: 640px) {

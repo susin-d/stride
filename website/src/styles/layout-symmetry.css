@@ -19,7 +19,10 @@
 .content > :where(
   .dashboard-page,
   .calendar-page,
+  .calls-page,
   .competitive-coding-page,
+  .contacts-page,
+  .custom-page,
   .documents-page,
   .document-opener-page,
   .hackathons-page,
@@ -30,7 +33,10 @@
   .projects-page,
   .setting-page,
   .stats-page,
+  .themes-page,
   .todo-page,
+  .usage-page,
+  .usage-page-dark,
   .eve-page-container
 ) {
   width: 100%;
@@ -109,25 +115,11 @@
   margin-inline: auto;
 }
 
-/* Mail — internal layout handles folder drawer, not outer .content hacks */
-.content:has(.mail-page) {
+/* The mail workspace occupies the centered content shell cleanly. */
+.content:has(.mail-page-container) {
   width: min(100%, var(--content-max-width));
   max-width: var(--content-max-width);
   margin-inline: auto;
-  padding: var(--space-lg) var(--content-gutter) var(--space-xl);
-}
-
-.content:has(.mail-page) > .mail-page {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  min-width: 0;
-}
-
-/* The disconnected mail state is a full-page onboarding surface. */
-.content:has(.mail-page-container) {
-  width: 100%;
-  max-width: none;
   padding: var(--space-lg) var(--content-gutter) var(--space-xl);
   display: flex;
   flex-direction: column;
@@ -379,8 +371,7 @@
 
 @media (max-width: 900px) {
   .content,
-  .sidebar-expanded .content,
-  .content:has(.mail-page) {
+  .sidebar-expanded .content {
     width: 100%;
     max-width: 100%;
     padding: var(--space-sm) max(var(--space-sm), var(--safe-area-left)) var(--space-lg) max(var(--space-sm), var(--safe-area-right));

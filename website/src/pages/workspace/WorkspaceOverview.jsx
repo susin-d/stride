@@ -9,7 +9,7 @@ import {
   Plus,
   Trash2,
 } from 'lucide-react'
-import { EmptyState, LoadingState, SearchBar } from '../../components/ui'
+import { EmptyState, FilterBar, LoadingState, SearchBar } from '../../components/ui'
 
 function formatDate(value) {
   const date = new Date(value)
@@ -49,16 +49,22 @@ export function WorkspaceOverview({
 
   return (
     <div className="ws-overview">
-      <header className="ws-overview-header">
-        <h2>Workspaces</h2>
-        <SearchBar
-          className="ws-overview-search"
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Search workspaces"
-          ariaLabel="Search workspaces"
-        />
-      </header>
+      <FilterBar
+        className="ws-overview-toolbar"
+        search={
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search workspaces"
+            ariaLabel="Search workspaces"
+          />
+        }
+        actions={
+          <button type="button" className="primary-button" onClick={onOpenCreateWorkspace}>
+            <Plus size={15} /> New workspace
+          </button>
+        }
+      />
 
       {workspaces.length === 0 ? (
         <EmptyState

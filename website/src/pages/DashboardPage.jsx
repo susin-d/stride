@@ -3,9 +3,11 @@ import '../styles/pages/dashboard-customize.css'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ChevronDown,
+  LayoutGrid,
   Plus,
   SlidersHorizontal,
 } from 'lucide-react'
+import { EmptyState } from '../components/ui'
 import {
   DASHBOARD_SCHEMA_VERSION,
   DASHBOARD_STORAGE_KEY,
@@ -410,12 +412,16 @@ export function DashboardPage({
       </section>
 
       {!hasVisibleWidgets ? (
-        <div className="dashboard-empty-bento">
-          <p>All dashboard cards are hidden.</p>
-          <button type="button" className="secondary-button" onClick={resetDashboard}>
-            Restore default cards
-          </button>
-        </div>
+        <EmptyState
+          icon={LayoutGrid}
+          title="All dashboard cards are hidden"
+          description="Restore the default cards or customize which widgets appear here."
+          action={
+            <button type="button" className="secondary-button" onClick={resetDashboard}>
+              Restore default cards
+            </button>
+          }
+        />
       ) : (
         <div className="dashboard-bento">
           {focusWidgets.length > 0 && (

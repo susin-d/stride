@@ -30,7 +30,7 @@ export function CustomPage({ slug }) {
     return () => window.removeEventListener('eve-ui-update', onUpdate)
   }, [slug])
 
-  if (!prefs && !entry) return <LoadingState label={`Loading ${slug}…`} />
+  if (!prefs && !entry) return <LoadingState message={`Loading ${slug}…`} />
   if (error) return <Alert variant="error">{error}</Alert>
   if (!entry) return <Alert variant="info">No content.</Alert>
 

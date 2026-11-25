@@ -88,6 +88,7 @@ export function AppLayout({
         <Header
           activePage={activePage}
           onNavigate={onNavigate}
+          onOpenSidebar={() => setSidebarOpen(true)}
           onCreate={onCreate}
           callCenter={callCenter}
           notifications={notifications}
@@ -120,6 +121,7 @@ export function AppLayout({
             onClose={() => setEveOpen(false)}
             onNavigate={onNavigate}
             onWorkspaceChanged={onWorkspaceChanged}
+            callCenter={callCenter}
             width={evePanelWidth}
             onResize={handleEveResize}
             minWidth={EVE_PANEL_MIN_WIDTH}

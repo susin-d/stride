@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Brain, Plus, Trash2 } from 'lucide-react'
-import { EmptyState, LoadingState, SearchBar } from '../../components/ui'
+import { EmptyState, FilterBar, LoadingState, SearchBar } from '../../components/ui'
 
 export function EveMemorySection({
   memories,
@@ -51,18 +51,21 @@ export function EveMemorySection({
         </form>
       </div>
 
-      <div className="eve-sessions-toolbar">
-        <SearchBar
-          className="eve-search-field"
-          placeholder="Search remembered facts…"
-          ariaLabel="Search remembered facts"
-          value={searchQuery}
-          onChange={setSearchQuery}
-        />
-        <span className="eve-sessions-count">
-          {filteredMemories.length} {filteredMemories.length === 1 ? 'memory' : 'memories'}
-        </span>
-      </div>
+      <FilterBar
+        search={
+          <SearchBar
+            placeholder="Search remembered facts…"
+            ariaLabel="Search remembered facts"
+            value={searchQuery}
+            onChange={setSearchQuery}
+          />
+        }
+        actions={
+          <span className="eve-sessions-count">
+            {filteredMemories.length} {filteredMemories.length === 1 ? 'memory' : 'memories'}
+          </span>
+        }
+      />
 
       {isLoading ? (
         <LoadingState message="Loading remembered facts…" />

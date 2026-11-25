@@ -29,7 +29,7 @@ export function ContactImportModal({ isOpen, onClose, isImporting, importProgres
                     <p>Connect your Google Account to import all names, phone numbers, emails, companies, and avatars directly via Google People API.</p>
                   </div>
                 </div>
-                <button type="button" className="primary-button" onClick={onGoogleSync} style={{ width: '100%', justifyContent: 'center' }}>
+                <button type="button" className="primary-button contact-import-action-btn" onClick={onGoogleSync}>
                   <Contact size={14} />
                   <span>Sync with Google Account</span>
                 </button>
@@ -49,8 +49,8 @@ export function ContactImportModal({ isOpen, onClose, isImporting, importProgres
                     </p>
                   </div>
                 </div>
-                <input ref={fileInputRef} type="file" id="contacts-file-input" accept=".csv, .vcf, .vcard, text/csv, text/vcard" style={{ display: 'none' }} onChange={onFileUpload} />
-                <button type="button" className="secondary-button" onClick={() => fileInputRef.current?.click()} style={{ width: '100%', justifyContent: 'center' }}>
+                <input ref={fileInputRef} type="file" id="contacts-file-input" className="visually-hidden" accept=".csv, .vcf, .vcard, text/csv, text/vcard" onChange={onFileUpload} />
+                <button type="button" className="secondary-button contact-import-action-btn" onClick={() => fileInputRef.current?.click()}>
                   <Upload size={14} />
                   <span>Select Google CSV / vCard File</span>
                 </button>

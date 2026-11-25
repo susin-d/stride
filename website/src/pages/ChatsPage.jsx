@@ -19,7 +19,7 @@ import {
   getGoogleChatSpaces,
   sendGoogleChatMessage,
 } from '../lib/googleChatApi'
-import { FilterPills, LoadingState, SearchBar } from '../components/ui'
+import { EmptyState, FilterPills, LoadingState, PageHeader, SearchBar } from '../components/ui'
 
 export function ChatsPage({ onNavigate: _onNavigate }) {
   const [accounts, setAccounts] = useState([])
@@ -141,64 +141,74 @@ export function ChatsPage({ onNavigate: _onNavigate }) {
 
   return (
     <section className="chats-page">
-      <div className="page-inline-actions">
-        {accounts.length > 0 ? (
-          <div className="account-badge-pill">
-            <span className="dot active"></span>
-            {accounts.length} Google {accounts.length === 1 ? 'Account' : 'Accounts'} Connected
-          </div>
-        ) : !loading ? (
-          <button
-            className="secondary-button icon-button-text"
-            onClick={handleConnectGoogleChat}
-            disabled={connectingChat}
-          >
-            <Settings size={16} className={connectingChat ? 'spin' : ''} />
-            <span>{connectingChat ? 'Connecting…' : 'Connect Google Chat'}</span>
-          </button>
-        ) : null}
-        <button
-          className="icon-button"
-          onClick={() => fetchSpaces(selectedAccountEmail)}
-          disabled={loading}
-          title="Refresh"
-        >
-          <RefreshCw size={16} className={loading ? 'spin' : ''} />
-        </button>
-      </div>
+      <PageHeader
+        actions={
+          <>
+            {accounts.length > 0 ? (
+              <div className="account-badge-pill">
+                <span className="dot active"></span>
+                {accounts.length} Google {accounts.length === 1 ? 'Account' : 'Accounts'} Connected
+              </div>
+            ) : !loading ? (
+              <button
+                type="button"
+                className="secondary-button icon-button-text"
+                onClick={handleConnectGoogleChat}
+                disabled={connectingChat}
+              >
+                <Settings size={16} className={connectingChat ? 'spin' : ''} />
+                <span>{connectingChat ? 'Connecting…' : 'Connect Google Chat'}</span>
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className="icon-button"
+              onClick={() => fetchSpaces(selectedAccountEmail)}
+              disabled={loading}
+              aria-label="Refresh chats"
+              title="Refresh"
+            >
+              <RefreshCw size={16} className={loading ? 'spin' : ''} />
+            </button>
+          </>
+        }
+      />
 
       {/* No accounts connected empty state */}
       {!loading && accounts.length === 0 && (
-        <div className="no-active-chat no-active-chat--large">
-          <MessageSquare size={48} />
-          <h3>No Google Chat Accounts Connected</h3>
-          <p>
-            Connect a Google Chat account to view your spaces and direct messages
-            here. No need to go to Settings.
-          </p>
-          <button
-            className="primary-button chat-cta-button"
-            onClick={handleConnectGoogleChat}
-            disabled={connectingChat}
-          >
-            <Settings size={15} className={connectingChat ? 'spin' : ''} /> {connectingChat ? 'Connecting…' : 'Connect Google Chat'}
-          </button>
-        </div>
+        <EmptyState
+          icon={MessageSquare}
+          title="No Google Chat Accounts Connected"
+          description="Connect a Google Chat account to view your spaces and direct messages here. No need to go to Settings."
+          action={
+            <button
+              type="button"
+              className="primary-button"
+              onClick={handleConnectGoogleChat}
+              disabled={connectingChat}
+            >
+              <Settings size={15} className={connectingChat ? 'spin' : ''} /> {connectingChat ? 'Connecting…' : 'Connect Google Chat'}
+            </button>
+          }
+        />
       )}
 
       {/* Error state */}
       {error && accounts.length === 0 && (
-        <div className="no-active-chat no-active-chat--compact">
-          <AlertCircle size={40} />
-          <h3>Could Not Load Chats</h3>
-          <p>{error}</p>
-          <button
-            className="secondary-button chat-retry-button"
-            onClick={() => fetchSpaces(selectedAccountEmail)}
-          >
-            <RefreshCw size={15} /> Retry
-          </button>
-        </div>
+        <EmptyState
+          icon={AlertCircle}
+          title="Could Not Load Chats"
+          description={error}
+          action={
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={() => fetchSpaces(selectedAccountEmail)}
+            >
+              <RefreshCw size={15} /> Retry
+            </button>
+          }
+        />
       )}
 
       {/* Main chat UI - only render when we have accounts or are loading */}
@@ -300,7 +310,7 @@ export function ChatsPage({ onNavigate: _onNavigate }) {
           </aside>
 
           {/* Main thread */}
-          <main className="chats-main">
+          <div className="chats-main">
             {activeSpace ? (
               <>
                 {/* Conversation header */}
@@ -432,7 +442,7 @@ export function ChatsPage({ onNavigate: _onNavigate }) {
                 </p>
               </div>
             )}
-          </main>
+          </div>
         </div>
       )}
     </section>

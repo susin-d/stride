@@ -1,52 +1,13 @@
 /* Shared responsive refinements — geometry is now owned by layout-symmetry.css.
    Keep only non-geometry responsive helpers here. */
 
-.app-breadcrumbs {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  margin: calc(var(--space-2xs) * -1) 0 var(--space-sm);
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 650;
-}
-
-.app-breadcrumbs [aria-current="page"] {
-  color: var(--text-secondary);
-}
-
-.app-breadcrumbs .breadcrumb-action-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-left: auto;
-  padding: 0.35rem 0.7rem;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.app-breadcrumbs .breadcrumb-action-btn:hover {
-  color: var(--text-primary);
-  border-color: var(--border-heavy);
-  background: var(--bg-tertiary);
-}
-
-.page-heading > *,
 .dashboard-heading > *,
 .dashboard-greeting {
   min-width: 0;
 }
 
-.page-heading-actions,
 .dashboard-heading-actions,
-.dashboard-inline-actions,
-.page-inline-actions {
+.dashboard-inline-actions {
   flex-wrap: wrap;
 }
 

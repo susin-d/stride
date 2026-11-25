@@ -167,17 +167,6 @@ export function Sidebar({
             <span className="sidebar-brand-name">Stride</span>
           </div>
 
-          <button
-            type="button"
-            className="sidebar-toggle-btn"
-            onClick={handleToggleExpand}
-            aria-label={expanded ? 'Collapse navigation' : 'Expand navigation'}
-            aria-expanded={expanded}
-            title={expanded ? 'Collapse navigation' : 'Expand navigation'}
-          >
-            {expanded ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
-          </button>
-
           {isOpen && (
             <button
               type="button"

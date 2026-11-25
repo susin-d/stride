@@ -1,39 +1,12 @@
 /* Usage Page — theme-aware (uses app tokens) with provider colors in charts */
 .usage-page-dark,
 .usage-page {
-  background: var(--bg-primary);
+  display: grid;
+  align-content: start;
+  gap: var(--space-sm);
   color: var(--text-primary);
-  min-height: 100%;
   width: 100%;
-  padding: 24px 24px 28px;
   box-sizing: border-box;
-}
-
-.usage-stats-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.usage-stats-title {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-}
-
-.usage-app-pill {
-  display: inline-flex;
-  align-items: center;
-  height: 26px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .usage-top-card {
@@ -41,9 +14,8 @@
   grid-template-columns: repeat(5, 1fr);
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 16px 0;
-  margin-bottom: 14px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm) 0;
   box-shadow: var(--shadow-sm);
 }
 

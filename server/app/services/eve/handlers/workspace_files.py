@@ -3,6 +3,23 @@
 from app.db import SqlClient
 
 
+def handle_list_workspaces(database: SqlClient, user_id: str, arguments: dict) -> tuple[dict, None, None]:
+    from app.repositories import workspace_files as ws_repo
+
+    workspaces = ws_repo.list_workspaces(user_id)
+    return {"workspaces": workspaces, "total": len(workspaces)}, None, None
+
+
+def handle_create_workspace(database: SqlClient, user_id: str, arguments: dict) -> tuple[dict, str, None]:
+    from app.repositories import workspace_files as ws_repo
+
+    name = (arguments.get("name") or "").strip()
+    if not name:
+        raise ValueError("Workspace name must not be empty.")
+    workspace = ws_repo.create_workspace(user_id, name)
+    return {"workspace": workspace, "created": True}, "workspace-files", None
+
+
 def handle_read_workspace_file(database: SqlClient, user_id: str, arguments: dict) -> tuple[dict, None, None]:
     from app.repositories import workspace_files as ws_repo
 
@@ -20,6 +37,16 @@ def handle_write_workspace_file(database: SqlClient, user_id: str, arguments: di
     ws_id = arguments.get("workspace_id", "default")
     size = ws_repo.write_file(user_id, arguments["path"], arguments["content"], workspace_id=ws_id)
     return {"path": arguments["path"], "size": size, "written": True}, "workspace-files", None
+
+
+def handle_delete_workspace_file(database: SqlClient, user_id: str, arguments: dict) -> tuple[dict, str, None]:
+    from app.repositories import workspace_files as ws_repo
+
+    ws_id = arguments.get("workspace_id", "default")
+    deleted = ws_repo.delete_file(user_id, arguments["path"], workspace_id=ws_id)
+    if not deleted:
+        raise ValueError(f"File not found: {arguments['path']}")
+    return {"path": arguments["path"], "deleted": True}, "workspace-files", None
 
 
 def handle_list_workspace_files(database: SqlClient, user_id: str, arguments: dict) -> tuple[dict, None, None]:

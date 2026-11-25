@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
-import { Bot, Maximize2, Minimize2, Play, Send, ShieldCheck, X } from 'lucide-react'
+import { Bot, Maximize2, Minimize2, Play, Send, ShieldCheck, Square, Wrench, X } from 'lucide-react'
 import { ConfirmDialog } from './ui/ConfirmDialog'
+import { ModelSelectorDropdown } from './ui/ModelSelectorDropdown'
 import { EveModalSessions } from './eve/EveModalSessions'
 import {
   createEveSession,
@@ -8,9 +9,12 @@ import {
   getEveSession,
   listEveSessions,
   sendEveMessage,
+  streamEveMessage,
 } from '../lib/eveApi'
 import { Markdown } from './ui/Markdown'
 import { previewFor } from '../utils/evePreview'
+import { buildSiteContextPrefix } from '../utils/eveSiteContext'
+import { dispatchEveActions } from '../utils/eveActions'
 
 const MAX_CHARS = 4000
 
@@ -22,6 +26,7 @@ export function EveAssistantPanel({
   onClose,
   onNavigate,
   onWorkspaceChanged,
+  callCenter,
   width,
   onResize,
   maxWidth,
@@ -30,6 +35,10 @@ export function EveAssistantPanel({
   const [draft, setDraft] = useState('')
   const [error, setError] = useState('')
   const [isSending, setIsSending] = useState(false)
+  const [streamText, setStreamText] = useState('')
+  const [thinkingText, setThinkingText] = useState('')
+  const [activeTool, setActiveTool] = useState(null)
+  const [selectedModel, setSelectedModel] = useState(null)
   const [isExpanded, setIsExpanded] = useState(false)
   const [sessions, setSessions] = useState([])
   const [activeSessionId, setActiveSessionId] = useState(null)
@@ -39,15 +48,16 @@ export function EveAssistantPanel({
   const panelRef = useRef(null)
   const composerRef = useRef(null)
   const messagesEndRef = useRef(null)
+  const abortRef = useRef(null)
   const dragStartX = useRef(null)
   const dragStartWidth = useRef(null)
   const titleId = useId()
   const descriptionId = useId()
 
-  /* Auto-scroll when messages change or typing indicator shows */
+  /* Auto-scroll when messages change or streaming updates */
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, isSending])
+  }, [messages, isSending, streamText, thinkingText, activeTool])
 
   /* Load saved sessions on mount */
   useEffect(() => {
@@ -187,14 +197,24 @@ export function EveAssistantPanel({
     }
   }
 
+  const stopGenerating = () => {
+    abortRef.current?.abort()
+  }
+
   const sendPrompt = async (content, baseMessages, sessionIdOverride = null) => {
     const trimmed = typeof content === 'string' ? content.trim() : content
     if (!trimmed) return { messages: baseMessages, sessionId: sessionIdOverride }
-    const sanitizedBase = Array.isArray(baseMessages) ? baseMessages.filter((m) => typeof m.content === 'string' && m.content.trim().length > 0) : baseMessages
+    const sanitizedBase = Array.isArray(baseMessages)
+      ? baseMessages.filter((m) => typeof m.content === 'string' && m.content.trim().length > 0)
+      : baseMessages
     const nextMessages = [...sanitizedBase, { role: 'user', content: trimmed }]
     setMessages(nextMessages)
     setDraft('')
     setError('')
+    setStreamText('')
+    setThinkingText('')
+    setActiveTool(null)
+
     let nextSessionId = sessionIdOverride
     let sessionTitle = sessions.find((session) => session.id === nextSessionId)?.title ?? 'New chat'
     if (!nextSessionId) {
@@ -207,19 +227,103 @@ export function EveAssistantPanel({
         ...current,
       ])
     }
-    const apiMessages = nextMessages.filter((m) => typeof m.content === 'string' && m.content.trim().length > 0).map((m) => ({ role: m.role, content: m.content.trim() }))
-    const response = await sendEveMessage(apiMessages.length ? apiMessages : nextMessages, nextSessionId, null)
-    const assistantText = typeof response.message === 'string' ? response.message.trim() : ''
-    const assistantMessage = assistantText ? { role: 'assistant', content: assistantText } : null
-    const finalMessages = assistantMessage ? [...nextMessages, assistantMessage] : nextMessages
-    setMessages(finalMessages)
-    setSessions((current) => [
-      { id: nextSessionId, title: sessionTitle, updated_at: new Date().toISOString(), preview: previewFor(finalMessages) },
-      ...current.filter((session) => session.id !== nextSessionId),
-    ])
-    if (response.changed_resources.length) onWorkspaceChanged()
-    handleActions(response.actions ?? [])
-    return { messages: finalMessages, sessionId: nextSessionId }
+
+    const contextPrefix = buildSiteContextPrefix()
+    const cleanHistory = sanitizedBase.map((m) => ({ role: m.role, content: m.content.trim() }))
+    const apiMessages = [
+      ...cleanHistory,
+      { role: 'user', content: contextPrefix ? `${contextPrefix}\n\n${trimmed}` : trimmed },
+    ]
+
+    const controller = new AbortController()
+    abortRef.current = controller
+    let receivedText = ''
+    let donePayload = null
+    let fallbackToRest = false
+    const touchedTools = new Set()
+
+    try {
+      try {
+        await streamEveMessage({
+          messages: apiMessages,
+          sessionId: nextSessionId,
+          modelSelection: selectedModel,
+          signal: controller.signal,
+          onDelta: (delta) => {
+            receivedText += delta
+            setStreamText((current) => current + delta)
+          },
+          onThinking: (delta) => {
+            setThinkingText((current) => current + delta)
+          },
+          onToolStart: (name) => {
+            touchedTools.add(name)
+            setActiveTool(name)
+          },
+          onToolEnd: () => setActiveTool(null),
+          onDone: (payload) => {
+            donePayload = payload
+          },
+        })
+      } catch (streamError) {
+        if (controller.signal.aborted) {
+          donePayload = { message: receivedText, changed_resources: [], actions: [], session_id: nextSessionId }
+        } else if (!receivedText) {
+          if (streamError.code === 'rate_limit' || streamError.status === 429) {
+            throw streamError
+          }
+          fallbackToRest = true
+        } else {
+          setError(String(streamError.message || 'Eve response was interrupted.'))
+          donePayload = { message: receivedText, changed_resources: [], actions: [], session_id: nextSessionId }
+        }
+      }
+
+      if (fallbackToRest) {
+        const response = await sendEveMessage(apiMessages, nextSessionId, selectedModel)
+        donePayload = response
+      }
+
+      const finalSessionId = donePayload?.session_id ?? nextSessionId
+      if (finalSessionId && finalSessionId !== nextSessionId) {
+        nextSessionId = finalSessionId
+        setActiveSessionId(finalSessionId)
+      }
+
+      const assistantText = typeof (donePayload?.message ?? receivedText) === 'string'
+        ? (donePayload?.message ?? receivedText).trim()
+        : ''
+      const assistantMessage = assistantText ? { role: 'assistant', content: assistantText } : null
+      const finalMessages = assistantMessage ? [...nextMessages, assistantMessage] : nextMessages
+      setMessages(finalMessages)
+      setSessions((current) => [
+        { id: nextSessionId, title: sessionTitle, updated_at: new Date().toISOString(), preview: previewFor(finalMessages) },
+        ...current.filter((session) => session.id !== nextSessionId),
+      ])
+
+      const changedResources = [...(donePayload?.changed_resources ?? [])]
+      if (
+        (touchedTools.has('write_workspace_file') ||
+          touchedTools.has('delete_workspace_file') ||
+          touchedTools.has('run_workspace_command')) &&
+        !changedResources.includes('workspace-files')
+      ) {
+        changedResources.push('workspace-files')
+      }
+
+      await dispatchEveActions(donePayload?.actions ?? [], changedResources, {
+        onNavigate,
+        onWorkspaceChanged,
+        callCenter,
+      })
+
+      return { messages: finalMessages, sessionId: nextSessionId }
+    } finally {
+      abortRef.current = null
+      setStreamText('')
+      setThinkingText('')
+      setActiveTool(null)
+    }
   }
 
   const removeFromQueue = (index) => {
@@ -247,24 +351,6 @@ export function EveAssistantPanel({
     } finally {
       setIsSending(false)
     }
-  }
-
-  const handleActions = (actions) => {
-    actions.forEach((action) => {
-      if (action.type === 'navigate_page') {
-        onNavigate?.(action.page)
-      } else if (action.type === 'open_record') {
-        if (action.page === 'project-detail') onNavigate?.('project-detail', action.projectId)
-        if (action.page === 'document-opener') onNavigate?.('document-opener', null, action.documentId)
-      } else if (action.type === 'refresh_workspace_data') {
-        onWorkspaceChanged()
-      } else if (action.type === 'apply_ui_overrides' || action.type === 'reset_ui') {
-        if (action.preferences) window.dispatchEvent(new CustomEvent('eve-ui-update', { detail: { preferences: action.preferences } }))
-      } else if (action.type === 'open_custom_page' && action.slug) {
-        if (action.preferences) window.dispatchEvent(new CustomEvent('eve-ui-update', { detail: { preferences: action.preferences } }))
-        onNavigate?.(`custom-${action.slug}`)
-      }
-    })
   }
 
   const charProgress = draft.length / MAX_CHARS
@@ -347,7 +433,26 @@ export function EveAssistantPanel({
               )}
             </div>
           ))}
-          {isSending && (
+          {thinkingText && (
+            <div className="eve-panel-thinking">
+              <span className="eve-panel-thinking-label">Thinking…</span>
+              <span className="eve-panel-thinking-text">{thinkingText}</span>
+            </div>
+          )}
+          {activeTool && (
+            <div className="eve-panel-tool">
+              <Wrench size={12} />
+              <span>Using tool: {activeTool}</span>
+            </div>
+          )}
+          {streamText && (
+            <div className="eve-message assistant">
+              <div className="eve-message-md">
+                <Markdown content={streamText} />
+              </div>
+            </div>
+          )}
+          {isSending && !streamText && !thinkingText && !activeTool && (
             <div className="eve-message assistant">
               <p>
                 <span className="eve-typing-dots" aria-label="Eve is thinking">
@@ -403,12 +508,30 @@ export function EveAssistantPanel({
             maxLength={MAX_CHARS}
           />
           <div className="eve-composer-footer">
-            <span className="eve-composer-hint">{isSending ? '⏎ to queue' : '⏎ to send'}</span>
+            <div className="eve-composer-meta">
+              <ModelSelectorDropdown
+                className="eve-panel-model-selector"
+                value={selectedModel?.model || ''}
+                onChange={(selection) => setSelectedModel(
+                  selection?.model ? { provider: selection.provider, model: selection.model } : null,
+                )}
+                direction="up"
+                showIcon={false}
+                placeholder="Default model"
+                disabled={isSending}
+              />
+              <span className="eve-composer-hint">{isSending ? '⏎ to queue' : '⏎ to send'}</span>
+            </div>
             <div className="eve-composer-actions">
               {promptQueue.length > 0 && (
                 <button className="eve-queue-run" type="button" onClick={runQueue} disabled={isSending}>
                   <Play size={13} />
                   Run queue ({promptQueue.length})
+                </button>
+              )}
+              {isSending && (
+                <button className="eve-stop-button" type="button" onClick={stopGenerating} aria-label="Stop generating" title="Stop">
+                  <Square size={13} />
                 </button>
               )}
               <button className="eve-send-button" type="submit" disabled={!draft.trim()} aria-label={isSending ? 'Queue message' : 'Send message'}>

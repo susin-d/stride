@@ -7,14 +7,14 @@ import { WorkspaceFileTree } from './workspace/WorkspaceFileTree'
 import { WorkspaceEditor } from './workspace/WorkspaceEditor'
 import { WorkspaceTerminal } from './workspace/WorkspaceTerminal'
 import { WorkspaceBrowser } from './workspace/WorkspaceBrowser'
-import { WorkspaceEvePanel } from './workspace/WorkspaceEvePanel'
 import { WorkspaceDialogs } from './workspace/WorkspaceDialogs'
+import { clearWorkspaceSiteContext, setSiteContext } from '../utils/eveSiteContext'
+import { consumePendingWorkspaceAction } from '../utils/eveActions'
 import { Cloud, Monitor, Save, Circle } from 'lucide-react'
 
 export function WorkspacePage() {
   const workspace = useWorkspace()
   const [view, setView] = useState('overview')
-  const [evePanelCollapsed, setEvePanelCollapsed] = useState(true)
   const [terminalVisible, setTerminalVisible] = useState(false)
   const [browserVisible, setBrowserVisible] = useState(false)
   const [browserUrl, setBrowserUrl] = useState('')
@@ -116,12 +116,39 @@ export function WorkspacePage() {
     [workspace],
   )
 
-  const handleEveAction = useCallback((action) => {
-    if (action?.type === 'open_browser_url' && action.url) {
-      setBrowserUrl(action.url)
-      setBrowserVisible(true)
+  useEffect(() => {
+    setSiteContext({
+      workspaceId: workspace.activeWorkspaceId,
+      workspaceName: workspace.activeWorkspace?.name || '',
+      activeFilePath: workspace.activeTab || '',
+    })
+  }, [workspace.activeWorkspaceId, workspace.activeWorkspace?.name, workspace.activeTab])
+
+  useEffect(() => () => clearWorkspaceSiteContext(), [])
+
+  const { refreshTree } = workspace
+  useEffect(() => {
+    const applyWorkspaceAction = (action) => {
+      if (action?.type === 'open_browser_url' && action.url) {
+        setView('ide')
+        setBrowserUrl(action.url)
+        setBrowserVisible(true)
+      }
     }
-  }, [])
+
+    const pending = consumePendingWorkspaceAction()
+    if (pending) applyWorkspaceAction(pending)
+
+    const onWorkspaceAction = (event) => applyWorkspaceAction(event.detail)
+    const onFilesChanged = () => refreshTree()
+
+    window.addEventListener('stride:workspace-action', onWorkspaceAction)
+    window.addEventListener('stride:workspace-files-changed', onFilesChanged)
+    return () => {
+      window.removeEventListener('stride:workspace-action', onWorkspaceAction)
+      window.removeEventListener('stride:workspace-files-changed', onFilesChanged)
+    }
+  }, [refreshTree])
 
   const handleRunHtml = useCallback(() => {
     setBrowserUrl('')
@@ -243,16 +270,6 @@ export function WorkspacePage() {
                 />
               )}
             </div>
-
-            <WorkspaceEvePanel
-              collapsed={evePanelCollapsed}
-              onToggle={() => setEvePanelCollapsed(!evePanelCollapsed)}
-              workspaceId={workspace.activeWorkspaceId}
-              workspaceName={workspace.activeWorkspace?.name}
-              activeFilePath={workspace.activeTab}
-              onFilesChanged={workspace.refreshTree}
-              onAction={handleEveAction}
-            />
           </div>
 
           {/* VS Code-style status bar — spans full width below all panels */}

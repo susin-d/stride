@@ -1,7 +1,7 @@
 import '../styles/pages/usage.css'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { RefreshCw } from 'lucide-react'
-import { LoadingState } from '../components/ui'
+import { FilterPills, LoadingState, PageHeader } from '../components/ui'
 import { getUsageSummary, getUsageLogs } from '../lib/usageApi'
 import { formatTokens } from './usage/usageFormatters'
 import { UsageHeatmap } from './usage/UsageHeatmap'
@@ -45,14 +45,28 @@ export function UsagePage() {
     }
   }, [summary])
 
-  if (loading) return <div className="usage-page-dark"><LoadingState label="Loading usage…" /></div>
+  if (loading) return <div className="usage-page-dark"><LoadingState message="Loading usage…" /></div>
 
   return (
     <div className="usage-page-dark">
-      <div className="usage-stats-header">
-        <div className="usage-stats-title">Usage stats</div>
-        <div className="usage-app-pill">App usage</div>
-      </div>
+      <PageHeader
+        actions={
+          <>
+            <FilterPills
+              ariaLabel="Time range"
+              items={[
+                { id: 7, label: 'Last 7 days' },
+                { id: 30, label: 'Last 30 days' },
+              ]}
+              activeId={days}
+              onChange={setDays}
+            />
+            <button type="button" className="secondary-button" onClick={load}>
+              <RefreshCw size={14} /> Refresh
+            </button>
+          </>
+        }
+      />
 
       <div className="usage-top-card">
         <div className="usage-top-item">
@@ -85,27 +99,9 @@ export function UsagePage() {
         error={error}
       />
 
-      <div className="usage-time-row">
-        <div className="usage-time-label">Time range</div>
-        <div className="usage-tabs">
-          <button type="button" className={`usage-tab ${days === 7 ? 'active' : ''}`} onClick={() => setDays(7)}>
-            Last 7 days
-          </button>
-          <button type="button" className={`usage-tab ${days === 30 ? 'active' : ''}`} onClick={() => setDays(30)}>
-            Last 30 days
-          </button>
-        </div>
-      </div>
-
       <UsageTrendChart summary={summary} days={days} />
 
       <UsageDonutChart summary={summary} />
-
-      <div className="usage-refresh">
-        <button type="button" className="usage-refresh-btn" onClick={load}>
-          <RefreshCw size={12} /> Refresh
-        </button>
-      </div>
     </div>
   )
 }

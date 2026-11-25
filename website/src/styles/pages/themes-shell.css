@@ -6,58 +6,13 @@
   flex-direction: column;
   gap: var(--layout-section-gap, 24px);
   width: 100%;
-  max-width: var(--layout-max-width, 1440px);
-  margin: 0 auto;
-  padding-bottom: 60px;
-}
-
-.themes-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.themes-header-actions .secondary-button,
-.themes-header-actions .primary-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  border-radius: var(--radius-md, 8px);
-  cursor: pointer;
-  transition: all var(--transition-normal, 200ms ease);
-}
-
-.themes-header-actions .secondary-button {
-  background: var(--bg-card, #fafafa);
-  color: var(--text-primary, #0a0a0a);
-  border: 1px solid var(--border-color, #e5e5e5);
-}
-
-.themes-header-actions .secondary-button:hover {
-  background: var(--bg-hover, #e5e5e5);
-  border-color: var(--border-heavy, #a3a3a3);
+  padding-bottom: var(--space-xl);
 }
 
 .themes-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.section-heading h2 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--text-primary, #0a0a0a);
-  margin-bottom: 4px;
-}
-
-.section-heading p {
-  font-size: 0.9rem;
-  color: var(--text-muted, #737373);
+  gap: var(--space-sm);
 }
 
 /* Appearance modes — the design system has exactly two (White / Dark) */

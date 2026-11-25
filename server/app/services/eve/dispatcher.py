@@ -88,7 +88,10 @@ from app.services.eve.handlers.utility import (
     handle_read_pdf_file,
 )
 from app.services.eve.handlers.workspace_files import (
+    handle_create_workspace,
+    handle_delete_workspace_file,
     handle_list_workspace_files,
+    handle_list_workspaces,
     handle_open_workspace_browser,
     handle_read_workspace_file,
     handle_run_workspace_command,
@@ -114,8 +117,11 @@ _TOOL_HANDLERS: dict[str, Any] = {
     "delete_eve_schedule": handle_delete_eve_schedule,
     "trigger_eve_call": handle_trigger_eve_call,
     "make_twilio_call": handle_make_twilio_call,
+    "list_workspaces": handle_list_workspaces,
+    "create_workspace": handle_create_workspace,
     "read_workspace_file": handle_read_workspace_file,
     "write_workspace_file": handle_write_workspace_file,
+    "delete_workspace_file": handle_delete_workspace_file,
     "list_workspace_files": handle_list_workspace_files,
     "search_workspace_files": handle_search_workspace_files,
     "run_workspace_command": handle_run_workspace_command,

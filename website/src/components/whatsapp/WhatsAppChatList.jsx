@@ -323,7 +323,7 @@ export function WhatsAppChatList({
               )
             })}
             {isLoadingMoreChats && (
-              <div className="whatsapp-chat-list-loading" style={{ textAlign: 'center', padding: '10px 0', fontSize: '13px', color: 'var(--text-muted)' }}>
+              <div className="whatsapp-chat-list-loading">
                 Loading more conversations...
               </div>
             )}

@@ -10,9 +10,11 @@ export function AccountSection({ user, onSignOut }) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteConfirmation, setDeleteConfirmation] = useState('')
 
+  const expectedConfirmation = user?.fullName || user?.name || user?.email || ''
+
   const deleteAccountHandler = async (event) => {
     event.preventDefault()
-    if (deleteConfirmation !== user.name) return
+    if (deleteConfirmation !== expectedConfirmation) return
     setAccountDeleting(true)
     setAccountDeleteMessage('')
     try {
@@ -109,7 +111,7 @@ export function AccountSection({ user, onSignOut }) {
 
         <form onSubmit={deleteAccountHandler}>
           <label htmlFor="delete-account-confirmation">
-            Type <strong>{user.name}</strong> to confirm
+            Type <strong>{expectedConfirmation}</strong> to confirm
           </label>
           <input
             id="delete-account-confirmation"

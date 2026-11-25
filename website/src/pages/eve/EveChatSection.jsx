@@ -21,7 +21,7 @@ export function EveChatSection({
   onSelectAiModel,
 }) {
   return (
-    <main className="eve-chat-section">
+    <div className="eve-chat-section">
       <EveMessageFeed
         messages={messages}
         isSending={isSending}
@@ -44,6 +44,6 @@ export function EveChatSection({
         activeModel={activeModel}
         onSelectAiModel={onSelectAiModel}
       />
-    </main>
+    </div>
   )
 }

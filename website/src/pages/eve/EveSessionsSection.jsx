@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ArrowRight, MessageSquare, Plus, Trash2 } from 'lucide-react'
-import { EmptyState, LoadingState, SearchBar } from '../../components/ui'
+import { EmptyState, FilterBar, LoadingState, SearchBar } from '../../components/ui'
 
 export function EveSessionsSection({
   sessions,
@@ -24,34 +24,32 @@ export function EveSessionsSection({
 
   return (
     <section className="eve-subpage-section" aria-label="Eve Chat Sessions">
-      <div className="eve-subpage-header">
-        <div>
-          <h2>Chat Sessions</h2>
-          <p>Browse, resume, or manage all your past conversations with Eve.</p>
-        </div>
-        <button
-          type="button"
-          className="primary-button"
-          onClick={onStartNewChat}
-          disabled={isSending}
-        >
-          <Plus size={14} />
-          <span>New Chat</span>
-        </button>
-      </div>
-
-      <div className="eve-sessions-toolbar">
-        <SearchBar
-          className="eve-search-field"
-          placeholder="Search conversations by topic or message…"
-          ariaLabel="Search conversations"
-          value={searchQuery}
-          onChange={setSearchQuery}
-        />
-        <span className="eve-sessions-count">
-          {filteredSessions.length} {filteredSessions.length === 1 ? 'session' : 'sessions'}
-        </span>
-      </div>
+      <FilterBar
+        search={
+          <SearchBar
+            placeholder="Search conversations by topic or message…"
+            ariaLabel="Search conversations"
+            value={searchQuery}
+            onChange={setSearchQuery}
+          />
+        }
+        actions={
+          <>
+            <span className="eve-sessions-count">
+              {filteredSessions.length} {filteredSessions.length === 1 ? 'session' : 'sessions'}
+            </span>
+            <button
+              type="button"
+              className="primary-button"
+              onClick={onStartNewChat}
+              disabled={isSending}
+            >
+              <Plus size={14} />
+              <span>New Chat</span>
+            </button>
+          </>
+        }
+      />
 
       {isLoading ? (
         <LoadingState message="Loading past conversations…" />

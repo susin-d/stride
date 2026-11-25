@@ -18,6 +18,8 @@ import { useEveLibrary } from './eve/useEveLibrary'
 import { useEveAvatar } from '../components/eve/avatar/useEveAvatar'
 import { EveActiveView } from './eve/EveActiveView'
 import { useEveActiveTab, useEveCompanionBroadcast } from './eve/useEveViewSync'
+import { buildSiteContextPrefix } from '../utils/eveSiteContext'
+import { dispatchEveActions } from '../utils/eveActions'
 
 export function EvePage({
   activeSubpage = 'chat',
@@ -66,28 +68,12 @@ export function EvePage({
     refreshSidebar()
   }, [chatResetKey, refreshSidebar, setActiveSessionId])
 
-  const handleActions = (actions) => {
-    if (!actions || !Array.isArray(actions)) return
-    actions.forEach((action) => {
-      if (action.type === 'navigate_page') {
-        onNavigate?.(action.page)
-      } else if (action.type === 'open_record') {
-        if (action.page === 'project-detail') onNavigate?.('project-detail', action.projectId)
-        if (action.page === 'document-opener') onNavigate?.('document-opener', null, action.documentId)
-      } else if (action.type === 'refresh_workspace_data') {
-        onWorkspaceChanged?.()
-      } else if (action.type === 'trigger_eve_call') {
-        callCenter?.requestEveCall?.('audio')
-      } else if (action.type === 'refresh_eve_schedules') {
-        refreshSidebar()
-      } else if (action.type === 'apply_ui_overrides' || action.type === 'reset_ui') {
-        if (action.preferences) {
-          window.dispatchEvent(new CustomEvent('eve-ui-update', { detail: { preferences: action.preferences } }))
-        }
-      } else if (action.type === 'open_custom_page' && action.slug) {
-        window.dispatchEvent(new CustomEvent('eve-ui-update', { detail: { preferences: action.preferences } }))
-        onNavigate?.(`custom-${action.slug}`)
-      }
+  const handleActions = (actions, changedResources = []) => {
+    dispatchEveActions(actions, changedResources, {
+      onNavigate,
+      onWorkspaceChanged,
+      callCenter,
+      refreshSidebar,
     })
   }
 
@@ -105,8 +91,8 @@ export function EvePage({
     }
   }
 
-  const buildApiMessages = (nextMessages) =>
-    nextMessages
+  const buildApiMessages = (nextMessages) => {
+    const formatted = nextMessages
       .map((m) => {
         if (m.role === 'user' && m.attachments?.length) {
           const fileBlocks = m.attachments
@@ -126,6 +112,16 @@ export function EvePage({
       })
       .filter((m) => typeof m.content === 'string' && m.content.trim().length > 0)
       .map((m) => ({ role: m.role, content: m.content.trim() }))
+
+    const contextPrefix = buildSiteContextPrefix()
+    if (contextPrefix && formatted.length > 0 && formatted[formatted.length - 1].role === 'user') {
+      formatted[formatted.length - 1] = {
+        ...formatted[formatted.length - 1],
+        content: `${contextPrefix}\n\n${formatted[formatted.length - 1].content}`,
+      }
+    }
+    return formatted
+  }
 
   const runNonStreamedTurn = async (apiMessages, nextMessages) => {
     let sessionId = activeSessionId
@@ -149,8 +145,7 @@ export function EvePage({
   ) => {
     const hasAssistantContent = typeof assistantContent === 'string' && assistantContent.trim().length > 0
     if (!hasAssistantContent) {
-      if (changedResources?.length) onWorkspaceChanged?.()
-      handleActions(actions)
+      handleActions(actions, changedResources)
       refreshSidebar()
       return baseMessages
     }
@@ -164,8 +159,7 @@ export function EvePage({
       },
     ]
     setMessages(finalMessages)
-    if (changedResources?.length) onWorkspaceChanged?.()
-    handleActions(actions)
+    handleActions(actions, changedResources)
     refreshSidebar()
     return finalMessages
   }

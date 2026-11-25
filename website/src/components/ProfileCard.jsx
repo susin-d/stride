@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { CheckCircle2, Clock, Link2, LogOut, Mail, Pencil, ShieldCheck, Trash2, User, X } from 'lucide-react'
+import { CheckCircle2, Clock, Link2, LogOut, Mail, Pencil, ShieldCheck, Trash2, User } from 'lucide-react'
+import { Modal } from './ui'
 import {
   clearAuthSession,
   fetchCombinedAccounts,
@@ -299,42 +300,38 @@ export function ProfileCard({ user, onProfileUpdated, onSignOut }) {
         </div>
       </article>
 
-      {editing && (
-        <div className="modal-backdrop" onClick={() => setEditing(false)}>
-          <div className="modal profile-edit-modal" role="dialog" aria-modal="true" aria-labelledby="profile-edit-title" onClick={(e) => e.stopPropagation()}>
-            <div className="profile-edit-header">
-              <h2 id="profile-edit-title">Edit Profile</h2>
-              <button type="button" className="icon-button" onClick={() => setEditing(false)} aria-label="Close profile editor">
-                <X size={18} />
-              </button>
+      <Modal
+        isOpen={editing}
+        onClose={() => setEditing(false)}
+        title="Edit Profile"
+        className="profile-edit-modal"
+      >
+        <form onSubmit={handleSave}>
+          <label className="profile-edit-field">
+            Display Name
+            <div className="profile-edit-input">
+              <User size={16} aria-hidden="true" />
+              <input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="Enter full name"
+                data-modal-initial-focus
+                required
+              />
             </div>
-            <form onSubmit={handleSave}>
-              <label className="profile-edit-field">
-                Display Name
-                <div className="profile-edit-input">
-                  <User size={16} aria-hidden="true" />
-                  <input
-                    type="text"
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    placeholder="Enter full name"
-                    required
-                  />
-                </div>
-              </label>
-              {error && <p className="form-field-error" role="alert">{error}</p>}
-              <div className="profile-edit-actions">
-                <button type="button" onClick={() => setEditing(false)} className="secondary-button">
-                  Cancel
-                </button>
-                <button type="submit" disabled={saving} className="primary-button">
-                  {saving ? 'Saving...' : 'Save Changes'}
-                </button>
-              </div>
-            </form>
+          </label>
+          {error && <p className="form-field-error" role="alert">{error}</p>}
+          <div className="profile-edit-actions">
+            <button type="button" onClick={() => setEditing(false)} className="secondary-button">
+              Cancel
+            </button>
+            <button type="submit" disabled={saving} className="primary-button">
+              {saving ? 'Saving...' : 'Save Changes'}
+            </button>
           </div>
-        </div>
-      )}
+        </form>
+      </Modal>
     </>
   )
 }

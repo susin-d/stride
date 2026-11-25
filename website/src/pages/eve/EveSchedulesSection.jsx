@@ -10,6 +10,7 @@ import {
   PhoneCall,
   MessageSquare,
 } from 'lucide-react'
+import { PageHeader } from '../../components/ui'
 import { CustomDropdown } from '../../components/ui/CustomDropdown'
 import {
   listEveSchedules,
@@ -118,22 +119,19 @@ export function EveSchedulesSection({ onScheduleTriggered }) {
 
   return (
     <section className="eve-subpage-section" aria-label="Eve Automated Schedules">
-      <div className="eve-subpage-header">
-        <div>
-          <h2>Automated Reminders &amp; Schedules</h2>
-          <p>
-            Schedule recurring check-ins, automated morning briefings, or one-time reminder calls from Eve.
-          </p>
-        </div>
-        <button
-          type="button"
-          className="primary-button"
-          onClick={() => setShowForm((prev) => !prev)}
-        >
-          <Plus size={14} />
-          <span>{showForm ? 'Close Form' : 'New Schedule'}</span>
-        </button>
-      </div>
+      <PageHeader
+        description="Schedule recurring check-ins, automated morning briefings, or one-time reminder calls from Eve."
+        actions={
+          <button
+            type="button"
+            className="primary-button"
+            onClick={() => setShowForm((prev) => !prev)}
+          >
+            <Plus size={14} />
+            <span>{showForm ? 'Close Form' : 'New Schedule'}</span>
+          </button>
+        }
+      />
 
       {actionMessage && (
         <div className="eve-success-banner" role="status">

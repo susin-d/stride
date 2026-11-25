@@ -6,7 +6,6 @@ import {
   CalendarClock,
   CheckCircle2,
   ExternalLink,
-  FolderKanban,
   GitBranch,
   Minus,
   Pencil,
@@ -16,7 +15,7 @@ import {
   Users,
 } from 'lucide-react'
 import { deleteProject, updateProject } from '../lib/workspaceApi'
-import { ConfirmDialog, CustomDropdown, Modal } from '../components/ui'
+import { ConfirmDialog, CustomDropdown, Modal, PageHeader } from '../components/ui'
 import { ProjectLifecycleCard } from '../components/ProjectLifecycleCard'
 import {
   getStatusForPhase,
@@ -135,59 +134,56 @@ export function ProjectDetailPage({ project, onBack, onSave }) {
 
   return (
     <section className="project-page">
-      <button className="project-back-button" onClick={onBack}>
-        <ArrowLeft size={16} />
-        Back to projects
-      </button>
-
-      <div className="project-page-heading">
-        <div className="project-page-icon">
-          <FolderKanban size={24} />
-        </div>
-        <div>
-          <p>Project</p>
-          <h1>{project.name}</h1>
-          <span>{project.description}</span>
-        </div>
-      </div>
-      <div className="page-inline-actions">
-        <CustomDropdown
-          value={project.status}
-          onChange={handleStatusChange}
-          ariaLabel="Change project status"
-          options={['Planning', 'Active', 'On hold', 'Completed'].map((val) => ({
-            value: val,
-            label: val,
-          }))}
-        />
-        <div className="project-page-links">
-          <button className="project-edit-button" onClick={openEditor}>
-            <Pencil size={15} />
-            Edit
+      <PageHeader
+        backAction={
+          <button className="project-back-button" type="button" onClick={onBack}>
+            <ArrowLeft size={16} />
+            Back to projects
           </button>
-          <button className="secondary-button" onClick={handleDelete}>
-            <Trash2 size={15} />
-            Delete
-          </button>
-          {project.githubUrl && (
-            <a href={project.githubUrl} target="_blank" rel="noreferrer">
-              <GitBranch size={15} />
-              GitHub
-            </a>
-          )}
-          {project.liveUrl && (
-            <a
-              className="live-link"
-              href={project.liveUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <ExternalLink size={15} />
-              Live site
-            </a>
-          )}
-        </div>
-      </div>
+        }
+        title={project.name}
+        description={project.description}
+        actions={
+          <>
+            <CustomDropdown
+              value={project.status}
+              onChange={handleStatusChange}
+              ariaLabel="Change project status"
+              options={['Planning', 'Active', 'On hold', 'Completed'].map((val) => ({
+                value: val,
+                label: val,
+              }))}
+            />
+            <div className="project-page-links">
+              <button className="project-edit-button" type="button" onClick={openEditor}>
+                <Pencil size={15} />
+                Edit
+              </button>
+              <button className="secondary-button" type="button" onClick={handleDelete}>
+                <Trash2 size={15} />
+                Delete
+              </button>
+              {project.githubUrl && (
+                <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                  <GitBranch size={15} />
+                  GitHub
+                </a>
+              )}
+              {project.liveUrl && (
+                <a
+                  className="live-link"
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <ExternalLink size={15} />
+                  Live site
+                </a>
+              )}
+            </div>
+          </>
+        }
+      />
 
       {error && (
         <div className="project-page-error" role="alert">

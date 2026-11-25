@@ -52,12 +52,12 @@ export function UpdateSection() {
   if (!tauri && !isCapacitorNative()) return null
 
   return (
-    <SettingsSection id="settings-updates" title="Updates" description={`Current version v${version} • ${platformLabel}`}>
+    <SettingsSection id="settings-updates" heading="Updates" description={`Current version v${version} • ${platformLabel}`}>
       <SettingsCard title="App updates" description="Check for new versions hosted on the backend. Updates are optional and signed.">
         <div className="update-check-row">
           <button
             type="button"
-            className="btn btn-primary update-check-btn"
+            className="primary-button update-check-btn"
             onClick={handleCheck}
             disabled={checking}
           >

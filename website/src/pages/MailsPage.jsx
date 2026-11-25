@@ -16,6 +16,7 @@ import {
   Badge,
   EmptyState,
   LoadingState,
+  PageHeader,
 } from '../components/ui'
 import {
   deleteSchedulableEmail,
@@ -159,28 +160,35 @@ export function MailsPage({ onNavigate }) {
 
   return (
     <div className="mail-page-container">
-      <div className="page-inline-actions">
-        <button type="button" className="secondary-button" onClick={copyWebhookUrl}>
-          {copied ? <Check size={15} /> : <Copy size={15} />}
-          {copied ? 'Copied Webhook URL' : 'Copy Webhook URL'}
-        </button>
-        <button type="button" className="secondary-button" onClick={refresh} disabled={loading}>
-          <RefreshCw size={15} className={loading ? 'mail-spin' : ''} /> Refresh
-        </button>
-      </div>
+      <PageHeader
+        actions={
+          <>
+            <button type="button" className="secondary-button" onClick={copyWebhookUrl}>
+              {copied ? <Check size={15} /> : <Copy size={15} />}
+              {copied ? 'Copied Webhook URL' : 'Copy Webhook URL'}
+            </button>
+            <button type="button" className="secondary-button" onClick={refresh} disabled={loading}>
+              <RefreshCw size={15} className={loading ? 'mail-spin' : ''} /> Refresh
+            </button>
+          </>
+        }
+      />
 
       {error && <Alert variant="error" title="Error">{error}</Alert>}
       {notice && <Alert variant="success" title="Scheduled">{notice}</Alert>}
 
       {loading && !emails.length ? (
-        <LoadingState label="Loading incoming schedulable emails..." />
+        <LoadingState message="Loading incoming schedulable emails..." />
       ) : !emails.length ? (
         <EmptyState
           icon={Mail}
           title="No schedulable emails yet"
           description={`Send a POST request from Google Workspace Studio to ${webhookInfo.endpoint} with sender, subject, body, receivedAt, and isSchedulable.`}
-          actionLabel="Open Webhook Settings"
-          onAction={() => onNavigate('setting')}
+          action={
+            <button type="button" className="primary-button" onClick={() => onNavigate('setting')}>
+              Open Webhook Settings
+            </button>
+          }
         />
       ) : (
         <div className="mail-workspace-grid">

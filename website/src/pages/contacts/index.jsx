@@ -1,5 +1,5 @@
 import { Plus, Upload } from 'lucide-react'
-import { Alert, FilterPills, SearchBar } from '../../components/ui'
+import { Alert, FilterBar, FilterPills, SearchBar } from '../../components/ui'
 import { CATEGORIES } from './constants'
 import { useContacts } from './useContacts'
 import { useContactForm } from './useContactForm'
@@ -41,18 +41,7 @@ export function ContactsPage({ callCenter, onNavigate }) {
   }
 
   return (
-    <main className="contacts-page">
-      <div className="page-inline-actions">
-        <button type="button" className="secondary-button" onClick={() => setIsImportModalOpen(true)} title="Import contacts from Google" aria-label="Import contacts">
-          <Upload size={14} />
-          <span>Import Contacts</span>
-        </button>
-        <button type="button" className="primary-button" onClick={handleOpenAddModal}>
-          <Plus size={14} />
-          <span>New Contact</span>
-        </button>
-      </div>
-
+    <section className="contacts-page">
       {error && (
         <Alert variant="error" onDismiss={() => setError(null)}>
           {error}
@@ -64,10 +53,42 @@ export function ContactsPage({ callCenter, onNavigate }) {
         </Alert>
       )}
 
-      <div className="contacts-controls">
-        <SearchBar className="contacts-search-box" placeholder="Search contacts by name, email, phone, or company…" ariaLabel="Search contacts" value={searchQuery} onChange={setSearchQuery} />
-        <FilterPills className="contacts-filter-tabs" items={CATEGORIES} activeId={activeCategory} onChange={setActiveCategory} ariaLabel="Contact categories" />
-      </div>
+      <FilterBar
+        className="contacts-toolbar"
+        search={
+          <SearchBar
+            placeholder="Search contacts by name, email, phone, or company…"
+            ariaLabel="Search contacts"
+            value={searchQuery}
+            onChange={setSearchQuery}
+          />
+        }
+        filters={
+          <FilterPills
+            items={CATEGORIES}
+            activeId={activeCategory}
+            onChange={setActiveCategory}
+            ariaLabel="Contact categories"
+          />
+        }
+        actions={
+          <>
+            <button type="button" className="secondary-button" onClick={() => setIsImportModalOpen(true)} title="Import contacts from Google" aria-label="Import contacts">
+              <Upload size={14} />
+              <span>Import Contacts</span>
+            </button>
+            <button type="button" className="primary-button" onClick={handleOpenAddModal}>
+              <Plus size={14} />
+              <span>New Contact</span>
+            </button>
+          </>
+        }
+        isFiltered={Boolean(searchQuery || activeCategory !== 'all')}
+        onReset={() => {
+          setSearchQuery('')
+          setActiveCategory('all')
+        }}
+      />
 
       <ContactGrid
         loading={loading}
@@ -101,6 +122,6 @@ export function ContactsPage({ callCenter, onNavigate }) {
         setFormValues={setFormValues}
         onSubmit={handleFormSubmit}
       />
-    </main>
+    </section>
   )
 }

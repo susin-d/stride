@@ -162,41 +162,21 @@ textarea:disabled {
 }
 
 /* Type scale helpers */
-.page-heading h1,
 .dashboard-heading h1,
 .dashboard-greeting h1,
-.project-page-heading h1,
-.calendar-toolbar h1,
-.contacts-header h1 {
+.calendar-toolbar h1 {
   font-size: var(--text-4xl);
   line-height: var(--leading-tight);
   font-weight: var(--font-weight-bold);
   letter-spacing: -0.03em;
 }
 
-.page-heading p,
-.dashboard-greeting p,
-.contacts-header-kicker,
-.calendar-eyebrow {
+.dashboard-greeting p {
   font-size: var(--text-xs);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-muted);
-}
-
-/* Inline content actions — replacement for removed page-heading toolbars.
-   Lives at the top of page content, not in a heading. */
-.page-inline-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: var(--space-2xs);
-}
-
-.page-inline-actions :where(button, a, select, input) {
-  min-height: 40px;
 }
 
 /* Custom Scrollbars */

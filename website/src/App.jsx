@@ -1,5 +1,6 @@
-import { Suspense, useMemo, useRef, useState } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { buildAppPages } from './appPages'
+import { setSiteContext } from './utils/eveSiteContext'
 import { AppLayout } from './layouts/AppLayout'
 import { IncomingCallOverlay } from './components/calls/IncomingCallOverlay'
 import {
@@ -56,6 +57,15 @@ function App() {
     selectedHackathonId,
     navigate,
   } = useRouter()
+
+  useEffect(() => {
+    setSiteContext({
+      activePage,
+      selectedProjectId,
+      selectedDocumentId,
+      selectedHackathonId,
+    })
+  }, [activePage, selectedProjectId, selectedDocumentId, selectedHackathonId])
 
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [creationIntent, setCreationIntent] = useState(null)

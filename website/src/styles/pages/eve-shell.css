@@ -13,13 +13,6 @@
   padding: 0.5rem 0;
 }
 
-.workspace-eve-micro-avatar {
-  display: flex;
-  justify-content: center;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
 .eve-page-container {
   display: flex;
   flex-direction: column;

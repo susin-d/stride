@@ -10,6 +10,25 @@ _WORKSPACE_ID_PARAM = {
 FILES_TOOLS = [
     {
         "type": "function",
+        "name": "list_workspaces",
+        "description": D["list_workspaces"],
+        "parameters": {"type": "object", "properties": {}, "additionalProperties": False},
+        "strict": True,
+    },
+    {
+        "type": "function",
+        "name": "create_workspace",
+        "description": D["create_workspace"],
+        "parameters": {
+            "type": "object",
+            "properties": {"name": {"type": "string", "minLength": 1}},
+            "required": ["name"],
+            "additionalProperties": False,
+        },
+        "strict": True,
+    },
+    {
+        "type": "function",
         "name": "read_workspace_file",
         "description": D["read_workspace_file"],
         "parameters": {
@@ -32,6 +51,18 @@ FILES_TOOLS = [
                 "workspace_id": _WORKSPACE_ID_PARAM,
             },
             "required": ["path", "content", "workspace_id"],
+            "additionalProperties": False,
+        },
+        "strict": True,
+    },
+    {
+        "type": "function",
+        "name": "delete_workspace_file",
+        "description": D["delete_workspace_file"],
+        "parameters": {
+            "type": "object",
+            "properties": {"path": {"type": "string", "minLength": 1}, "workspace_id": _WORKSPACE_ID_PARAM},
+            "required": ["path", "workspace_id"],
             "additionalProperties": False,
         },
         "strict": True,
