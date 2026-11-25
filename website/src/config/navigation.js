@@ -1,6 +1,4 @@
 import {
-  AppWindow,
-  Blocks,
   Bot,
   BriefcaseBusiness,
   CalendarDays,
@@ -31,8 +29,6 @@ export const navigationItems = [
   { id: 'projects', label: 'Projects', icon: FolderKanban, group: 'Code', module: 'projects' },
   { id: 'documents', label: 'Documents', icon: Files, group: 'Code', module: 'documents' },
   { id: 'todo', label: 'Todo List', icon: ListTodo, group: 'Code', module: 'todo' },
-  { id: 'studio', label: 'Builder', icon: Blocks, group: 'Create', module: 'studio' },
-  { id: 'studio-apps', label: 'Apps', icon: AppWindow, group: 'Create', module: 'studio' },
   { id: 'jobs', label: 'Jobs', icon: BriefcaseBusiness, group: 'Create', module: 'growth' },
   { id: 'hackathons', label: 'Hackathons', icon: Rocket, group: 'Create', module: 'growth' },
   { id: 'eve', label: 'Eve', icon: Bot, group: 'Evolve', module: 'eve' },
@@ -52,7 +48,7 @@ export const navigationItems = [
 export const GROUP_MODULE_MAP = {
   Home: 'home',
   Code: 'work',
-  Create: 'studio',
+  Create: 'growth',
   Evolve: 'eve',
   Connect: 'comm',
   You: 'account',

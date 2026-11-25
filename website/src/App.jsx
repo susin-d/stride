@@ -201,7 +201,6 @@ function App() {
     selectedDocument,
     selectedHackathon,
     selectedProject,
-    selectedProjectId,
     setContestSites,
     setGoogleCalendarEvents,
     setSessionUser,

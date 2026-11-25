@@ -1,15 +1,13 @@
-import { Blocks, Bot, LayoutDashboard, Search, UserRound } from 'lucide-react'
+import { Bot, LayoutDashboard, Search, UserRound } from 'lucide-react'
 
 const TABS = [
   { id: 'dashboard', label: 'Home', icon: LayoutDashboard },
   { id: '__search', label: 'Search', icon: Search },
   { id: 'eve', label: 'Eve', icon: Bot },
-  { id: 'studio', label: 'Studio', icon: Blocks },
   { id: 'profile', label: 'You', icon: UserRound },
 ]
 
 function isTabActive(tabId, activePage) {
-  if (tabId === 'studio') return activePage === 'studio' || activePage.startsWith('studio-')
   if (tabId === 'eve') return activePage === 'eve' || activePage.startsWith('eve-')
   return activePage === tabId
 }
@@ -38,7 +36,7 @@ export function MobileTabBar({ activePage, onNavigate }) {
             onClick={() => onNavigate(id)}
             aria-current={active ? 'page' : undefined}
             className={active ? 'is-active' : undefined}
-            data-module={id === 'eve' ? 'eve' : id === 'studio' ? 'studio' : undefined}
+            data-module={id === 'eve' ? 'eve' : undefined}
           >
             <Icon size={20} aria-hidden="true" />
             <span>{label}</span>

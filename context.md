@@ -1,7 +1,7 @@
 # Stride Context
 
 Living snapshot for AI agents. `AGENTS.md` holds permanent rules; this file holds the **current state**. See `CHANGELOG.md` for history and `PROJECT_MAP.md` for the file index.
-Last updated: 2026-11-25 — Removed Studio Templates page (/app/studio-templates).
+Last updated: 2026-11-25 — Redesigned Dashboard (/app/dashboard) as an Editorial Bento with inline todo interactions and curated CSS Grid layout.
 
 ## Contents
 1. [Overview](#1-overview) · 2. [Repository structure](#2-repository-structure) · 3. [Backend](#4-backend) · 4. [Frontend](#4-frontend) · 5. [Design system](#5-design-system) · 6. [Current snapshot](#6-current-snapshot) · 7. [Limitations](#7-limitations) · 8. [Verification](#8-verification)
@@ -55,7 +55,7 @@ For full maps see `PROJECT_MAP.md`. Keep this section brief; expand there.
   - **Sidebar (ADR 0065):** `components/Sidebar.jsx` — collapsed icon rail (`--sidebar-collapsed` 72px) that expands over the content on hover (`--sidebar-expanded` 244px) without reflowing the page; `components/sidebarHoverIntent.js` holds the pure timing/decision rules (90ms open dwell, 260ms collapse delay); toggle pins open, `stride.sidebar-expanded` stores only the pin; tooltip pills show while collapsed; ≤900px stays a drawer + `MobileTabBar`.
   - **API clients** `lib/` — one per backend feature via `request.js` `apiRequest` (dedup + cache 30s/15s + concurrency 6 + retries + `X-Device-Id`, 401 logout). `authApi` device-aware, `uiPreferencesApi`, `eveAvatarApi`, `firebase.js`.
   - **Brand:** `components/StrideLogo.jsx` — brushstroke "S" masked in `currentColor` via `--stride-mark-tv` (`styles/components/brand-mark.css`) over `public/logo-mark.png`; app/PWA/touch icons are white tiles (`public/logo.png`, `public/icons/*`, `favicon.ico`) built from `website/assets/icon.png` (ADR 0061).
-  - **Pages:** Dashboard, Projects, Jobs, Hackathons, Todo, Documents, Workspace (IDE + Eve + Browser), Studio (hero→builder/apps), Eve (chat+memory+voice+schedules), Compete (contests + coding stats), Calls, WhatsApp, Mails, Calendar, Contacts, `UsagePage`, Settings, `CustomPage`, Themes, Profile, Onboarding, Landing, Avatar overlay window (`/app/avatar-overlay`). Full route map: `PROJECT_MAP.md`. Global `EveGlobalCompanion` dock.
+  - **Pages:** Dashboard, Projects, Jobs, Hackathons, Todo, Documents, Workspace (IDE + Eve + Browser), Eve (chat+memory+voice+schedules), Compete (contests + coding stats), Calls, WhatsApp, Mails, Calendar, Contacts, `UsagePage`, Settings, `CustomPage`, Themes, Profile, Onboarding, Landing, Avatar overlay window (`/app/avatar-overlay`). Full route map: `PROJECT_MAP.md`. Global `EveGlobalCompanion` dock.
      - **Config:** `config/navigation.js`, `config/search/` (7 modules), `dashboard/dashboardConfig.js`, `themes/` (`themeApplicator` engine + `THEME_MODES`, ADR 0057), `utils/` pure transformers, `styles/` import chain + `eve-avatar.css` (Vite `avatar-3d`/`avatar-live2d` chunks), `public/avatars/` examples.
 
 ## 5. Design system
@@ -71,7 +71,6 @@ For full maps see `PROJECT_MAP.md`. Keep this section brief; expand there.
 ## 6. Current snapshot
 - **Eve latency/streaming (ADRs 0041/0014):** memory extraction runs after `done` on a daemon thread; 30s RAG cache, `MAX_INJECTED_MEMORIES=15`, 5-min session cache, `asyncio.Queue` SSE bridge. `openai_compat` caps `max_tokens` per provider, retries quota halved, then `_FALLBACK_ORDER`.
 - **Eve Avatar (ADR 0012):** dual VRM+Live2D via `EveAvatarProvider` (lip-sync + `BroadcastChannel`); global companion, inline micro, desktop overlay, `EveAvatarSection`; `/eve/avatar/*` validates into `avatars/{uid}/`.
-- **Studio:** prompt-first Builder, status-aware Apps gallery, Builder IDE handoff via `StudioHero`.
 - **EVE/voice:** multi-provider + live `/v1/models`; SSE `delta`/`thinking`/`tool`/`done` + RAG + auto-remember (capped 3); tools: workspace files, web, WhatsApp, browser, schedule, UI; `ModelSelectorDropdown` + `openrouter/free` default; `voice_fast.py` Groq 8b-instant + `POST /eve/voice/stream` + Twilio `ConversationRelay`; STT browser/Groq/Deepgram, TTS Google/OpenRouter Fish.
 - **Eve voice settings:** `pages/settings/EveVoiceSection.jsx` composes `EveSpeechProviderCard` + `useEveSpeechProviders` (catalog load, saved-preference restore).
 - **Calls/search:** `in_app` WebRTC vs Twilio PSTN + `CallWSManager` + `BroadcastChannel`; `⌘K` palette + Landing cinema (`cinema-{base,hero,sections,motion}.css`, pinned monochrome ramp, ADR 0057).

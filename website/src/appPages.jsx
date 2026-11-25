@@ -24,9 +24,6 @@ const ChatsPage = lazy(() => import('./pages/ChatsPage').then((m) => ({ default:
 const CallsPage = lazy(() => import('./pages/CallsPage').then((m) => ({ default: m.CallsPage })))
 const ContactsPage = lazy(() => import('./pages/ContactsPage').then((m) => ({ default: m.ContactsPage })))
 const WorkspacePage = lazy(() => import('./pages/WorkspacePage').then((m) => ({ default: m.WorkspacePage })))
-const StudioProjectsPage = lazy(() => import('./pages/studio/StudioProjectsPage').then((m) => ({ default: m.StudioProjectsPage })))
-const StudioAppsPage = lazy(() => import('./pages/studio/StudioAppsPage').then((m) => ({ default: m.StudioAppsPage })))
-const StudioBuilderPage = lazy(() => import('./pages/studio/StudioBuilderPage').then((m) => ({ default: m.StudioBuilderPage })))
 const UsagePage = lazy(() => import('./pages/UsagePage').then((m) => ({ default: m.UsagePage })))
 
 export function buildAppPages({
@@ -62,7 +59,6 @@ export function buildAppPages({
   selectedDocument,
   selectedHackathon,
   selectedProject,
-  selectedProjectId,
   setContestSites,
   setGoogleCalendarEvents,
   setSessionUser,
@@ -76,6 +72,7 @@ export function buildAppPages({
     dashboard: (
         <DashboardPage
           tasks={tasks}
+          setTasks={setTasks}
           projects={projects}
           jobs={jobs}
           documents={documents}
@@ -234,29 +231,6 @@ export function buildAppPages({
       <DocumentsPage documents={documents} setDocuments={setDocuments} createIntent={creationIntent} onOpenDocument={(documentId) => navigate('document-opener', { documentId })} />
     ),
     workspace: <WorkspacePage />,
-    studio: (
-      <StudioProjectsPage
-        onOpenProject={(project) => navigateWorkspace('studio-detail', project.id)}
-        onNavigate={navigateWorkspace}
-      />
-    ),
-    'studio-detail': selectedProjectId ? (
-      <StudioBuilderPage
-        projectId={selectedProjectId}
-        onBack={() => navigateWorkspace('studio')}
-      />
-    ) : (
-      <StudioProjectsPage
-        onOpenProject={(project) => navigateWorkspace('studio-detail', project.id)}
-        onNavigate={navigateWorkspace}
-      />
-    ),
-    'studio-apps': (
-      <StudioAppsPage
-        onOpenProject={(project) => navigateWorkspace('studio-detail', project.id)}
-        onNavigate={navigateWorkspace}
-      />
-    ),
     'document-opener': (
       <DocumentOpenerPage
         document={selectedDocument}

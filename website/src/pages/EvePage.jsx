@@ -74,9 +74,6 @@ export function EvePage({
       } else if (action.type === 'open_record') {
         if (action.page === 'project-detail') onNavigate?.('project-detail', action.projectId)
         if (action.page === 'document-opener') onNavigate?.('document-opener', null, action.documentId)
-      } else if (action.type === 'open_studio_project' || action.type === 'show_build_approval') {
-        if (action.projectId) onNavigate?.('studio-detail', action.projectId)
-        else onNavigate?.('studio')
       } else if (action.type === 'refresh_workspace_data') {
         onWorkspaceChanged?.()
       } else if (action.type === 'trigger_eve_call') {

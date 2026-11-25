@@ -1,11 +1,12 @@
 import { Check, RotateCcw, X } from 'lucide-react'
-import { dashboardWidgets } from '../../dashboard/dashboardConfig'
+import { DASHBOARD_SECTIONS, dashboardWidgets } from '../../dashboard/dashboardConfig'
 
+/**
+ * Slide-over customize panel for toggling dashboard widgets and spacing density.
+ */
 export function DashboardCustomizePanel({
   isOpen,
   onClose,
-  editing,
-  onToggleEditing,
   hiddenWidgetIds,
   onToggleWidget,
   density,
@@ -16,61 +17,67 @@ export function DashboardCustomizePanel({
 
   return (
     <div className="dashboard-panel-backdrop" onMouseDown={onClose} role="presentation">
-      <aside className="dashboard-customize-panel" onMouseDown={(event) => event.stopPropagation()}>
+      <aside
+        className="dashboard-customize-panel"
+        aria-label="Customize dashboard"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
         <header>
           <div>
-            <p>Dashboard</p>
             <h2>Customize</h2>
+            <p className="dashboard-customize-subtitle">Show or hide cards and tune spacing.</p>
           </div>
-          <button className="icon-button" onClick={onClose} aria-label="Close customize panel">
+          <button type="button" className="icon-button" onClick={onClose} aria-label="Close customize panel">
             <X size={19} />
           </button>
         </header>
-        <section>
-          <h3>Layout editing</h3>
-          <button
-            className={`dashboard-edit-toggle ${editing ? 'active' : ''}`}
-            onClick={onToggleEditing}
-          >
-            <span className="edit-status">
-              <span className="status-dot" />
-              {editing ? 'Editing enabled' : 'Editing disabled'}
-            </span>
-            <span className="edit-action">{editing ? 'Done' : 'Edit layout'}</span>
-          </button>
-          <p className="dashboard-help">Drag cards by their headers and resize from the highlighted edges.</p>
-        </section>
-        <section>
-          <h3>Widget visibility</h3>
-          <div className="dashboard-widget-toggles">
-            {dashboardWidgets.map(({ id, title, icon: Icon }) => {
-              const visible = !hiddenWidgetIds.includes(id)
-              return (
-                <button key={id} onClick={() => onToggleWidget(id)} className={visible ? 'visible' : ''}>
-                  <Icon size={16} />
-                  <span>{title}</span>
-                  <i>{visible && <Check size={14} />}</i>
-                </button>
-              )
-            })}
-          </div>
-        </section>
+
+        {DASHBOARD_SECTIONS.map((section) => {
+          const sectionWidgets = dashboardWidgets.filter((w) => w.section === section.id)
+          return (
+            <section key={section.id}>
+              <h3>{section.label}</h3>
+              <div className="dashboard-widget-toggles">
+                {sectionWidgets.map(({ id, title, icon: Icon }) => {
+                  const visible = !hiddenWidgetIds.includes(id)
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => onToggleWidget(id)}
+                      className={visible ? 'visible' : ''}
+                      aria-pressed={visible}
+                    >
+                      <Icon size={16} aria-hidden="true" />
+                      <span>{title}</span>
+                      <i>{visible && <Check size={14} aria-hidden="true" />}</i>
+                    </button>
+                  )
+                })}
+              </div>
+            </section>
+          )
+        })}
+
         <section>
           <h3>Density</h3>
           <div className="dashboard-density-options">
             {['compact', 'balanced', 'spacious'].map((option) => (
               <button
                 key={option}
+                type="button"
                 className={density === option ? 'active' : ''}
                 onClick={() => onChangeDensity(option)}
+                aria-pressed={density === option}
               >
                 {option}
               </button>
             ))}
           </div>
         </section>
-        <button className="dashboard-reset" onClick={onReset}>
-          <RotateCcw size={16} /> Reset default layout
+
+        <button type="button" className="dashboard-reset" onClick={onReset}>
+          <RotateCcw size={16} aria-hidden="true" /> Reset defaults
         </button>
       </aside>
     </div>

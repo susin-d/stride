@@ -16,8 +16,6 @@ WORKSPACE_PAGES = (
     "jobs",
     "documents",
     "workspace",
-    "studio",
-    "studio-apps",
     "whatsapp",
     "profile",
     "setting",

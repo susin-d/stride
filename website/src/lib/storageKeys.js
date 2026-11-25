@@ -49,9 +49,6 @@ export function workspaceBrowserKey(workspaceId) {
   return `${BROWSER_URL_BASE}:${workspaceId || 'default'}`
 }
 
-export const STUDIO_BRIEF_PREFIX = 'stride.studio.brief.'
-export const STUDIO_CHAT_PREFIX = 'stride.studio.chat_session.'
-
 export const HACKATHON_LAYOUT_KEY = 'stride-hackathon-layout'
 export const HACKATHON_FOCUS_KEY = 'stride.hackathon-focus'
 export const HACKATHONS_MODE_KEY = 'stride.hackathons.mode'

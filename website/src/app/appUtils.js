@@ -68,7 +68,6 @@ export function resolveLayoutPage(activePage) {
   if (activePage === 'project-detail') return 'projects'
   if (activePage === 'hackathon-detail') return 'hackathons'
   if (activePage === 'document-opener') return 'documents'
-  if (activePage === 'studio-detail') return 'studio'
   if (activePage === 'eve-sessions' || activePage === 'eve-memory' || activePage === 'eve-call' || activePage === 'eve-schedules') return 'eve'
   if (activePage === 'stats' || activePage === 'competitive-coding') return 'compete'
   return activePage

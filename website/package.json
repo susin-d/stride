@@ -38,7 +38,6 @@
     "pixi.js": "^7.4.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-grid-layout": "^2.2.3",
     "three": "^0.160.1"
   },
   "overrides": {

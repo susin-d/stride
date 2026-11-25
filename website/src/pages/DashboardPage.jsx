@@ -1,26 +1,20 @@
-import "../styles/pages/dashboard.css"
-import "../styles/pages/dashboard-customize.css"
+import '../styles/pages/dashboard.css'
+import '../styles/pages/dashboard-customize.css'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ResponsiveGridLayout, useContainerWidth } from 'react-grid-layout'
 import {
   ChevronDown,
-  LayoutGrid,
   Plus,
   SlidersHorizontal,
 } from 'lucide-react'
-import 'react-grid-layout/css/styles.css'
 import {
-  DASHBOARD_BREAKPOINTS,
-  DASHBOARD_COLS,
   DASHBOARD_SCHEMA_VERSION,
   DASHBOARD_STORAGE_KEY,
-  cloneDefaultLayouts,
-  compactDashboardLayouts,
   dashboardWidgets,
   loadDashboardPreferences,
 } from '../dashboard/dashboardConfig'
 import { calendarDateKey } from '../utils/calendarEvents'
 import { RecordList, WidgetCard } from './dashboard/WidgetCard'
+import { TodoWidget } from './dashboard/TodoWidget'
 import { DashboardCustomizePanel } from './dashboard/DashboardCustomizePanel'
 
 const formatDate = (value, options = {}) =>
@@ -42,6 +36,7 @@ const calendarEventDestinations = {
 
 export function DashboardPage({
   tasks,
+  setTasks,
   projects,
   jobs,
   documents,
@@ -53,27 +48,24 @@ export function DashboardPage({
   onCreate,
   onOpenNotifications,
 }) {
-  const initial = useMemo(() => {
-    const preferences = loadDashboardPreferences()
-    return {
-      ...preferences,
-      layouts: compactDashboardLayouts(
-        preferences.layouts,
-        preferences.hiddenWidgetIds,
-      ),
-    }
-  }, [])
-  const [layouts, setLayouts] = useState(initial.layouts)
+  const initial = useMemo(() => loadDashboardPreferences(), [])
   const [hiddenWidgetIds, setHiddenWidgetIds] = useState(initial.hiddenWidgetIds)
   const [density, setDensity] = useState(initial.density)
-  const [editing, setEditing] = useState(false)
   const [customizeOpen, setCustomizeOpen] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
   const createRef = useRef(null)
-  const { width, containerRef, mounted } = useContainerWidth()
 
   const todayKey = calendarDateKey(new Date())
   const todayEvents = calendarEventIndex.get(todayKey) ?? []
+  const openTasksCount = useMemo(
+    () => tasks.filter((task) => !task.completed).length,
+    [tasks],
+  )
+  const unreadCount = useMemo(
+    () => notifications.filter((notification) => notification.unread).length,
+    [notifications],
+  )
+
   const upcomingEvents = useMemo(
     () =>
       [...calendarEventIndex.entries()]
@@ -89,6 +81,7 @@ export function DashboardPage({
         ),
     [calendarEventIndex, todayKey],
   )
+
   const contests = useMemo(
     () =>
       contestSites
@@ -98,9 +91,7 @@ export function DashboardPage({
         .sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt)),
     [contestSites],
   )
-  const visibleWidgets = dashboardWidgets.filter(
-    ({ id }) => !hiddenWidgetIds.includes(id),
-  )
+
   const activityFeed = useMemo(() => {
     const entries = [
       ...documents.map((document) => ({
@@ -129,11 +120,11 @@ export function DashboardPage({
     return entries
       .filter(({ date }) => date && !Number.isNaN(new Date(date).getTime()))
       .sort((a, b) => new Date(b.date) - new Date(a.date))
-      .slice(0, 3)
+      .slice(0, 4)
       .map(({ date, ...entry }) => ({ ...entry, badge: formatDate(date) }))
   }, [documents, projects, jobs])
-  const [now, setNow] = useState(() => new Date())
 
+  const [now, setNow] = useState(() => new Date())
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 15000)
     return () => clearInterval(timer)
@@ -141,7 +132,15 @@ export function DashboardPage({
 
   const greetingHour = now.getHours()
   const greeting =
-    greetingHour < 5 ? 'Up late' : greetingHour < 12 ? 'Good morning' : greetingHour < 17 ? 'Good afternoon' : greetingHour < 22 ? 'Good evening' : 'Good night'
+    greetingHour < 5
+      ? 'Up late'
+      : greetingHour < 12
+        ? 'Good morning'
+        : greetingHour < 17
+          ? 'Good afternoon'
+          : greetingHour < 22
+            ? 'Good evening'
+            : 'Good night'
   const todayLabel = now.toLocaleDateString(undefined, {
     weekday: 'long',
     month: 'long',
@@ -157,12 +156,11 @@ export function DashboardPage({
       DASHBOARD_STORAGE_KEY,
       JSON.stringify({
         version: DASHBOARD_SCHEMA_VERSION,
-        layouts,
         hiddenWidgetIds,
         density,
       }),
     )
-  }, [layouts, hiddenWidgetIds, density])
+  }, [hiddenWidgetIds, density])
 
   useEffect(() => {
     const closeMenu = (event) => {
@@ -172,24 +170,15 @@ export function DashboardPage({
     return () => document.removeEventListener('mousedown', closeMenu)
   }, [])
 
-  useEffect(() => {
-    document.body.classList.toggle('dashboard-layout-editing', editing)
-    return () => document.body.classList.remove('dashboard-layout-editing')
-  }, [editing])
-
   const toggleWidget = (id) => {
-    const nextHiddenWidgetIds = hiddenWidgetIds.includes(id)
-      ? hiddenWidgetIds.filter((widgetId) => widgetId !== id)
-      : [...hiddenWidgetIds, id]
-
-    setHiddenWidgetIds(nextHiddenWidgetIds)
-    setLayouts((current) =>
-      compactDashboardLayouts(current, nextHiddenWidgetIds),
+    setHiddenWidgetIds((current) =>
+      current.includes(id)
+        ? current.filter((widgetId) => widgetId !== id)
+        : [...current, id],
     )
   }
 
   const resetDashboard = () => {
-    setLayouts(cloneDefaultLayouts())
     setHiddenWidgetIds([])
     setDensity('balanced')
   }
@@ -200,74 +189,37 @@ export function DashboardPage({
     else onCreate(type)
   }
 
-  const saveGridLayouts = (nextLayouts) => {
-    setLayouts((currentLayouts) =>
-      Object.fromEntries(
-        Object.entries({ ...currentLayouts, ...nextLayouts }).map(
-          ([breakpoint, nextLayout]) => {
-            const nextIds = new Set(nextLayout.map(({ i }) => i))
-            const missingEntries = (currentLayouts[breakpoint] ?? []).filter(
-              ({ i }) => !nextIds.has(i),
-            )
-            return [breakpoint, [...nextLayout, ...missingEntries]]
-          },
-        ),
-      ),
-    )
-  }
-
   const widgetContent = {
     today: {
       total: todayEvents.length,
-      body: <RecordList items={todayEvents.slice(0, 3).map((event) => ({
-        id: event.id,
-        title: event.label,
-        badge: event.type,
-        destination: calendarEventDestinations[event.type] ?? 'calendar',
-      }))} empty="Your day is clear." onNavigate={onNavigate} />,
+      body: (
+        <RecordList
+          items={todayEvents.slice(0, 4).map((event) => ({
+            id: event.id,
+            title: event.label,
+            badge: event.type,
+            destination: calendarEventDestinations[event.type] ?? 'calendar',
+          }))}
+          empty="Your day is clear."
+          onNavigate={onNavigate}
+        />
+      ),
     },
     todo: {
-      total: tasks.filter((task) => !task.completed).length,
-      body: <RecordList items={tasks.filter((task) => !task.completed).slice(0, 3).map((task) => ({
-        id: task.id,
-        title: task.title,
-        meta: task.dueDate ? formatDate(`${task.dueDate}T12:00:00`) : 'No due date',
-        destination: 'todo',
-      }))} empty="All tasks complete." onNavigate={onNavigate} />,
-    },
-    calendar: {
-      total: upcomingEvents.length,
-      body: <RecordList items={upcomingEvents.slice(0, 3).map((event) => ({
-        ...event,
-        destination: calendarEventDestinations[event.badge] ?? 'calendar',
-      }))} empty="No upcoming events." onNavigate={onNavigate} />,
-    },
-    'competitive-coding': {
-      total: contests.length,
-      body: <RecordList items={contests.slice(0, 3).map((contest) => ({
-        id: contest.id,
-        title: contest.name,
-        meta: contest.site,
-        badge: formatDate(contest.startsAt),
-        destination: 'compete',
-      }))} onNavigate={onNavigate} />,
-    },
-    hackathons: {
-      total: hackathons.length,
-      body: <RecordList items={hackathons.slice(0, 3).map((hackathon) => ({
-        id: hackathon.id,
-        title: hackathon.title,
-        meta: hackathon.organizer,
-        badge: formatDate(hackathon.startsAt),
-        destination: 'hackathon-detail',
-        destinationId: hackathon.id,
-      }))} onNavigate={onNavigate} />,
+      total: openTasksCount,
+      body: (
+        <TodoWidget
+          tasks={tasks}
+          setTasks={setTasks}
+          formatDate={formatDate}
+        />
+      ),
     },
     projects: {
       total: projects.length,
       body: projects.length ? (
         <div className="dashboard-project-list">
-          {projects.slice(0, 3).map((project) => (
+          {projects.slice(0, 4).map((project) => (
             <div key={project.id} className="dashboard-project-item">
               <div className="dashboard-project-info">
                 <button
@@ -282,7 +234,7 @@ export function DashboardPage({
               <div className="dashboard-project-bar-track">
                 <div
                   className="dashboard-project-bar-fill"
-                  style={{ width: `${project.progress}%` }}
+                  style={{ '--progress': `${project.progress}%` }}
                 />
               </div>
             </div>
@@ -292,40 +244,138 @@ export function DashboardPage({
         <p className="dashboard-widget-empty">No active projects.</p>
       ),
     },
+    calendar: {
+      total: upcomingEvents.length,
+      body: (
+        <RecordList
+          items={upcomingEvents.slice(0, 4).map((event) => ({
+            ...event,
+            destination: calendarEventDestinations[event.badge] ?? 'calendar',
+          }))}
+          empty="No upcoming events."
+          onNavigate={onNavigate}
+        />
+      ),
+    },
     jobs: {
       total: jobs.length,
-      body: <RecordList items={jobs.slice(0, 3).map((job) => ({
-        id: job.id,
-        title: job.role,
-        meta: job.company,
-        badge: job.status,
-        destination: 'jobs',
-      }))} onNavigate={onNavigate} />,
+      body: (
+        <RecordList
+          items={jobs.slice(0, 3).map((job) => ({
+            id: job.id,
+            title: job.role,
+            meta: job.company,
+            badge: job.status,
+            destination: 'jobs',
+          }))}
+          empty="No active applications."
+          onNavigate={onNavigate}
+        />
+      ),
+    },
+    'competitive-coding': {
+      total: contests.length,
+      body: (
+        <RecordList
+          items={contests.slice(0, 3).map((contest) => ({
+            id: contest.id,
+            title: contest.name,
+            meta: contest.site,
+            badge: formatDate(contest.startsAt),
+            destination: 'compete',
+          }))}
+          empty="No upcoming contests."
+          onNavigate={onNavigate}
+        />
+      ),
+    },
+    hackathons: {
+      total: hackathons.length,
+      body: (
+        <RecordList
+          items={hackathons.slice(0, 3).map((hackathon) => ({
+            id: hackathon.id,
+            title: hackathon.title,
+            meta: hackathon.organizer,
+            badge: formatDate(hackathon.startsAt),
+            destination: 'hackathon-detail',
+            destinationId: hackathon.id,
+          }))}
+          empty="No tracked hackathons."
+          onNavigate={onNavigate}
+        />
+      ),
     },
     documents: {
-      body: <RecordList items={activityFeed} empty="No recent activity." onNavigate={onNavigate} />,
+      body: (
+        <RecordList
+          items={activityFeed}
+          empty="No recent activity."
+          onNavigate={onNavigate}
+        />
+      ),
     },
     notifications: {
-      total: notifications.filter((notification) => notification.unread).length,
-      body: <RecordList items={notifications.slice(0, 3).map((notification) => ({
-        id: notification.id,
-        title: notification.title,
-        meta: notification.time,
-        badge: notification.unread ? 'new' : '',
-        notification: true,
-      }))} empty="You're all caught up." onOpenNotifications={onOpenNotifications} />,
+      total: unreadCount,
+      body: (
+        <RecordList
+          items={notifications.slice(0, 3).map((notification) => ({
+            id: notification.id,
+            title: notification.title,
+            meta: notification.time,
+            badge: notification.unread ? 'new' : '',
+            notification: true,
+          }))}
+          empty="You're all caught up."
+          onOpenNotifications={onOpenNotifications}
+        />
+      ),
     },
   }
+
+  const visibleBySection = (section) =>
+    dashboardWidgets.filter(
+      (widget) =>
+        widget.section === section && !hiddenWidgetIds.includes(widget.id),
+    )
+
+  const focusWidgets = visibleBySection('focus')
+  const mainWidgets = visibleBySection('main')
+  const railWidgets = visibleBySection('rail')
+  const hasVisibleWidgets =
+    focusWidgets.length > 0 || mainWidgets.length > 0 || railWidgets.length > 0
+
+  const renderWidget = (definition, spanClass = '') => (
+    <WidgetCard
+      key={definition.id}
+      definition={definition}
+      className={spanClass}
+      total={widgetContent[definition.id].total}
+      onOpen={() =>
+        definition.id === 'notifications'
+          ? onOpenNotifications()
+          : onNavigate(definition.destination)
+      }
+    >
+      {widgetContent[definition.id].body}
+    </WidgetCard>
+  )
+
+  const pulseMetrics = [
+    { label: 'Open tasks', value: openTasksCount, action: () => onNavigate('todo') },
+    { label: "Today's events", value: todayEvents.length, action: () => onNavigate('calendar') },
+    { label: 'Active projects', value: projects.length, action: () => onNavigate('projects') },
+    { label: 'Unread alerts', value: unreadCount, action: onOpenNotifications },
+  ]
 
   return (
     <div className={`dashboard-page dashboard-density-${density}`}>
       <header className="dashboard-heading">
         <div className="dashboard-greeting">
-          <p>{todayLabel} · {timeLabel}</p>
-          <h1>{greeting}. Here&apos;s your command center.</h1>
+          <h1>{greeting}.</h1>
+          <p className="dashboard-date">{todayLabel} · {timeLabel}</p>
         </div>
         <div className="dashboard-heading-actions dashboard-inline-actions">
-          {editing && <span className="dashboard-edit-status"><LayoutGrid size={15} /> Editing layout</span>}
           <button className="secondary-button" type="button" onClick={() => setCustomizeOpen(true)}>
             <SlidersHorizontal size={16} /> Customize
           </button>
@@ -335,55 +385,78 @@ export function DashboardPage({
             </button>
             {createOpen && (
               <div className="dashboard-create-menu">
-                <button onClick={() => createAction('todo')}>Add Todo</button>
-                <button onClick={() => createAction('job')}>Add Job</button>
-                <button onClick={() => createAction('document')}>Upload Document</button>
-                <button onClick={() => createAction('calendar')}>Open Calendar</button>
+                <button type="button" onClick={() => createAction('todo')}>Add Todo</button>
+                <button type="button" onClick={() => createAction('job')}>Add Job</button>
+                <button type="button" onClick={() => createAction('document')}>Upload Document</button>
+                <button type="button" onClick={() => createAction('calendar')}>Open Calendar</button>
               </div>
             )}
           </div>
         </div>
       </header>
 
-      <div className="dashboard-grid-shell" ref={containerRef}>
-        {mounted && (
-          <ResponsiveGridLayout
-            width={width}
-            layouts={layouts}
-            breakpoints={DASHBOARD_BREAKPOINTS}
-            cols={DASHBOARD_COLS}
-            rowHeight={34}
-            margin={[16, 16]}
-            containerPadding={[0, 0]}
-            dragConfig={{ enabled: editing, handle: '.dashboard-widget-drag-handle', cancel: 'button,a', threshold: 4 }}
-            resizeConfig={{ enabled: editing, handles: ['se', 's', 'e'] }}
-            onLayoutChange={(_, nextLayouts) => saveGridLayouts(nextLayouts)}
+      <section className="dashboard-pulse" aria-label="Workspace summary">
+        {pulseMetrics.map((metric) => (
+          <button
+            key={metric.label}
+            type="button"
+            className="dashboard-pulse-item"
+            onClick={metric.action}
           >
-            {visibleWidgets.map((definition) => (
-              <div key={definition.id} className="dashboard-grid-item">
-                <WidgetCard
-                  definition={definition}
-                  editing={editing}
-                  total={widgetContent[definition.id].total}
-                  onOpen={() =>
-                    definition.id === 'notifications'
-                      ? onOpenNotifications()
-                      : onNavigate(definition.destination)
-                  }
-                >
-                  {widgetContent[definition.id].body}
-                </WidgetCard>
-              </div>
-            ))}
-          </ResponsiveGridLayout>
-        )}
-      </div>
+            <span className="dashboard-pulse-value">{metric.value}</span>
+            <span className="dashboard-pulse-label">{metric.label}</span>
+          </button>
+        ))}
+      </section>
+
+      {!hasVisibleWidgets ? (
+        <div className="dashboard-empty-bento">
+          <p>All dashboard cards are hidden.</p>
+          <button type="button" className="secondary-button" onClick={resetDashboard}>
+            Restore default cards
+          </button>
+        </div>
+      ) : (
+        <div className="dashboard-bento">
+          {focusWidgets.length > 0 && (
+            <section
+              className={`dashboard-band dashboard-band-focus ${focusWidgets.length === 1 ? 'is-single' : ''}`}
+              aria-label="Today's focus"
+            >
+              {focusWidgets.map((definition) =>
+                renderWidget(
+                  definition,
+                  definition.id === 'todo' ? 'dashboard-span-wide' : 'dashboard-span-narrow',
+                ),
+              )}
+            </section>
+          )}
+
+          {mainWidgets.length > 0 && (
+            <section
+              className={`dashboard-band dashboard-band-main ${mainWidgets.length === 1 ? 'is-single' : ''}`}
+              aria-label="Work and schedule"
+            >
+              {mainWidgets.map((definition) =>
+                renderWidget(
+                  definition,
+                  definition.id === 'projects' ? 'dashboard-span-wide' : 'dashboard-span-narrow',
+                ),
+              )}
+            </section>
+          )}
+
+          {railWidgets.length > 0 && (
+            <section className="dashboard-band dashboard-band-rail" aria-label="Radar and activity">
+              {railWidgets.map((definition) => renderWidget(definition))}
+            </section>
+          )}
+        </div>
+      )}
 
       <DashboardCustomizePanel
         isOpen={customizeOpen}
         onClose={() => setCustomizeOpen(false)}
-        editing={editing}
-        onToggleEditing={() => setEditing((value) => !value)}
         hiddenWidgetIds={hiddenWidgetIds}
         onToggleWidget={toggleWidget}
         density={density}
