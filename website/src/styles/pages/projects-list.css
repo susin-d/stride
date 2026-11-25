@@ -229,27 +229,27 @@
 }
 
 .project-status.status-active {
-  color: var(--text-inverse);
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  color: var(--badge-success);
+  background: var(--badge-success-bg);
+  border-color: color-mix(in srgb, var(--badge-success) 28%, transparent);
 }
 
 .project-status.status-planning {
-  color: var(--text-primary);
-  background: var(--bg-card);
-  border: 1px dashed var(--border-heavy);
+  color: var(--badge-purple);
+  background: var(--badge-purple-bg);
+  border: 1px solid color-mix(in srgb, var(--badge-purple) 28%, transparent);
 }
 
 .project-status.status-on-hold {
-  color: var(--text-muted);
-  background: var(--bg-tertiary);
-  border-color: var(--border-color);
+  color: var(--badge-warning);
+  background: var(--badge-warning-bg);
+  border-color: color-mix(in srgb, var(--badge-warning) 28%, transparent);
 }
 
 .project-status.status-completed {
-  color: var(--text-primary);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-heavy);
+  color: var(--badge-success);
+  background: var(--badge-success-bg);
+  border: 1px solid color-mix(in srgb, var(--badge-success) 28%, transparent);
 }
 
 /* View Mode Switcher Toggle */

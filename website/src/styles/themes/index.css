@@ -48,6 +48,16 @@
   --color-purple: #404040;
   --color-purple-light: #f2f2f2;
 
+  /* Status badge semantic colors — readable hues on light surfaces */
+  --badge-success: #15803d;
+  --badge-success-bg: #dcfce7;
+  --badge-warning: #b45309;
+  --badge-warning-bg: #fef3c7;
+  --badge-danger: #b91c1c;
+  --badge-danger-bg: #fee2e2;
+  --badge-purple: #6d28d9;
+  --badge-purple-bg: #ede9fe;
+
   /* Domain & Module Accents — tone-only grouping on the same neutral ladder */
   --module-work: #262626;
   --module-work-light: #f0f0f0;

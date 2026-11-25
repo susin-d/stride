@@ -242,27 +242,3 @@
   font-weight: 500;
 }
 
-.badge-success {
-  background: var(--color-primary-light, #e5e5e5);
-  color: var(--color-success, #171717);
-  border: 1px solid var(--border-color, #e5e5e5);
-}
-
-.badge-warning {
-  background: var(--bg-tertiary, #e5e5e5);
-  color: var(--color-warning, #737373);
-  border: 1px solid var(--border-color, #e5e5e5);
-}
-
-.badge-danger {
-  background: var(--bg-tertiary, #e5e5e5);
-  color: var(--color-danger, #171717);
-  border: 1px solid var(--border-color, #e5e5e5);
-}
-
-.badge-purple {
-  background: var(--bg-tertiary, #e5e5e5);
-  color: var(--color-purple, #737373);
-  border: 1px solid var(--border-color, #e5e5e5);
-}
-

@@ -48,6 +48,16 @@ html.void-theme {
   --color-purple: #c0c0c0;
   --color-purple-light: rgba(255, 255, 255, 0.10);
 
+  /* Status badge semantic colors — luminous hues on void surfaces */
+  --badge-success: #4ade80;
+  --badge-success-bg: rgba(34, 197, 94, 0.14);
+  --badge-warning: #fbbf24;
+  --badge-warning-bg: rgba(245, 158, 11, 0.14);
+  --badge-danger: #f87171;
+  --badge-danger-bg: rgba(239, 68, 68, 0.15);
+  --badge-purple: #a78bfa;
+  --badge-purple-bg: rgba(139, 92, 246, 0.15);
+
   /* Module accents */
   --module-work: #e2e2e2;
   --module-work-light: rgba(255, 255, 255, 0.10);

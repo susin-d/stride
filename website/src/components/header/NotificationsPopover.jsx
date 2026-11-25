@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import {
   Bell,
+  BellOff,
   BriefcaseBusiness,
   CalendarDays,
   CheckCheck,
@@ -54,7 +56,14 @@ export function NotificationsPopover({
   loading,
   onLoadMore,
 }) {
+  const [filter, setFilter] = useState('all')
+
   if (!isOpen) return null
+
+  const visibleNotifications =
+    filter === 'unread'
+      ? notifications.filter((item) => item.unread)
+      : notifications
 
   const openNotification = (notification) => {
     setNotifications((current) =>
@@ -116,25 +125,64 @@ export function NotificationsPopover({
         aria-label="Notifications"
         onMouseDown={(event) => event.stopPropagation()}
       >
-        <div className="notification-panel-header">
-          <div>
-            <p>Inbox</p>
+        <header className="notification-panel-header">
+          <div className="notification-header-title">
             <h2>Notifications</h2>
+            {unreadCount > 0 && (
+              <span className="notification-header-badge">{unreadCount}</span>
+            )}
           </div>
+          <div className="notification-header-actions">
+            {unreadCount > 0 && (
+              <button
+                type="button"
+                className="notification-mark-read"
+                onClick={handleMarkAllRead}
+                title="Mark all as read"
+              >
+                <CheckCheck size={14} aria-hidden="true" />
+                <span>Mark read</span>
+              </button>
+            )}
+            <button
+              type="button"
+              className="notification-close-btn"
+              onClick={onClose}
+              aria-label="Close notifications"
+            >
+              <X size={16} />
+            </button>
+          </div>
+        </header>
+
+        <div className="notification-tabs" role="tablist" aria-label="Filter notifications">
           <button
-            className="icon-button"
-            onClick={onClose}
-            aria-label="Close notifications"
+            type="button"
+            role="tab"
+            aria-selected={filter === 'all'}
+            className={filter === 'all' ? 'is-active' : ''}
+            onClick={() => setFilter('all')}
           >
-            <X size={19} />
+            All
+            <span>{notifications.length}</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={filter === 'unread'}
+            className={filter === 'unread' ? 'is-active' : ''}
+            onClick={() => setFilter('unread')}
+          >
+            Unread
+            <span>{unreadCount}</span>
           </button>
         </div>
 
         {permissionStatus === 'default' && (
           <div className="notification-permission-banner">
             <div className="permission-banner-text">
-              <Bell size={15} />
-              <span>Enable desktop alerts for reminders, calls &amp; deadlines.</span>
+              <Bell size={14} aria-hidden="true" />
+              <span>Enable desktop alerts for reminders &amp; calls.</span>
             </div>
             <button
               type="button"
@@ -146,36 +194,46 @@ export function NotificationsPopover({
           </div>
         )}
 
-        <div className="notification-toolbar">
-          <span>{unreadCount} unread</span>
-          {notifications.length > 0 && (
-            <button type="button" onClick={handleMarkAllRead}>
-              <CheckCheck size={14} />
-              Mark all read
-            </button>
-          )}
-        </div>
-
         <div className="notification-list">
-          {notifications.length === 0 ? (
+          {visibleNotifications.length === 0 ? (
             <div className="notification-empty">
-              <Bell size={24} aria-hidden="true" />
-              <p>No notifications</p>
+              <span className="notification-empty-icon">
+                {filter === 'unread' ? <CheckCheck size={20} aria-hidden="true" /> : <BellOff size={20} aria-hidden="true" />}
+              </span>
+              <strong>{filter === 'unread' ? 'No unread alerts' : 'All caught up'}</strong>
+              <p>
+                {filter === 'unread'
+                  ? 'Everything in your inbox has been read.'
+                  : 'Reminders, calls, and deadline updates will appear here.'}
+              </p>
             </div>
           ) : (
-            notifications.map((notification) => {
+            visibleNotifications.map((notification) => {
               const NotificationIcon = notificationIcons[notification.type] ?? Bell
               return (
-                <div className={`notification-item ${notification.unread ? 'unread' : ''}`} key={notification.id}>
-                  <button type="button" className="notification-main" onClick={() => openNotification(notification)}>
-                    <span className="notification-icon"><NotificationIcon size={17} /></span>
+                <div
+                  className={`notification-item ${notification.unread ? 'unread' : ''}`}
+                  key={notification.id}
+                >
+                  <button
+                    type="button"
+                    className="notification-main"
+                    onClick={() => openNotification(notification)}
+                  >
+                    <span className="notification-icon">
+                      <NotificationIcon size={16} aria-hidden="true" />
+                    </span>
                     <span className="notification-copy">
                       <span className="notification-title-row">
                         <strong>{notification.title}</strong>
-                        {notification.unread && <span className="notification-unread-dot" aria-label="Unread" />}
+                        {notification.unread && (
+                          <span className="notification-unread-dot" aria-label="Unread" />
+                        )}
+                        <small>{notification.time}</small>
                       </span>
-                      <span>{notification.message}</span>
-                      <small>{notification.time}</small>
+                      {notification.message && (
+                        <span className="notification-message">{notification.message}</span>
+                      )}
                     </span>
                   </button>
                   <button
@@ -192,10 +250,16 @@ export function NotificationsPopover({
             })
           )}
         </div>
+
         {canLoadMore && (
           <div className="notification-panel-footer">
-            <button className="secondary-button" type="button" onClick={onLoadMore} disabled={loading}>
-              {loading ? 'Loading…' : 'Load more notifications'}
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={onLoadMore}
+              disabled={loading}
+            >
+              {loading ? 'Loading…' : 'Load more'}
             </button>
           </div>
         )}

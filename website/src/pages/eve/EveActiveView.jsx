@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { TabNav } from '../../components/ui'
 import { EveInlineAvatar } from '../../components/eve/avatar/EveInlineAvatar'
 import { EveCallSection } from './EveCallSection'
@@ -47,6 +48,14 @@ export function EveActiveView({
   isAddingMemory,
   refreshSidebar,
 }) {
+  const viewContainerRef = useRef(null)
+
+  useEffect(() => {
+    if (viewContainerRef.current) {
+      viewContainerRef.current.scrollTop = 0
+    }
+  }, [activeTab])
+
   const handleAvatarToggleRenderer = () => {
     const next = avatarPrefs?.renderer === 'vrm' ? 'live2d' : avatarPrefs?.renderer === 'live2d' ? 'auto' : 'vrm'
     setAvatarPrefs({ renderer: next })
@@ -73,7 +82,7 @@ export function EveActiveView({
           />
         </div>
       )}
-      <div className="eve-active-view-container full-width">
+      <div ref={viewContainerRef} className="eve-active-view-container full-width">
         {activeTab === 'chat' && (
           <EveChatSection
             messages={messages}

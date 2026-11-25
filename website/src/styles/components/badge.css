@@ -33,28 +33,28 @@
 }
 
 .badge-success {
-  background: var(--color-success-light);
-  color: var(--color-success);
-  border: 1px solid color-mix(in srgb, var(--color-success) 25%, transparent);
+  background: var(--badge-success-bg);
+  color: var(--badge-success);
+  border: 1px solid color-mix(in srgb, var(--badge-success) 28%, transparent);
 }
 
 .badge-warning {
-  background: var(--color-warning-light);
-  color: var(--color-warning);
-  border: 1px solid color-mix(in srgb, var(--color-warning) 25%, transparent);
+  background: var(--badge-warning-bg);
+  color: var(--badge-warning);
+  border: 1px solid color-mix(in srgb, var(--badge-warning) 28%, transparent);
 }
 
 .badge-danger,
 .badge-error {
-  background: var(--color-danger-light);
-  color: var(--color-danger);
-  border: 1px solid color-mix(in srgb, var(--color-danger) 25%, transparent);
+  background: var(--badge-danger-bg);
+  color: var(--badge-danger);
+  border: 1px solid color-mix(in srgb, var(--badge-danger) 28%, transparent);
 }
 
 .badge-purple {
-  background: var(--color-purple-light);
-  color: var(--color-purple);
-  border: 1px solid color-mix(in srgb, var(--color-purple) 25%, transparent);
+  background: var(--badge-purple-bg);
+  color: var(--badge-purple);
+  border: 1px solid color-mix(in srgb, var(--badge-purple) 28%, transparent);
 }
 
 .badge-module-work {
