@@ -1,8 +1,13 @@
-"""Twilio PSTN routes — dual call option (in_app WebRTC vs Twilio PSTN)."""
+"""Twilio PSTN routes — dual call option (in_app WebRTC vs Twilio PSTN).
+
+All new calls use ConversationRelay via /twilio/relay-twiml/{call_id}.
+The old gather-based flow (twiml/{call_id}, gather, gather-fast) was removed
+in ADR 0072 — superseded by the relay WebSocket path.
+"""
 
 import asyncio
 import logging
-from fastapi import APIRouter, Depends, Form, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import PlainTextResponse
 
 from app.core.auth import get_current_user
@@ -15,14 +20,9 @@ from app.schemas.call import CallResponse, CallUser, EveTwilioCallRequest, Twili
 from app.services.notifications import send_call_notification
 from app.services.prompts import (
     DEFAULT_CALL_GREETING,
-    DEFAULT_CALL_GREETING_SHORT,
-    EVE_ECHO_FALLBACK,
-    EVE_FALLBACK_NO_PROCESS,
-    EVE_GOODBYE,
-    EVE_GOODBYE_NO_SPEECH,
 )
 from app.services.twilio.client import TwilioError, initiate_twilio_call, is_twilio_configured, map_twilio_status
-from app.services.twilio.twiml import build_eve_twiml, build_human_twiml, build_relay_twiml
+from app.services.twilio.twiml import build_relay_twiml
 
 logger = logging.getLogger(__name__)
 
@@ -137,80 +137,6 @@ async def twilio_relay_twiml(call_id: str):
     return PlainTextResponse(twiml, media_type="application/xml")
 
 
-@router.get("/twilio/twiml/{call_id}", response_class=PlainTextResponse)
-async def twilio_twiml(call_id: str, database: SqlClient = Depends(get_firestore)):
-    # Rely on unguessable UUID; Twilio GET has no signature body, so soft check
-    # Twilio fetches this without auth — return TwiML
-    repo = CallRepository(database)
-    call = repo.get(call_id)
-    if not call:
-        return PlainTextResponse('<?xml version="1.0"?><Response><Say>Call not found.</Say><Hangup/></Response>', media_type="application/xml")
-    # Determine Eve vs human by caller
-    is_eve = call.get("caller", {}).get("uid") == "eve-bot" or call.get("callee", {}).get("uid") == "eve-bot"
-    # Pull Say payload from messages if present
-    say_text = None
-    for m in (call.get("messages") or []):
-        if m.get("type") == "say":
-            say_text = m.get("payload")
-            break
-    if is_eve:
-        twiml = build_eve_twiml(say_text or DEFAULT_CALL_GREETING_SHORT, gather=True)
-    else:
-        twiml = build_human_twiml(say_text, None)
-    return PlainTextResponse(twiml, media_type="application/xml")
-
-
-@router.post("/twilio/gather", response_class=PlainTextResponse)
-async def twilio_gather(request: Request, database: SqlClient = Depends(get_firestore)):
-    from app.services.twilio.verify import verify_twilio_request
-    await verify_twilio_request(request)
-    # Twilio Gather speech result — we echo and hang up for MVP; future: pipe to Eve LLM
-    form = await request.form()
-    speech = form.get("SpeechResult") or form.get("speechResult") or ""
-    call_sid = form.get("CallSid") or ""
-    logger.info(f"Twilio gather sid={call_sid} speech={speech[:200]}")
-    # For now, if speech provided, synthesize Eve reply via chat_with_eve if available
-    reply = None
-    if speech:
-        try:
-            # Attempt Eve chat for the caller of this Twilio call
-            # Find call by external_sid
-            from app.db.sql.client import get_db_client  # local import to avoid cycle
-            # Fallback scan: search calls by external_sid
-            # Since Calls collection is top-level, we can brute force via repository
-            # Use Firestore query if available
-            repo = CallRepository(database)
-            # Try to find call with this SID by scanning recent calls via private API
-            # For MVP, just echo via chat_with_eve if we can resolve user
-            # Lookup calls where external_sid == call_sid
-            # Simulate via direct Firestore where if SqlClient else in-memory
-            try:
-                docs = database.collection("calls").where("external_sid", "==", call_sid).limit(1).stream()
-                for doc in docs:
-                    data = doc.to_dict() or {}
-                    uid = data.get("receiver_id") or data.get("callee", {}).get("uid")
-                    if uid and uid != "eve-bot":
-                        from app.services.eve import chat_with_eve
-                        from app.repositories.users import get_user_by_id as _get_user
-                        user_rec = _get_user(database, uid) or {"uid": uid, "display_name": "User", "email": ""}
-                        eve_reply, _, _ = chat_with_eve(database, user_rec, [{"role": "user", "content": speech}])
-                        reply = eve_reply
-                        break
-            except Exception as e:
-                logger.warning(f"Gather Eve lookup failed: {e}")
-        except Exception as e:
-            logger.warning(f"Gather Eve chat failed: {e}")
-    if reply:
-        from app.services.twilio.twiml import build_echo_twiml
-        # Use Eve reply as Say
-        twiml = build_eve_twiml(reply[:800], gather=False)
-        return PlainTextResponse(twiml, media_type="application/xml")
-    # fallback echo
-    from app.services.twilio.twiml import build_echo_twiml
-    twiml = build_echo_twiml(speech or EVE_ECHO_FALLBACK)
-    return PlainTextResponse(twiml, media_type="application/xml")
-
-
 @router.post("/twilio/status", response_class=PlainTextResponse)
 async def twilio_status_callback(request: Request, database: SqlClient = Depends(get_firestore)):
     from app.services.twilio.verify import verify_twilio_request
@@ -254,48 +180,3 @@ async def twilio_status_callback(request: Request, database: SqlClient = Depends
             logger.warning(f"Twilio status update failed sid={sid} status={status}: {e}")
     return PlainTextResponse('<?xml version="1.0"?><Response/>', media_type="application/xml")
 
-
-@router.post("/twilio/gather-fast", response_class=PlainTextResponse)
-async def twilio_gather_fast(request: Request, database: SqlClient = Depends(get_firestore)):
-    from app.services.twilio.verify import verify_twilio_request
-    await verify_twilio_request(request)
-    """Fast gather path: fast model, no tools/RAG — targets <1s Eve TwiML reply.
-
-    Twilio posts SpeechResult here when <Gather action=.../gather-fast>. We resolve
-    the caller from CallSid → calls.external_sid, run the one-shot voice reply,
-    and return a short <Say> TwiML.
-    """
-    form = await request.form()
-    speech = form.get("SpeechResult") or form.get("speechResult") or ""
-    call_sid = form.get("CallSid") or ""
-    if not speech:
-        return PlainTextResponse(
-            f'<?xml version="1.0"?><Response><Say>{EVE_GOODBYE_NO_SPEECH}</Say><Hangup/></Response>',
-            media_type="application/xml",
-        )
-    uid = None
-    try:
-        for doc in database.collection("calls").where("external_sid", "==", call_sid).limit(1).stream():
-            data = doc.to_dict() or {}
-            uid = data.get("callee", {}).get("uid")
-            if uid == "eve-bot":
-                uid = data.get("caller", {}).get("uid")
-            break
-    except Exception as e:
-        logger.warning(f"gather-fast lookup failed sid={call_sid}: {e}")
-    user_rec = {"uid": uid} if uid else None
-    from app.services.eve.voice_fast import voice_reply_blocking
-
-    reply = await asyncio.to_thread(voice_reply_blocking, database, user_rec, speech) or EVE_FALLBACK_NO_PROCESS
-    from html import escape
-
-    safe_reply = escape(reply[:800])
-    twiml = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n<Response>\n'
-        f'    <Say voice="alice">{safe_reply}</Say>\n'
-        '    <Gather input="speech" speechTimeout="auto" action="/api/v1/calls/twilio/gather-fast" method="POST"/>\n'
-        f'    <Say voice="alice">{EVE_GOODBYE}</Say>\n'
-        '    <Hangup/>\n'
-        '</Response>'
-    )
-    return PlainTextResponse(twiml, media_type="application/xml")

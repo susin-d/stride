@@ -111,23 +111,6 @@ class TestTwiMLEndpoints:
         assert "<Connect>" in res.text or "ConversationRelay" in res.text or "Stream" in res.text
         assert eve_call_id in res.text
 
-    def test_human_twiml_endpoint(self, auth_client, db, twilio_on):
-        call = auth_client.post(
-            "/api/v1/calls/twilio",
-            json={"phone_number": "+15550006666", "mode": "audio"},
-        ).json()
-        res = auth_client.get(f"/api/v1/calls/twilio/twiml/{call['id']}")
-        assert res.status_code == 200
-        assert "<Response" in res.text or "<Response/>" in res.text
-
-    def test_gather_without_speech_falls_back(self, client, db):
-        res = client.post(
-            "/api/v1/calls/twilio/gather",
-            data={"CallSid": "CA-none"},
-        )
-        assert res.status_code == 200
-        assert "<Say" in res.text
-
     def test_status_callback_updates_call_state(self, auth_client, db, twilio_on, monkeypatch):
         call = auth_client.post(
             "/api/v1/calls/twilio",

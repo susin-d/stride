@@ -1,25 +1,18 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
-import { ArrowRight, Menu, X } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion, useScroll } from 'framer-motion'
+import { ArrowRight, Menu, Moon, Sun, X } from 'lucide-react'
 import { StrideLogo } from '../../../components/StrideLogo'
+import { THEME_MODE_KEY } from '../../../lib/storageKeys'
 import { navLinks } from '../data'
-import { useMagnetic } from './useMagnetic'
 
 export function Nav({ onNavigate }) {
   const reduce = useReducedMotion()
-  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
+  const [isDark, setIsDark] = useState(() =>
+    typeof document !== 'undefined' && document.documentElement.classList.contains('dark-theme'),
+  )
   const { scrollYProgress } = useScroll()
-  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 26, mass: 0.4 })
-  const magnetic = useMagnetic()
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     const sections = navLinks
@@ -45,7 +38,22 @@ export function Nav({ onNavigate }) {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [open ])
+  }, [open])
+
+  const toggleTheme = () => {
+    const nextDark = !isDark
+    document.documentElement.classList.toggle('dark-theme', nextDark)
+    setIsDark(nextDark)
+    try {
+      localStorage.setItem(THEME_MODE_KEY, nextDark ? 'dark' : 'light')
+    } catch {
+      // Ignore storage errors in restricted contexts
+    }
+    const meta = document.querySelector('meta[name="theme-color"]')
+    if (meta) {
+      meta.setAttribute('content', nextDark ? '#0a0a0a' : '#ffffff')
+    }
+  }
 
   const scrollTo = (href) => {
     setOpen(false)
@@ -54,80 +62,92 @@ export function Nav({ onNavigate }) {
   }
 
   return (
-    <motion.nav
-      className={`cinema-nav${scrolled ? ' is-scrolled' : ''}`}
-      aria-label="Primary"
-      initial={reduce ? false : { y: -24, opacity: 0 }}
-      animate={reduce ? {} : { y: 0, opacity: 1 }}
-      transition={reduce ? {} : { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-    >
-      <button type="button" className="cinema-nav__brand" onClick={() => onNavigate('/')} aria-label="Stride home">
-        <StrideLogo size={30} className="cinema-nav__mark" />
-        <span>Stride</span>
-      </button>
+    <header className="bs-nav">
+      <nav className="bs-nav__inner" aria-label="Primary">
+        <div className="bs-nav__brand-wrap">
+          <button type="button" className="bs-nav__brand" onClick={() => onNavigate('/')} aria-label="Stride home">
+            <StrideLogo size={26} className="bs-nav__mark" />
+            <span>Stride</span>
+          </button>
+          <span className="bs-nav__edition">PERSONAL OS · EDITION 01</span>
+        </div>
 
-      <div className="cinema-nav__links" role="list">
-        {navLinks.map((l) => (
-          <a
-            key={l.href}
-            href={l.href}
-            role="listitem"
-            aria-current={active === l.href ? 'true' : undefined}
-            className={active === l.href ? 'is-active' : undefined}
-            onClick={(e) => {
-              e.preventDefault()
-              scrollTo(l.href)
-            }}
+        <div className="bs-nav__links" role="list">
+          {navLinks.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              role="listitem"
+              aria-current={active === l.href ? 'true' : undefined}
+              className={`bs-nav__link${active === l.href ? ' is-active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault()
+                scrollTo(l.href)
+              }}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+
+        <div className="bs-nav__actions">
+          <button
+            type="button"
+            className="bs-btn bs-btn--icon"
+            onClick={toggleTheme}
+            aria-label={isDark ? 'Switch to white mode' : 'Switch to dark mode'}
+            title={isDark ? 'Switch to white mode' : 'Switch to dark mode'}
           >
-            {l.label}
-          </a>
-        ))}
-      </div>
-
-      <div className="cinema-nav__actions">
-        <button type="button" className="cinema-cta cinema-cta--ghost cinema-cta--small cinema-nav__login" onClick={() => onNavigate('/login')}>
-          Log in
-        </button>
-        <motion.button
-          type="button"
-          className="cinema-cta cinema-cta--primary cinema-cta--small"
-          onClick={() => onNavigate('/signup')}
-          {...magnetic}
-        >
-          Start free <ArrowRight size={14} aria-hidden="true" />
-        </motion.button>
-        <button
-          type="button"
-          className="cinema-nav__menu"
-          aria-expanded={open}
-          aria-controls="cinema-mobile-menu"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
-        </button>
-      </div>
+            {isDark ? <Sun size={15} aria-hidden="true" /> : <Moon size={15} aria-hidden="true" />}
+          </button>
+          <button
+            type="button"
+            className="bs-btn bs-btn--ghost bs-btn--small bs-nav__login"
+            onClick={() => onNavigate('/login')}
+          >
+            Log in
+          </button>
+          <button
+            type="button"
+            className="bs-btn bs-btn--primary bs-btn--small"
+            onClick={() => onNavigate('/signup')}
+          >
+            Start free <ArrowRight size={14} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="bs-btn bs-btn--icon bs-nav__burger"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={16} aria-hidden="true" /> : <Menu size={16} aria-hidden="true" />}
+          </button>
+        </div>
+      </nav>
 
       {!reduce && (
-        <motion.span className="cinema-nav__progress" aria-hidden="true" style={{ scaleX: progress }} />
+        <motion.div
+          className="bs-nav__progress"
+          style={{ scaleX: scrollYProgress }}
+          aria-hidden="true"
+        />
       )}
 
-      <AnimatePresence initial={false}>
+      <AnimatePresence>
         {open && (
           <motion.div
-            id="cinema-mobile-menu"
-            className="cinema-nav__drawer"
-            initial={reduce ? false : { opacity: 0, y: -8, scale: 0.98 }}
-            animate={reduce ? {} : { opacity: 1, y: 0, scale: 1 }}
-            exit={reduce ? {} : { opacity: 0, y: -8, scale: 0.98 }}
-            transition={reduce ? {} : { duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="bs-nav__drawer"
+            initial={reduce ? false : { opacity: 0, height: 0 }}
+            animate={reduce ? {} : { opacity: 1, height: 'auto' }}
+            exit={reduce ? {} : { opacity: 0, height: 0 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             {navLinks.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                aria-current={active === l.href ? 'true' : undefined}
-                className={active === l.href ? 'is-active' : undefined}
+                className="bs-nav__drawer-link"
                 onClick={(e) => {
                   e.preventDefault()
                   scrollTo(l.href)
@@ -136,12 +156,31 @@ export function Nav({ onNavigate }) {
                 {l.label}
               </a>
             ))}
-            <button type="button" className="cinema-cta cinema-cta--ghost cinema-cta--small" onClick={() => onNavigate('/login')}>
-              Log in
-            </button>
+            <div className="bs-nav__drawer-actions">
+              <button
+                type="button"
+                className="bs-btn bs-btn--ghost bs-btn--small"
+                onClick={() => {
+                  setOpen(false)
+                  onNavigate('/login')
+                }}
+              >
+                Log in
+              </button>
+              <button
+                type="button"
+                className="bs-btn bs-btn--primary bs-btn--small"
+                onClick={() => {
+                  setOpen(false)
+                  onNavigate('/signup')
+                }}
+              >
+                Start free <ArrowRight size={14} aria-hidden="true" />
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </header>
   )
 }

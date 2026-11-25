@@ -93,6 +93,35 @@ def whatsapp_summary_prompt(history_text: str) -> str:
     return (
         f"Summarize the following WhatsApp conversation with key points and any action items:\n\n{history_text}"
     )
+
+
+def whatsapp_schedule_extraction_prompt(
+    sender_name: str,
+    chat_name: str,
+    is_group: bool,
+    current_date_iso: str,
+    max_items: int,
+) -> str:
+    """System instructions for extracting schedulable workspace items from an incoming WhatsApp message."""
+    chat_kind = f"group chat '{chat_name}'" if is_group else f"direct chat with '{sender_name}'"
+    return (
+        "You extract concrete, actionable schedulable items from an incoming WhatsApp message into Stride.\n"
+        f"Current UTC date: {current_date_iso}. Source: {chat_kind} (sender: {sender_name}).\n"
+        f"Return ONLY valid JSON matching {{\"items\": [...]}} with at most {max_items} items.\n"
+        "Allowed item kinds:\n"
+        "- \"todo\": a task, action item, or deadline. Fields: kind, title (string, <=200 chars), due_date (YYYY-MM-DD or null).\n"
+        "- \"job\": a job interview, application deadline, or recruiting step. Fields: kind, company (string), role (string), "
+        "status (\"Interview\" or \"Saved\"), interview_date (YYYY-MM-DD or null), deadline (YYYY-MM-DD or null), notes (string).\n"
+        "- \"hackathon\": a hackathon or competition with dates. Fields: kind, title (string), organizer (string), "
+        "starts_at (ISO-8601 datetime), ends_at (ISO-8601 datetime), mode (\"Online\" or \"In-person\").\n"
+        "- \"eve_schedule\": a specific timed reminder or scheduled AI check-in. Fields: kind, title (string), "
+        "prompt (string), execute_at (ISO-8601 datetime).\n"
+        "Rules:\n"
+        "- Todos with due_date, jobs with interview_date/deadline, and hackathons automatically appear on the Stride Calendar.\n"
+        "- Use \"todo\" (with due_date) for general meetings, calls, errands, or tasks.\n"
+        "- Return {\"items\": []} for casual greetings, chatter, questions without action items, or vague statements.\n"
+        "- Output raw JSON only with no markdown fences or commentary."
+    )
 # === Tool description catalog (moved verbatim from services/eve/tools/*.py) ===
 # Keys are tool names, or tool.param for parameter descriptions.
 

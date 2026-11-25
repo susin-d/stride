@@ -1,124 +1,119 @@
-import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, LogIn } from 'lucide-react'
+import { ArrowRight, LogIn } from 'lucide-react'
 import { StrideLogo } from '../../../components/StrideLogo'
-import { marqueeModules } from '../data'
-import { useMagnetic } from './useMagnetic'
 
 export function Finale({ onNavigate }) {
-  const reduce = useReducedMotion()
-  const magnetic = useMagnetic()
-
   return (
-    <section className="cinema-finale" aria-labelledby="finale-title">
-      <div className="cinema-finale__rings" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </div>
-      <motion.div
-        className="cinema-finale__inner"
-        initial={reduce ? false : { opacity: 0, y: 20 }}
-        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={reduce ? {} : { duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <p className="cinema-eyebrow">The final act — Evolve</p>
-        <h2 id="finale-title" className="cinema-finale__title">
-          Build a workspace
-          <br />
-          <span>that moves with your ambition</span>
-        </h2>
-        <p>
-          Join builders, competitors and teams running their whole operating system on Stride. Free to start — your data stays yours.
-        </p>
-
-        <div className="cinema-finale__ctas">
-          <motion.button
-            type="button"
-            className="cinema-cta cinema-cta--primary cinema-cta--hero"
-            onClick={() => onNavigate('/signup')}
-            {...magnetic}
-          >
-            Create your account <ArrowRight size={16} aria-hidden="true" />
-          </motion.button>
-          <button type="button" className="cinema-cta cinema-cta--ghost cinema-cta--hero" onClick={() => onNavigate('/login')}>
-            <LogIn size={16} aria-hidden="true" /> Log in
-          </button>
+    <section className="bs-finale" aria-labelledby="finale-title">
+      <div className="broadsheet__container bs-finale__inner">
+        <div>
+          <h2 id="finale-title" className="bs-finale__title">
+            Build a workspace that moves with your ambition.
+          </h2>
+          <p className="bs-finale__sub">
+            Free to start. Your tasks, code, calendar, and Eve memory stay isolated to your account.
+          </p>
         </div>
-        <p className="cinema-micro">
-          <Check size={12} aria-hidden="true" /> No credit card required · 12 modules · One canvas
-        </p>
-      </motion.div>
 
-      <div className="cinema-marquee cinema-marquee--finale" aria-hidden="true">
-        <div className="cinema-marquee__track">
-          {[...marqueeModules, ...marqueeModules].map((m, i) => (
-            <span key={`${m}-${i}`} className="cinema-marquee__item">
-              {m} <i>✦</i>
-            </span>
-          ))}
+        <div className="bs-finale__actions">
+          <button
+            type="button"
+            className="bs-btn bs-btn--primary"
+            onClick={() => onNavigate('/signup')}
+          >
+            Create your account <ArrowRight size={15} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="bs-btn bs-btn--ghost"
+            onClick={() => onNavigate('/login')}
+          >
+            <LogIn size={15} aria-hidden="true" /> Log in
+          </button>
         </div>
       </div>
     </section>
   )
 }
 
-const footerCols = [
-  { title: 'Story', links: [{ label: 'Manifesto', id: 'manifesto' }, { label: 'Showcase', id: 'showcase' }, { label: 'Eve AI', id: 'eve' }] },
-  { title: 'Flow', links: [{ label: 'Workflow', id: 'workflow' }, { label: 'FAQ', id: 'faq' }] },
+const footerSections = [
+  {
+    title: 'Sections',
+    links: [
+      { label: 'Product Folio', id: 'folio' },
+      { label: 'Eve AI Dossier', id: 'eve' },
+      { label: 'System Index', id: 'index' },
+      { label: 'FAQ', id: 'faq' },
+    ],
+  },
+  {
+    title: 'Account',
+    routes: [
+      { label: 'Create account', path: '/signup' },
+      { label: 'Log in', path: '/login' },
+    ],
+  },
+  {
+    title: 'Legal',
+    routes: [
+      { label: 'Privacy Policy', path: '/privacy' },
+      { label: 'Terms of Service', path: '/terms' },
+    ],
+  },
 ]
 
 export function Footer({ onNavigate }) {
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
-    <footer className="cinema-footer" aria-label="Footer">
-      <div className="cinema-footer__inner">
-        <div className="cinema-footer__brand-block">
-          <div className="cinema-footer__brand">
-            <StrideLogo size={30} className="cinema-nav__mark" />
-            <span className="cinema-footer__word">Stride</span>
-            <span className="cinema-footer__copy">© {new Date().getFullYear()}</span>
+    <footer className="bs-footer" aria-label="Footer">
+      <div className="broadsheet__container">
+        <div className="bs-footer__grid">
+          <div>
+            <div className="bs-footer__brand">
+              <StrideLogo size={24} className="bs-nav__mark" />
+              <span>Stride</span>
+            </div>
+            <p className="bs-footer__desc">
+              One monochrome operating system for tasks, code, contests, calendar, and Eve AI.
+            </p>
           </div>
-          <p className="cinema-footer__tag">
-            One canvas for tasks, code, contests — and Eve AI. Code · Create · Evolve.
-          </p>
-        </div>
 
-        <nav className="cinema-footer__cols" aria-label="Footer sections">
-          {footerCols.map((col) => (
-            <div key={col.title} className="cinema-footer__col">
-              <p>{col.title}</p>
-              {col.links.map((l) => (
-                <button key={l.id} type="button" onClick={() => scrollTo(l.id)}>
-                  {l.label}
-                </button>
-              ))}
+          {footerSections.map((col) => (
+            <div key={col.title}>
+              <p className="bs-footer__col-title">{col.title}</p>
+              <div className="bs-footer__list">
+                {col.links?.map((l) => (
+                  <button
+                    key={l.id}
+                    type="button"
+                    className="bs-footer__link"
+                    onClick={() => scrollTo(l.id)}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+                {col.routes?.map((r) => (
+                  <button
+                    key={r.path}
+                    type="button"
+                    className="bs-footer__link"
+                    onClick={() => onNavigate(r.path)}
+                  >
+                    {r.label}
+                  </button>
+                ))}
+              </div>
             </div>
           ))}
-          <div className="cinema-footer__col">
-            <p>Legal</p>
-            <button type="button" onClick={() => onNavigate('/privacy')}>
-              Privacy
-            </button>
-            <button type="button" onClick={() => onNavigate('/terms')}>
-              Terms
-            </button>
-          </div>
-          <div className="cinema-footer__col">
-            <p>Account</p>
-            <button type="button" onClick={() => onNavigate('/signup')}>
-              Sign up
-            </button>
-            <button type="button" onClick={() => onNavigate('/login')}>
-              Log in
-            </button>
-          </div>
-        </nav>
+        </div>
+
+        <div className="bs-footer__bottom">
+          <span>© {new Date().getFullYear()} Stride</span>
+          <span>WHITE &amp; DARK MONOCHROME · EDITION 01</span>
+        </div>
       </div>
-      <p className="cinema-footer__giant" aria-hidden="true">
-        STRIDE
-      </p>
     </footer>
   )
 }

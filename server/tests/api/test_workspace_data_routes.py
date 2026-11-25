@@ -277,10 +277,6 @@ class TestCodingStatsRoutes:
             "competitive-coding"
         ).set({"codeforces": "tourist", "codechef": "chef_user"})
 
-        overall = auth_client.get("/api/v1/stats/competitive-coding")
-        assert overall.status_code == 200
-        assert captured["codeforces"] == "tourist"
-
         cf = auth_client.get("/api/v1/stats/competitive-coding/codeforces").json()
         assert cf == {"platform": "codeforces", "handle": "tourist"}
 

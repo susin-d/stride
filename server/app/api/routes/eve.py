@@ -87,40 +87,6 @@ async def transcribe(
     return {"text": text}
 
 
-@router.post("/synthesize")
-async def synthesize(
-    payload: EveSynthesizeRequest,
-    database: SqlClient = Depends(get_firestore),
-    user: dict = Depends(get_current_user),
-):
-    engine, voice = await asyncio.to_thread(resolve_tts_engine, database, user["uid"])
-    if engine not in ("google", "openrouter"):
-        raise unprocessable("Server text-to-speech is not configured. Select a server TTS provider or use browser voice.")
-    try:
-        if engine == "openrouter":
-            audio_bytes, media_type = await asyncio.to_thread(
-                synthesize_speech_openrouter,
-                payload.text,
-                payload.language,
-                payload.voice or voice,
-                payload.rate,
-                payload.pitch,
-            )
-        else:
-            audio_bytes, media_type = await asyncio.to_thread(
-                synthesize_speech,
-                payload.text,
-                payload.language,
-                payload.voice or voice,
-                payload.rate,
-                payload.pitch,
-            )
-    except SpeechServiceError as error:
-        logger.error(f"[Eve Synthesize] Speech synthesis failed for user {user.get('uid')}: {error}", exc_info=True)
-        raise bad_gateway(f"Speech synthesis failed: {error}") from error
-    return Response(content=audio_bytes, media_type=media_type)
-
-
 @router.post("/synthesize/stream")
 async def synthesize_stream(
     payload: EveSynthesizeRequest,
@@ -326,25 +292,6 @@ async def delete_record(
     try:
         message, changed_resources = await asyncio.to_thread(
             delete_workspace_record,
-            database,
-            user,
-            payload.resource,
-            payload.record_id,
-        )
-    except ValueError as error:
-        raise not_found(str(error)) from error
-    return {"message": message, "changed_resources": changed_resources}
-
-
-@router.post("/restore", response_model=EveRestoreResponse)
-async def restore_record(
-    payload: EveRestoreRequest,
-    database: SqlClient = Depends(get_firestore),
-    user: dict = Depends(get_current_user),
-):
-    try:
-        message, changed_resources = await asyncio.to_thread(
-            restore_workspace_record,
             database,
             user,
             payload.resource,

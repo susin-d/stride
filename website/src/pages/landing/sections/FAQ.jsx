@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, ChevronDown } from 'lucide-react'
+import { ArrowRight, Plus } from 'lucide-react'
 import { faqs } from '../data'
 
 export function FAQ({ onNavigate }) {
@@ -8,63 +8,67 @@ export function FAQ({ onNavigate }) {
   const [open, setOpen] = useState(0)
 
   return (
-    <section id="faq" className="cinema-faq" aria-labelledby="faq-title">
-      <div className="cinema-faq__inner cinema-faq__inner--split">
-        <div className="cinema-faq__side">
-          <p className="cinema-eyebrow">Q&A — the fine print</p>
-          <h2 id="faq-title" className="cinema-h2 cinema-h2--display">
-            Everything you need
-            <br />
-            to know
-          </h2>
-          <p className="cinema-lead">No dark patterns. Just the real workspace.</p>
-          <button type="button" className="cinema-cta cinema-cta--ghost cinema-cta--small" onClick={() => onNavigate('/signup')}>
-            Still curious? Start free <ArrowRight size={14} aria-hidden="true" />
-          </button>
+    <section id="faq" className="broadsheet__section" aria-labelledby="faq-title">
+      <div className="broadsheet__container">
+        <div className="bs-section-header">
+          <div>
+            <h2 id="faq-title" className="bs-h2">
+              The fine print.
+            </h2>
+            <p className="bs-lead">
+              Straight answers on integrations, privacy, and how Eve operates.
+            </p>
+          </div>
+          <span className="bs-section-meta">05 / QUESTIONS</span>
         </div>
 
-        <div className="cinema-faq__list">
-          {faqs.map((f, i) => {
-            const isOpen = open === i
-            return (
-              <motion.div
-                key={f.q}
-                className={`cinema-faq__item ${isOpen ? 'is-open' : ''}`}
-                initial={reduce ? false : { opacity: 0, y: 12 }}
-                whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={reduce ? {} : { duration: 0.4, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                layout={reduce ? undefined : 'position'}
-              >
-                <button
-                  type="button"
-                  className="cinema-faq__q"
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-a-${i}`}
-                  onClick={() => setOpen(isOpen ? -1 : i)}
-                >
-                  <span>{f.q}</span>
-                  <span className="cinema-faq__chev" aria-hidden="true">
-                    <ChevronDown size={16} />
-                  </span>
-                </button>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      id={`faq-a-${i}`}
-                      initial={reduce ? false : { height: 0, opacity: 0 }}
-                      animate={reduce ? {} : { height: 'auto', opacity: 1 }}
-                      exit={reduce ? {} : { height: 0, opacity: 0 }}
-                      transition={reduce ? {} : { duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                      className="cinema-faq__answer-wrap"
-                    >
-                      <div className="cinema-faq__a">{f.a}</div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            )
-          })}
+        <div className="bs-faq__layout">
+          <div className="bs-faq__side">
+            <p className="bs-lead">
+              No dark patterns or lock-in. Connect only the services you use and revoke access anytime in Settings.
+            </p>
+            <button
+              type="button"
+              className="bs-btn bs-btn--ghost bs-btn--small"
+              onClick={() => onNavigate('/signup')}
+            >
+              Create account <ArrowRight size={14} aria-hidden="true" />
+            </button>
+          </div>
+
+          <div className="bs-faq__list">
+            {faqs.map((f, i) => {
+              const isOpen = open === i
+              return (
+                <div key={f.q} className={`bs-faq__item${isOpen ? ' is-open' : ''}`}>
+                  <button
+                    type="button"
+                    className="bs-faq__trigger"
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-a-${i}`}
+                    onClick={() => setOpen(isOpen ? -1 : i)}
+                  >
+                    <span>{f.q}</span>
+                    <Plus size={16} className="bs-faq__icon" aria-hidden="true" />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        id={`faq-a-${i}`}
+                        initial={reduce ? false : { height: 0, opacity: 0 }}
+                        animate={reduce ? {} : { height: 'auto', opacity: 1 }}
+                        exit={reduce ? {} : { height: 0, opacity: 0 }}
+                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                        className="bs-faq__answer-wrap"
+                      >
+                        <div className="bs-faq__answer">{f.a}</div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>

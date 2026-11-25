@@ -1,0 +1,212 @@
+/* Stride — Editorial Broadsheet Hero: asymmetric Swiss grid + live workbench vignette */
+.bs-hero {
+  padding: clamp(32px, 5vw, 64px) 0 clamp(48px, 6vw, 84px);
+}
+
+.bs-hero__strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  margin-bottom: clamp(24px, 3.5vw, 44px);
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.bs-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+.bs-hero__title {
+  margin: 0;
+  font-size: clamp(40px, 5.4vw, 74px);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.bs-hero__lead {
+  margin: 22px 0 0;
+  max-width: 56ch;
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.bs-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.bs-hero__proof {
+  margin: 36px 0 0;
+  padding: 20px 0 0;
+  border-top: 1px solid var(--border-color);
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+}
+
+.bs-hero__proof-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.bs-hero__proof-idx {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* — Live Workbench Vignette — */
+.bs-workbench {
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.bs-workbench__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+.bs-workbench__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.bs-workbench__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--text-primary);
+}
+
+.bs-workbench__body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bs-workbench__block {
+  border: 1px solid var(--border-light);
+  background: var(--bg-primary);
+  padding: 12px 14px;
+}
+
+.bs-workbench__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.bs-workbench__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bs-workbench__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  padding-top: 8px;
+  border-top: 1px solid var(--border-light);
+}
+
+.bs-workbench__row:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.bs-workbench__row-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.bs-workbench__eve {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bs-workbench__eve-cmd {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-primary);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.bs-workbench__eve-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+@media (max-width: 960px) {
+  .bs-hero__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .bs-hero__strip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .bs-hero__proof {
+    grid-template-columns: 1fr;
+  }
+}

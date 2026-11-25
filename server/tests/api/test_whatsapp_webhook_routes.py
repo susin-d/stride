@@ -213,8 +213,3 @@ class TestCronSecurity:
         assert wrong_header.status_code in (401, 403)
         assert good_header.status_code in (200, 204)
 
-
-class TestUnifiedModels:
-    def test_route_responds_with_auth(self, auth_client, db, monkeypatch):
-        res = auth_client.get("/api/v1/models")
-        assert res.status_code in (200, 503)

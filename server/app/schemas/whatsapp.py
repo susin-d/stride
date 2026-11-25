@@ -88,6 +88,8 @@ class WhatsAppSettings(BaseModel):
     auto_reply_enabled: bool = False
     auto_reply_prompt: Optional[str] = "You are Eve, answering incoming WhatsApp messages concisely on behalf of the user."
     auto_reply_contacts: List[str] = Field(default_factory=list, description="List of JIDs with auto-reply enabled")
+    auto_schedule_enabled: bool = True
+    auto_schedule_include_groups: bool = False
     notifications_enabled: bool = True
     desktop_alerts_enabled: bool = True
     eve_tag: Optional[str] = "@eve"
@@ -105,6 +107,8 @@ class WhatsAppSettingsUpdate(BaseModel):
     auto_reply_enabled: Optional[bool] = None
     auto_reply_prompt: Optional[str] = None
     auto_reply_contacts: Optional[List[str]] = None
+    auto_schedule_enabled: Optional[bool] = None
+    auto_schedule_include_groups: Optional[bool] = None
     notifications_enabled: Optional[bool] = None
     desktop_alerts_enabled: Optional[bool] = None
     eve_tag: Optional[str] = None

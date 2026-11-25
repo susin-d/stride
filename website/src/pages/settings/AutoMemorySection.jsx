@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BrainCog } from 'lucide-react'
-import { loadEveMemorySettings, saveEveMemorySettings } from '../../lib/eveMemoryApi'
+import { loadEveMemorySettings, saveEveMemorySettings } from '../../lib/eveMemorySettingsApi'
 import { SettingsCard, SettingsSection } from '../../components/ui'
 
 export function AutoMemorySection() {

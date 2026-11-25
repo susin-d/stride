@@ -82,6 +82,11 @@
 | [0068](0068-eve-panel-inline-push-layout.md) | Eve panel: inline push layout with drag resize — panel moved from portal overlay to flex sibling, resizable, width persisted | Accepted | 2026-11-25 |
 | [0069](0069-void-theme.md) | Void theme (pure monochrome obsidian palette sampled from reference IDE interface) | Accepted | 2026-11-25 |
 | [0070](0070-schedulable-email-webhook-and-mail-redesign.md) | Schedulable email webhook and Mail redesign from Gmail OAuth to Calendar/Todo/Eve Scheduler | Accepted | 2026-11-25 |
+| [0071](0071-whatsapp-webhook-auto-scheduling.md) | WhatsApp webhook auto-scheduling and notifications — background AI extraction to Todo/Jobs/Hackathons/Eve Schedules | Accepted | 2026-11-25 |
+| [0072](0072-remove-dead-twilio-gather-routes.md) | Remove dead Twilio gather/TwiML routes superseded by ConversationRelay | Accepted | 2026-11-25 |
+| [0073](0073-remove-unified-models-routes.md) | Remove unused `/models/*` unified model discovery routes | Accepted | 2026-11-25 |
+| [0074](0074-parameterize-coding-stats-routes.md) | Parameterize `/stats/competitive-coding/{platform}` and remove unused aggregate | Accepted | 2026-11-25 |
+| [0075](0075-landing-editorial-broadsheet-redesign.md) | Editorial Broadsheet landing page redesign (White + Dark monochrome, Inter + JetBrains Mono, 6-section Swiss grid) | Accepted | 2026-11-25 |
 | [0058](0058-dashboard-overview-aggregate.md) | Dashboard overview aggregate endpoint | Accepted (renumbered from 0053 — duplicate number) | 2026-09-11 |
 
 ## How to add a new ADR

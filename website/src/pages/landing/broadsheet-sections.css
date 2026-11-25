@@ -1,0 +1,568 @@
+/* Stride — Editorial Broadsheet Sections: Folio, Eve Dossier, System Index, FAQ, Finale */
+
+/* — 02. Interactive Product Folio — */
+.bs-folio__layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+}
+
+.bs-folio__rail {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color);
+}
+
+.bs-folio__tab {
+  position: relative;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--border-color);
+  padding: 20px 22px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-secondary);
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.bs-folio__tab:last-child {
+  border-bottom: 0;
+}
+
+.bs-folio__tab:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.bs-folio__tab.is-active {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.bs-folio__tab-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-primary);
+}
+
+.bs-folio__tab-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.bs-folio__tab-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.bs-folio__tab-copy {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.bs-folio__stage {
+  padding: clamp(20px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--bg-primary);
+}
+
+.bs-folio__stage-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.bs-folio__stage-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.bs-folio__stage-desc {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 56ch;
+}
+
+.bs-folio__vignette {
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  padding: 16px;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bs-folio__vignette-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bs-folio__vignette-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  flex: 1;
+}
+
+.bs-folio__cell {
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.bs-folio__cell-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.bs-folio__cell-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.bs-folio__code {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 14px;
+  overflow-x: auto;
+}
+
+.bs-folio__bullets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-light);
+}
+
+.bs-folio__bullets li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+/* — 03. Eve Dossier — */
+.bs-eve__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  border: 1px solid var(--border-color);
+}
+
+.bs-eve__console {
+  padding: 24px;
+  border-right: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.bs-eve__trace-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+}
+
+.bs-eve__trace-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--border-light);
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.bs-eve__trace-item:last-child {
+  border-bottom: 0;
+}
+
+.bs-eve__trace-item:hover,
+.bs-eve__trace-item.is-active {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.bs-eve__transcript {
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bs-eve__msg {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-primary);
+  padding-top: 8px;
+  border-top: 1px solid var(--border-light);
+}
+
+.bs-eve__msg:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.bs-eve__msg-role {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-top: 2px;
+}
+
+.bs-eve__ledger {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+}
+
+.bs-eve__cap {
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.bs-eve__cap:last-child {
+  border-bottom: 0;
+}
+
+.bs-eve__cap-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bs-eve__cap-head h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.bs-eve__cap p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.bs-eve__cap-points {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* — 04. System Index (Modules + Workflow) — */
+.bs-index__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--border-color);
+  border-left: 1px solid var(--border-color);
+}
+
+.bs-index__cell {
+  padding: 22px 20px;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bs-index__cell-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-primary);
+}
+
+.bs-index__cell-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.bs-index__cell h3 {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.bs-index__cell p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.bs-workflow {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.bs-workflow__step {
+  padding: 22px 24px;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bs-workflow__step:last-child {
+  border-right: 0;
+}
+
+.bs-workflow__num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.bs-workflow__step h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.bs-workflow__step p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* — 05. FAQ — */
+.bs-faq__layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+.bs-faq__side {
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.bs-faq__list {
+  border-top: 1px solid var(--border-color);
+}
+
+.bs-faq__item {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bs-faq__trigger {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 15.5px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.bs-faq__icon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform 180ms ease;
+}
+
+.bs-faq__item.is-open .bs-faq__icon {
+  transform: rotate(45deg);
+  color: var(--text-primary);
+}
+
+.bs-faq__answer-wrap {
+  overflow: hidden;
+}
+
+.bs-faq__answer {
+  padding: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 66ch;
+}
+
+/* — 06. Finale — */
+.bs-finale {
+  padding: clamp(64px, 8vw, 120px) 0;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.bs-finale__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) auto;
+  align-items: end;
+  gap: 28px 40px;
+}
+
+.bs-finale__title {
+  margin: 0;
+  font-size: clamp(32px, 4.6vw, 60px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.bs-finale__sub {
+  margin: 14px 0 0;
+  max-width: 54ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.bs-finale__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* — Responsive — */
+@media (max-width: 1024px) {
+  .bs-folio__layout,
+  .bs-eve__grid,
+  .bs-faq__layout,
+  .bs-finale__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .bs-folio__rail,
+  .bs-eve__console {
+    border-right: 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bs-index__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bs-workflow {
+    grid-template-columns: 1fr;
+  }
+
+  .bs-workflow__step {
+    border-right: 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bs-workflow__step:last-child {
+    border-bottom: 0;
+  }
+
+  .bs-faq__side {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .bs-index__grid,
+  .bs-folio__vignette-grid {
+    grid-template-columns: 1fr;
+  }
+}

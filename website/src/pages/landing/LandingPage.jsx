@@ -1,17 +1,14 @@
 import { MotionConfig, useReducedMotion } from 'framer-motion'
 import { Nav } from './sections/Nav'
 import { Hero } from './sections/Hero'
-import { Manifesto } from './sections/Manifesto'
-import { Showcase } from './sections/Showcase'
+import { ProductFolio } from './sections/ProductFolio'
 import { Eve } from './sections/Eve'
-import { Features } from './sections/Features'
-import { Workflow } from './sections/Workflow'
+import { SystemIndex } from './sections/SystemIndex'
 import { FAQ } from './sections/FAQ'
 import { Finale, Footer } from './sections/Finale'
-import './cinema-base.css'
-import './cinema-hero.css'
-import './cinema-sections.css'
-import './cinema-motion.css'
+import './broadsheet-base.css'
+import './broadsheet-hero.css'
+import './broadsheet-sections.css'
 
 export function LandingPage({ user, onNavigate }) {
   const reduce = useReducedMotion()
@@ -21,14 +18,12 @@ export function LandingPage({ user, onNavigate }) {
 
   return (
     <MotionConfig reducedMotion={reduce ? 'always' : 'user'}>
-      <main id="main-content" className="cinema" tabIndex={-1} style={{ outline: 'none' }}>
+      <main id="main-content" className="broadsheet" tabIndex={-1}>
         <Nav onNavigate={onNavigate} />
         <Hero onNavigate={onNavigate} />
-        <Manifesto />
-        <Showcase onNavigate={onNavigate} />
+        <ProductFolio onNavigate={onNavigate} />
         <Eve onNavigate={onNavigate} />
-        <Features />
-        <Workflow />
+        <SystemIndex />
         <FAQ onNavigate={onNavigate} />
         <Finale onNavigate={onNavigate} />
         <Footer onNavigate={onNavigate} />

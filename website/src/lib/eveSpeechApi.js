@@ -4,7 +4,6 @@ import { getStoredAuthToken } from './authApi'
 const BASE_PATH = '/settings/eve-speech'
 const ERROR_MESSAGE = 'Could not update Eve speech settings.'
 const TOKEN_MESSAGE = 'Sign in to update Eve speech settings.'
-const PREVIEW_ERROR = 'Could not preview Eve speech.'
 
 function request(options = {}) {
   return apiRequest('', {
@@ -40,44 +39,5 @@ export function transcribeEveAudio(blob, language) {
       throw new Error(failure?.detail || 'Could not transcribe Eve audio.')
     }
     return response.json()
-  })
-}
-
-export function synthesizeEveSpeech({ text, language, voice, rate, pitch }) {
-  const token = getStoredAuthToken()
-  if (!token) throw new Error(TOKEN_MESSAGE)
-  return fetchWithTimeout(`${API_URL}/eve/synthesize`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ text, language, voice, rate, pitch }),
-  }).then(async (response) => {
-    if (!response.ok) {
-      const failure = await response.json().catch(() => null)
-      throw new Error(failure?.detail || PREVIEW_ERROR)
-    }
-    return response.blob()
-  })
-}
-
-export function synthesizeEveSpeechStream({ text, language, voice, rate, pitch }) {
-  const token = getStoredAuthToken()
-  if (!token) throw new Error(TOKEN_MESSAGE)
-  // Chunked transfer — caller should consume response.body as stream.
-  return fetchWithTimeout(`${API_URL}/eve/synthesize/stream`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ text, language, voice, rate, pitch }),
-  }).then(async (response) => {
-    if (!response.ok) {
-      const failure = await response.json().catch(() => null)
-      throw new Error(failure?.detail || PREVIEW_ERROR)
-    }
-    return response
   })
 }

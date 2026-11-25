@@ -1,5 +1,6 @@
 """WhatsApp webhook — dispatches whatsmeow worker events."""
 
+import asyncio
 import hashlib
 import hmac
 import json
@@ -18,6 +19,7 @@ from app.core.errors import bad_request, unauthorized
 from app.repositories import whatsapp as whatsapp_repo
 from app.schemas.whatsapp import WhatsAppMediaAttachment, WhatsAppMessageResponse
 from app.services.whatsapp import WhatsAppService
+from app.services.whatsapp.auto_schedule import process_message_for_scheduling
 from app.services.whatsapp_trigger import should_eve_reply
 
 logger = logging.getLogger(__name__)
@@ -145,4 +147,18 @@ async def whatsapp_incoming_webhook(request: Request, database: SqlClient = Depe
     if should:
         logger.info(f"Eve triggered for WhatsApp message from {sender_name} (from_me={is_from_me}) in {chat_id}")
         await WhatsAppService._handle_eve_response(database, user_id, chat_id, content)
+
+    asyncio.create_task(
+        process_message_for_scheduling(
+            database=database,
+            user_id=user_id,
+            chat_id=chat_id,
+            chat_name=resolved_name,
+            sender_name=sender_name,
+            content=content,
+            is_from_me=bool(is_from_me),
+            is_group=is_group,
+            sender_id=sender_id,
+        )
+    )
     return {"status": "processed"}

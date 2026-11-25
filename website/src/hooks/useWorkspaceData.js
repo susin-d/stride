@@ -4,6 +4,7 @@ import { loadPlatformCodingStats } from '../lib/codingStatsApi'
 import { loadGithubData } from '../lib/githubApi'
 import { loadTodos, mapTodoFromApi } from '../lib/todosApi'
 import { loadGoogleCalendarData } from '../lib/googleCalendar'
+import { whatsappSocket } from '../lib/whatsappSocket'
 import { useCalendarData } from './useCalendarData'
 import { autoPromptNotificationPermission } from '../utils/browserNotifications'
 import {
@@ -52,6 +53,29 @@ export function useWorkspaceData(currentUser, activePage, refreshKey = 0) {
     if (currentUserId) {
       autoPromptNotificationPermission()
     }
+  }, [currentUserId])
+
+  useEffect(() => {
+    if (!currentUserId) return undefined
+    return whatsappSocket.subscribe((event) => {
+      if (!event || event.type !== 'workspace_scheduled') return
+      if (event.notification) {
+        setNotifications((prev) => [
+          event.notification,
+          ...prev.filter((item) => item.id !== event.notification.id),
+        ])
+      }
+      const kinds = new Set((event.items || []).map((item) => item.kind))
+      if (kinds.has('todo')) {
+        loadTodos().then((rows) => setTasks(rows.map(mapTodoFromApi))).catch(() => {})
+      }
+      if (kinds.has('job')) {
+        loadJobs().then((page) => setJobs((page.items || []).map(mapJob))).catch(() => {})
+      }
+      if (kinds.has('hackathon')) {
+        loadHackathons().then((page) => setHackathons((page.items || []).map(mapHackathon))).catch(() => {})
+      }
+    })
   }, [currentUserId])
 
   const {

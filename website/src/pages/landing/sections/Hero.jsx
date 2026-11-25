@@ -1,253 +1,109 @@
-import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
-import { useRef } from 'react'
-import { ArrowRight, Check, ChevronDown, Play } from 'lucide-react'
-import { heroProof, marqueeModules } from '../data'
-import { useMagnetic } from './useMagnetic'
-
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } },
-}
-const item = {
-  hidden: { opacity: 0, y: 22, filter: 'blur(10px)' },
-  show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-}
-const word = {
-  hidden: { opacity: 0, y: 26, rotateX: -38, filter: 'blur(8px)' },
-  show: (i) => ({
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.25 + i * 0.06 },
-  }),
-}
-
-const HEADLINE_A = ['Your', 'work', 'and', 'growth,']
-const HEADLINE_B = ['finally', 'in', 'sync.']
+import { motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight, ArrowDown } from 'lucide-react'
+import { heroProof, heroWorkbench } from '../data'
 
 export function Hero({ onNavigate }) {
   const reduce = useReducedMotion()
-  const ref = useRef(null)
-  const magnetic = useMagnetic()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const ySlow = useTransform(scrollYProgress, [0, 1], [0, 80])
-  const yFast = useTransform(scrollYProgress, [0, 1], [0, 170])
-  const fade = useTransform(scrollYProgress, [0, 0.65], [1, 0])
-  const stageScale = useTransform(scrollYProgress, [0, 1], [1, 0.96])
 
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const tiltX = useSpring(useTransform(my, [-0.5, 0.5], [5, -5]), { stiffness: 120, damping: 16 })
-  const tiltY = useSpring(useTransform(mx, [-0.5, 0.5], [-7, 7]), { stiffness: 120, damping: 16 })
-
-  const onPointerMove = (event) => {
-    if (reduce || !ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    mx.set((event.clientX - rect.left) / rect.width - 0.5)
-    my.set((event.clientY - rect.top) / rect.height - 0.5)
-  }
-
-  const scrollToShowcase = () => {
-    document.getElementById('showcase')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' })
+  const scrollToFolio = () => {
+    document.getElementById('folio')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' })
   }
 
   return (
-    <section ref={ref} className="cinema-hero" aria-labelledby="hero-title" onPointerMove={onPointerMove}>
-      <div className="cinema-hero__grid" aria-hidden="true" />
-      <div className="cinema-hero__photo" aria-hidden="true" />
-      <div className="cinema-hero__vignette" aria-hidden="true" />
-      <motion.div className="cinema-scenery" aria-hidden="true" style={reduce ? undefined : { y: yFast }}>
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" focusable="false">
-          <defs>
-            <linearGradient id="cinema-ridge-fade" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" className="cinema-svg-stop-ridge" />
-              <stop offset="100%" className="cinema-svg-stop-bg" />
-            </linearGradient>
-            <filter id="cinema-tide-soft" x="-40%" y="-60%" width="180%" height="220%">
-              <feGaussianBlur stdDeviation="28" />
-            </filter>
-          </defs>
-          <g filter="url(#cinema-tide-soft)">
-            <path
-              d="M-160,560 C350,480 600,660 1000,560 S1350,500 1600,580"
-              fill="none"
-              className="cinema-svg-tide"
-              strokeWidth="110"
-            />
-            <path
-              d="M-160,710 C400,620 700,770 1100,685 S1400,640 1600,705"
-              fill="none"
-              className="cinema-svg-tide cinema-svg-tide--eve"
-              strokeWidth="150"
-            />
-          </g>
-          <path
-            d="M0,820 L120,740 L260,790 L400,710 L560,800 L720,730 L900,810 L1080,740 L1240,800 L1440,750 L1440,900 L0,900 Z"
-            fill="url(#cinema-ridge-fade)"
-          />
-          <path
-            d="M0,870 L180,810 L360,860 L540,800 L760,870 L950,815 L1150,865 L1300,830 L1440,860 L1440,900 L0,900 Z"
-            className="cinema-svg-ridge-front"
-          />
-          <polyline
-            points="0,870 180,810 360,860 540,800 760,870 950,815 1150,865 1300,830 1440,860"
-            fill="none"
-            className="cinema-svg-ridge-rim"
-            strokeWidth="1.5"
-          />
-        </svg>
-      </motion.div>
-
-      <motion.div
-        className="cinema-hero__inner"
-        variants={reduce ? undefined : container}
-        initial={reduce ? false : 'hidden'}
-        animate={reduce ? undefined : 'show'}
-        style={reduce ? undefined : { opacity: fade, y: ySlow }}
-      >
-        <motion.h1 id="hero-title" className="cinema-title cinema-title--display" variants={reduce ? undefined : item}>
-          <span className="cinema-title__line" aria-label="Your work and growth,">
-            {HEADLINE_A.map((w, i) => (
-              <motion.span
-                key={w}
-                className="cinema-title__word"
-                custom={i}
-                variants={reduce ? undefined : word}
-                initial={reduce ? false : 'hidden'}
-                animate={reduce ? undefined : 'show'}
-                aria-hidden="true"
-              >
-                {w}
-              </motion.span>
-            ))}
-          </span>
-          <br />
-          <span className="cinema-title__line cinema-title__accent" aria-label="finally in sync.">
-            {HEADLINE_B.map((w, i) => (
-              <motion.span
-                key={w}
-                className="cinema-title__word"
-                custom={i + HEADLINE_A.length}
-                variants={reduce ? undefined : word}
-                initial={reduce ? false : 'hidden'}
-                animate={reduce ? undefined : 'show'}
-                aria-hidden="true"
-              >
-                {w}
-              </motion.span>
-            ))}
-          </span>
-        </motion.h1>
-
-        <motion.p className="cinema-sub" variants={reduce ? undefined : item}>
-          Stride fuses <strong>tasks, calendars, contests, projects, jobs, documents, mail, WhatsApp</strong> and{' '}
-          <strong>Eve AI</strong> into one cinematic stage — Code keeps the signal, Create sets the scene, Evolve never forgets.
-        </motion.p>
-
-        <motion.div className="cinema-hero__ctas" variants={reduce ? undefined : item}>
-          <motion.button
-            type="button"
-            className="cinema-cta cinema-cta--primary cinema-cta--hero"
-            onClick={() => onNavigate('/signup')}
-            {...magnetic}
-          >
-            Start your workspace <ArrowRight size={16} aria-hidden="true" />
-          </motion.button>
-          <button type="button" className="cinema-cta cinema-cta--ghost cinema-cta--hero" onClick={scrollToShowcase}>
-            <Play size={16} aria-hidden="true" /> Watch the reel
-          </button>
-        </motion.div>
-
-        <motion.div
-          className="cinema-stage"
-          variants={reduce ? undefined : item}
-          style={reduce ? undefined : { scale: stageScale, rotateX: tiltX, rotateY: tiltY, transformStyle: 'preserve-3d' }}
-          aria-hidden="true"
-        >
-          <div className="cinema-frame">
-            <div className="cinema-frame__top">
-              <span className="cinema-dots">
-                <i />
-                <i />
-                <i />
-              </span>
-              <span>stride.app — command center • Live</span>
-              <span className="cinema-frame__live">● synced</span>
-            </div>
-            <div className="cinema-frame__body">
-              <div className="cinema-kpis">
-                <div className="cinema-kpi cinema-kpi--accent">
-                  <small>Today</small>
-                  <strong>Focus queue • live</strong>
-                  <span>Tasks, contest and interview in one view</span>
-                </div>
-                <div className="cinema-kpi cinema-kpi--growth">
-                  <small>Pipeline</small>
-                  <strong>Applications → interviews</strong>
-                  <span>Every stage tracked, nothing slips</span>
-                </div>
-                <div className="cinema-kpi cinema-kpi--workspace">
-                  <small>Workspace</small>
-                  <strong>Monaco • Eve inside</strong>
-                  <span>Files Eve can read and edit with you</span>
-                </div>
-              </div>
-              <div className="cinema-tasks">
-                <div className="cinema-task">
-                  <i>
-                    <Check size={10} />
-                  </i>
-                  Review contest solutions — <em className="cinema-task__done-label">done</em>
-                </div>
-                <div className="cinema-task">
-                  <i />
-                  Prepare architecture doc for v2
-                </div>
-                <div className="cinema-task">
-                  <i />
-                  Draft follow-ups for this week
-                </div>
-                <div className="cinema-task done">
-                  <i>
-                    <Check size={10} />
-                  </i>
-                  Ship Eve schedule: call every Mon 9am
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      <div className="cinema-marquee" aria-label="Included modules">
-        <div className="cinema-marquee__track" aria-hidden="true">
-          {[...marqueeModules, ...marqueeModules].map((m, i) => (
-            <span key={`${m}-${i}`} className="cinema-marquee__item">
-              <Check size={12} aria-hidden="true" /> {m}
-            </span>
-          ))}
+    <section className="bs-hero" aria-labelledby="hero-title">
+      <div className="broadsheet__container">
+        <div className="bs-hero__strip">
+          <span>01 / OVERVIEW — DEVELOPER PERSONAL OS</span>
+          <span>MONOCHROME · WHITE &amp; DARK MODES</span>
         </div>
-        <div className="cinema-hero__proof">
-          {heroProof.map((t) => (
-            <span key={t} className="cinema-chip">
-              <Check size={14} aria-hidden="true" /> {t}
-            </span>
-          ))}
+
+        <div className="bs-hero__grid">
+          <div>
+            <motion.h1
+              id="hero-title"
+              className="bs-hero__title"
+              initial={reduce ? false : { opacity: 0, y: 12 }}
+              animate={reduce ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Your work and growth, finally in sync.
+            </motion.h1>
+
+            <p className="bs-hero__lead">
+              Tasks, calendars, competitive coding, jobs, hackathons, a real Monaco workspace,
+              and Eve AI — unified into one calm monochrome operating system.
+            </p>
+
+            <div className="bs-hero__actions">
+              <button
+                type="button"
+                className="bs-btn bs-btn--primary"
+                onClick={() => onNavigate('/signup')}
+              >
+                Start free <ArrowRight size={15} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="bs-btn bs-btn--ghost"
+                onClick={scrollToFolio}
+              >
+                Inspect folio <ArrowDown size={15} aria-hidden="true" />
+              </button>
+            </div>
+
+            <ul className="bs-hero__proof">
+              {heroProof.map((item) => (
+                <li key={item.index} className="bs-hero__proof-item">
+                  <span className="bs-hero__proof-idx">{item.index}</span>
+                  <span>{item.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <motion.aside
+            className="bs-workbench"
+            aria-label="Live Stride workbench summary"
+            initial={reduce ? false : { opacity: 0, y: 12 }}
+            animate={reduce ? {} : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="bs-workbench__head">
+              <span className="bs-workbench__status">
+                <span className="bs-workbench__dot" aria-hidden="true" />
+                {heroWorkbench.workspace}
+              </span>
+              <span>{heroWorkbench.status}</span>
+            </div>
+
+            <div className="bs-workbench__body">
+              <div className="bs-workbench__block">
+                <div className="bs-workbench__label">
+                  <span>Unified Queue</span>
+                  <span>Today</span>
+                </div>
+                <div className="bs-workbench__rows">
+                  {heroWorkbench.tasks.map((task) => (
+                    <div key={task.title} className="bs-workbench__row">
+                      <span>{task.title}</span>
+                      <span className="bs-workbench__row-meta">{task.meta}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bs-workbench__eve">
+                <div className="bs-workbench__label">
+                  <span>Eve Tool Loop</span>
+                  <span>Ready</span>
+                </div>
+                <code className="bs-workbench__eve-cmd">{heroWorkbench.eveCmd}</code>
+                <span className="bs-workbench__eve-note">{heroWorkbench.eveNote}</span>
+              </div>
+            </div>
+          </motion.aside>
         </div>
       </div>
-
-      <motion.button
-        type="button"
-        className="cinema-scroll"
-        onClick={scrollToShowcase}
-        aria-label="Scroll to showcase"
-        initial={reduce ? false : { opacity: 0 }}
-        animate={reduce ? {} : { opacity: 1 }}
-        transition={reduce ? {} : { delay: 1.2, duration: 0.6 }}
-      >
-        Scroll to explore <ChevronDown size={16} aria-hidden="true" />
-      </motion.button>
     </section>
   )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MessageSquare, QrCode, Trash2, Bot, Bell, Key, X, Sparkles, Check } from 'lucide-react'
+import { MessageSquare, QrCode, Trash2, Bot, Bell, Key, X, Sparkles, Check, CalendarClock, Users } from 'lucide-react'
 import { ConfirmDialog, SectionHeading, SettingsCard } from '../../components/ui'
 import {
   fetchWhatsAppStatus,
@@ -17,6 +17,8 @@ export function WhatsAppSection() {
   const [settings, setSettings] = useState({
     auto_reply_enabled: false,
     auto_reply_prompt: '',
+    auto_schedule_enabled: true,
+    auto_schedule_include_groups: false,
     notifications_enabled: true,
   })
   const [promptInput, setPromptInput] = useState('')
@@ -231,6 +233,50 @@ export function WhatsAppSection() {
                   type="checkbox"
                   checked={Boolean(settings.notifications_enabled)}
                   onChange={(e) => handleSaveSettings({ notifications_enabled: e.target.checked })}
+                />
+                <span className="whatsapp-toggle-slider" />
+              </div>
+            </label>
+
+            <label className="whatsapp-automation-item">
+              <div className="whatsapp-automation-left">
+                <div className="whatsapp-automation-icon">
+                  <CalendarClock size={18} />
+                </div>
+                <div className="whatsapp-automation-text">
+                  <strong>Auto-Schedule from Messages</strong>
+                  <small>
+                    Automatically extract todos, deadlines, interviews, and reminders from incoming messages and notify you
+                  </small>
+                </div>
+              </div>
+              <div className="whatsapp-toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={settings.auto_schedule_enabled !== false}
+                  onChange={(e) => handleSaveSettings({ auto_schedule_enabled: e.target.checked })}
+                />
+                <span className="whatsapp-toggle-slider" />
+              </div>
+            </label>
+
+            <label className="whatsapp-automation-item">
+              <div className="whatsapp-automation-left">
+                <div className="whatsapp-automation-icon">
+                  <Users size={18} />
+                </div>
+                <div className="whatsapp-automation-text">
+                  <strong>Include Group Chats in Auto-Scheduling</strong>
+                  <small>
+                    Also scan incoming WhatsApp group messages for schedulable tasks and events
+                  </small>
+                </div>
+              </div>
+              <div className="whatsapp-toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={Boolean(settings.auto_schedule_include_groups)}
+                  onChange={(e) => handleSaveSettings({ auto_schedule_include_groups: e.target.checked })}
                 />
                 <span className="whatsapp-toggle-slider" />
               </div>
