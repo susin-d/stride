@@ -81,6 +81,7 @@
 | [0067](0067-codebase-deslop-and-modularization.md) | Codebase deslop & modularization — dead-code removal, backend/frontend/Go package splits, layering fixes | Accepted | 2026-11-24 |
 | [0068](0068-eve-panel-inline-push-layout.md) | Eve panel: inline push layout with drag resize — panel moved from portal overlay to flex sibling, resizable, width persisted | Accepted | 2026-11-25 |
 | [0069](0069-void-theme.md) | Void theme (pure monochrome obsidian palette sampled from reference IDE interface) | Accepted | 2026-11-25 |
+| [0070](0070-schedulable-email-webhook-and-mail-redesign.md) | Schedulable email webhook and Mail redesign from Gmail OAuth to Calendar/Todo/Eve Scheduler | Accepted | 2026-11-25 |
 | [0058](0058-dashboard-overview-aggregate.md) | Dashboard overview aggregate endpoint | Accepted (renumbered from 0053 — duplicate number) | 2026-09-11 |
 
 ## How to add a new ADR

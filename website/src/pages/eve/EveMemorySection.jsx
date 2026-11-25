@@ -20,31 +20,19 @@ export function EveMemorySection({
   })
 
   return (
-    <section className="eve-subpage-section" aria-label="Eve Memory">
-      <div className="eve-subpage-header">
-        <div>
-          <h2>Eve Memory</h2>
-          <p>
-            Facts, preferences, and workspace rules Eve remembers about you across chat sessions and voice calls.
-          </p>
-        </div>
-      </div>
-
+    <section className="eve-memory-section" aria-label="Eve Memory">
       <div className="eve-memory-composer-card">
-        <h3>
+        <div className="eve-memory-composer-heading">
           <Brain size={16} />
-          <span>Teach Eve a Fact or Instruction</span>
-        </h3>
-        <p>
-          Eve references these facts to personalize responses, recall project context, and adapt to your preferences.
-        </p>
+          <span>Teach Eve a Fact</span>
+        </div>
 
         <form className="eve-memory-create-form" onSubmit={onAddMemory}>
           <textarea
             value={memoryDraft}
             onChange={(e) => setMemoryDraft(e.target.value)}
             placeholder="e.g. I prefer concise technical summaries. My primary tech stack is React and Python FastAPI."
-            rows={2}
+            rows={3}
             maxLength={500}
             aria-label="New memory fact"
             required
@@ -85,36 +73,36 @@ export function EveMemorySection({
           description={
             searchQuery
               ? 'Try searching with different terms.'
-              : 'Add a fact above, or simply tell Eve to “remember that…” during chat.'
+              : 'Add a fact above, or simply tell Eve to "remember that…" during chat.'
           }
         />
       ) : (
         <div className="eve-memory-grid" role="list">
           {filteredMemories.map((memory) => (
-            <div key={memory.id} className="eve-memory-card" role="listitem">
-              <div className="eve-memory-card-header">
-                <span className="eve-memory-tag">Fact</span>
+            <div key={memory.id} className="eve-memory-row" role="listitem">
+              <span className="eve-memory-tag">FACT</span>
+              <p className="eve-memory-row-text">{memory.content}</p>
+              <div className="eve-memory-row-meta">
+                {memory.created_at && (
+                  <time className="eve-memory-card-time">
+                    {new Date(memory.created_at).toLocaleDateString(undefined, {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                  </time>
+                )}
+                <button
+                  type="button"
+                  className="eve-card-delete-btn"
+                  onClick={() => onRemoveMemory(memory.id)}
+                  disabled={isSending}
+                  aria-label="Delete this memory"
+                  title="Delete memory"
+                >
+                  <Trash2 size={13} />
+                </button>
               </div>
-              <p className="eve-memory-card-text">{memory.content}</p>
-              {memory.created_at && (
-                <time className="eve-memory-card-time">
-                  {new Date(memory.created_at).toLocaleDateString(undefined, {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}
-                </time>
-              )}
-              <button
-                type="button"
-                className="eve-card-delete-btn"
-                onClick={() => onRemoveMemory(memory.id)}
-                disabled={isSending}
-                aria-label="Delete this memory"
-                title="Delete memory"
-              >
-                <Trash2 size={13} />
-              </button>
             </div>
           ))}
         </div>

@@ -60,10 +60,6 @@ class Settings:
         "GOOGLE_DRIVE_OAUTH_CALLBACK_URL",
         "http://127.0.0.1:8000/api/v1/integrations/google-drive/callback",
     )
-    gmail_oauth_callback_url: str = os.getenv(
-        "GMAIL_OAUTH_CALLBACK_URL",
-        "http://127.0.0.1:8000/api/v1/integrations/gmail/callback",
-    )
     google_chat_oauth_callback_url: str = os.getenv(
         "GOOGLE_CHAT_OAUTH_CALLBACK_URL",
         "http://127.0.0.1:8000/api/v1/integrations/google-chat/callback",
@@ -157,6 +153,8 @@ class Settings:
     whatsapp_my_number: str = os.getenv("WHATSAPP_MY_NUMBER", "")
     whatsapp_my_jid: str = os.getenv("WHATSAPP_MY_JID", "")
     whatsapp_worker_secret: str | None = os.getenv("WHATSAPP_WORKER_SECRET")
+    webhook_secret: str | None = os.getenv("WEBHOOK_SECRET")
+    default_webhook_user_id: str | None = os.getenv("DEFAULT_WEBHOOK_USER_ID")
     updates_dir: str | None = os.getenv("UPDATES_DIR") or os.getenv("STATIC_UPDATES_DIR")
     updater_secret: str | None = os.getenv("UPDATER_SECRET") or os.getenv("OTA_SECRET")
     tauri_signing_public_key: str | None = os.getenv("TAURI_SIGNING_PUBLIC_KEY")

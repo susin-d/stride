@@ -215,3 +215,135 @@
 .mail-retry-btn {
   margin-top: 8px;
 }
+
+.mail-workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  gap: var(--space-4, 16px);
+  margin-top: var(--space-4, 16px);
+}
+
+.mail-list-pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+}
+
+.mail-list-row {
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md, 12px);
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.mail-list-row.is-selected,
+.mail-list-row:hover {
+  border-color: var(--color-primary);
+}
+
+.mail-list-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mail-list-sender {
+  font-size: 12px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mail-list-subject {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.mail-list-date {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.mail-reader-pane {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 16px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mail-reader-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.mail-reader-header h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.mail-reader-meta {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.mail-reader-status-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.mail-scheduler-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mail-scheduler-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.mail-scheduler-field input {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm, 8px);
+  color: var(--text-primary);
+  padding: 8px 10px;
+}
+
+.mail-scheduler-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mail-reader-plaintext {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .mail-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}

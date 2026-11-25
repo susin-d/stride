@@ -33,11 +33,6 @@ from app.services.eve.handlers.browser import (
     handle_browser_screenshot,
     handle_browser_type,
 )
-from app.services.eve.handlers.email import (
-    handle_list_emails,
-    handle_search_emails,
-    handle_send_email,
-)
 from app.services.eve.handlers.http import handle_http_request
 from app.services.eve.handlers.media import (
     handle_generate_image,
@@ -176,9 +171,6 @@ _TOOL_HANDLERS: dict[str, Any] = {
     "create_chart": handle_create_chart,
     "read_pdf_file": handle_read_pdf_file,
     "extract_text_from_image": handle_extract_text_from_image,
-    "send_email": handle_send_email,
-    "list_emails": handle_list_emails,
-    "search_emails": handle_search_emails,
     "create_calendar_event": handle_create_calendar_event,
     "list_calendar_events": handle_list_calendar_events,
     "delete_calendar_event": handle_delete_calendar_event,

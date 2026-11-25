@@ -134,11 +134,11 @@ export const PAGES_ITEMS = [
     category: 'pages',
     group: 'Pages & Views',
     title: 'Mail',
-    subtitle: 'Gmail inbox, messages, category tabs (Primary, Promotions, Updates)',
+    subtitle: 'Incoming schedulable emails from Google Workspace Studio for Calendar, Todo, and Eve',
     badge: 'Connect > Mail',
     page: 'mails',
     icon: Mail,
-    keywords: ['gmail', 'inbox', 'emails', 'messages', 'google mail'],
+    keywords: ['mail', 'scheduler', 'webhook', 'calendar', 'todo', 'google workspace studio'],
   },
   {
     id: 'page-whatsapp',

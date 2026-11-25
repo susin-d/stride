@@ -2,7 +2,6 @@
 
 from app.services.eve.tools.browser import BROWSER_TOOLS
 from app.services.eve.tools.calendar import CALENDAR_TOOLS
-from app.services.eve.tools.email import EMAIL_TOOLS
 from app.services.eve.tools.files import FILES_TOOLS
 from app.services.eve.tools.http import HTTP_TOOLS
 from app.services.eve.tools.media import MEDIA_TOOLS
@@ -30,7 +29,6 @@ EVE_TOOLS = (
     + MEDIA_TOOLS
     + BROWSER_TOOLS
     + UTILITY_TOOLS
-    + EMAIL_TOOLS
     + CALENDAR_TOOLS
     + HTTP_TOOLS
     + UI_TOOLS

@@ -219,7 +219,7 @@ textarea:not(.eve-composer-textarea):not(.whatsapp-composer-input):focus,
 .project-edit-form textarea:focus {
   background: var(--glass-bg-input-focus);
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px var(--color-primary-light), inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* Frameless embedded inputs/textareas inside cards and composers must stay shadowless and transparent */

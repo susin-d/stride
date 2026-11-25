@@ -14,7 +14,7 @@ class TestUnknownTools:
 
     def test_error_lists_sorted_available_tools(self, db):
         result, _, _ = dispatch_tool(None, "u", "zzz_unknown", {})
-        assert result["error"].index("browse_web") < result["error"].index("send_email")
+        assert result["error"].index("browse_web") < result["error"].index("write_workspace_file")
 
 
 class TestWorkspaceRecordHandlers:

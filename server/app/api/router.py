@@ -17,7 +17,6 @@ from app.api.routes import (
     eve_schedules,
     eve_speech,
     eve_stream,
-    gmail,
     google_calendar,
     google_contacts,
     google_drive,
@@ -26,6 +25,7 @@ from app.api.routes import (
     health,
     notifications,
     profiles,
+    schedulable_mail,
     studio,
     todos,
     ui_preferences,
@@ -56,7 +56,7 @@ api_router.include_router(eve_schedules.router, tags=["Eve automated schedules"]
 api_router.include_router(eve_memory_settings.router, tags=["Eve memory settings"])
 api_router.include_router(eve_speech.router, tags=["Eve speech settings"])
 api_router.include_router(eve_avatar.router, tags=["Eve avatar"])
-api_router.include_router(gmail.router, tags=["Gmail integration"])
+api_router.include_router(schedulable_mail.router, tags=["Schedulable mail"])
 api_router.include_router(
     competitive_coding_profile.router,
     tags=["competitive coding settings"],

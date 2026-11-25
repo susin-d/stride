@@ -126,22 +126,6 @@ CALENDAR_DESCRIPTIONS = {
     "delete_calendar_event.event_id": "Id of the calendar event to delete",
 }
 
-# --- EMAIL (services/eve/tools/email.py) ---
-EMAIL_DESCRIPTIONS = {
-    "send_email": "Send an email from the user's connected Gmail account.",
-    "list_emails": "List recent emails from the user's connected Gmail account, newest first.",
-    "search_emails": "Search the user's connected Gmail account with Gmail search syntax (from:, subject:, has:attachment, etc.).",
-    "send_email.to": "Recipient email address",
-    "send_email.subject": "Email subject line",
-    "send_email.body": "Plain-text email body",
-    "send_email.from_account": "Optional connected Gmail address to send from (defaults to the first connected account)",
-    "list_emails.max_results": "Number of emails to return (default 10, max 25)",
-    "list_emails.account": "Optional connected Gmail address to read from",
-    "search_emails.query": "Gmail search query, e.g. 'from:alice@example.com invoice'",
-    "search_emails.max_results": "Number of results to return (default 10, max 25)",
-    "search_emails.account": "Optional connected Gmail address to search",
-}
-
 # --- FILES (services/eve/tools/files.py) ---
 FILES_DESCRIPTIONS = {
     "workspace_id": "Id of the code workspace to operate on. Use the workspace_id given in the user's message context, or 'default' when unknown.",

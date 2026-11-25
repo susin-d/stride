@@ -76,7 +76,7 @@ Routes are `/app/<page>` (router `hooks/useRouter.js`, page ids in `appPages.jsx
 | `/app/compete` | CompetePage | Contests + coding stats (`stats`/`competitive-coding` resolve to its tabs) |
 | `/app/calls` | CallsPage | WebRTC + Twilio PSTN |
 | `/app/whatsapp` | WhatsAppPage | Chat list + conversation |
-| `/app/mails` | MailsPage | Gmail integration |
+| `/app/mails` | MailsPage | Google Workspace Studio schedulable mail queue |
 | `/app/chats` | ChatsPage | Team chats |
 | `/app/contacts` | ContactsPage | → `contacts/` package |
 | `/app/calendar` | CalendarPage | Google Calendar + ICS imports |
@@ -102,7 +102,7 @@ One file per backend feature, all use `apiRequest()` from `request.js`:
 | `todosApi.js` | Todos |
 | `documentsApi.js` | Documents |
 | `contactsApi.js` | Contacts |
-| `gmailApi.js` | Gmail |
+| `schedulableMailApi.js` | Schedulable mail & webhook info |
 | `googleCalendar.js` | Google Calendar |
 | `googleContacts.js` | Google Contacts |
 | `googleDriveApi.js` | Google Drive |

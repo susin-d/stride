@@ -9,6 +9,7 @@ API so existing `from app.models import X` call sites keep working.
 from app.models._shared import generate_uuid, utc_now
 from app.models.calls import Call
 from app.models.eve import EveMemory, EveSchedule, EveSession
+from app.models.schedulable_email import SchedulableEmail
 from app.models.sessions import UserSession
 from app.models.settings import UserSetting
 from app.models.usage import AiUsage
@@ -29,6 +30,7 @@ __all__ = [
     "Job",
     "Notification",
     "Project",
+    "SchedulableEmail",
     "Todo",
     "User",
     "UserSession",

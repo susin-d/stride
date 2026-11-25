@@ -1,378 +1,296 @@
 import '../styles/pages/mail-shell.css'
 import { useCallback, useEffect, useState } from 'react'
-import { MailPlus, RefreshCw, X } from 'lucide-react'
 import {
-  beginGmailOAuth, hasGmailConnection, loadGoogleMail, loadGoogleMessage,
-  sendGoogleMessage, updateGoogleMessage,
-} from '../lib/googleMail'
-import { getGmailAccounts, getGmailStatus } from '../lib/gmailApi'
-import { ConfirmDialog, LoadingState, Pagination, SearchBar, TabNav } from '../components/ui'
-import { usePersistentState } from '../hooks/usePersistentState'
-import { MAIL_FOLDER_KEY, MAIL_INBOX_TAB_KEY } from '../lib/storageKeys'
-import { EMPTY_COMPOSE, INBOX_TABS, buildReplyDraft } from './mail/mailUtils'
-import { MailComposer } from './mail/MailComposer'
-import { MailConnect } from './mail/MailConnect'
-import { MailFolders } from './mail/MailFolders'
-import { MailList } from './mail/MailList'
-import { MailReader } from './mail/MailReader'
+  Bot,
+  CalendarPlus,
+  Check,
+  Copy,
+  ListTodo,
+  Mail,
+  RefreshCw,
+  Trash2,
+  X,
+} from 'lucide-react'
+import {
+  Alert,
+  Badge,
+  EmptyState,
+  LoadingState,
+} from '../components/ui'
+import {
+  deleteSchedulableEmail,
+  getSchedulableWebhookInfo,
+  listSchedulableEmails,
+  scheduleEveFromEmail,
+  scheduleTodoFromEmail,
+  updateSchedulableEmail,
+} from '../lib/schedulableMailApi'
+import { API_URL } from '../lib/request'
+
+function buildWebhookUrl(endpointPath = '/api/webhooks/schedulable-email') {
+  const base = (API_URL || '').replace(/\/api\/v1\/?$/, '')
+  if (base.startsWith('http')) {
+    return `${base}${endpointPath}`
+  }
+  return `${window.location.origin}${endpointPath}`
+}
 
 export function MailsPage({ onNavigate }) {
-  const [messages, setMessages] = useState([])
-  const [account, setAccount] = useState('')
-  const [accounts, setAccounts] = useState([])
-  const [selectedAccountEmail, setSelectedAccountEmail] = useState('')
-  const [query, setQuery] = useState('')
-  const [folder, setFolder] = usePersistentState(MAIL_FOLDER_KEY, 'INBOX')
-  const [inboxTab, setInboxTab] = usePersistentState(MAIL_INBOX_TAB_KEY, 'primary')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [connected, setConnected] = useState(null)
+  const [emails, setEmails] = useState([])
   const [selected, setSelected] = useState(null)
-  const [reading, setReading] = useState(false)
-  const [compose, setCompose] = useState(null)
-  const [discardRequested, setDiscardRequested] = useState(false)
-  const [sending, setSending] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
-  const [pageToken, setPageToken] = useState('')
-  const [previousPageTokens, setPreviousPageTokens] = useState([])
-  const [nextPageToken, setNextPageToken] = useState('')
-  const [accountMenuOpen, setAccountMenuOpen] = useState(false)
-  const [connectingGmail, setConnectingGmail] = useState(false)
+  const [webhookInfo, setWebhookInfo] = useState({ endpoint: '/api/webhooks/schedulable-email', secret_configured: false })
+  const [busyId, setBusyId] = useState('')
+  const [dueDate, setDueDate] = useState(() => new Date().toISOString().slice(0, 10))
+  const [eveScheduleAt, setEveScheduleAt] = useState('')
+  const [copied, setCopied] = useState(false)
 
-  const refresh = useCallback(async (search = query, nextFolder = folder, token = '', keepPage = false, targetAccount = selectedAccountEmail) => {
+  const refresh = useCallback(async () => {
     setLoading(true)
     setError('')
     try {
-      const category = nextFolder === 'INBOX' ? inboxTab : ''
-      const result = await loadGoogleMail(search, nextFolder, token, targetAccount || null, category)
-      setMessages(result.messages)
-      setAccount(result.email)
-      setNextPageToken(result.nextPageToken)
-      setPageToken(token)
-      if (!keepPage) setPreviousPageTokens([])
-      setConnected(true)
-    } catch (refreshError) {
-      setError(refreshError.message)
-      setConnected(hasGmailConnection())
+      const [items, info] = await Promise.all([
+        listSchedulableEmails(),
+        getSchedulableWebhookInfo().catch(() => ({ endpoint: '/api/webhooks/schedulable-email', secret_configured: false })),
+      ])
+      const list = Array.isArray(items) ? items : []
+      setEmails(list)
+      if (info) setWebhookInfo(info)
+      setSelected((current) => (current ? list.find((e) => e.id === current.id) || list[0] || null : list[0] || null))
+    } catch (err) {
+      setError(err.message || 'Could not load schedulable emails.')
     } finally {
       setLoading(false)
     }
-  }, [folder, query, selectedAccountEmail, inboxTab])
-
-  const openOlderMessages = () => {
-    if (!nextPageToken || loading) return
-    setPreviousPageTokens((tokens) => [...tokens, pageToken])
-    refresh(query, folder, nextPageToken, true, selectedAccountEmail)
-  }
-
-  const openNewerMessages = () => {
-    if (!previousPageTokens.length || loading) return
-    const tokens = [...previousPageTokens]
-    const previousToken = tokens.pop()
-    setPreviousPageTokens(tokens)
-    refresh(query, folder, previousToken, true, selectedAccountEmail)
-  }
+  }, [])
 
   useEffect(() => {
-    if (connected) refresh('', folder, '', false, selectedAccountEmail)
-  }, [connected, folder, inboxTab, selectedAccountEmail]) // eslint-disable-line react-hooks/exhaustive-deps
+    refresh()
+  }, [refresh])
 
-  useEffect(() => {
-    let active = true
-    getGmailAccounts()
-      .then(({ accounts: fetchedAccounts }) => {
-        if (!active) return
-        if (fetchedAccounts && fetchedAccounts.length) {
-          setAccounts(fetchedAccounts)
-          setConnected(true)
-          if (!selectedAccountEmail) {
-            setSelectedAccountEmail(fetchedAccounts[0].email)
-          }
-        } else {
-          setConnected(false)
-        }
-      })
-      .catch(() => {
-        getGmailStatus()
-          .then(({ connected: savedConnection, account: singleAcc }) => {
-            if (!active) return
-            setConnected(savedConnection)
-            if (singleAcc?.email) {
-              setAccounts([singleAcc])
-            }
-          })
-          .catch((statusError) => {
-            if (active) {
-              setConnected(false)
-              setError(statusError.message)
-            }
-          })
-      })
-    return () => {
-      active = false
+  const copyWebhookUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(buildWebhookUrl(webhookInfo.endpoint))
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1800)
+    } catch {
+      setNotice('Copy failed — copy the endpoint path from Settings.')
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }
 
-  const openMessage = async (message) => {
-    setReading(true)
+  const handleScheduleTodo = async (email, target) => {
+    setBusyId(email.id)
     setError('')
+    setNotice('')
     try {
-      const full = await loadGoogleMessage(message.id, selectedAccountEmail)
-      setSelected(full)
-      if (message.unread) {
-        setMessages((items) => items.map((item) => item.id === message.id ? { ...item, unread: false } : item))
-        await updateGoogleMessage(message.id, { remove: ['UNREAD'] }, selectedAccountEmail)
+      const res = await scheduleTodoFromEmail(email.id, {
+        title: email.subject,
+        due_date: dueDate || undefined,
+        target,
+      })
+      const updated = res?.email
+      if (updated) {
+        setEmails((prev) => prev.map((item) => (item.id === email.id ? updated : item)))
+        setSelected(updated)
       }
-    } catch (readError) {
-      setError(readError.message)
-    } finally {
-      setReading(false)
-    }
-  }
-
-  const toggleStar = async (message, event) => {
-    event.stopPropagation()
-    const nextStarred = !message.starred
-    setMessages((items) => items.map((item) => item.id === message.id ? { ...item, starred: nextStarred } : item))
-    if (selected?.id === message.id) setSelected((current) => current ? { ...current, starred: nextStarred } : null)
-    try {
-      await updateGoogleMessage(
-        message.id,
-        nextStarred ? { add: ['STARRED'] } : { remove: ['STARRED'] },
-        selectedAccountEmail,
-      )
-    } catch (starError) {
-      setError(starError.message)
-    }
-  }
-
-  const archiveMessage = async (message) => {
-    setMessages((items) => items.filter((item) => item.id !== message.id))
-    if (selected?.id === message.id) setSelected(null)
-    try {
-      await updateGoogleMessage(message.id, { remove: ['INBOX'] }, selectedAccountEmail)
-      setNotice('Message archived.')
-    } catch (archiveError) {
-      setError(archiveError.message)
-    }
-  }
-
-  const deleteMessage = async (message) => {
-    setMessages((items) => items.filter((item) => item.id !== message.id))
-    if (selected?.id === message.id) setSelected(null)
-    try {
-      await updateGoogleMessage(message.id, { add: ['TRASH'] }, selectedAccountEmail)
-      setNotice('Message moved to Trash.')
-    } catch (deleteError) {
-      setError(deleteError.message)
-    }
-  }
-
-  const sendMessage = async (event) => {
-    event.preventDefault()
-    setSending(true)
-    setError('')
-    try {
-      await sendGoogleMessage(compose, selectedAccountEmail)
-      setCompose(null)
-      setNotice('Message sent successfully.')
-      if (folder === 'SENT') refresh(query, 'SENT', '', false, selectedAccountEmail)
-    } catch (sendError) {
-      setError(sendError.message)
-    } finally {
-      setSending(false)
-    }
-  }
-
-  const requestCloseCompose = () => {
-    const hasDraftContent = compose && Object.values(compose).some(
-      (value) => typeof value === 'string' && value.trim(),
-    )
-    if (hasDraftContent) {
-      setDiscardRequested(true)
-      return
-    }
-    setCompose(null)
-  }
-
-  const handleConnectGmail = async () => {
-    setConnectingGmail(true)
-    try {
-      await beginGmailOAuth()
-      const { accounts: fetchedAccounts } = await getGmailAccounts()
-      if (fetchedAccounts && fetchedAccounts.length) {
-        setAccounts(fetchedAccounts)
-        setSelectedAccountEmail(fetchedAccounts[0].email)
-        setConnected(true)
-      } else {
-        setConnected(true)
-      }
-      refresh('', 'INBOX', '', false, null)
+      setNotice(target === 'calendar' ? 'Scheduled on Calendar (dated Todo created).' : 'Added to Todo List.')
     } catch (err) {
-      setError(err.message)
+      setError(err.message || 'Could not schedule email.')
     } finally {
-      setConnectingGmail(false)
+      setBusyId('')
     }
   }
 
-  const handleReplyMessage = (message) => {
-    setCompose({ ...EMPTY_COMPOSE, ...buildReplyDraft(message) })
-  }
-
-  const handleSelectFolder = (id) => {
-    setFolder(id)
-    setSelected(null)
-    setQuery('')
-  }
-
-  const handleSelectAccount = (email) => {
-    if (email) {
-      setSelectedAccountEmail(email)
-    } else {
-      setSelectedAccountEmail('')
+  const handleScheduleEve = async (email) => {
+    setBusyId(email.id)
+    setError('')
+    setNotice('')
+    try {
+      const res = await scheduleEveFromEmail(email.id, {
+        title: email.subject,
+        schedule_type: 'one_time',
+        execute_at: eveScheduleAt ? new Date(eveScheduleAt).toISOString() : undefined,
+      })
+      const updated = res?.email
+      if (updated) {
+        setEmails((prev) => prev.map((item) => (item.id === email.id ? updated : item)))
+        setSelected(updated)
+      }
+      setNotice('Added to Eve Scheduler.')
+    } catch (err) {
+      setError(err.message || 'Could not create Eve schedule.')
+    } finally {
+      setBusyId('')
     }
-    setAccountMenuOpen(false)
-    setSelected(null)
-    refresh(query, folder, '', false, email)
   }
 
-  if (connected === null) {
-    return (
-      <div className="mail-page-loading-wrap">
-        <LoadingState message="Checking mail integration…" />
-      </div>
-    )
+  const handleDismiss = async (email) => {
+    setBusyId(email.id)
+    setError('')
+    try {
+      const updated = await updateSchedulableEmail(email.id, { status: 'dismissed' })
+      setEmails((prev) => prev.map((item) => (item.id === email.id ? updated : item)))
+      setSelected(updated)
+    } catch (err) {
+      setError(err.message || 'Could not dismiss email.')
+    } finally {
+      setBusyId('')
+    }
   }
 
-  if (!connected) {
-    return (
-      <MailConnect
-        error={error}
-        connectingGmail={connectingGmail}
-        onConnect={handleConnectGmail}
-        onNavigate={onNavigate}
-      />
-    )
+  const handleDelete = async (email) => {
+    setBusyId(email.id)
+    setError('')
+    try {
+      await deleteSchedulableEmail(email.id)
+      setEmails((prev) => {
+        const next = prev.filter((item) => item.id !== email.id)
+        setSelected((cur) => (cur?.id === email.id ? next[0] || null : cur))
+        return next
+      })
+    } catch (err) {
+      setError(err.message || 'Could not delete email.')
+    } finally {
+      setBusyId('')
+    }
   }
 
   return (
-    <div className="mail-page">
-      {notice && (
-        <div className="mail-toast">
-          {notice}
-          <button onClick={() => setNotice('')} aria-label="Close notice"><X size={14} /></button>
-        </div>
-      )}
-
-      <MailFolders
-        folder={folder}
-        onSelectFolder={handleSelectFolder}
-        accounts={accounts}
-        account={account}
-        selectedAccountEmail={selectedAccountEmail}
-        onSelectAccount={handleSelectAccount}
-        accountMenuOpen={accountMenuOpen}
-        onToggleAccountMenu={() => setAccountMenuOpen((open) => !open)}
-        onAddAccount={handleConnectGmail}
-        onCompose={() => setCompose({ ...EMPTY_COMPOSE })}
-        unreadCount={messages.filter((message) => message.unread).length}
-      />
-
-      <div className="page-inline-actions mail-page-heading">
-        <div className="mail-toolbar">
-          <form onSubmit={(event) => { event.preventDefault(); refresh(query, folder, '', false, selectedAccountEmail) }}>
-            <SearchBar
-              value={query}
-              onChange={setQuery}
-              onClear={() => {
-                setQuery('')
-                refresh('', folder, '', false, selectedAccountEmail)
-              }}
-              placeholder="Search mail"
-              ariaLabel="Search mail"
-              iconSize={17}
-            />
-          </form>
-          <button onClick={() => refresh(query, folder, pageToken, true, selectedAccountEmail)} disabled={loading} aria-label="Refresh inbox">
-            <RefreshCw size={17} className={loading ? 'mail-spin' : ''} />
-          </button>
-        </div>
-        <button className="primary-button" onClick={() => setCompose({ ...EMPTY_COMPOSE })}>
-          <MailPlus size={16} /> Compose
+    <div className="mail-page-container">
+      <div className="page-inline-actions">
+        <button type="button" className="secondary-button" onClick={copyWebhookUrl}>
+          {copied ? <Check size={15} /> : <Copy size={15} />}
+          {copied ? 'Copied Webhook URL' : 'Copy Webhook URL'}
+        </button>
+        <button type="button" className="secondary-button" onClick={refresh} disabled={loading}>
+          <RefreshCw size={15} className={loading ? 'mail-spin' : ''} /> Refresh
         </button>
       </div>
 
-      {folder === 'INBOX' && (
-        <TabNav
-          tabs={INBOX_TABS}
-          activeTab={inboxTab}
-          onChange={setInboxTab}
-          className="mail-inbox-tabs"
-          ariaLabel="Inbox categories"
+      {error && <Alert variant="error" title="Error">{error}</Alert>}
+      {notice && <Alert variant="success" title="Scheduled">{notice}</Alert>}
+
+      {loading && !emails.length ? (
+        <LoadingState label="Loading incoming schedulable emails..." />
+      ) : !emails.length ? (
+        <EmptyState
+          icon={Mail}
+          title="No schedulable emails yet"
+          description={`Send a POST request from Google Workspace Studio to ${webhookInfo.endpoint} with sender, subject, body, receivedAt, and isSchedulable.`}
+          actionLabel="Open Webhook Settings"
+          onAction={() => onNavigate('setting')}
         />
+      ) : (
+        <div className="mail-workspace-grid">
+          <div className="mail-list-pane">
+            {emails.map((email) => (
+              <button
+                key={email.id}
+                type="button"
+                className={`mail-list-row${selected?.id === email.id ? ' is-selected' : ''}`}
+                onClick={() => setSelected(email)}
+              >
+                <div className="mail-list-row-top">
+                  <span className="mail-list-sender">{email.sender}</span>
+                  <Badge variant={email.status === 'scheduled' ? 'success' : 'neutral'}>
+                    {email.scheduled_target || email.status}
+                  </Badge>
+                </div>
+                <div className="mail-list-subject">{email.subject}</div>
+                {email.received_at && (
+                  <div className="mail-list-date">{email.received_at}</div>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {selected && (
+            <div className="mail-reader-pane">
+              <div className="mail-reader-header">
+                <div>
+                  <h2>{selected.subject}</h2>
+                  <p className="mail-reader-meta">
+                    From <strong>{selected.sender}</strong>
+                    {selected.received_at ? ` · ${selected.received_at}` : ''}
+                  </p>
+                </div>
+                <div className="mail-reader-status-actions">
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    disabled={busyId === selected.id}
+                    onClick={() => handleDismiss(selected)}
+                    title="Dismiss"
+                  >
+                    <X size={15} /> Dismiss
+                  </button>
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    disabled={busyId === selected.id}
+                    onClick={() => handleDelete(selected)}
+                    title="Delete"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
+              </div>
+
+              <div className="mail-scheduler-controls">
+                <label className="mail-scheduler-field">
+                  <span>Calendar / Todo Due Date</span>
+                  <input
+                    type="date"
+                    value={dueDate}
+                    onChange={(e) => setDueDate(e.target.value)}
+                  />
+                </label>
+                <label className="mail-scheduler-field">
+                  <span>Eve Schedule Time (optional)</span>
+                  <input
+                    type="datetime-local"
+                    value={eveScheduleAt}
+                    onChange={(e) => setEveScheduleAt(e.target.value)}
+                  />
+                </label>
+              </div>
+
+              <div className="mail-scheduler-actions">
+                <button
+                  type="button"
+                  className="primary-button"
+                  disabled={busyId === selected.id}
+                  onClick={() => handleScheduleTodo(selected, 'calendar')}
+                >
+                  <CalendarPlus size={15} /> Schedule on Calendar
+                </button>
+                <button
+                  type="button"
+                  className="secondary-button"
+                  disabled={busyId === selected.id}
+                  onClick={() => handleScheduleTodo(selected, 'todo')}
+                >
+                  <ListTodo size={15} /> Add to Todo
+                </button>
+                <button
+                  type="button"
+                  className="secondary-button"
+                  disabled={busyId === selected.id}
+                  onClick={() => handleScheduleEve(selected)}
+                >
+                  <Bot size={15} /> Add to Eve Scheduler
+                </button>
+              </div>
+
+              <div className="mail-reader-body">
+                <pre className="mail-reader-plaintext">{selected.body}</pre>
+              </div>
+            </div>
+          )}
+        </div>
       )}
-
-      <div className="mail-layout">
-        <MailList
-          error={error}
-          loading={loading}
-          messages={messages}
-          onRetry={() => refresh(query, folder, pageToken, true, selectedAccountEmail)}
-          onToggleStar={toggleStar}
-          onOpenMessage={openMessage}
-        />
-
-        <Pagination
-          className="mail-pagination"
-          ariaLabel="Mail pages"
-          onPrev={openNewerMessages}
-          onNext={openOlderMessages}
-          hasPrev={Boolean(previousPageTokens.length && !loading)}
-          hasNext={Boolean(nextPageToken && !loading)}
-          disabled={loading}
-        >
-          <input
-            className="mail-page-indicator"
-            type="number"
-            min="1"
-            value={previousPageTokens.length + 1}
-            readOnly
-            aria-label="Current mail page"
-          />
-        </Pagination>
-      </div>
-
-      {selected && (
-        <MailReader
-          message={selected}
-          reading={reading}
-          onClose={() => setSelected(null)}
-          onReply={handleReplyMessage}
-          onArchive={archiveMessage}
-          onDelete={deleteMessage}
-        />
-      )}
-
-      {compose && (
-        <MailComposer
-          compose={compose}
-          setCompose={setCompose}
-          sending={sending}
-          onSend={sendMessage}
-          onRequestClose={requestCloseCompose}
-        />
-      )}
-      <ConfirmDialog
-        isOpen={discardRequested}
-        title="Discard draft?"
-        message="Your unsent message will be permanently discarded."
-        confirmLabel="Discard draft"
-        onCancel={() => setDiscardRequested(false)}
-        onConfirm={() => {
-          setDiscardRequested(false)
-          setCompose(null)
-        }}
-      />
     </div>
   )
 }

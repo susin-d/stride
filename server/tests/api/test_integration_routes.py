@@ -1,27 +1,8 @@
-"""API tests: integration routes under /integrations/* (gmail, calendar, drive,
+"""API tests: integration routes under /integrations/* (calendar, drive,
 chat, github). External services are stubbed; the tests pin the HTTP contract:
 auth requirements and status/account endpoints."""
 
 import pytest
-
-
-class TestGmailIntegration:
-    def test_requires_auth(self, client, db):
-        assert client.get("/api/v1/integrations/gmail/status").status_code == 401
-
-    def test_status_unauthenticated_user_shape(self, auth_client, db):
-        res = auth_client.get("/api/v1/integrations/gmail/status")
-        assert res.status_code in (200, 401, 403)
-        if res.status_code == 200:
-            assert "connected" in res.json() or "accounts" in res.json()
-
-    def test_accounts_endpoint(self, auth_client, db):
-        res = auth_client.get("/api/v1/integrations/gmail/accounts")
-        assert res.status_code in (200, 401, 403, 503)
-
-    def test_token_without_connection(self, auth_client, db):
-        res = auth_client.get("/api/v1/integrations/gmail/token")
-        assert res.status_code in (200, 401, 403, 404)
 
 
 class TestGoogleCalendarIntegration:

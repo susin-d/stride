@@ -49,7 +49,7 @@
   flex-shrink: 0;
 }
 
-.eve-avatar-status-dot.is-speaking { background: var(--eve-avatar-accent, var(--color-primary)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--eve-avatar-accent, var(--color-primary)) 22%, transparent); animation: eve-avatar-pulse 1.1s ease-in-out infinite; }
+.eve-avatar-status-dot.is-speaking { background: var(--eve-avatar-accent, var(--color-primary)); animation: eve-avatar-pulse 1.1s ease-in-out infinite; }
 .eve-avatar-status-dot.is-listening { background: var(--text-secondary); animation: eve-avatar-pulse 1.4s ease-in-out infinite; }
 .eve-avatar-status-dot.is-thinking { background: var(--text-secondary); opacity: 0.85; }
 .eve-avatar-status-dot.is-tool { background: var(--color-primary); }
@@ -512,7 +512,6 @@
   height: 14px;
   border-radius: var(--radius-full);
   background: var(--eve-avatar-accent, var(--color-primary));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--eve-avatar-accent, var(--color-primary)) 18%, transparent);
   animation: eve-avatar-pulse 1.6s ease-in-out infinite;
 }
 
@@ -585,7 +584,6 @@
   width: 100% !important;
   height: 100% !important;
   background: transparent !important;
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.25));
 }
 
 .eve-global-companion .eve-vrm-badge,

@@ -25,6 +25,12 @@ from app.db.sql.hackathons import delete_hackathon_doc, get_hackathon_doc, query
 from app.db.sql.jobs import delete_job_doc, get_job_doc, query_jobs, set_job_doc
 from app.db.sql.notifications import delete_notification_doc, get_notification_doc, query_notifications, set_notification_doc
 from app.db.sql.projects import delete_project_doc, get_project_doc, query_projects, set_project_doc
+from app.db.sql.schedulable_emails import (
+    delete_schedulable_email_doc,
+    get_schedulable_email_doc,
+    query_schedulable_emails,
+    set_schedulable_email_doc,
+)
 from app.db.sql.todos import delete_todo_doc, get_todo_doc, query_todos, set_todo_doc
 from app.db.sql.users import delete_user_doc, get_user_doc, query_users, set_user_doc
 
@@ -36,6 +42,7 @@ REGISTRY: dict[tuple, dict] = {
     (1, "users"): {"get": get_user_doc, "set": set_user_doc, "delete": delete_user_doc, "query": query_users},
     (1, "calls"): {"get": get_call_doc, "set": set_call_doc, "delete": delete_call_doc, "query": query_calls},
     (3, "users", "todos"): {"get": get_todo_doc, "set": set_todo_doc, "delete": delete_todo_doc, "query": query_todos},
+    (3, "users", "schedulable_emails"): {"get": get_schedulable_email_doc, "set": set_schedulable_email_doc, "delete": delete_schedulable_email_doc, "query": query_schedulable_emails},
     (3, "users", "jobs"): {"get": get_job_doc, "set": set_job_doc, "delete": delete_job_doc, "query": query_jobs},
     (3, "users", "projects"): {"get": get_project_doc, "set": set_project_doc, "delete": delete_project_doc, "query": query_projects},
     (3, "users", "hackathons"): {"get": get_hackathon_doc, "set": set_hackathon_doc, "delete": delete_hackathon_doc, "query": query_hackathons},

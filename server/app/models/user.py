@@ -35,3 +35,4 @@ class User(Base):
     eve_schedules = relationship("EveSchedule", back_populates="user", cascade="all, delete-orphan")
     settings = relationship("UserSetting", back_populates="user", cascade="all, delete-orphan")
     user_sessions = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")
+    schedulable_emails = relationship("SchedulableEmail", back_populates="user", cascade="all, delete-orphan")
